@@ -6,160 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COMPLIANCE - Video Tutorial Library</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar {
-            background: #1e3a8a;
-            padding: 1rem 2rem;
-        }
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: white;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .logo svg {
-            width: 2rem;
-            height: 2rem;
-        }
-        .main-content {
-            display: flex;
-            min-height: calc(100vh - 4rem);
-        }
-        .main-content.with-sidebar {
-            padding-left: 280px;
-        }
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 4rem;
-            width: 280px;
-            height: calc(100vh - 4rem);
-            background: white;
-            overflow-y: auto;
-        }
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .sidebar-header h2 {
-            margin: 0;
-            font-size: 1.25rem;
-            color: #374151;
-        }
-        .sidebar-section {
-            padding: 1rem 0;
-        }
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .sidebar-menu-item {
-            margin: 0;
-        }
-        .sidebar-menu-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            color: #4b5563;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .sidebar-menu-link:hover {
-            background: #f3f4f6;
-            color: #667eea;
-        }
-        .sidebar-menu-link.active {
-            background: #f3f4f6;
-            color: #667eea;
-        }
-        .sidebar-menu-link svg {
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-        .sidebar-menu-link.has-submenu {
-            justify-content: space-between;
-        }
-        .sidebar-menu-link.has-submenu > span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .submenu-arrow {
-            width: 1rem;
-            height: 1rem;
-            transition: transform 0.2s;
-        }
-        .sidebar-menu-link.expanded .submenu-arrow {
-            transform: rotate(180deg);
-        }
-        .sidebar-submenu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        .sidebar-submenu.expanded {
-            max-height: 500px;
-        }
-        .sidebar-submenu-item {
-            padding: 0.5rem 0;
-        }
-        .sidebar-submenu-link {
-            display: block;
-            padding: 0.5rem 1.5rem 0.5rem 2.5rem;
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 0.875rem;
-        }
-        .sidebar-submenu-link:hover {
-            color: #667eea;
-        }
-        .content-area {
-            flex: 1;
-            padding: 2rem;
-        }
-        .section-content {
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .section-header {
-            margin-bottom: 1.5rem;
-        }
-        .section-header h2 {
-            margin: 0;
-            font-size: 2rem;
-            color: #1f2937;
-        }
-        .section-header p {
-            margin: 0.5rem 0 0;
-            color: #6b7280;
-        }
-        video {
-            background: #000;
-            border-radius: 0.5rem;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -218,12 +66,10 @@
                     </li>
                     <li class="sidebar-menu-item">
                         <a href="#" class="sidebar-menu-link has-submenu" onclick="toggleSubmenu('violations-submenu', event); return false;">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                                Violations
-                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            Violations
                             <svg class="submenu-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
@@ -343,221 +189,255 @@
         <p>Overview and Statistics</p>
     </div>
 
-    <video controls style="width:100%;">
+ <div style="
+        background:#fff;
+        padding:24px;
+        border-radius:16px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.1);
+        max-width:850px;
+        margin:20px auto;
+    ">
+    <h2 style="font-size:28px; font-weight:bold;">
+        Dashboard Tutorial
+    </h2>
+
+    <p style="color:#666; margin-bottom:20px;">
+        Learn how to navigate the dashboard, monitor compliance,
+        access reports, and use the available system features.
+    </p>
+
+    <video controls style="width:100%; border-radius:10px;">
         <source src="Videos/dashboard.mp4" type="video/mp4">
     </video>
 
-    <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-        Learn how to navigate the dashboard, monitor compliance, access reports, and use the available system features.
-    </p>
+</div>
 </div>
 
             <!-- Section: Drivers -->
             <div id="section-drivers" class="section-content" style="display:none;">
                 <h2>Drivers</h2>
 
-                <video controls style="width:100%;">
-                    <source src="videos/drivers.mp4" type="video/mp4">
-                </video>
+              <div class="section-header">
+        <h2>DRIVERS</h2>
+        <p>Overview and Statistics</p>
+    </div>
 
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Manage driver profiles, track performance, and maintain compliance records.
-                </p>
-            </div>
+ <div style="
+        background:#fff;
+        padding:24px;
+        border-radius:16px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.1);
+        max-width:850px;
+        margin:20px auto;
+    ">
+    <h2 style="font-size:28px; font-weight:bold;">
+        Drivers Tutorial
+    </h2>
 
-            <!-- Section: Fleet -->
-            <div id="section-fleet" class="section-content" style="display:none;">
-                <h2>Fleet</h2>
-                <video controls style="width:100%;">
-                    <source src="videos/fleet.mp4" type="video/mp4">
-                </video>
+    <p style="color:#666; margin-bottom:20px;">
+        Learn how to navigate the dashboard, monitor compliance,
+        access reports, and use the available system features.
+    </p>
 
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Monitor and manage your entire fleet of vehicles efficiently.
-                </p>
-            </div>
+    <video controls style="width:100%; border-radius:10px;">
+        <source src="Videos/drivers.mp4" type="video/mp4">
+    </video>
+
+</div>
+</div>
 
             <!-- Section: Violations -->
             <div id="section-violations" class="section-content" style="display:none;">
                 <h2>Violations</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/violations.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Track and manage compliance violations across your operations.
-                </p>
             </div>
 
             <!-- Section: Safety Violations -->
             <div id="section-safety-violations" class="section-content" style="display:none;">
                 <h2>Safety Violations</h2>
-                <video controls style="width:100%;">
-                    <source src="videos/safety-violations.mp4" type="video/mp4">
-                </video>
+               <div class="section-header">
+        <h2>Dashboard</h2>
+        <p>Overview and Statistics</p>
+    </div>
 
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Monitor safety-related violations and ensure regulatory compliance.
-                </p>
-            </div>
+ <div style="
+        background:#fff;
+        padding:24px;
+        border-radius:16px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.1);
+        max-width:850px;
+        margin:20px auto;
+    ">
+    <h2 style="font-size:28px; font-weight:bold;">
+        Dashboard Tutorial
+    </h2>
+
+    <p style="color:#666; margin-bottom:20px;">
+        Learn how to navigate the dashboard, monitor compliance,
+        access reports, and use the available system features.
+    </p>
+
+    <video controls style="width:100%; border-radius:10px;">
+        <source src="Videos/dashboard.mp4" type="video/mp4">
+    </video>
+
+</div>
+</div>
 
             <!-- Section: Driver Violations -->
             <div id="section-driver-violations" class="section-content" style="display:none;">
                 <h2>Driver Violations</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/driver-violations.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Track driver-specific violations and implement corrective actions.
-                </p>
             </div>
 
             <!-- Section: Vehicle Violations -->
             <div id="section-vehicle-violations" class="section-content" style="display:none;">
                 <h2>Vehicle Violations</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/vehicle-violations.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Monitor vehicle-related violations and maintenance issues.
-                </p>
             </div>
 
             <!-- Section: Notifications -->
             <div id="section-notifications" class="section-content" style="display:none;">
                 <h2>Notifications</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/notifications.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Stay informed with real-time alerts and system notifications.
-                </p>
             </div>
 
             <!-- Section: Activity -->
             <div id="section-activity" class="section-content" style="display:none;">
                 <h2>Activity</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/activity.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    View system activity logs and track user actions.
-                </p>
             </div>
 
             <!-- Section: Maintenance -->
             <div id="section-maintenance" class="section-content" style="display:none;">
                 <h2>Maintenance</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/maintenance.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Schedule and track vehicle maintenance to ensure optimal performance.
-                </p>
             </div>
 
             <!-- Section: Drug & Alcohol -->
             <div id="section-drug-alcohol" class="section-content" style="display:none;">
                 <h2>Drug & Alcohol</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/drug-alcohol.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Manage drug and alcohol testing programs and compliance records.
-                </p>
             </div>
 
             <!-- Section: Documents -->
             <div id="section-documents" class="section-content" style="display:none;">
                 <h2>Documents</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/documents.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Store and manage all compliance documents in one centralized location.
-                </p>
             </div>
 
             <!-- Section: Permit and Insurance -->
             <div id="section-permit-insurance" class="section-content" style="display:none;">
                 <h2>Permit and Insurance</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/permit-insurance.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Track permits, licenses, and insurance documentation for compliance.
-                </p>
             </div>
 
             <!-- Section: Reporting -->
             <div id="section-reporting" class="section-content" style="display:none;">
                 <h2>Reporting</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/reporting.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Generate comprehensive reports for compliance and operational insights.
-                </p>
             </div>
 
             <!-- Section: Safety -->
             <div id="section-safety" class="section-content" style="display:none;">
                 <h2>Safety</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/safety.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Monitor safety metrics and implement risk management strategies.
-                </p>
             </div>
 
             <!-- Section: HOS -->
             <div id="section-hos" class="section-content" style="display:none;">
                 <h2>HOS</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/hos.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Track Hours of Service compliance and driver duty status.
-                </p>
             </div>
 
             <!-- Section: Settings -->
             <div id="section-settings" class="section-content" style="display:none;">
                 <h2>Settings</h2>
-                <video controls style="width:100%;">
+                <video controls width="800">
                     <source src="videos/settings.mp4" type="video/mp4">
                 </video>
-
-                <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-                    Configure system settings and customize your experience.
-                </p>
             </div>
 
             <!-- Section: Login & Sign Up Tutorial -->
       <div id="section-login-signup-tutorial" class="section-content" style="display:none;">
     <h2>Login & Sign Up Tutorial</h2>
 
-    <video controls style="width:100%;">
-        <source src="videos/login.mp4" type="video/mp4">
-    </video>
+    <div style="
+        background:#fff;
+        padding:24px;
+        border-radius:16px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.1);
+        max-width:850px;
+        margin:20px auto;
+    ">
 
-    <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
-        Learn how to create an account and securely log in to the system.
-    </p>
+        <h2 style="font-size:28px; font-weight:bold; margin-bottom:10px;">
+            Login Tutorial
+        </h2>
+
+        <p style="color:#666; margin-bottom:20px;">
+            This tutorial provides a step-by-step guide on how users can create an account
+             and securely log in to the system. It explains the registration process, entering
+              account credentials, and accessing the system dashboard.
+        </p>
+
+        <div style="display:flex; justify-content:center;">
+            <video controls
+                style="
+                    width:500px;
+                    max-width:100%;
+                    border-radius:12px;
+                    box-shadow:0 4px 12px rgba(0,0,0,.15);
+                ">
+                <source src="videos/log in.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+           
+        </div>
+<!-- Description Below the Video -->
+        <div style="
+            margin-top:25px;
+            background:#f8fafc;
+            padding:20px;
+            border-radius:12px;
+            border-left:5px solid #3b82f6;
+        ">
+            <h3 style="margin-bottom:10px;">Tutorial Description</h3>
+
+            <p style="color:#555; line-height:1.8;">
+               This tutorial demonstrates how users can register a new account
+                and log in to the system. It covers the required information
+                 during sign up, proper account credentials, login procedures,
+                  and successful access to the system features. By following this guide, users will understand how to properly create and manage their accounts for a smooth system experience.
+            </p>
+    </div>
 </div>
     </main>
+    <script src="assets/js/script.js"></script>
     <script>
         // Show section
         function showSection(sectionId) {

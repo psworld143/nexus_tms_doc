@@ -391,9 +391,9 @@
 
             <!-- Section: Safety Violations -->
             <div id="section-safety-violations" class="section-content" style="display:none;">
-                <h2>Safety Violations</h2>
+                <h2>safety Violations</h2>
                 <video controls style="width:100%;">
-                    <source src="videos/safety-violations.mp4" type="video/mp4">
+                    <source src="videos/safety violations.mp4" type="video/mp4">
                 </video>
 
                 <p style="color: #666; margin-top: 1rem; line-height: 1.6;">
