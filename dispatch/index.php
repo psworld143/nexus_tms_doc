@@ -198,6 +198,7 @@
             padding: 1rem 1rem 0.4rem;
             font-size: 0.68rem; font-weight: 800; letter-spacing: 0.09em;
             text-transform: uppercase; color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
         }
         .nav-list { list-style: none; margin: 0; padding: 0; }
         .nav-item { margin: 2px 0; }
@@ -709,7 +710,7 @@
                 <div class="dashboard-videos">
                     <div class="video-card">
                         <div class="video-frame">
-                            <video controls playsinline><source src="Videos/dashboard.mp4" type="video/mp4"></video>
+                            <video controls playsinline><source src="Videos/dashboard (1).mp4" type="video/mp4"></video>
                         </div>
                         <p class="video-desc">Learn how to navigate the dashboard, monitor compliance, access reports, and use the available system features.</p>
                         <div class="video-meta"><span class="chip">Beginner</span><span class="chip">Getting Started</span></div>
