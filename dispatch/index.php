@@ -68,15 +68,17 @@
 
         /* ===== Top bar ===== */
         .topbar {
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 40;
+            left: 0;
+            right: 0;
+            z-index: 200;
             height: 68px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 1.5rem 0 1.75rem;
-            background: color-mix(in srgb, var(--bg) 70%, transparent);
+            background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border);
         }
@@ -151,21 +153,9 @@
         }
         .user-chip .u-name { font-size: 0.82rem; font-weight: 600; line-height: 1.1; }
         .user-chip .u-role { font-size: 0.68rem; color: var(--text-muted); }
-        .logout-btn {
-            display: inline-flex; align-items: center; gap: 0.45rem;
-            padding: 0.55rem 0.95rem;
-            border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent);
-            background: color-mix(in srgb, var(--danger) 14%, transparent);
-            color: var(--danger);
-            border-radius: 12px; cursor: pointer;
-            font-size: 0.82rem; font-weight: 600;
-            transition: all 0.18s ease;
-        }
-        .logout-btn:hover { background: color-mix(in srgb, var(--danger) 22%, transparent); }
-        .logout-btn svg { width: 16px; height: 16px; }
 
         /* ===== Layout ===== */
-        .layout { display: flex; }
+        .layout { display: flex; padding-top: 68px; }
         .sidebar {
             position: sticky;
             top: 68px;
@@ -177,12 +167,13 @@
             border-right: 1px solid var(--border);
             background: color-mix(in srgb, var(--surface-solid) 55%, transparent);
             backdrop-filter: blur(8px);
+            z-index: 10;
         }
         .search-wrap { position: relative; padding: 0 0.4rem 0.5rem; }
         .search-wrap svg { position: absolute; left: 1rem; top: 50%; transform: translateY(-60%); width: 16px; height: 16px; color: var(--text-dim); }
         .search-wrap input {
             width: 100%;
-            padding: 0.7rem 0.9rem 0.7rem 2.4rem;
+            padding: 0.7rem 2rem 0.7rem 2.4rem;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -262,6 +253,8 @@
         @media (min-width: 1400px) {
             .video-grid { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
         }
+        .video-grid--full { display: block; }
+        .video-card--full { grid-column: 1 / -1; }
 
         .video-card {
             background: color-mix(in srgb, var(--surface-solid) 70%, transparent);
@@ -286,6 +279,28 @@
             aspect-ratio: 16 / 9;
         }
         .video-frame video { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .minifiable-video {
+            transition: width 0.3s ease, right 0.3s ease, bottom 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform;
+        }
+        .minifiable-video.minimized {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            width: 320px;
+            max-width: calc(100vw - 2.5rem);
+            height: auto;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border);
+            background: #05070c;
+            z-index: 1000;
+            object-fit: cover;
+        }
+        @media (max-width: 768px) {
+            .minifiable-video.minimized { width: 220px; right: 0.75rem; bottom: 0.75rem; }
+        }
         .dashboard-videos {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -375,15 +390,71 @@
             }
             .sidebar.open { transform: translateX(0); }
             .sidebar-overlay.show { display: block; position: fixed; inset: 68px 0 0 0; background: rgba(0,0,0,0.5); z-index: 45; }
-            .user-chip .u-info, .logout-btn span { display: none; }
+            .user-chip .u-info { display: none; }
             .brand-text p { display: none; }
         }
         @media (max-width: 560px) {
             .live-pill { display: none; }
         }
+        /* ACD_TMS curved vector background overlay */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bg-canvas svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
     </style>
 </head>
 <body>
+    <!-- ACD_TMS Curved Vector Background -->
+    <div class="bg-canvas">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-dark" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(16,185,129,0.07)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.05)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.10)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-light" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.08)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(14,163,113,0.08)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.14)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+    </div>
+
     <!-- Top bar -->
     <header class="topbar">
         <div class="topbar-left">
@@ -406,10 +477,6 @@
             </button>
             <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-            </button>
-            <button class="logout-btn" onclick="logout()" title="Logout">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                <span>Logout</span>
             </button>
         </div>
     </header>
@@ -707,20 +774,13 @@
             </div>
 
             <div id="section-dashboard" class="section-content">
-                <div class="dashboard-videos">
-                    <div class="video-card">
+                <div class="video-grid video-grid--full">
+                    <div class="video-card video-card--full">
                         <div class="video-frame">
-                            <video controls playsinline><source src="Videos/dashboard (1).mp4" type="video/mp4"></video>
+                            <video id="dashboard-video" class="minifiable-video" controls playsinline><source src="Videos/dashboard (1).mp4" type="video/mp4"></video>
                         </div>
                         <p class="video-desc">Learn how to navigate the dashboard, monitor compliance, access reports, and use the available system features.</p>
                         <div class="video-meta"><span class="chip">Beginner</span><span class="chip">Getting Started</span></div>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-frame">
-                            <video controls playsinline><source src="Videos/dashboard-advanced.mp4" type="video/mp4"></video>
-                        </div>
-                        <p class="video-desc">Advanced dashboard features including custom reports, data filtering, and export options.</p>
-                        <div class="video-meta"><span class="chip">Advanced</span><span class="chip">Analytics</span></div>
                     </div>
                 </div>
 
@@ -960,10 +1020,46 @@
                 </div>
             </div>
             <div id="section-my-drivers" class="section-content" style="display:none;">
-                <div class="video-card">
-                    <div class="video-frame"><video controls playsinline><source src="videos/my-drivers.mp4" type="video/mp4"></video></div>
-                    <p class="video-desc">View and manage your drivers' compliance records.</p>
-                    <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
+                <div class="video-grid video-grid--full">
+                    <div class="video-card video-card--full">
+                        <div class="video-frame"><video id="my-drivers-video" class="minifiable-video" controls playsinline><source src="videos/4. How can I register new drivers.mp4.mp4" type="video/mp4"></video></div>
+                        <p class="video-desc">Step-by-step guide on how to register new drivers in the system.</p>
+                        <div class="video-meta"><span class="chip">Tutorial</span><span class="chip">Driver Management</span></div>
+                    </div>
+                </div>
+
+                <div class="documentation">
+                    <div class="doc-header">
+                        <div class="doc-icon">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <div class="doc-title">
+                            <h3>My Drivers Documentation</h3>
+                            <p>The My Drivers module allows you to manage all driver profiles, track compliance status, and register new drivers into the system.</p>
+                        </div>
+                    </div>
+                    <div class="doc-body">
+                        <h4>Key Features</h4>
+                        <ul class="feature-list">
+                            <li>Driver Registration – Add new drivers by entering their personal details, license information, and contact data.</li>
+                            <li>Driver List – View all registered drivers in a searchable, filterable table.</li>
+                            <li>Compliance Tracking – Monitor each driver's CDL status, medical certificates, and HOS compliance.</li>
+                            <li>Profile Management – Edit or update driver information including license renewals and address changes.</li>
+                            <li>Document Upload – Attach required documents such as CDL, medical card, and background check results.</li>
+                            <li>Status Indicators – Quickly see which drivers are active, inactive, or pending compliance review.</li>
+                        </ul>
+                        <h4>How to Register a New Driver</h4>
+                        <ul class="feature-list">
+                            <li>Navigate to the My Drivers section from the sidebar menu.</li>
+                            <li>Click the "Add Driver" or "Register New Driver" button.</li>
+                            <li>Fill in the required fields: full name, date of birth, phone number, and email address.</li>
+                            <li>Enter license details including CDL number, license class, issuing state, and expiration date.</li>
+                            <li>Upload necessary documents (CDL copy, medical certificate, etc.).</li>
+                            <li>Review the information and click "Save" to complete the registration.</li>
+                        </ul>
+                        <h4>Purpose</h4>
+                        <p>The My Drivers module serves as the central hub for managing your workforce, ensuring all drivers are properly registered, documented, and compliant with regulatory requirements.</p>
+                    </div>
                 </div>
             </div>
 
@@ -1201,17 +1297,22 @@
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             try { localStorage.setItem('dispatch-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+            updateBackgroundSVG();
+        }
+        function updateBackgroundSVG() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const darkSVG = document.getElementById('bg-svg-dark');
+            const lightSVG = document.getElementById('bg-svg-light');
+            if (darkSVG) darkSVG.style.display = isDark ? 'block' : 'none';
+            if (lightSVG) lightSVG.style.display = isDark ? 'none' : 'block';
         }
         (function () {
             try {
                 const saved = localStorage.getItem('dispatch-theme');
                 if (saved === 'light') document.documentElement.classList.remove('dark');
             } catch (e) {}
+            updateBackgroundSVG();
         })();
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) window.location.href = 'logout.php';
-        }
 
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
@@ -1290,6 +1391,25 @@
                         frame.appendChild(div);
                     }
                 });
+            });
+
+            document.querySelectorAll('.minifiable-video').forEach(function (video) {
+                const frame = video.closest('.video-frame');
+                if (!frame || !('IntersectionObserver' in window)) return;
+                let debounceTimer = null;
+                const io = new IntersectionObserver(function (entries) {
+                    if (debounceTimer) clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(function () {
+                        entries.forEach(entry => {
+                            if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+                                video.classList.add('minimized');
+                            } else if (entry.isIntersecting) {
+                                video.classList.remove('minimized');
+                            }
+                        });
+                    }, 100);
+                }, { threshold: 0.15 });
+                io.observe(frame);
             });
         });
     </script>
