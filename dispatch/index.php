@@ -101,6 +101,11 @@
             background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
             box-shadow: 0 8px 20px -8px rgba(16, 185, 129, 0.7);
+            animation: brand-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes brand-glow {
+            from { box-shadow: 0 8px 20px -8px rgba(16, 185, 129, 0.5), 0 0 12px rgba(16, 185, 129, 0.3); }
+            to   { box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.85), 0 0 22px rgba(16, 185, 129, 0.5); }
         }
         .brand-mark svg { width: 22px; height: 22px; }
         .brand-text h1 { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; }
@@ -135,6 +140,36 @@
         }
         .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-1px); }
         .icon-btn svg { width: 18px; height: 18px; }
+        .icon-btn.refresh-btn {
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.35);
+            background: rgba(56, 189, 248, 0.10);
+        }
+        .icon-btn.refresh-btn:hover {
+            background: rgba(56, 189, 248, 0.20);
+            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+        }
+        .icon-btn.theme-btn {
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, 0.35);
+            background: rgba(167, 139, 250, 0.10);
+        }
+        .icon-btn.theme-btn:hover {
+            background: rgba(167, 139, 250, 0.20);
+            border-color: rgba(167, 139, 250, 0.6);
+            box-shadow: 0 0 14px rgba(167, 139, 250, 0.35);
+        }
+        html:not(.dark) .icon-btn.theme-btn {
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.35);
+            background: rgba(245, 158, 11, 0.10);
+        }
+        html:not(.dark) .icon-btn.theme-btn:hover {
+            background: rgba(245, 158, 11, 0.20);
+            border-color: rgba(245, 158, 11, 0.6);
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+        }
         .user-chip {
             display: flex; align-items: center; gap: 0.6rem;
             padding: 0.35rem 0.75rem 0.35rem 0.4rem;
@@ -279,28 +314,6 @@
             aspect-ratio: 16 / 9;
         }
         .video-frame video { width: 100%; height: 100%; display: block; object-fit: cover; }
-        .minifiable-video {
-            transition: width 0.3s ease, right 0.3s ease, bottom 0.3s ease, box-shadow 0.3s ease;
-            will-change: transform;
-        }
-        .minifiable-video.minimized {
-            position: fixed;
-            right: 1.25rem;
-            bottom: 1.25rem;
-            width: 320px;
-            max-width: calc(100vw - 2.5rem);
-            height: auto;
-            aspect-ratio: 16 / 9;
-            border-radius: 12px;
-            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--border);
-            background: #05070c;
-            z-index: 1000;
-            object-fit: cover;
-        }
-        @media (max-width: 768px) {
-            .minifiable-video.minimized { width: 220px; right: 0.75rem; bottom: 0.75rem; }
-        }
         .dashboard-videos {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -472,10 +485,10 @@
             </a>
         </div>
         <div class="topbar-right">
-            <button class="icon-btn" onclick="refreshPage()" title="Refresh">
+            <button class="icon-btn refresh-btn" onclick="refreshPage()" title="Refresh">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             </button>
-            <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
+            <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
             </button>
         </div>
@@ -777,7 +790,7 @@
                 <div class="video-grid video-grid--full">
                     <div class="video-card video-card--full">
                         <div class="video-frame">
-                            <video id="dashboard-video" class="minifiable-video" controls playsinline><source src="Videos/dashboard (1).mp4" type="video/mp4"></video>
+                            <video controls playsinline><source src="videos/dashboard.mp4" type="video/mp4"></video>
                         </div>
                         <p class="video-desc">Learn how to navigate the dashboard, monitor compliance, access reports, and use the available system features.</p>
                         <div class="video-meta"><span class="chip">Beginner</span><span class="chip">Getting Started</span></div>
@@ -1022,7 +1035,7 @@
             <div id="section-my-drivers" class="section-content" style="display:none;">
                 <div class="video-grid video-grid--full">
                     <div class="video-card video-card--full">
-                        <div class="video-frame"><video id="my-drivers-video" class="minifiable-video" controls playsinline><source src="videos/4. How can I register new drivers.mp4.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline><source src="videos/how-to-register-new-drivers.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Step-by-step guide on how to register new drivers in the system.</p>
                         <div class="video-meta"><span class="chip">Tutorial</span><span class="chip">Driver Management</span></div>
                     </div>
@@ -1391,25 +1404,6 @@
                         frame.appendChild(div);
                     }
                 });
-            });
-
-            document.querySelectorAll('.minifiable-video').forEach(function (video) {
-                const frame = video.closest('.video-frame');
-                if (!frame || !('IntersectionObserver' in window)) return;
-                let debounceTimer = null;
-                const io = new IntersectionObserver(function (entries) {
-                    if (debounceTimer) clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(function () {
-                        entries.forEach(entry => {
-                            if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-                                video.classList.add('minimized');
-                            } else if (entry.isIntersecting) {
-                                video.classList.remove('minimized');
-                            }
-                        });
-                    }, 100);
-                }, { threshold: 0.15 });
-                io.observe(frame);
             });
         });
     </script>
