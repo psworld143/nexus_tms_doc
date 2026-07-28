@@ -150,6 +150,18 @@
             border-color: rgba(56, 189, 248, 0.6);
             box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
         }
+        .icon-btn.tutorials-btn {
+            color: #f472b6;
+            border-color: rgba(244, 114, 182, 0.35);
+            background: rgba(244, 114, 182, 0.10);
+            text-decoration: none;
+        }
+        .icon-btn.tutorials-btn:hover {
+            background: rgba(244, 114, 182, 0.20);
+            border-color: rgba(244, 114, 182, 0.6);
+            box-shadow: 0 0 14px rgba(244, 114, 182, 0.35);
+            transform: translateY(-1px);
+        }
         .icon-btn.theme-btn {
             color: #a78bfa;
             border-color: rgba(167, 139, 250, 0.35);
@@ -180,6 +192,158 @@
             border-color: color-mix(in srgb, var(--accent) 60%, transparent);
             box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
         }
+        .icon-btn.tour-btn {
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.35);
+            background: rgba(251, 191, 36, 0.10);
+            position: relative;
+        }
+        .icon-btn.tour-btn:hover {
+            background: rgba(251, 191, 36, 0.20);
+            border-color: rgba(251, 191, 36, 0.6);
+            box-shadow: 0 0 14px rgba(251, 191, 36, 0.35);
+        }
+        .icon-btn.tour-btn::after {
+            content: '';
+            position: absolute;
+            top: -3px; right: -3px;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #fbbf24;
+            box-shadow: 0 0 8px #fbbf24;
+            animation: tour-pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes tour-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+        .icon-btn.tour-btn.touring::after { display: none; }
+
+        /* ===== Tour Guide Overlay ===== */
+        .tour-overlay {
+            position: fixed; inset: 0;
+            z-index: 2500;
+            pointer-events: none;
+            display: none;
+        }
+        .tour-overlay.active { display: block; pointer-events: auto; }
+        .tour-mask {
+            position: absolute; inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: clip-path 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tour-highlight {
+            position: absolute;
+            border-radius: 14px;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7), 0 0 0 3px var(--accent), 0 0 30px 4px color-mix(in srgb, var(--accent) 50%, transparent);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .tour-tooltip {
+            position: absolute;
+            background: var(--surface-solid);
+            border: 1px solid var(--accent);
+            border-radius: 18px;
+            padding: 1.25rem 1.5rem;
+            max-width: 340px;
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px -4px color-mix(in srgb, var(--accent) 30%, transparent);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 2501;
+        }
+        .tour-tooltip::before {
+            content: '';
+            position: absolute;
+            width: 14px; height: 14px;
+            background: var(--surface-solid);
+            border-left: 1px solid var(--accent);
+            border-top: 1px solid var(--accent);
+            transform: rotate(45deg);
+        }
+        .tour-tooltip.arrow-bottom::before { bottom: -8px; left: 24px; transform: rotate(225deg); }
+        .tour-tooltip.arrow-top::before { top: -8px; left: 24px; }
+        .tour-tooltip.arrow-left::before { left: -8px; top: 24px; transform: rotate(-45deg); }
+        .tour-tooltip.arrow-right::before { right: -8px; top: 24px; transform: rotate(135deg); }
+        .tour-step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+        .tour-step-badge .badge-num {
+            display: grid; place-items: center;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.72rem;
+        }
+        .tour-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+        .tour-desc {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .tour-progress {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 0.85rem;
+        }
+        .tour-dot {
+            flex: 1;
+            height: 4px;
+            border-radius: 999px;
+            background: var(--border);
+            transition: background 0.2s ease;
+        }
+        .tour-dot.done { background: var(--accent); }
+        .tour-dot.current { background: var(--accent); opacity: 0.5; }
+        .tour-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tour-btn-control {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tour-btn-control:hover { background: var(--surface-2); border-color: var(--border-strong); }
+        .tour-btn-control.primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .tour-btn-control.primary:hover { background: #059669; }
+        .tour-btn-control:disabled { opacity: 0.4; cursor: not-allowed; }
+        .tour-skip {
+            margin-left: auto;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: color 0.15s ease;
+        }
+        .tour-skip:hover { color: var(--danger); }
         .user-chip {
             display: flex; align-items: center; gap: 0.6rem;
             padding: 0.35rem 0.75rem 0.35rem 0.4rem;
@@ -993,6 +1157,12 @@
             <button class="icon-btn refresh-btn" onclick="refreshPage()" title="Refresh">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             </button>
+            <a href="tutorials.php" class="icon-btn tutorials-btn" title="Video Tutorial Library">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </a>
+            <button class="icon-btn tour-btn" onclick="startTour()" title="Start Tour Guide" aria-label="Start tour guide">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 9m0 8V9m0 0L9 7"/></svg>
+            </button>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
             </button>
@@ -1172,6 +1342,25 @@
         <div class="settings-footer">
             <button class="settings-btn" onclick="resetSettings()">Reset to Default</button>
             <button class="settings-btn primary" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Tour Guide Overlay -->
+    <div class="tour-overlay" id="tour-overlay">
+        <div class="tour-highlight" id="tour-highlight"></div>
+        <div class="tour-tooltip" id="tour-tooltip">
+            <div class="tour-step-badge">
+                <span class="badge-num" id="tour-badge-num">1</span>
+                <span id="tour-step-label">Step 1 of 8</span>
+            </div>
+            <div class="tour-progress" id="tour-progress"></div>
+            <div class="tour-title" id="tour-title">Welcome!</div>
+            <div class="tour-desc" id="tour-desc">Let's take a quick tour of the DISPATCH system.</div>
+            <div class="tour-controls">
+                <button class="tour-btn-control" id="tour-prev" onclick="tourPrev()">Back</button>
+                <button class="tour-btn-control primary" id="tour-next" onclick="tourNext()">Next</button>
+                <button class="tour-skip" onclick="endTour()">Skip tour</button>
+            </div>
         </div>
     </div>
 
@@ -1993,6 +2182,198 @@
 
         function refreshPage() { location.reload(); }
 
+        // ===== Tour Guide =====
+        const TOUR_STEPS = [
+            {
+                target: '.brand',
+                title: 'Welcome to DISPATCH!',
+                desc: 'This is your video tutorial library for the DISPATCH Transportation Management System. Let me show you around in 8 quick steps.',
+                action: null
+            },
+            {
+                target: '#sidebar-search',
+                title: 'Search Tutorials',
+                desc: 'Type here to search through all 45+ tutorial sections. The sidebar filters in real-time as you type. The search assistant also syncs with this bar.',
+                action: null
+            },
+            {
+                target: '.nav-section-title.main-menu',
+                title: 'Navigation Menu',
+                desc: 'Browse tutorials by category — Operations, Fleet, Finance, Safety, Compliance, and more. Click any item to open that tutorial section.',
+                action: null
+            },
+            {
+                target: '.icon-btn.tour-btn',
+                title: 'Video Tutorial Library',
+                desc: 'Click this button to open the standalone video tutorial gallery — a grid view of all videos with search, category filters, and a full-screen modal player.',
+                action: null
+            },
+            {
+                target: '#assistant-fab',
+                title: 'AI Search Assistant',
+                desc: 'Click this floating button to open the search assistant. Ask questions in plain English like "how do I add a driver?" and it will find the right tutorial for you.',
+                action: function() {
+                    if (window.innerWidth <= 900) { document.getElementById('sidebar').classList.add('open'); }
+                }
+            },
+            {
+                target: '.icon-btn.settings-btn-top',
+                title: 'Settings Panel',
+                desc: 'Customize your experience — change the accent color, adjust font size, toggle dark mode, set video playback speed, enable accessibility features, and more.',
+                action: null
+            },
+            {
+                target: '.icon-btn.theme-btn',
+                title: 'Dark & Light Theme',
+                desc: 'Toggle between dark and light mode. Your preference is saved automatically and persists across page reloads.',
+                action: null
+            },
+            {
+                target: '.icon-btn.refresh-btn',
+                title: 'You\'re All Set!',
+                desc: 'That\'s the tour! Use the refresh button to reload the page anytime. Explore the sidebar to find all tutorials, or use the search assistant for quick help. Enjoy learning DISPATCH!',
+                action: null
+            }
+        ];
+
+        let tourCurrentStep = 0;
+        let tourActive = false;
+
+        function startTour() {
+            tourActive = true;
+            tourCurrentStep = 0;
+            document.getElementById('tour-overlay').classList.add('active');
+            document.querySelector('.icon-btn.tour-btn').classList.add('touring');
+            document.body.style.overflow = 'hidden';
+            renderTourProgress();
+            showTourStep(0);
+        }
+
+        function showTourStep(index) {
+            if (index < 0 || index >= TOUR_STEPS.length) return;
+            tourCurrentStep = index;
+            const step = TOUR_STEPS[index];
+
+            // Run action if any
+            if (step.action) { try { step.action(); } catch(e) {} }
+
+            // Wait for DOM to settle, then position
+            setTimeout(function() {
+                const target = document.querySelector(step.target);
+                const highlight = document.getElementById('tour-highlight');
+                const tooltip = document.getElementById('tour-tooltip');
+
+                if (!target) {
+                    // Fallback: center tooltip
+                    highlight.style.display = 'none';
+                    tooltip.style.top = '50%';
+                    tooltip.style.left = '50%';
+                    tooltip.style.transform = 'translate(-50%, -50%)';
+                } else {
+                    const rect = target.getBoundingClientRect();
+                    const padding = 8;
+                    highlight.style.display = 'block';
+                    highlight.style.top = (rect.top - padding) + 'px';
+                    highlight.style.left = (rect.left - padding) + 'px';
+                    highlight.style.width = (rect.width + padding * 2) + 'px';
+                    highlight.style.height = (rect.height + padding * 2) + 'px';
+
+                    // Position tooltip below or above target
+                    const tooltipWidth = 340;
+                    const tooltipHeight = 220;
+                    let tooltipTop, tooltipLeft, arrowClass = '';
+
+                    if (rect.bottom + tooltipHeight + 20 < window.innerHeight) {
+                        // Below
+                        tooltipTop = rect.bottom + 16;
+                        tooltipLeft = Math.max(16, Math.min(rect.left, window.innerWidth - tooltipWidth - 16));
+                        arrowClass = 'arrow-top';
+                    } else if (rect.top - tooltipHeight - 20 > 0) {
+                        // Above
+                        tooltipTop = rect.top - tooltipHeight - 16;
+                        tooltipLeft = Math.max(16, Math.min(rect.left, window.innerWidth - tooltipWidth - 16));
+                        arrowClass = 'arrow-bottom';
+                    } else {
+                        // Right side
+                        tooltipTop = Math.max(16, Math.min(rect.top, window.innerHeight - tooltipHeight - 16));
+                        tooltipLeft = rect.right + 16;
+                        if (tooltipLeft + tooltipWidth > window.innerWidth) {
+                            tooltipLeft = rect.left - tooltipWidth - 16;
+                            arrowClass = 'arrow-right';
+                        } else {
+                            arrowClass = 'arrow-left';
+                        }
+                    }
+
+                    tooltip.style.top = tooltipTop + 'px';
+                    tooltip.style.left = tooltipLeft + 'px';
+                    tooltip.style.transform = 'none';
+                    tooltip.className = 'tour-tooltip ' + arrowClass;
+                }
+
+                // Update content
+                document.getElementById('tour-badge-num').textContent = (index + 1);
+                document.getElementById('tour-step-label').textContent = 'Step ' + (index + 1) + ' of ' + TOUR_STEPS.length;
+                document.getElementById('tour-title').textContent = step.title;
+                document.getElementById('tour-desc').textContent = step.desc;
+
+                // Update buttons
+                document.getElementById('tour-prev').disabled = (index === 0);
+                const nextBtn = document.getElementById('tour-next');
+                nextBtn.textContent = (index === TOUR_STEPS.length - 1) ? 'Finish' : 'Next';
+
+                // Update progress dots
+                document.querySelectorAll('.tour-dot').forEach(function(dot, i) {
+                    dot.classList.remove('done', 'current');
+                    if (i < index) dot.classList.add('done');
+                    else if (i === index) dot.classList.add('current');
+                });
+            }, 100);
+        }
+
+        function renderTourProgress() {
+            const progress = document.getElementById('tour-progress');
+            progress.innerHTML = '';
+            for (let i = 0; i < TOUR_STEPS.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'tour-dot';
+                progress.appendChild(dot);
+            }
+        }
+
+        function tourNext() {
+            if (tourCurrentStep < TOUR_STEPS.length - 1) {
+                showTourStep(tourCurrentStep + 1);
+            } else {
+                endTour();
+            }
+        }
+
+        function tourPrev() {
+            if (tourCurrentStep > 0) { showTourStep(tourCurrentStep - 1); }
+        }
+
+        function endTour() {
+            tourActive = false;
+            document.getElementById('tour-overlay').classList.remove('active');
+            document.querySelector('.icon-btn.tour-btn').classList.remove('touring');
+            document.body.style.overflow = '';
+            try { localStorage.setItem('dispatch-tour-completed', 'true'); } catch(e) {}
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!tourActive) return;
+            if (e.key === 'Escape') endTour();
+            else if (e.key === 'ArrowRight') tourNext();
+            else if (e.key === 'ArrowLeft') tourPrev();
+        });
+
+        // Reposition on resize
+        window.addEventListener('resize', function() {
+            if (tourActive) showTourStep(tourCurrentStep);
+        });
+
         // ===== Settings Panel =====
         const SETTINGS_DEFAULTS = {
             'dark-mode': true,
@@ -2497,6 +2878,12 @@
             try {
                 if (localStorage.getItem('dispatch-sidebar-hidden') === 'true' && window.innerWidth > 900) {
                     hideSidebar();
+                }
+            } catch (e) {}
+            // First-time visitor: auto-open tour after 1.5s
+            try {
+                if (localStorage.getItem('dispatch-tour-completed') !== 'true') {
+                    setTimeout(function() { startTour(); }, 1500);
                 }
             } catch (e) {}
             document.querySelectorAll('video').forEach(video => {
