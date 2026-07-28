@@ -393,6 +393,184 @@
 
         .sidebar-overlay { display: none; }
 
+        /* ===== Search Assistant ===== */
+        .assistant-fab {
+            position: fixed;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            color: #fff;
+            cursor: pointer;
+            z-index: 1100;
+            display: grid;
+            place-items: center;
+            box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: brand-glow 2.5s ease-in-out infinite alternate;
+        }
+        .assistant-fab:hover { transform: scale(1.08); }
+        .assistant-fab svg { width: 26px; height: 26px; }
+        .assistant-fab.active { transform: scale(0.9); }
+        .assistant-panel {
+            position: fixed;
+            right: 1.5rem;
+            bottom: 5.5rem;
+            width: 400px;
+            max-width: calc(100vw - 3rem);
+            max-height: 520px;
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+            z-index: 1100;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: assistantSlide 0.25s ease;
+        }
+        @keyframes assistantSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .assistant-panel.open { display: flex; }
+        .assistant-header {
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .assistant-header svg { width: 22px; height: 22px; flex-shrink: 0; }
+        .assistant-header h3 { margin: 0; font-size: 1rem; font-weight: 700; }
+        .assistant-header p { margin: 0; font-size: 0.72rem; opacity: 0.85; }
+        .assistant-close {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: grid; place-items: center;
+            font-size: 16px;
+            transition: background 0.15s ease;
+        }
+        .assistant-close:hover { background: rgba(255,255,255,0.35); }
+        .assistant-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 1.25rem;
+        }
+        .assistant-msg {
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .assistant-msg.bot {
+            color: var(--text);
+            background: var(--surface-2);
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px 12px 12px 4px;
+        }
+        .assistant-msg.user {
+            color: #fff;
+            background: var(--accent);
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px 12px 4px 12px;
+            margin-left: 2rem;
+            text-align: right;
+        }
+        .assistant-suggestions { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+        .assistant-suggestion {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: var(--surface);
+        }
+        .assistant-suggestion:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            transform: translateX(4px);
+        }
+        .assistant-suggestion svg { width: 20px; height: 20px; flex-shrink: 0; }
+        .assistant-suggestion .s-title { font-size: 0.84rem; font-weight: 600; color: var(--text); }
+        .assistant-suggestion .s-desc { font-size: 0.72rem; color: var(--text-muted); }
+        .assistant-suggestion .s-go {
+            margin-left: auto;
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .assistant-empty {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-dim);
+            font-size: 0.82rem;
+        }
+        .assistant-footer {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+        }
+        .assistant-input {
+            flex: 1;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .assistant-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .assistant-send {
+            width: 40px; height: 40px;
+            border: none;
+            border-radius: 12px;
+            background: var(--accent);
+            color: #fff;
+            cursor: pointer;
+            display: grid; place-items: center;
+            transition: background 0.15s ease;
+        }
+        .assistant-send:hover { background: #059669; }
+        .assistant-send svg { width: 18px; height: 18px; }
+        .assistant-quick {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            padding: 0 1.25rem 0.75rem;
+        }
+        .assistant-chip {
+            padding: 0.3rem 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .assistant-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+        @media (max-width: 560px) {
+            .assistant-panel { right: 0.75rem; bottom: 4.75rem; }
+            .assistant-fab { right: 0.75rem; bottom: 0.75rem; }
+        }
+
         @media (max-width: 900px) {
             .menu-toggle { display: flex; }
             .sidebar {
@@ -496,12 +674,43 @@
 
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
+    <!-- Search Assistant -->
+    <button class="assistant-fab" id="assistant-fab" onclick="toggleAssistant()" title="Search Assistant" aria-label="Open search assistant">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 3v-3z"/></svg>
+    </button>
+    <div class="assistant-panel" id="assistant-panel">
+        <div class="assistant-header">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <div>
+                <h3>Search Assistant</h3>
+                <p>Ask me what you need help with</p>
+            </div>
+            <button class="assistant-close" onclick="toggleAssistant()" aria-label="Close">&times;</button>
+        </div>
+        <div class="assistant-body" id="assistant-body">
+            <div class="assistant-msg bot">Hi! I'm your search assistant. Tell me what you're looking for and I'll find the right tutorial for you. For example: "how do I add a driver?" or "fuel reports"</div>
+            <div class="assistant-quick" id="assistant-quick">
+                <span class="assistant-chip" onclick="assistantAsk('How do I register a new driver?')">Register a driver</span>
+                <span class="assistant-chip" onclick="assistantAsk('How do I manage my fleet?')">Manage fleet</span>
+                <span class="assistant-chip" onclick="assistantAsk('How do I view fuel reports?')">Fuel reports</span>
+                <span class="assistant-chip" onclick="assistantAsk('How do I manage payroll?')">Payroll</span>
+                <span class="assistant-chip" onclick="assistantAsk('How do I track violations?')">Violations</span>
+            </div>
+        </div>
+        <div class="assistant-footer">
+            <input type="text" class="assistant-input" id="assistant-input" placeholder="Type your question..." onkeypress="if(event.key==='Enter')assistantSend()">
+            <button class="assistant-send" onclick="assistantSend()" aria-label="Send">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            </button>
+        </div>
+    </div>
+
     <div class="layout">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="search-wrap">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()">
+                <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()" oninput="syncAssistantFromSidebar()">
             </div>
 
             <div class="nav-section-title">Main Menu</div>
@@ -1306,6 +1515,199 @@
         };
 
         function refreshPage() { location.reload(); }
+
+        // ===== Search Assistant =====
+        const ASSISTANT_KEYWORDS = {
+            'dashboard': ['dashboard', 'overview', 'statistics', 'home', 'main', 'summary', 'stats', 'report'],
+            'my-loads': ['load', 'dispatch', 'assign', 'track', 'booking', 'delivery', 'shipment', 'freight'],
+            'my-trucks': ['truck', 'vehicle', 'fleet truck', 'add truck', 'manage truck'],
+            'my-trailers': ['trailer', 'add trailer', 'manage trailer', 'equipment'],
+            'driver-devices': ['device', 'eld', 'mobile', 'phone', 'tablet', 'connection'],
+            'truck-lease-pricing': ['lease', 'lease pricing', 'pricing', 'lease price', 'lease cost'],
+            'truck-rentals': ['rental', 'rent', 'rent truck', 'short term', 'equipment rental'],
+            'lease-agreements': ['agreement', 'contract', 'sign', 'lease agreement'],
+            'hire-drivers': ['hire', 'recruit', 'onboard', 'new driver', 'hiring'],
+            'job-postings': ['job', 'posting', 'career', 'job board', 'open position'],
+            'external-drivers': ['external', 'owner operator', 'contractor', 'independent'],
+            'shout-out-scripts': ['script', 'marketing script', 'shout out', 'shoutout'],
+            'shout-out-vlogs': ['vlog', 'video blog', 'marketing video', 'shout out vlog'],
+            'accounting': ['accounting', 'finance', 'invoice', 'bookkeeping', 'ledger'],
+            'my-payroll': ['payroll', 'salary', 'pay', 'wages', 'compensation', 'driver pay'],
+            'my-factoring-company': ['factoring', 'factor', 'invoice factoring', 'cash flow'],
+            'fuel-reports': ['fuel', 'fuel report', 'fuel spending', 'fuel cost', 'diesel'],
+            'my-fuel-cards': ['fuel card', 'card', 'spending limit', 'fuel payment'],
+            'loans-cash-advance': ['loan', 'cash advance', 'borrow', 'credit', 'advance'],
+            'api-integration-keys': ['api', 'integration', 'key', 'developer', 'webhook', 'integration key'],
+            'my-fleet': ['fleet', 'fleet safety', 'fleet compliance', 'fleet management'],
+            'emergency-monitoring': ['emergency', 'alert', 'sos', 'crash', 'incident'],
+            'compliance-monitoring': ['compliance', 'monitor', 'regulation', 'dot', 'fmcsa'],
+            'compliance-software-options': ['software', 'compliance software', 'integration', 'tool'],
+            'drug-alcohol-testing': ['drug', 'alcohol', 'test', 'drug test', 'substance', 'dot test'],
+            'safety-assessments': ['safety assessment', 'assessment', 'risk', 'safety review', 'evaluation'],
+            'maintenance-monitoring': ['maintenance', 'repair', 'vehicle health', 'service', 'upkeep'],
+            'my-drivers': ['driver', 'register driver', 'add driver', 'cdl', 'driver profile', 'new driver'],
+            'my-customers': ['customer', 'client', 'add customer', 'manage customer'],
+            'my-shippers-list': ['shipper', 'shipping', 'ship list'],
+            'my-consignee-lists': ['consignee', 'receiver', 'delivery point', 'consignee list'],
+            'my-brokers': ['broker', 'freight broker', 'add broker'],
+            'violations': ['violation', 'compliance violation', 'infraction'],
+            'safety-violations': ['safety violation', 'safety issue', 'safety infraction'],
+            'driver-violations': ['driver violation', 'driver infraction', 'driver compliance'],
+            'vehicle-violations': ['vehicle violation', 'truck violation', 'vehicle infraction'],
+            'notifications': ['notification', 'alert', 'push', 'message', 'reminder'],
+            'activity': ['activity', 'log', 'history', 'audit', 'activity log'],
+            'maintenance': ['maintenance schedule', 'service schedule', 'pm', 'preventive'],
+            'drug-alcohol': ['drug and alcohol', 'drug program', 'testing program', 'drug record'],
+            'documents': ['document', 'file', 'upload', 'paperwork', 'doc'],
+            'permit-insurance': ['permit', 'insurance', 'license', 'registration', 'certificate'],
+            'reporting': ['report', 'reporting', 'analytics', 'insights', 'data'],
+            'safety': ['safety', 'risk', 'safety metric', 'safety score', 'csa'],
+            'hos': ['hos', 'hours of service', 'drive time', 'logbook', 'eld hours', 'duty status'],
+            'settings': ['setting', 'config', 'configuration', 'preference', 'customize', 'account setting'],
+            'login-signup-tutorial': ['login', 'sign up', 'signup', 'register', 'account', 'password', 'log in', 'authentication']
+        };
+
+        function toggleAssistant() {
+            const panel = document.getElementById('assistant-panel');
+            const fab = document.getElementById('assistant-fab');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open');
+            fab.classList.toggle('active');
+            if (!isOpen) {
+                setTimeout(function() { document.getElementById('assistant-input').focus(); }, 200);
+            } else {
+                // When closing, reset the assistant and sidebar search
+                const body = document.getElementById('assistant-body');
+                body.innerHTML = '<div class="assistant-msg bot">Hi! I\'m your search assistant. Tell me what you\'re looking for and I\'ll find the right tutorial for you. For example: "how do I add a driver?" or "fuel reports"</div>' +
+                    '<div class="assistant-quick" id="assistant-quick">' +
+                    '<span class="assistant-chip" onclick="assistantAsk(\'How do I register a new driver?\')">Register a driver</span>' +
+                    '<span class="assistant-chip" onclick="assistantAsk(\'How do I manage my fleet?\')">Manage fleet</span>' +
+                    '<span class="assistant-chip" onclick="assistantAsk(\'How do I view fuel reports?\')">Fuel reports</span>' +
+                    '<span class="assistant-chip" onclick="assistantAsk(\'How do I manage payroll?\')">Payroll</span>' +
+                    '<span class="assistant-chip" onclick="assistantAsk(\'How do I track violations?\')">Violations</span>' +
+                    '</div>';
+                const sidebarSearch = document.getElementById('sidebar-search');
+                if (sidebarSearch) { sidebarSearch.value = ''; filterMenu(); }
+            }
+        }
+
+        function assistantAsk(question) {
+            document.getElementById('assistant-input').value = question;
+            assistantSend();
+        }
+
+        function syncAssistantFromSidebar() {
+            const sidebarSearch = document.getElementById('sidebar-search');
+            const assistantInput = document.getElementById('assistant-input');
+            if (sidebarSearch && assistantInput) {
+                assistantInput.value = sidebarSearch.value;
+            }
+        }
+
+        function assistantSend() {
+            const input = document.getElementById('assistant-input');
+            const query = input.value.trim();
+            if (!query) return;
+            const body = document.getElementById('assistant-body');
+            const quick = document.getElementById('assistant-quick');
+
+            // Clear all previous history before showing new results
+            body.innerHTML = '';
+            if (quick) quick.style.display = 'none';
+
+            // Sync the sidebar search and filter the navigation
+            const sidebarSearch = document.getElementById('sidebar-search');
+            if (sidebarSearch) {
+                sidebarSearch.value = query;
+                filterMenu();
+            }
+
+            // Show user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'assistant-msg user';
+            userMsg.textContent = query;
+            body.appendChild(userMsg);
+
+            input.value = '';
+
+            // Search for matches
+            const results = assistantSearch(query);
+
+            // Show bot response
+            const botMsg = document.createElement('div');
+            botMsg.className = 'assistant-msg bot';
+
+            if (results.length === 0) {
+                botMsg.innerHTML = "I couldn't find a tutorial matching that. Try different keywords, or browse the sidebar menu for all available sections.";
+            } else {
+                botMsg.innerHTML = results.length === 1
+                    ? "I found a tutorial that matches:"
+                    : "I found " + results.length + " tutorials that match:";
+            }
+            body.appendChild(botMsg);
+
+            // Show suggestions
+            if (results.length > 0) {
+                const sugg = document.createElement('div');
+                sugg.className = 'assistant-suggestions';
+                results.forEach(function(r) {
+                    const item = document.createElement('div');
+                    item.className = 'assistant-suggestion';
+                    item.onclick = function() {
+                        showSection(r.id);
+                        toggleAssistant();
+                    };
+                    const icon = SECTION_ICONS[r.id] || '';
+                    item.innerHTML = icon +
+                        '<div><div class="s-title">' + r.title + '</div>' +
+                        '<div class="s-desc">' + r.desc + '</div></div>' +
+                        '<span class="s-go">Open &rarr;</span>';
+                    sugg.appendChild(item);
+                });
+                body.appendChild(sugg);
+            }
+
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function assistantSearch(query) {
+            const q = query.toLowerCase().trim();
+            const words = q.split(/\s+/);
+            const results = [];
+
+            Object.keys(ASSISTANT_KEYWORDS).forEach(function(id) {
+                const meta = SECTION_META[id];
+                if (!meta) return;
+                const title = meta[0].toLowerCase();
+                const desc = meta[1].toLowerCase();
+                const keywords = ASSISTANT_KEYWORDS[id];
+                let score = 0;
+
+                // Exact title match
+                if (title === q) score += 100;
+
+                // Title contains query
+                if (title.includes(q)) score += 50;
+
+                // Description contains query
+                if (desc.includes(q)) score += 20;
+
+                // Keyword matches
+                keywords.forEach(function(kw) {
+                    if (q.includes(kw)) score += 30;
+                    if (kw.includes(q)) score += 15;
+                    // Word-level matches
+                    words.forEach(function(w) {
+                        if (w.length > 2 && (kw === w || kw.includes(w))) score += 10;
+                    });
+                });
+
+                if (score > 0) results.push({ id: id, title: meta[0], desc: meta[1], score: score });
+            });
+
+            results.sort(function(a, b) { return b.score - a.score; });
+            return results.slice(0, 5);
+        }
 
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
