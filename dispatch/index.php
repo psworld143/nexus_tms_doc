@@ -668,17 +668,50 @@
         .toggle.on::after { transform: translateX(20px); background: #fff; }
         /* Select dropdown */
         .setting-select {
-            padding: 0.45rem 0.7rem;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--surface);
+            padding: 0.55rem 2rem 0.55rem 0.85rem;
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            background: var(--surface-2);
             color: var(--text);
             font-size: 0.82rem;
+            font-weight: 500;
             font-family: inherit;
             cursor: pointer;
             outline: none;
+            transition: all 0.18s ease;
+            flex-shrink: 0;
+            min-width: 130px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238ea0b8'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.6rem center;
+            background-size: 16px;
         }
-        .setting-select:focus { border-color: var(--accent); }
+        .setting-select:hover {
+            border-color: var(--accent);
+            background-color: var(--accent-soft);
+        }
+        .setting-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+        .setting-select option {
+            background: var(--surface-solid);
+            color: var(--text);
+            padding: 0.5rem 0.7rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        html.dark .setting-select option {
+            background: #111c30;
+            color: #e8eef7;
+        }
+        html:not(.dark) .setting-select option {
+            background: #ffffff;
+            color: #0f172a;
+        }
         /* Color swatches */
         .color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .color-swatch {
