@@ -361,6 +361,191 @@
             margin-top: 2rem;
         }
 
+        /* ===== Settings Button ===== */
+        .icon-btn.settings-btn-top {
+            color: var(--accent);
+            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+        .icon-btn.settings-btn-top:hover {
+            background: color-mix(in srgb, var(--accent) 20%, transparent);
+            border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
+        }
+
+        /* ===== Settings Panel ===== */
+        .settings-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1200;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .settings-overlay.open { display: block; }
+        .settings-panel {
+            position: fixed;
+            top: 0; right: 0;
+            width: 420px;
+            max-width: 100vw;
+            height: 100vh;
+            background: var(--surface-solid);
+            border-left: 1px solid var(--border);
+            z-index: 1201;
+            display: none;
+            flex-direction: column;
+            animation: settingsSlide 0.3s ease;
+        }
+        @keyframes settingsSlide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .settings-panel.open { display: flex; }
+        .settings-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
+        .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+        .settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
+        .settings-close {
+            margin-left: auto;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: grid; place-items: center;
+            font-size: 18px;
+            transition: all 0.15s ease;
+        }
+        .settings-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+        .settings-group { margin-bottom: 1.75rem; }
+        .settings-group-title {
+            font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--text-dim);
+            margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .setting-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.7rem 0;
+            gap: 1rem;
+        }
+        .setting-label { flex: 1; }
+        .setting-label .s-name { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+        .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+        .toggle {
+            position: relative;
+            width: 44px; height: 24px;
+            border-radius: 999px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-strong);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .toggle.on { background: var(--accent); border-color: var(--accent); }
+        .toggle.on::after { transform: translateX(20px); background: #fff; }
+        .setting-select {
+            padding: 0.55rem 2rem 0.55rem 0.85rem;
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            background: var(--surface-2);
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.18s ease;
+            flex-shrink: 0;
+            min-width: 130px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238ea0b8'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.6rem center;
+            background-size: 16px;
+        }
+        .setting-select:hover { border-color: var(--accent); background-color: var(--accent-soft); }
+        .setting-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .setting-select option { background: var(--surface-solid); color: var(--text); padding: 0.5rem 0.7rem; font-size: 0.85rem; }
+        html.dark .setting-select option { background: #111c30; color: #e8eef7; }
+        html:not(.dark) .setting-select option { background: #ffffff; color: #0f172a; }
+        .color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .color-swatch {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .color-swatch:hover { transform: scale(1.1); }
+        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
+        .setting-range { width: 120px; accent-color: var(--accent); cursor: pointer; }
+        .setting-range-value { font-size: 0.78rem; color: var(--accent); font-weight: 600; min-width: 40px; text-align: right; }
+        .font-preview { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .settings-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.75rem;
+        }
+        .settings-btn {
+            flex: 1;
+            padding: 0.65rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+        .settings-btn:hover { background: var(--surface-2); }
+        .settings-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .settings-btn.primary:hover { background: #059669; }
+
+        /* Accessibility modes */
+        body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+            animation-duration: 0.01s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01s !important;
+        }
+        body.high-contrast {
+            --text: #ffffff;
+            --text-muted: #c0c8d4;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.25);
+            --border-strong: rgba(255, 255, 255, 0.4);
+            --surface: rgba(255, 255, 255, 0.08);
+            --surface-2: rgba(255, 255, 255, 0.12);
+        }
+        html:not(.dark) body.high-contrast {
+            --text: #000000;
+            --text-muted: #1a1a1a;
+            --text-dim: #333333;
+            --border: rgba(0, 0, 0, 0.3);
+            --border-strong: rgba(0, 0, 0, 0.5);
+            --surface: rgba(0, 0, 0, 0.05);
+            --surface-2: rgba(0, 0, 0, 0.08);
+        }
+
         @media (max-width: 600px) {
             .header { padding: 0.75rem 1rem; }
             .main { padding: 1rem; }
@@ -389,6 +574,9 @@
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            </button>
+            <button class="icon-btn settings-btn-top" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             </button>
         </div>
     </header>
@@ -457,6 +645,111 @@
             <div class="modal-video-frame">
                 <video id="modal-video" controls autoplay playsinline></video>
             </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-overlay" id="settings-overlay" onclick="toggleSettings()"></div>
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <div>
+                <h2>Settings</h2>
+                <p>Customize your experience</p>
+            </div>
+            <button class="settings-close" onclick="toggleSettings()" aria-label="Close settings">&times;</button>
+        </div>
+        <div class="settings-body">
+            <!-- Theme & Appearance -->
+            <div class="settings-group">
+                <div class="settings-group-title">Theme &amp; Appearance</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Dark Mode</div>
+                        <div class="s-hint">Switch between dark and light theme</div>
+                    </div>
+                    <div class="toggle" id="set-dark-mode" onclick="toggleSetting('dark-mode','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Accent Color</div>
+                        <div class="s-hint">Choose your preferred accent color</div>
+                    </div>
+                    <div class="color-swatches" id="set-accent-colors">
+                        <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
+                        <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="setAccentColor('#3b82f6')"></div>
+                        <div class="color-swatch" style="background:#8b5cf6" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6')"></div>
+                        <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
+                        <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
+                        <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Font Size</div>
+                        <div class="s-hint">Adjust the base text size</div>
+                        <div class="font-preview" id="font-preview">The quick brown fox jumps over the lazy dog</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <input type="range" class="setting-range" id="set-font-size" min="13" max="20" value="15" oninput="setFontSize(this.value)">
+                        <span class="setting-range-value" id="font-size-value">15px</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Video Preferences -->
+            <div class="settings-group">
+                <div class="settings-group-title">Video Preferences</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Autoplay</div>
+                        <div class="s-hint">Automatically play videos when opening</div>
+                    </div>
+                    <div class="toggle" id="set-autoplay" onclick="toggleSetting('autoplay','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Default Playback Speed</div>
+                        <div class="s-hint">Set the default speed for all videos</div>
+                    </div>
+                    <select class="setting-select" id="set-playback-speed" onchange="setPlaybackSpeed(this.value)">
+                        <option value="0.5">0.5x (Slow)</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1x (Normal)</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x (Fast)</option>
+                        <option value="2">2x (Fastest)</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Accessibility -->
+            <div class="settings-group">
+                <div class="settings-group-title">Accessibility</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Reduce Motion</div>
+                        <div class="s-hint">Minimize animations and transitions</div>
+                    </div>
+                    <div class="toggle" id="set-reduce-motion" onclick="toggleSetting('reduce-motion','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">High Contrast</div>
+                        <div class="s-hint">Increase contrast for better readability</div>
+                    </div>
+                    <div class="toggle" id="set-high-contrast" onclick="toggleSetting('high-contrast','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Larger Text Mode</div>
+                        <div class="s-hint">Scale up all text for easier reading</div>
+                    </div>
+                    <div class="toggle" id="set-large-text" onclick="toggleSetting('large-text','toggle')"></div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-footer">
+            <button class="settings-btn" onclick="resetSettings()">Reset to Default</button>
+            <button class="settings-btn primary" onclick="saveSettings()">Save Changes</button>
         </div>
     </div>
 
@@ -602,10 +895,12 @@
             const video = document.getElementById('modal-video');
             document.getElementById('modal-title').textContent = v.title;
             document.getElementById('modal-desc').textContent = v.desc;
+            const settings = loadSettings();
             if (isAvailable(v.src)) {
                 video.innerHTML = '<source src="' + v.src + '" type="video/mp4">';
                 video.style.display = 'block';
                 video.load();
+                video.playbackRate = parseFloat(settings['playback-speed'] || '1');
                 video.play().catch(function() {});
             } else {
                 video.innerHTML = '';
@@ -651,15 +946,172 @@
 
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
-            try { localStorage.setItem('dispatch-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+            const isDark = document.documentElement.classList.contains('dark');
+            try { localStorage.setItem('dispatch-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            const darkToggle = document.getElementById('set-dark-mode');
+            if (darkToggle) darkToggle.classList.toggle('on', isDark);
+            saveSettingsImmediate();
         }
 
-        // Restore theme
-        try {
-            if (localStorage.getItem('dispatch-theme') === 'light') {
-                document.documentElement.classList.remove('dark');
+        // ===== Settings (synced with index.php via localStorage) =====
+        const SETTINGS_DEFAULTS = {
+            'dark-mode': true,
+            'autoplay': false,
+            'reduce-motion': false,
+            'high-contrast': false,
+            'large-text': false,
+            'accent-color': '#10b981',
+            'font-size': '15',
+            'playback-speed': '1'
+        };
+
+        function loadSettings() {
+            let saved = {};
+            try { saved = JSON.parse(localStorage.getItem('dispatch-settings') || '{}'); } catch (e) {}
+            return Object.assign({}, SETTINGS_DEFAULTS, saved);
+        }
+
+        function toggleSettings() {
+            const panel = document.getElementById('settings-panel');
+            const overlay = document.getElementById('settings-overlay');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open');
+            overlay.classList.toggle('open');
+            if (!isOpen) applySettingsToUI();
+        }
+
+        function toggleSetting(key, type) {
+            const el = document.getElementById('set-' + key);
+            if (!el) return;
+            const isOn = el.classList.toggle('on');
+            applySetting(key, isOn);
+            saveSettingsImmediate();
+        }
+
+        function applySetting(key, value) {
+            const settings = loadSettings();
+            settings[key] = value;
+            try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
+            switch (key) {
+                case 'dark-mode':
+                    if (value) document.documentElement.classList.add('dark');
+                    else document.documentElement.classList.remove('dark');
+                    try { localStorage.setItem('dispatch-theme', value ? 'dark' : 'light'); } catch(e) {}
+                    break;
+                case 'reduce-motion':
+                    if (value) document.body.classList.add('reduce-motion');
+                    else document.body.classList.remove('reduce-motion');
+                    break;
+                case 'high-contrast':
+                    if (value) document.body.classList.add('high-contrast');
+                    else document.body.classList.remove('high-contrast');
+                    break;
+                case 'large-text':
+                    if (value) document.documentElement.style.fontSize = '18px';
+                    else document.documentElement.style.fontSize = settings['font-size'] + 'px';
+                    break;
+                case 'autoplay':
+                    break;
             }
-        } catch (e) {}
+        }
+
+        function setAccentColor(color) {
+            document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(s) {
+                s.classList.toggle('active', s.dataset.color === color);
+            });
+            document.documentElement.style.setProperty('--accent', color);
+            document.documentElement.style.setProperty('--accent-soft', color + '22');
+            applySetting('accent-color', color);
+            saveSettingsImmediate();
+        }
+
+        function setFontSize(val) {
+            document.getElementById('font-size-value').textContent = val + 'px';
+            const settings = loadSettings();
+            if (!settings['large-text']) document.documentElement.style.fontSize = val + 'px';
+            applySetting('font-size', val);
+            saveSettingsImmediate();
+        }
+
+        function setPlaybackSpeed(val) {
+            const video = document.getElementById('modal-video');
+            if (video) video.playbackRate = parseFloat(val);
+            applySetting('playback-speed', val);
+            saveSettingsImmediate();
+        }
+
+        function saveSettingsImmediate() {
+            const settings = loadSettings();
+            ['dark-mode','autoplay','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) settings[key] = el.classList.contains('on');
+            });
+            ['playback-speed'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) settings[key] = el.value;
+            });
+            const activeSwatch = document.querySelector('#set-accent-colors .color-swatch.active');
+            if (activeSwatch) settings['accent-color'] = activeSwatch.dataset.color;
+            const fontSizeEl = document.getElementById('set-font-size');
+            if (fontSizeEl) settings['font-size'] = fontSizeEl.value;
+            try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
+        }
+
+        function saveSettings() {
+            saveSettingsImmediate();
+            const btn = event.target;
+            const orig = btn.textContent;
+            btn.textContent = 'Saved!';
+            btn.style.background = '#059669';
+            setTimeout(function() { btn.textContent = orig; btn.style.background = ''; }, 1500);
+        }
+
+        function resetSettings() {
+            try { localStorage.removeItem('dispatch-settings'); } catch (e) {}
+            document.documentElement.style.setProperty('--accent', '#10b981');
+            document.documentElement.style.setProperty('--accent-soft', 'rgba(16, 185, 129, 0.14)');
+            document.documentElement.style.fontSize = '15px';
+            document.body.classList.remove('reduce-motion', 'high-contrast');
+            document.documentElement.classList.add('dark');
+            try { localStorage.setItem('dispatch-theme', 'dark'); } catch(e) {}
+            applySettingsToUI();
+        }
+
+        function applySettingsToUI() {
+            const s = loadSettings();
+            ['dark-mode','autoplay','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) el.classList.toggle('on', !!s[key]);
+            });
+            const psEl = document.getElementById('set-playback-speed');
+            if (psEl) psEl.value = s['playback-speed'];
+            const fsEl = document.getElementById('set-font-size');
+            if (fsEl) { fsEl.value = s['font-size']; document.getElementById('font-size-value').textContent = s['font-size'] + 'px'; }
+            document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(sw) {
+                sw.classList.toggle('active', sw.dataset.color === s['accent-color']);
+            });
+            document.documentElement.style.setProperty('--accent', s['accent-color']);
+            document.documentElement.style.setProperty('--accent-soft', s['accent-color'] + '22');
+            if (s['large-text']) document.documentElement.style.fontSize = '18px';
+            else document.documentElement.style.fontSize = s['font-size'] + 'px';
+            if (s['reduce-motion']) document.body.classList.add('reduce-motion'); else document.body.classList.remove('reduce-motion');
+            if (s['high-contrast']) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
+            if (s['dark-mode']) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+        }
+
+        function initSettingsOnLoad() {
+            const s = loadSettings();
+            document.documentElement.style.setProperty('--accent', s['accent-color']);
+            document.documentElement.style.setProperty('--accent-soft', s['accent-color'] + '22');
+            if (s['large-text']) document.documentElement.style.fontSize = '18px';
+            else document.documentElement.style.fontSize = s['font-size'] + 'px';
+            if (s['reduce-motion']) document.body.classList.add('reduce-motion');
+            if (s['high-contrast']) document.body.classList.add('high-contrast');
+            if (s['dark-mode']) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+        }
+
+        // Initialize settings on load
+        initSettingsOnLoad();
 
         // Update stats and render
         function updateStats() {
