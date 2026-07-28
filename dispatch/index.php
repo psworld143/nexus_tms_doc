@@ -208,6 +208,7 @@
             width: 288px;
             height: calc(100vh - 68px);
             overflow-y: auto;
+            overflow-x: visible;
             padding: 1.25rem 0.85rem 2rem;
             border-right: 1px solid var(--border);
             background: color-mix(in srgb, var(--surface-solid) 55%, transparent);
@@ -235,6 +236,24 @@
             font-size: 0.68rem; font-weight: 800; letter-spacing: 0.09em;
             text-transform: uppercase; color: var(--text-dim);
             border-bottom: 1px solid var(--border);
+        }
+        .nav-section-title.main-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            background: linear-gradient(90deg, var(--accent-soft), transparent);
+            border-bottom: 2px solid var(--accent);
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0.3rem;
+        }
+        .nav-section-title.main-menu svg {
+            width: 16px; height: 16px;
+            filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 50%, transparent));
         }
         .nav-list { list-style: none; margin: 0; padding: 0; }
         .nav-item { margin: 2px 0; }
@@ -792,6 +811,92 @@
         }
         /* Collapsed sidebar */
         .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; border: none; }
+        .sidebar-hide-btn {
+            position: absolute;
+            top: 50%;
+            right: -18px;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--surface-solid);
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 15;
+            box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+        }
+        .sidebar-hide-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--accent), transparent, var(--accent));
+            opacity: 0;
+            z-index: -1;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sidebar-hide-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+        }
+        .sidebar-hide-btn:hover::before { opacity: 0.6; }
+        .sidebar-hide-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
+        .show-sidebar-btn {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--surface-solid);
+            color: var(--text-dim);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .show-sidebar-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--accent), transparent, var(--accent));
+            opacity: 0;
+            z-index: -1;
+            animation: spin 2s linear infinite;
+        }
+        .show-sidebar-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+        }
+        .show-sidebar-btn:hover::before { opacity: 0.6; }
+        .show-sidebar-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .show-sidebar-btn:hover svg { transform: rotate(180deg); }
+        .show-sidebar-btn.visible { display: flex; }
 
         @media (max-width: 900px) {
             .menu-toggle { display: flex; }
@@ -1030,20 +1135,6 @@
                 </div>
                 <div class="setting-row">
                     <div class="setting-label">
-                        <div class="s-name">Default Section</div>
-                        <div class="s-hint">Choose which section opens on load</div>
-                    </div>
-                    <select class="setting-select" id="set-default-section" onchange="setDefaultSection(this.value)">
-                        <option value="dashboard" selected>Dashboard</option>
-                        <option value="my-loads">My Loads</option>
-                        <option value="my-drivers">My Drivers</option>
-                        <option value="my-trucks">My Trucks</option>
-                        <option value="accounting">Accounting</option>
-                        <option value="violations">Violations</option>
-                    </select>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-label">
                         <div class="s-name">Sync Search</div>
                         <div class="s-hint">Keep assistant and sidebar search in sync</div>
                     </div>
@@ -1085,12 +1176,19 @@
     </div>
 
     <div class="layout">
+        <!-- Show sidebar button (visible when sidebar is hidden) -->
+        <button class="show-sidebar-btn" id="show-sidebar-btn" onclick="showSidebar()" title="Show sidebar" aria-label="Show sidebar">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>
+        </button>
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="search-wrap">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()" oninput="syncAssistantFromSidebar()">
             </div>
+            <button class="sidebar-hide-btn" onclick="hideSidebar()" title="Hide sidebar" aria-label="Hide sidebar">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
+            </button>
 
             <div class="nav-section-title">Main Menu</div>
             <ul class="nav-list">
@@ -1907,8 +2005,7 @@
             'accent-color': '#10b981',
             'font-size': '15',
             'playback-speed': '1',
-            'video-quality': 'auto',
-            'default-section': 'dashboard'
+            'video-quality': 'auto'
         };
 
         function loadSettings() {
@@ -2001,11 +2098,6 @@
             saveSettingsImmediate();
         }
 
-        function setDefaultSection(val) {
-            applySetting('default-section', val);
-            saveSettingsImmediate();
-        }
-
         function saveSettingsImmediate() {
             const settings = loadSettings();
             // Read toggle states
@@ -2014,7 +2106,7 @@
                 if (el) settings[key] = el.classList.contains('on');
             });
             // Read select values
-            ['playback-speed','video-quality','default-section'].forEach(function(key) {
+            ['playback-speed','video-quality'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) settings[key] = el.value;
             });
@@ -2057,7 +2149,7 @@
                 if (el) el.classList.toggle('on', !!s[key]);
             });
             // Selects
-            ['playback-speed','video-quality','default-section'].forEach(function(key) {
+            ['playback-speed','video-quality'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) el.value = s[key];
             });
@@ -2320,6 +2412,18 @@
             document.getElementById('sidebar-overlay').classList.toggle('show');
         }
 
+        function hideSidebar() {
+            document.getElementById('sidebar').classList.add('collapsed');
+            document.getElementById('show-sidebar-btn').classList.add('visible');
+            try { localStorage.setItem('dispatch-sidebar-hidden', 'true'); } catch (e) {}
+        }
+
+        function showSidebar() {
+            document.getElementById('sidebar').classList.remove('collapsed');
+            document.getElementById('show-sidebar-btn').classList.remove('visible');
+            try { localStorage.setItem('dispatch-sidebar-hidden', 'false'); } catch (e) {}
+        }
+
         function filterMenu() {
             const term = document.getElementById('sidebar-search').value.toLowerCase().trim();
             document.querySelectorAll('.nav-section-title').forEach(title => {
@@ -2389,6 +2493,12 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             initSettingsOnLoad();
+            // Restore sidebar hidden state
+            try {
+                if (localStorage.getItem('dispatch-sidebar-hidden') === 'true' && window.innerWidth > 900) {
+                    hideSidebar();
+                }
+            } catch (e) {}
             document.querySelectorAll('video').forEach(video => {
                 video.addEventListener('error', function () {
                     const frame = video.closest('.video-frame');
