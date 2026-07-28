@@ -378,6 +378,7 @@
             background: color-mix(in srgb, var(--surface-solid) 55%, transparent);
             backdrop-filter: blur(8px);
             z-index: 10;
+            transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease;
         }
         .search-wrap { position: relative; padding: 0 0.4rem 0.5rem; }
         .search-wrap svg { position: absolute; left: 1rem; top: 50%; transform: translateY(-60%); width: 16px; height: 16px; color: var(--text-dim); }
@@ -973,7 +974,67 @@
         body.high-contrast .documentation {
             border-width: 2px;
         }
-        /* Collapsed sidebar */
+        /* ===== Mini Sidebar (icons only) ===== */
+        .sidebar.mini { width: 64px; padding: 1.25rem 0.5rem 2rem; }
+        .sidebar.mini .search-wrap { padding: 0 0 0.5rem; }
+        .sidebar.mini .search-wrap svg { left: 50%; transform: translate(-50%, -60%); }
+        .sidebar.mini .search-wrap input { padding: 0.7rem; width: 40px; height: 40px; text-indent: -999px; overflow: hidden; }
+        .sidebar.mini .search-wrap input::placeholder { color: transparent; }
+
+        .sidebar.mini .nav-section-title {
+            font-size: 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+        .sidebar.mini .nav-section-title.main-menu {
+            padding: 0.5rem 0;
+            border-radius: 8px;
+            background: var(--accent-soft);
+            border-bottom: 2px solid var(--accent);
+            justify-content: center;
+        }
+        .sidebar.mini .nav-section-title.main-menu svg { width: 18px; height: 18px; }
+
+        .sidebar.mini .nav-link {
+            justify-content: center;
+            padding: 0.62rem 0;
+            font-size: 0;
+            gap: 0;
+        }
+        .sidebar.mini .nav-link svg { width: 20px; height: 20px; }
+        .sidebar.mini .nav-link.has-submenu { justify-content: center; }
+        .sidebar.mini .nav-link.has-submenu > span { font-size: 0; gap: 0; }
+        .sidebar.mini .chevron { display: none; }
+        .sidebar.mini .submenu { display: none; }
+        .sidebar.mini .nav-link.active::before { left: 0; }
+
+        /* Tooltip in mini mode */
+        .sidebar.mini .nav-link::after {
+            content: attr(data-tip);
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.35rem 0.7rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+            z-index: 100;
+        }
+        .sidebar.mini .nav-link:hover::after { opacity: 1; }
+
+        /* Collapsed sidebar (fully hidden — mobile/fallback) */
         .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; border: none; }
         .sidebar-hide-btn {
             position: absolute;
@@ -1018,49 +1079,6 @@
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
-        .show-sidebar-btn {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
-            border: 2px solid var(--border);
-            border-radius: 50%;
-            background: var(--surface-solid);
-            color: var(--text-dim);
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 20;
-            box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .show-sidebar-btn::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, var(--accent), transparent, var(--accent));
-            opacity: 0;
-            z-index: -1;
-            animation: spin 2s linear infinite;
-        }
-        .show-sidebar-btn:hover {
-            color: var(--accent);
-            border-color: var(--accent);
-            transform: translateY(-50%) scale(1.15);
-            box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
-        }
-        .show-sidebar-btn:hover::before { opacity: 0.6; }
-        .show-sidebar-btn svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .show-sidebar-btn:hover svg { transform: rotate(180deg); }
-        .show-sidebar-btn.visible { display: flex; }
 
         @media (max-width: 900px) {
             .menu-toggle { display: flex; }
@@ -1071,6 +1089,15 @@
                 background: var(--surface-solid);
             }
             .sidebar.open { transform: translateX(0); }
+            .sidebar.mini { width: 280px; padding: 1.25rem 0.85rem 2rem; }
+            .sidebar.mini .search-wrap input { text-indent: 0; width: 100%; padding: 0.7rem 2rem 0.7rem 2.4rem; }
+            .sidebar.mini .search-wrap svg { left: 1rem; transform: translateY(-60%); }
+            .sidebar.mini .nav-link { justify-content: flex-start; font-size: 0.88rem; gap: 0.7rem; padding: 0.62rem 0.85rem; }
+            .sidebar.mini .nav-link.has-submenu > span { font-size: 0.88rem; gap: 0.7rem; }
+            .sidebar.mini .chevron { display: block; }
+            .sidebar.mini .submenu { display: block; }
+            .sidebar.mini .nav-section-title { font-size: 0.68rem; padding: 1rem 1rem 0.4rem; justify-content: flex-start; }
+            .sidebar.mini .nav-link::after { display: none; }
             .sidebar-overlay.show { display: block; position: fixed; inset: 68px 0 0 0; background: rgba(0,0,0,0.5); z-index: 45; }
             .user-chip .u-info { display: none; }
             .brand-text p { display: none; }
@@ -1298,8 +1325,8 @@
                 <div class="settings-group-title">Navigation &amp; Layout</div>
                 <div class="setting-row">
                     <div class="setting-label">
-                        <div class="s-name">Collapsed Sidebar</div>
-                        <div class="s-hint">Start with the sidebar collapsed on desktop</div>
+                        <div class="s-name">Mini Sidebar (Icons Only)</div>
+                        <div class="s-hint">Show only icons in the sidebar on desktop</div>
                     </div>
                     <div class="toggle" id="set-sidebar-collapsed" onclick="toggleSetting('sidebar-collapsed','toggle')"></div>
                 </div>
@@ -1365,17 +1392,13 @@
     </div>
 
     <div class="layout">
-        <!-- Show sidebar button (visible when sidebar is hidden) -->
-        <button class="show-sidebar-btn" id="show-sidebar-btn" onclick="showSidebar()" title="Show sidebar" aria-label="Show sidebar">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>
-        </button>
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="search-wrap">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()" oninput="syncAssistantFromSidebar()">
+                <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()" oninput="syncAssistantFromSidebar()" onclick="if(document.getElementById('sidebar').classList.contains('mini')){toggleSidebarMini();this.focus();}">
             </div>
-            <button class="sidebar-hide-btn" onclick="hideSidebar()" title="Hide sidebar" aria-label="Hide sidebar">
+            <button class="sidebar-hide-btn" onclick="toggleSidebarMini()" title="Collapse sidebar" aria-label="Toggle sidebar" id="sidebar-toggle-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
             </button>
 
@@ -2439,8 +2462,14 @@
                 case 'sidebar-collapsed':
                     if (window.innerWidth > 900) {
                         const sidebar = document.getElementById('sidebar');
-                        if (value) sidebar.classList.add('collapsed');
-                        else sidebar.classList.remove('collapsed');
+                        const btn = document.getElementById('sidebar-toggle-btn');
+                        if (value) {
+                            sidebar.classList.add('mini');
+                            if (btn) { btn.title = 'Expand sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>'; }
+                        } else {
+                            sidebar.classList.remove('mini');
+                            if (btn) { btn.title = 'Collapse sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>'; }
+                        }
                     }
                     break;
                 case 'autoplay':
@@ -2793,16 +2822,41 @@
             document.getElementById('sidebar-overlay').classList.toggle('show');
         }
 
-        function hideSidebar() {
-            document.getElementById('sidebar').classList.add('collapsed');
-            document.getElementById('show-sidebar-btn').classList.add('visible');
-            try { localStorage.setItem('dispatch-sidebar-hidden', 'true'); } catch (e) {}
+        function toggleSidebarMini() {
+            const sidebar = document.getElementById('sidebar');
+            const btn = document.getElementById('sidebar-toggle-btn');
+            const isMini = sidebar.classList.contains('mini');
+            if (isMini) {
+                sidebar.classList.remove('mini');
+                btn.title = 'Collapse sidebar';
+                btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>';
+                try { localStorage.setItem('dispatch-sidebar-mini', 'false'); } catch (e) {}
+            } else {
+                sidebar.classList.add('mini');
+                btn.title = 'Expand sidebar';
+                btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+                // Close any open submenus
+                document.querySelectorAll('.submenu.expanded, .nav-link.expanded').forEach(function(el) {
+                    el.classList.remove('expanded');
+                });
+                try { localStorage.setItem('dispatch-sidebar-mini', 'true'); } catch (e) {}
+            }
         }
 
-        function showSidebar() {
-            document.getElementById('sidebar').classList.remove('collapsed');
-            document.getElementById('show-sidebar-btn').classList.remove('visible');
-            try { localStorage.setItem('dispatch-sidebar-hidden', 'false'); } catch (e) {}
+        // Add tooltips (data-tip) to all nav-links for mini mode
+        function initSidebarTooltips() {
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+                if (link.classList.contains('has-submenu')) {
+                    var span = link.querySelector('span');
+                    if (span) {
+                        var text = span.textContent.trim();
+                        if (text) link.setAttribute('data-tip', text);
+                    }
+                } else {
+                    var text = link.textContent.trim();
+                    if (text) link.setAttribute('data-tip', text);
+                }
+            });
         }
 
         function filterMenu() {
@@ -2868,16 +2922,28 @@
         function toggleSubmenu(submenuId, el, event) {
             event.preventDefault();
             event.stopPropagation();
+            // In mini mode, expand the sidebar first instead of opening submenu
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('mini')) {
+                toggleSidebarMini();
+                return;
+            }
             document.getElementById(submenuId).classList.toggle('expanded');
             el.classList.toggle('expanded');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             initSettingsOnLoad();
-            // Restore sidebar hidden state
+            // Initialize sidebar tooltips for mini mode
+            initSidebarTooltips();
+            // Restore sidebar mini state (desktop only)
             try {
-                if (localStorage.getItem('dispatch-sidebar-hidden') === 'true' && window.innerWidth > 900) {
-                    hideSidebar();
+                if (localStorage.getItem('dispatch-sidebar-mini') === 'true' && window.innerWidth > 900) {
+                    var sidebar = document.getElementById('sidebar');
+                    var btn = document.getElementById('sidebar-toggle-btn');
+                    sidebar.classList.add('mini');
+                    btn.title = 'Expand sidebar';
+                    btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
                 }
             } catch (e) {}
             // First-time visitor: auto-open tour after 1.5s
