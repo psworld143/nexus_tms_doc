@@ -964,6 +964,50 @@
                 .settings-panel { width: 100vw; }
             }
 
+            /* ===== Announcement Toast ===== */
+            .announce-toast {
+                position: fixed;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%) translateY(120%);
+                z-index: 3000;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.85rem 1.25rem;
+                background: var(--surface-solid);
+                border: 1px solid var(--accent);
+                border-radius: 14px;
+                box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+                color: var(--text);
+                font-size: 0.88rem;
+                font-weight: 500;
+                opacity: 0;
+                transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+                pointer-events: none;
+                max-width: 90vw;
+            }
+            .announce-toast.show {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            .announce-toast .announce-icon {
+                width: 28px; height: 28px;
+                border-radius: 50%;
+                display: grid; place-items: center;
+                background: color-mix(in srgb, var(--accent) 18%, transparent);
+                color: var(--accent);
+                flex-shrink: 0;
+            }
+            .announce-toast .announce-icon svg { width: 16px; height: 16px; }
+            .announce-toast .announce-swatch {
+                width: 18px; height: 18px;
+                border-radius: 50%;
+                border: 2px solid var(--surface-solid);
+                box-shadow: 0 0 0 1px var(--border);
+                flex-shrink: 0;
+            }
+
             /* Accessibility: Reduce Motion */
             body.reduce-motion *,
             body.reduce-motion *::before,
@@ -1143,9 +1187,106 @@
                 left: 0;
             }
 
+        /* ===== Loading Screen ===== */
+        .loader-screen {
+            position: fixed; inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            background:
+                radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
+                radial-gradient(900px 500px at -10% 10%, rgba(56, 189, 248, 0.08), transparent 55%),
+                linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .loader-screen.hidden { opacity: 0; visibility: hidden; }
+        .loader-logo {
+            width: 64px; height: 64px;
+            border-radius: 18px;
+            display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            color: #fff;
+            animation: loader-logo-pulse 1.4s ease-in-out infinite;
+        }
+        @keyframes loader-logo-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 24px -8px rgba(16, 185, 129, 0.5), 0 0 16px rgba(16, 185, 129, 0.3); }
+            50% { transform: scale(1.1); box-shadow: 0 12px 32px -8px rgba(16, 185, 129, 0.7), 0 0 28px rgba(16, 185, 129, 0.5); }
+        }
+        .loader-logo svg { width: 34px; height: 34px; }
+        .loader-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--text);
+        }
+        .loader-subtext {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .loader-bar {
+            width: 220px;
+            height: 4px;
+            border-radius: 999px;
+            background: var(--border);
+            overflow: hidden;
+            margin-top: 0.25rem;
+        }
+        .loader-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), #34d399);
+            box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent);
+            animation: loader-fill 1.6s ease-in-out infinite;
+        }
+        @keyframes loader-fill {
+            0% { width: 0%; margin-left: 0%; }
+            50% { width: 60%; margin-left: 20%; }
+            100% { width: 0%; margin-left: 100%; }
+        }
+        .loader-dots {
+            display: flex;
+            gap: 6px;
+            margin-top: 0.25rem;
+        }
+        .loader-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.3;
+            animation: loader-dot-bounce 1.2s ease-in-out infinite;
+        }
+        .loader-dot:nth-child(2) { animation-delay: 0.15s; }
+        .loader-dot:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes loader-dot-bounce {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-6px); }
+        }
+
         </style>
     </head>
     <body>
+        <!-- Loading Screen -->
+        <div class="loader-screen" id="loader-screen">
+            <div class="loader-logo">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </div>
+            <div style="text-align:center;">
+                <div class="loader-text">DISPATCH</div>
+                <div class="loader-subtext">Loading Tutorial Library...</div>
+            </div>
+            <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+            <div class="loader-dots">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+        </div>
+
         <!-- ACD_TMS Curved Vector Background -->
         <div class="bg-canvas">
             <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-dark" style="display: none;">
@@ -1392,6 +1533,15 @@
                 <button class="settings-btn" onclick="resetSettings()">Reset to Default</button>
                 <button class="settings-btn primary" onclick="saveSettings()">Save Changes</button>
             </div>
+        </div>
+
+        <!-- Announcement Toast -->
+        <div class="announce-toast" id="announce-toast">
+            <span class="announce-icon" id="announce-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </span>
+            <span id="announce-swatch-wrap"></span>
+            <span id="announce-text">Settings updated</span>
         </div>
 
         <!-- Tour Guide Overlay -->
@@ -2476,6 +2626,47 @@
                 return Object.assign({}, SETTINGS_DEFAULTS, saved);
             }
 
+            // ===== Announcement Toast =====
+            let announceTimer = null;
+            function showAnnouncement(text, opts) {
+                opts = opts || {};
+                const toast = document.getElementById('announce-toast');
+                const textEl = document.getElementById('announce-text');
+                const iconEl = document.getElementById('announce-icon');
+                const swatchWrap = document.getElementById('announce-swatch-wrap');
+                if (!toast || !textEl) return;
+                textEl.textContent = text;
+                if (opts.icon === 'palette') {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h8a2 2 0 002-2V5a2 2 0 00-2-2H9m4 18a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"/></svg>';
+                } else if (opts.icon === 'theme') {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
+                } else if (opts.icon === 'reset') {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>';
+                } else if (opts.icon === 'sidebar') {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';
+                } else {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                }
+                if (opts.swatch) {
+                    swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + opts.swatch + '"></span>';
+                } else {
+                    swatchWrap.innerHTML = '';
+                }
+                toast.classList.add('show');
+                if (announceTimer) clearTimeout(announceTimer);
+                announceTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
+            }
+
+            const SETTING_LABELS = {
+                'dark-mode': 'Dark mode',
+                'autoplay': 'Autoplay',
+                'sidebar-collapsed': 'Mini sidebar',
+                'sync-search': 'Sync search',
+                'reduce-motion': 'Reduce motion',
+                'high-contrast': 'High contrast',
+                'large-text': 'Larger text'
+            };
+
             function toggleSettings() {
                 const panel = document.getElementById('settings-panel');
                 const overlay = document.getElementById('settings-overlay');
@@ -2491,6 +2682,8 @@
                 const isOn = el.classList.toggle('on');
                 applySetting(key, isOn);
                 saveSettingsImmediate();
+                const label = SETTING_LABELS[key] || key;
+                showAnnouncement(label + ' ' + (isOn ? 'enabled' : 'disabled'));
             }
 
             function applySetting(key, value) {
@@ -2503,6 +2696,7 @@
                         if (value) document.documentElement.classList.add('dark');
                         else document.documentElement.classList.remove('dark');
                         updateBackgroundSVG();
+                        showAnnouncement(value ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
                         break;
                     case 'reduce-motion':
                         document.documentElement.style.setProperty('--motion', value ? '0s' : '0.2s');
@@ -2529,6 +2723,7 @@
                                 if (btn) { btn.title = 'Collapse sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>'; }
                             }
                         }
+                        showAnnouncement(value ? 'Mini sidebar enabled' : 'Full sidebar enabled', { icon: 'sidebar' });
                         break;
                     case 'autoplay':
                     case 'sync-search':
@@ -2545,6 +2740,7 @@
                 document.documentElement.style.setProperty('--accent-soft', color + '22');
                 applySetting('accent-color', color);
                 saveSettingsImmediate();
+                showAnnouncement('Accent color changed', { icon: 'palette', swatch: color });
             }
 
             function setFontSize(val) {
@@ -2553,17 +2749,20 @@
                 if (!settings['large-text']) document.documentElement.style.fontSize = val + 'px';
                 applySetting('font-size', val);
                 saveSettingsImmediate();
+                showAnnouncement('Font size set to ' + val + 'px');
             }
 
             function setPlaybackSpeed(val) {
                 document.querySelectorAll('video').forEach(function(v) { v.playbackRate = parseFloat(val); });
                 applySetting('playback-speed', val);
                 saveSettingsImmediate();
+                showAnnouncement('Playback speed set to ' + val + 'x');
             }
 
             function setVideoQuality(val) {
                 applySetting('video-quality', val);
                 saveSettingsImmediate();
+                showAnnouncement('Video quality set to ' + val);
             }
 
             function saveSettingsImmediate() {
@@ -2607,6 +2806,7 @@
                 document.documentElement.classList.add('dark');
                 updateBackgroundSVG();
                 applySettingsToUI();
+                showAnnouncement('Settings reset to default', { icon: 'reset' });
             }
 
             function applySettingsToUI() {
@@ -2859,6 +3059,7 @@
                 if (darkToggle) darkToggle.classList.toggle('on', isDark);
                 saveSettingsImmediate();
                 updateBackgroundSVG();
+                showAnnouncement(isDark ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
             }
             function updateBackgroundSVG() {
                 const isDark = document.documentElement.classList.contains('dark');
@@ -2989,6 +3190,15 @@
                 document.getElementById(submenuId).classList.toggle('expanded');
                 el.classList.toggle('expanded');
             }
+
+            // Hide loading screen on full page load
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    const loader = document.getElementById('loader-screen');
+                    if (loader) loader.classList.add('hidden');
+                    setTimeout(function() { if (loader) loader.style.display = 'none'; }, 600);
+                }, 800);
+            });
 
             document.addEventListener('DOMContentLoaded', function () {
                 initSettingsOnLoad();

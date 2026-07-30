@@ -62,10 +62,10 @@
 
         /* ===== Header ===== */
         .header {
-            position: sticky; top: 0; z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
             display: flex; align-items: center; gap: 1rem;
             padding: 0.85rem 2rem;
-            background: color-mix(in srgb, var(--surface-solid) 80%, transparent);
+            background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border);
         }
@@ -120,7 +120,7 @@
         .back-btn svg { width: 16px; height: 16px; }
 
         /* ===== Main Content ===== */
-        .main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .main { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem 2rem; }
 
         /* ===== Hero ===== */
         .hero {
@@ -546,16 +546,117 @@
             --surface-2: rgba(0, 0, 0, 0.08);
         }
 
+        /* ===== Announcement Toast ===== */
+        .announce-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(120%);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.25rem;
+            background: var(--surface-solid);
+            border: 1px solid var(--accent);
+            border-radius: 14px;
+            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+            color: var(--text);
+            font-size: 0.88rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+            pointer-events: none;
+            max-width: 90vw;
+        }
+        .announce-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .announce-toast .announce-icon {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            background: color-mix(in srgb, var(--accent) 18%, transparent);
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .announce-toast .announce-icon svg { width: 16px; height: 16px; }
+        .announce-toast .announce-swatch {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--surface-solid);
+            box-shadow: 0 0 0 1px var(--border);
+            flex-shrink: 0;
+        }
+
         @media (max-width: 600px) {
             .header { padding: 0.75rem 1rem; }
-            .main { padding: 1rem; }
+            .main { padding: 4.5rem 1rem 1rem; }
             .hero h2 { font-size: 1.5rem; }
             .video-grid { grid-template-columns: 1fr; }
             .hero-stats { gap: 1.25rem; }
         }
+
+        /* ===== ACD_TMS Curved Vector Background ===== */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bg-canvas svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .main, .video-modal { position: relative; z-index: 1; }
     </style>
 </head>
 <body>
+    <!-- ACD_TMS Curved Vector Background -->
+    <div class="bg-canvas">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-dark" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(16,185,129,0.07)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.05)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.10)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-light" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.08)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(14,163,113,0.08)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.14)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="brand">
@@ -753,6 +854,15 @@
         </div>
     </div>
 
+    <!-- Announcement Toast -->
+    <div class="announce-toast" id="announce-toast">
+        <span class="announce-icon" id="announce-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        </span>
+        <span id="announce-swatch-wrap"></span>
+        <span id="announce-text">Settings updated</span>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         DISPATCH Video Tutorial Library &middot; All tutorials in one place
@@ -944,13 +1054,54 @@
             if (e.key === 'Escape') closeModal();
         });
 
+        function updateBackgroundSVG() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const darkSVG = document.getElementById('bg-svg-dark');
+            const lightSVG = document.getElementById('bg-svg-light');
+            if (darkSVG) darkSVG.style.display = isDark ? 'block' : 'none';
+            if (lightSVG) lightSVG.style.display = isDark ? 'none' : 'block';
+        }
+
+        // ===== Announcement Toast =====
+        let announceTimer = null;
+        function showAnnouncement(text, opts) {
+            opts = opts || {};
+            const toast = document.getElementById('announce-toast');
+            const textEl = document.getElementById('announce-text');
+            const iconEl = document.getElementById('announce-icon');
+            const swatchWrap = document.getElementById('announce-swatch-wrap');
+            if (!toast || !textEl) return;
+            textEl.textContent = text;
+            // Icon
+            if (opts.icon === 'palette') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h8a2 2 0 002-2V5a2 2 0 00-2-2H9m4 18a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"/></svg>';
+            } else if (opts.icon === 'theme') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
+            } else if (opts.icon === 'reset') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>';
+            } else {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+            }
+            // Color swatch
+            if (opts.swatch) {
+                swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + opts.swatch + '"></span>';
+            } else {
+                swatchWrap.innerHTML = '';
+            }
+            toast.classList.add('show');
+            if (announceTimer) clearTimeout(announceTimer);
+            announceTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
+        }
+
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             try { localStorage.setItem('dispatch-theme', isDark ? 'dark' : 'light'); } catch (e) {}
             const darkToggle = document.getElementById('set-dark-mode');
             if (darkToggle) darkToggle.classList.toggle('on', isDark);
+            updateBackgroundSVG();
             saveSettingsImmediate();
+            showAnnouncement(isDark ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
         }
 
         // ===== Settings (synced with index.php via localStorage) =====
@@ -980,12 +1131,22 @@
             if (!isOpen) applySettingsToUI();
         }
 
+        const SETTING_LABELS = {
+            'dark-mode': 'Dark mode',
+            'autoplay': 'Autoplay',
+            'reduce-motion': 'Reduce motion',
+            'high-contrast': 'High contrast',
+            'large-text': 'Larger text'
+        };
+
         function toggleSetting(key, type) {
             const el = document.getElementById('set-' + key);
             if (!el) return;
             const isOn = el.classList.toggle('on');
             applySetting(key, isOn);
             saveSettingsImmediate();
+            const label = SETTING_LABELS[key] || key;
+            showAnnouncement(label + ' ' + (isOn ? 'enabled' : 'disabled'));
         }
 
         function applySetting(key, value) {
@@ -997,6 +1158,8 @@
                     if (value) document.documentElement.classList.add('dark');
                     else document.documentElement.classList.remove('dark');
                     try { localStorage.setItem('dispatch-theme', value ? 'dark' : 'light'); } catch(e) {}
+                    updateBackgroundSVG();
+                    showAnnouncement(value ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
                     break;
                 case 'reduce-motion':
                     if (value) document.body.classList.add('reduce-motion');
@@ -1023,6 +1186,7 @@
             document.documentElement.style.setProperty('--accent-soft', color + '22');
             applySetting('accent-color', color);
             saveSettingsImmediate();
+            showAnnouncement('Accent color changed', { icon: 'palette', swatch: color });
         }
 
         function setFontSize(val) {
@@ -1031,6 +1195,7 @@
             if (!settings['large-text']) document.documentElement.style.fontSize = val + 'px';
             applySetting('font-size', val);
             saveSettingsImmediate();
+            showAnnouncement('Font size set to ' + val + 'px');
         }
 
         function setPlaybackSpeed(val) {
@@ -1038,6 +1203,7 @@
             if (video) video.playbackRate = parseFloat(val);
             applySetting('playback-speed', val);
             saveSettingsImmediate();
+            showAnnouncement('Playback speed set to ' + val + 'x');
         }
 
         function saveSettingsImmediate() {
@@ -1074,7 +1240,9 @@
             document.body.classList.remove('reduce-motion', 'high-contrast');
             document.documentElement.classList.add('dark');
             try { localStorage.setItem('dispatch-theme', 'dark'); } catch(e) {}
+            updateBackgroundSVG();
             applySettingsToUI();
+            showAnnouncement('Settings reset to default', { icon: 'reset' });
         }
 
         function applySettingsToUI() {
@@ -1097,6 +1265,7 @@
             if (s['reduce-motion']) document.body.classList.add('reduce-motion'); else document.body.classList.remove('reduce-motion');
             if (s['high-contrast']) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
             if (s['dark-mode']) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+            updateBackgroundSVG();
         }
 
         function initSettingsOnLoad() {
@@ -1108,6 +1277,7 @@
             if (s['reduce-motion']) document.body.classList.add('reduce-motion');
             if (s['high-contrast']) document.body.classList.add('high-contrast');
             if (s['dark-mode']) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+            updateBackgroundSVG();
         }
 
         // Initialize settings on load
