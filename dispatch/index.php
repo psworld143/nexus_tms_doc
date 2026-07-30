@@ -519,11 +519,16 @@
             }
             .video-card:hover {
                 transform: translateY(-4px);
-                box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.7);
+                border-color: var(--accent);
+                box-shadow:
+                    0 24px 48px -20px rgba(0, 0, 0, 0.7),
+                    0 0 0 1px var(--accent),
+                    0 0 20px color-mix(in srgb, var(--accent) 40%, transparent),
+                    0 0 40px color-mix(in srgb, var(--accent) 20%, transparent);
             }
             .video-frame {
                 position: relative;
-                border-radius: 12px;
+                border-radius: 14px;
                 overflow: hidden;
                 background: #05070c;
                 border: 1px solid var(--border);
@@ -545,6 +550,29 @@
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
             }
+            .doc-header {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+                background: color-mix(in srgb, var(--accent) 8%, transparent);
+                border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+                border-radius: 14px;
+                margin-bottom: 1rem;
+            }
+            .doc-icon {
+                width: 48px; height: 48px;
+                border-radius: 12px;
+                display: grid; place-items: center;
+                background: linear-gradient(135deg, var(--accent), #059669);
+                color: #fff;
+                flex-shrink: 0;
+                box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+            }
+            .doc-icon svg { width: 24px; height: 24px; }
+            .doc-title h3 { margin: 0 0 0.35rem 0; }
+            .doc-title p { margin: 0; }
+            .doc-body { padding: 0.5rem 1rem; }
             .documentation h3 {
                 font-size: 1.15rem;
                 color: var(--text);
@@ -1841,7 +1869,7 @@
 
         <div class="doc-header">
             <div class="doc-icon">
-                <i class="fa-solid fa-chart-column"></i>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M7 16V8m5 8V4m5 12v-6"/></svg>
             </div>
 
             <div class="doc-title">
@@ -2083,7 +2111,7 @@
                     <div class="documentation">
                         <div class="doc-header">
                             <div class="doc-icon">
-                                <i class="fa-solid fa-id-card"></i>
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-2m4-4a4 4 0 11-8 0 4 4 0 018 0zm-1.5-3h.01M14 16l1.5-1.5"/></svg>
                             </div>
                             <div class="doc-title">
                                 <h3>My Drivers Documentation</h3>
