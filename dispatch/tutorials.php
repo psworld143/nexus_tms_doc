@@ -141,7 +141,7 @@
             width: 16px; height: 16px;
             transition: transform 0.25s ease;
         }
-        .back-btn:hover svg { transform: translateX(-3px); }
+        .back-btn:hover svg { transform: scale(1.1) rotate(-3deg); }
 
         /* ===== Main Content ===== */
         .main { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem 2rem; }
@@ -200,24 +200,52 @@
             flex-wrap: wrap; margin-bottom: 2rem;
         }
         .filter-chip {
-            padding: 0.45rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.5rem 1rem;
             border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-            border-radius: 999px;
+            border-radius: 12px;
             background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             color: var(--text-muted);
-            font-size: 0.82rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
             font-family: inherit;
             cursor: pointer;
-            transition: all 0.15s ease;
+            white-space: nowrap;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .filter-chip:hover { border-color: var(--border-strong); color: var(--text); }
+        .filter-chip svg {
+            width: 15px; height: 15px;
+            opacity: 0.45;
+            flex-shrink: 0;
+            transition: all 0.22s ease;
+        }
         .filter-chip.active {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), #059669);
             border-color: var(--accent);
             color: #fff;
+            box-shadow:
+                0 3px 10px -4px color-mix(in srgb, var(--accent) 50%, transparent),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        .filter-chip.active svg { opacity: 1; }
+        .filter-chip-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px; height: 18px;
+            padding: 0 5px;
+            border-radius: 6px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            background: color-mix(in srgb, currentColor 15%, transparent);
+            transition: background 0.22s ease;
+        }
+        .filter-chip.active .filter-chip-count {
+            background: rgba(255, 255, 255, 0.22);
         }
 
         /* ===== Video Grid ===== */
@@ -776,7 +804,7 @@
         </div>
         <div class="header-actions">
             <a href="index.php" class="back-btn">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.829 5.477 9.5 5 8 5c-1.5 0-2.829.477-4 1.253v13C5.171 18.477 6.5 18 8 18c1.5 0 2.829.477 4 1.253m0-13C13.171 5.477 14.5 5 16 5c1.5 0 2.829.477 4 1.253v13C18.829 18.477 17.5 18 16 18c-1.5 0-2.829.477-4 1.253"/></svg>
                 Full Tutorial
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
@@ -818,14 +846,38 @@
 
         <!-- Category Filters -->
         <div class="filters" id="filters">
-            <button class="filter-chip active" onclick="setFilter('all', this)">All</button>
-            <button class="filter-chip" onclick="setFilter('Main', this)">Main</button>
-            <button class="filter-chip" onclick="setFilter('Operations', this)">Operations</button>
-            <button class="filter-chip" onclick="setFilter('Fleet', this)">Fleet</button>
-            <button class="filter-chip" onclick="setFilter('Finance', this)">Finance</button>
-            <button class="filter-chip" onclick="setFilter('Safety', this)">Safety</button>
-            <button class="filter-chip" onclick="setFilter('Compliance', this)">Compliance</button>
-            <button class="filter-chip" onclick="setFilter('Account', this)">Account</button>
+            <button class="filter-chip active" data-cat="all" onclick="setFilter('all', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                All <span class="filter-chip-count" id="count-all">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Main" onclick="setFilter('Main', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Main <span class="filter-chip-count" id="count-Main">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Operations" onclick="setFilter('Operations', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Operations <span class="filter-chip-count" id="count-Operations">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Fleet" onclick="setFilter('Fleet', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
+                Fleet <span class="filter-chip-count" id="count-Fleet">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Finance" onclick="setFilter('Finance', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Finance <span class="filter-chip-count" id="count-Finance">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Safety" onclick="setFilter('Safety', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Safety <span class="filter-chip-count" id="count-Safety">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Compliance" onclick="setFilter('Compliance', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Compliance <span class="filter-chip-count" id="count-Compliance">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Account" onclick="setFilter('Account', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                Account <span class="filter-chip-count" id="count-Account">0</span>
+            </button>
         </div>
 
         <!-- Video Grid -->
@@ -1396,6 +1448,15 @@
             const cats = {};
             VIDEOS.forEach(function(v) { cats[v.category] = true; });
             document.getElementById('stat-categories').textContent = Object.keys(cats).length;
+            // Update filter chip counts
+            var allEl = document.getElementById('count-all');
+            if (allEl) allEl.textContent = VIDEOS.length;
+            var catCounts = {};
+            VIDEOS.forEach(function(v) { catCounts[v.category] = (catCounts[v.category] || 0) + 1; });
+            Object.keys(catCounts).forEach(function(cat) {
+                var el = document.getElementById('count-' + cat);
+                if (el) el.textContent = catCounts[cat];
+            });
         }
 
         updateStats();
