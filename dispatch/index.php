@@ -2740,7 +2740,7 @@
                 document.documentElement.style.setProperty('--accent-soft', color + '22');
                 applySetting('accent-color', color);
                 saveSettingsImmediate();
-                showAnnouncement('Accent color changed', { icon: 'palette', swatch: color });
+                showAnnouncement('Accent color changed', { icon: 'palette' });
             }
 
             function setFontSize(val) {
