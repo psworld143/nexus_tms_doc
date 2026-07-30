@@ -65,9 +65,10 @@
             position: fixed; top: 0; left: 0; right: 0; z-index: 200;
             display: flex; align-items: center; gap: 1rem;
             padding: 0.85rem 2rem;
-            background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
         }
         .brand { display: flex; align-items: center; gap: 0.75rem; }
         .brand-mark {
@@ -91,9 +92,11 @@
         .icon-btn {
             display: flex; align-items: center; justify-content: center;
             width: 40px; height: 40px;
-            border: 1px solid var(--border);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             border-radius: 12px;
-            background: var(--surface);
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.18s ease;
@@ -177,9 +180,11 @@
         .search-bar input {
             width: 100%;
             padding: 0.85rem 1rem 0.85rem 2.8rem;
-            border: 1px solid var(--border);
+            border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
             border-radius: 14px;
-            background: var(--surface-solid);
+            background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             color: var(--text);
             font-size: 0.9rem;
             font-family: inherit;
@@ -196,9 +201,11 @@
         }
         .filter-chip {
             padding: 0.45rem 1rem;
-            border: 1px solid var(--border);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             border-radius: 999px;
-            background: var(--surface);
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: var(--text-muted);
             font-size: 0.82rem;
             font-weight: 500;
@@ -220,8 +227,10 @@
             gap: 1.25rem;
         }
         .video-card {
-            background: var(--surface-solid);
-            border: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface-solid) 65%, transparent);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             border-radius: 18px;
             overflow: hidden;
             transition: all 0.25s ease;
@@ -332,8 +341,10 @@
         .modal-player {
             width: 100%;
             max-width: 900px;
-            background: var(--surface-solid);
-            border: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface-solid) 80%, transparent);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.7);
@@ -385,7 +396,10 @@
             padding: 2rem;
             color: var(--text-dim);
             font-size: 0.82rem;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            background: color-mix(in srgb, var(--surface-solid) 40%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             margin-top: 2rem;
         }
 
@@ -417,8 +431,10 @@
             width: 420px;
             max-width: 100vw;
             height: 100vh;
-            background: var(--surface-solid);
-            border-left: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface-solid) 75%, transparent);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             z-index: 1201;
             display: none;
             flex-direction: column;

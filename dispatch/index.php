@@ -78,9 +78,10 @@
                 align-items: center;
                 justify-content: space-between;
                 padding: 0 1.5rem 0 1.75rem;
-                background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
-                backdrop-filter: blur(14px);
-                border-bottom: 1px solid var(--border);
+                background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
             }
             .topbar-left { display: flex; align-items: center; gap: 1rem; }
             .menu-toggle {
@@ -131,8 +132,10 @@
             .icon-btn {
                 width: 40px; height: 40px;
                 display: grid; place-items: center;
-                border: 1px solid var(--border);
-                background: var(--surface);
+                border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+                background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 color: var(--text);
                 border-radius: 12px;
                 cursor: pointer;
@@ -396,9 +399,10 @@
                 overflow-y: auto;
                 overflow-x: visible;
                 padding: 1.25rem 0.85rem 2rem;
-                border-right: 1px solid var(--border);
-                background: color-mix(in srgb, var(--surface-solid) 55%, transparent);
-                backdrop-filter: blur(8px);
+                border-right: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+                background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+                backdrop-filter: blur(16px) saturate(150%);
+                -webkit-backdrop-filter: blur(16px) saturate(150%);
                 z-index: 10;
                 transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease;
             }
@@ -407,8 +411,10 @@
             .search-wrap input {
                 width: 100%;
                 padding: 0.7rem 2rem 0.7rem 2.4rem;
-                background: var(--surface);
-                border: 1px solid var(--border);
+                background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
                 border-radius: 12px;
                 color: var(--text);
                 font-size: 0.85rem;
@@ -455,9 +461,16 @@
                 transition: all 0.16s ease;
             }
             .nav-link svg { width: 19px; height: 19px; flex-shrink: 0; }
-            .nav-link:hover { background: var(--surface-2); color: var(--text); }
+            .nav-link:hover {
+                background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                color: var(--text);
+            }
             .nav-link.active {
-                background: var(--accent-soft);
+                background: color-mix(in srgb, var(--accent) 15%, transparent);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
                 color: var(--accent);
                 font-weight: 600;
             }
@@ -508,8 +521,10 @@
             .video-card--full { grid-column: 1 / -1; }
 
             .video-card {
-                background: color-mix(in srgb, var(--surface-solid) 70%, transparent);
-                border: 1px solid var(--border);
+                background: color-mix(in srgb, var(--surface-solid) 65%, transparent);
+                backdrop-filter: blur(16px) saturate(150%);
+                -webkit-backdrop-filter: blur(16px) saturate(150%);
+                border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
                 border-radius: var(--radius);
                 padding: 1rem;
                 box-shadow: var(--shadow);
@@ -546,8 +561,10 @@
             .documentation {
                 margin-top: 1.5rem;
                 padding: 1rem;
-                background: var(--surface-2);
-                border: 1px solid var(--border);
+                background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+                backdrop-filter: blur(16px) saturate(150%);
+                -webkit-backdrop-filter: blur(16px) saturate(150%);
+                border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
                 border-radius: var(--radius);
             }
             .doc-header {
@@ -555,7 +572,9 @@
                 align-items: flex-start;
                 gap: 1rem;
                 padding: 1rem;
-                background: color-mix(in srgb, var(--accent) 8%, transparent);
+                background: color-mix(in srgb, var(--accent) 12%, transparent);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
                 border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
                 border-radius: 14px;
                 margin-bottom: 1rem;
@@ -830,8 +849,10 @@
                 width: 420px;
                 max-width: 100vw;
                 height: 100vh;
-                background: var(--surface-solid);
-                border-left: 1px solid var(--border);
+                background: color-mix(in srgb, var(--surface-solid) 75%, transparent);
+                backdrop-filter: blur(24px) saturate(180%);
+                -webkit-backdrop-filter: blur(24px) saturate(180%);
+                border-left: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
                 z-index: 1201;
                 display: none;
                 flex-direction: column;
