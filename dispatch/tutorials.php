@@ -598,6 +598,152 @@
             .hero-stats { gap: 1.25rem; }
         }
 
+        /* ===== Loading Screen ===== */
+        .loader-screen {
+            position: fixed; inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            background:
+                radial-gradient(800px 400px at 20% 30%, rgba(16, 185, 129, 0.18), transparent 50%),
+                radial-gradient(700px 350px at 80% 70%, rgba(56, 189, 248, 0.14), transparent 50%),
+                radial-gradient(600px 300px at 50% 50%, rgba(139, 92, 246, 0.10), transparent 55%),
+                linear-gradient(135deg, #060d1a 0%, #0a1428 40%, #0d1b35 70%, #08101f 100%);
+            background-size: 200% 200%;
+            animation: loader-bg-shift 8s ease-in-out infinite;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        @keyframes loader-bg-shift {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+        }
+        .loader-screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 75%);
+        }
+        .loader-screen::after {
+            content: '';
+            position: absolute;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.12), transparent 70%);
+            filter: blur(40px);
+            animation: loader-orb 6s ease-in-out infinite;
+        }
+        @keyframes loader-orb {
+            0%, 100% { transform: translate(-200px, -100px) scale(1); }
+            33% { transform: translate(150px, 80px) scale(1.3); }
+            66% { transform: translate(50px, -150px) scale(0.9); }
+        }
+        .loader-screen.hidden { opacity: 0; visibility: hidden; }
+        .loader-screen > * { position: relative; z-index: 2; }
+        /* Light mode loader background */
+        html:not(.dark) .loader-screen {
+            background:
+                radial-gradient(800px 400px at 20% 30%, rgba(16, 185, 129, 0.22), transparent 50%),
+                radial-gradient(700px 350px at 80% 70%, rgba(56, 189, 248, 0.18), transparent 50%),
+                radial-gradient(600px 300px at 50% 50%, rgba(139, 92, 246, 0.12), transparent 55%),
+                linear-gradient(135deg, #e8eef7 0%, #f0f5fc 40%, #e2eaf5 70%, #eef2f8 100%);
+            background-size: 200% 200%;
+        }
+        html:not(.dark) .loader-screen::before {
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.06) 1px, transparent 1px);
+        }
+        html:not(.dark) .loader-screen::after {
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.18), transparent 70%);
+        }
+        .loader-logo-wrap {
+            position: relative;
+            width: 80px; height: 80px;
+            display: grid; place-items: center;
+        }
+        .loader-pulse-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0;
+            animation: loader-pulse-ring 2s ease-out infinite;
+        }
+        .loader-pulse-ring:nth-child(2) { animation-delay: 0.6s; }
+        @keyframes loader-pulse-ring {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        .loader-logo {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            color: #fff;
+            box-shadow: 0 6px 20px -6px rgba(16, 185, 129, 0.6);
+        }
+        .loader-logo svg { width: 28px; height: 28px; }
+        .loader-text {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+        .loader-subtext {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+        .loader-percent {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+            margin-top: -0.25rem;
+        }
+        .loader-bar {
+            width: 240px;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--border);
+            overflow: hidden;
+            margin-top: 0.25rem;
+            position: relative;
+        }
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent, transparent 11px, rgba(255,255,255,0.08) 11px, rgba(255,255,255,0.08) 12px);
+            pointer-events: none;
+        }
+        .loader-bar-fill {
+            height: 100%;
+            width: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, #34d399 50%, var(--accent) 100%);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 70%, transparent);
+            transform-origin: left center;
+            animation: loader-expand 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        @keyframes loader-expand {
+            0% { transform: scaleX(0); opacity: 0.3; }
+            40% { transform: scaleX(0.7); opacity: 1; }
+            60% { transform: scaleX(1); opacity: 1; }
+            100% { transform: scaleX(1); opacity: 0; }
+        }
+        .loader-dots { display: none; }
+
         /* ===== ACD_TMS Curved Vector Background ===== */
         .bg-canvas {
             position: fixed;
@@ -617,6 +763,23 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loader-screen" id="loader-screen">
+        <div class="loader-logo-wrap">
+            <div class="loader-pulse-ring"></div>
+            <div class="loader-pulse-ring"></div>
+            <div class="loader-logo">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <div class="loader-text">DISPATCH</div>
+            <div class="loader-subtext">Loading Tutorial Library...</div>
+        </div>
+        <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+        <div class="loader-percent" id="loader-percent">0%</div>
+    </div>
+
     <!-- ACD_TMS Curved Vector Background -->
     <div class="bg-canvas">
         <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-dark" style="display: none;">
@@ -1294,6 +1457,26 @@
 
         updateStats();
         renderVideos();
+
+        // Loading screen percent counter
+        (function() {
+            const percentEl = document.getElementById('loader-percent');
+            let pct = 0;
+            const interval = setInterval(function() {
+                pct += Math.random() * 15;
+                if (pct >= 100) { pct = 100; clearInterval(interval); }
+                if (percentEl) percentEl.textContent = Math.floor(pct) + '%';
+            }, 120);
+        })();
+
+        // Hide loading screen on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader-screen');
+                if (loader) loader.classList.add('hidden');
+                setTimeout(function() { if (loader) loader.style.display = 'none'; }, 600);
+            }, 800);
+        });
     </script>
 </body>
 </html>

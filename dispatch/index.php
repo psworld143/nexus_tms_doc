@@ -1197,74 +1197,127 @@
             justify-content: center;
             gap: 1.5rem;
             background:
-                radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
-                radial-gradient(900px 500px at -10% 10%, rgba(56, 189, 248, 0.08), transparent 55%),
-                linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
+                radial-gradient(800px 400px at 20% 30%, rgba(16, 185, 129, 0.18), transparent 50%),
+                radial-gradient(700px 350px at 80% 70%, rgba(56, 189, 248, 0.14), transparent 50%),
+                radial-gradient(600px 300px at 50% 50%, rgba(139, 92, 246, 0.10), transparent 55%),
+                linear-gradient(135deg, #060d1a 0%, #0a1428 40%, #0d1b35 70%, #08101f 100%);
+            background-size: 200% 200%;
+            animation: loader-bg-shift 8s ease-in-out infinite;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
+        @keyframes loader-bg-shift {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+        }
+        .loader-screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 75%);
+        }
+        .loader-screen::after {
+            content: '';
+            position: absolute;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.12), transparent 70%);
+            filter: blur(40px);
+            animation: loader-orb 6s ease-in-out infinite;
+        }
+        @keyframes loader-orb {
+            0%, 100% { transform: translate(-200px, -100px) scale(1); }
+            33% { transform: translate(150px, 80px) scale(1.3); }
+            66% { transform: translate(50px, -150px) scale(0.9); }
+        }
         .loader-screen.hidden { opacity: 0; visibility: hidden; }
+        .loader-screen > * { position: relative; z-index: 2; }
+        /* Light mode loader background */
+        html:not(.dark) .loader-screen {
+            background:
+                radial-gradient(800px 400px at 20% 30%, rgba(16, 185, 129, 0.22), transparent 50%),
+                radial-gradient(700px 350px at 80% 70%, rgba(56, 189, 248, 0.18), transparent 50%),
+                radial-gradient(600px 300px at 50% 50%, rgba(139, 92, 246, 0.12), transparent 55%),
+                linear-gradient(135deg, #e8eef7 0%, #f0f5fc 40%, #e2eaf5 70%, #eef2f8 100%);
+            background-size: 200% 200%;
+        }
+        html:not(.dark) .loader-screen::before {
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.06) 1px, transparent 1px);
+        }
+        html:not(.dark) .loader-screen::after {
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.18), transparent 70%);
+        }
+        .loader-logo-wrap {
+            position: relative;
+            width: 80px; height: 80px;
+            display: grid; place-items: center;
+        }
+        .loader-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--accent);
+            border-right-color: color-mix(in srgb, var(--accent) 40%, transparent);
+            animation: loader-ring-spin 1s linear infinite;
+        }
+        @keyframes loader-ring-spin {
+            to { transform: rotate(360deg); }
+        }
         .loader-logo {
-            width: 64px; height: 64px;
-            border-radius: 18px;
+            width: 52px; height: 52px;
+            border-radius: 14px;
             display: grid; place-items: center;
             background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
-            animation: loader-logo-pulse 1.4s ease-in-out infinite;
+            box-shadow: 0 6px 20px -6px rgba(16, 185, 129, 0.6);
         }
-        @keyframes loader-logo-pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 24px -8px rgba(16, 185, 129, 0.5), 0 0 16px rgba(16, 185, 129, 0.3); }
-            50% { transform: scale(1.1); box-shadow: 0 12px 32px -8px rgba(16, 185, 129, 0.7), 0 0 28px rgba(16, 185, 129, 0.5); }
-        }
-        .loader-logo svg { width: 34px; height: 34px; }
+        .loader-logo svg { width: 28px; height: 28px; }
         .loader-text {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.15em;
             color: var(--text);
+            text-transform: uppercase;
         }
         .loader-subtext {
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 400;
+            letter-spacing: 0.05em;
         }
         .loader-bar {
-            width: 220px;
-            height: 4px;
+            width: 240px;
+            height: 6px;
             border-radius: 999px;
             background: var(--border);
             overflow: hidden;
             margin-top: 0.25rem;
+            position: relative;
         }
         .loader-bar-fill {
             height: 100%;
-            width: 0%;
+            width: 30%;
             border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent), #34d399);
-            box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent);
-            animation: loader-fill 1.6s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, var(--accent), #34d399, var(--accent), transparent);
+            background-size: 200% 100%;
+            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 70%, transparent);
+            animation: loader-fill 1.4s ease-in-out infinite, loader-shimmer 2s linear infinite;
         }
         @keyframes loader-fill {
-            0% { width: 0%; margin-left: 0%; }
-            50% { width: 60%; margin-left: 20%; }
-            100% { width: 0%; margin-left: 100%; }
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(150%); }
+            100% { transform: translateX(400%); }
         }
-        .loader-dots {
-            display: flex;
-            gap: 6px;
-            margin-top: 0.25rem;
-        }
-        .loader-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            opacity: 0.3;
-            animation: loader-dot-bounce 1.2s ease-in-out infinite;
-        }
-        .loader-dot:nth-child(2) { animation-delay: 0.15s; }
-        .loader-dot:nth-child(3) { animation-delay: 0.3s; }
-        @keyframes loader-dot-bounce {
-            0%, 100% { opacity: 0.3; transform: translateY(0); }
-            50% { opacity: 1; transform: translateY(-6px); }
+        @keyframes loader-shimmer {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
         }
 
         </style>
@@ -1272,19 +1325,17 @@
     <body>
         <!-- Loading Screen -->
         <div class="loader-screen" id="loader-screen">
-            <div class="loader-logo">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <div class="loader-logo-wrap">
+                <div class="loader-ring"></div>
+                <div class="loader-logo">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </div>
             </div>
             <div style="text-align:center;">
                 <div class="loader-text">DISPATCH</div>
                 <div class="loader-subtext">Loading Tutorial Library...</div>
             </div>
             <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-            <div class="loader-dots">
-                <div class="loader-dot"></div>
-                <div class="loader-dot"></div>
-                <div class="loader-dot"></div>
-            </div>
         </div>
 
         <!-- ACD_TMS Curved Vector Background -->
