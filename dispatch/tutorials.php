@@ -353,6 +353,161 @@
         .video-info .video-meta span { display: flex; align-items: center; gap: 0.3rem; }
         .video-info .video-meta svg { width: 13px; height: 13px; }
 
+        /* ===== Watch History Section ===== */
+        .watch-history {
+            margin-bottom: 2rem;
+            padding: 1.25rem;
+            background: color-mix(in srgb, var(--surface-solid) 40%, transparent);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .watch-history-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .watch-history-header h3 {
+            font-size: 0.95rem; font-weight: 700;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .watch-history-header h3 svg { width: 18px; height: 18px; color: var(--accent); }
+        .clear-history {
+            font-size: 0.75rem; color: var(--text-muted);
+            background: none; border: none;
+            cursor: pointer; padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+        .clear-history:hover { background: var(--surface-2); color: var(--danger); }
+        .watch-history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        .history-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.6rem;
+            background: var(--surface);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .history-item:hover { background: var(--surface-2); transform: translateY(-1px); }
+        .history-thumb {
+            width: 60px; height: 34px;
+            border-radius: 6px;
+            background: #000;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .history-thumb video { width: 100%; height: 100%; object-fit: cover; }
+        .history-info { flex: 1; min-width: 0; }
+        .history-info h4 {
+            font-size: 0.8rem; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .history-info p {
+            font-size: 0.7rem; color: var(--text-muted);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .history-time {
+            font-size: 0.65rem; color: var(--text-dim);
+            flex-shrink: 0;
+        }
+
+        /* ===== Progress Bar ===== */
+        .progress-bar {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        /* ===== Favorite Button ===== */
+        .favorite-btn {
+            position: absolute;
+            top: 0.5rem; right: 0.5rem;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            display: grid; place-items: center;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 5;
+        }
+        .video-card:hover .favorite-btn { opacity: 1; }
+        .favorite-btn:hover { background: rgba(0, 0, 0, 0.8); transform: scale(1.1); }
+        .favorite-btn svg { width: 16px; height: 16px; transition: all 0.2s ease; }
+        .favorite-btn.active { opacity: 1; }
+        .favorite-btn.active svg { fill: #fbbf24; color: #fbbf24; }
+
+        /* ===== Modal Enhancements ===== */
+        .modal-actions {
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .modal-action-btn {
+            width: 36px; height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: grid; place-items: center;
+            transition: all 0.15s ease;
+        }
+        .modal-action-btn:hover { background: var(--surface-2); color: var(--text); }
+        .modal-action-btn.active { color: #fbbf24; }
+        .modal-action-btn.active svg { fill: #fbbf24; }
+        .modal-action-btn svg { width: 16px; height: 16px; }
+
+        /* ===== Related Videos ===== */
+        .related-videos {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .related-videos h4 {
+            font-size: 0.85rem; font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-muted);
+        }
+        .related-list {
+            display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .related-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .related-item:hover { background: var(--surface-2); }
+        .related-item-thumb {
+            width: 80px; height: 45px;
+            border-radius: 6px;
+            background: #000;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .related-item-thumb video { width: 100%; height: 100%; object-fit: cover; }
+        .related-item-info { flex: 1; min-width: 0; }
+        .related-item-info h5 {
+            font-size: 0.8rem; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .related-item-info p {
+            font-size: 0.7rem; color: var(--text-muted);
+        }
+
         /* ===== Modal Player ===== */
         .modal-overlay {
             position: fixed; inset: 0;
@@ -844,6 +999,18 @@
             <input type="text" id="search-input" placeholder="Search tutorials..." oninput="filterVideos()">
         </div>
 
+        <!-- Watch History -->
+        <div class="watch-history" id="watch-history" style="display:none;">
+            <div class="watch-history-header">
+                <h3>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Recently Watched
+                </h3>
+                <button class="clear-history" onclick="clearWatchHistory()">Clear History</button>
+            </div>
+            <div class="watch-history-grid" id="watch-history-grid"></div>
+        </div>
+
         <!-- Category Filters -->
         <div class="filters" id="filters">
             <button class="filter-chip active" data-cat="all" onclick="setFilter('all', this)">
@@ -899,10 +1066,22 @@
                     <h3 id="modal-title">Video Title</h3>
                     <p id="modal-desc">Description</p>
                 </div>
-                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+                <div class="modal-actions">
+                    <button class="modal-action-btn" id="modal-favorite-btn" onclick="toggleFavoriteFromModal()" title="Add to favorites">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                    </button>
+                    <button class="modal-action-btn" id="modal-pip-btn" onclick="togglePiP()" title="Picture-in-Picture">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    </button>
+                    <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+                </div>
             </div>
             <div class="modal-video-frame">
                 <video id="modal-video" controls autoplay playsinline></video>
+            </div>
+            <div class="related-videos" id="related-videos" style="display:none;">
+                <h4>Related Videos</h4>
+                <div class="related-list" id="related-list"></div>
             </div>
         </div>
     </div>
@@ -1095,8 +1274,204 @@
         const AVAILABLE_VIDEOS = ['videos/dashboard.mp4', 'videos/how-to-register-new-drivers.mp4'];
 
         let currentFilter = 'all';
+        let currentVideo = null;
+        let watchHistory = [];
+        let favorites = [];
+        let videoProgress = {};
 
         function isAvailable(src) { return AVAILABLE_VIDEOS.indexOf(src) !== -1; }
+
+        // Load user data from localStorage
+        function loadUserData() {
+            try {
+                watchHistory = JSON.parse(localStorage.getItem('dispatch-watch-history') || '[]');
+                favorites = JSON.parse(localStorage.getItem('dispatch-favorites') || '[]');
+                videoProgress = JSON.parse(localStorage.getItem('dispatch-video-progress') || '{}');
+            } catch (e) {
+                watchHistory = [];
+                favorites = [];
+                videoProgress = {};
+            }
+        }
+
+        // Save user data to localStorage
+        function saveUserData() {
+            try {
+                localStorage.setItem('dispatch-watch-history', JSON.stringify(watchHistory));
+                localStorage.setItem('dispatch-favorites', JSON.stringify(favorites));
+                localStorage.setItem('dispatch-video-progress', JSON.stringify(videoProgress));
+            } catch (e) {}
+        }
+
+        // Add video to watch history
+        function addToWatchHistory(video) {
+            const existingIndex = watchHistory.findIndex(function(v) { return v.id === video.id; });
+            if (existingIndex !== -1) {
+                watchHistory.splice(existingIndex, 1);
+            }
+            watchHistory.unshift({
+                id: video.id,
+                title: video.title,
+                desc: video.desc,
+                src: video.src,
+                category: video.category,
+                timestamp: Date.now()
+            });
+            if (watchHistory.length > 8) watchHistory.pop();
+            saveUserData();
+            renderWatchHistory();
+        }
+
+        // Clear watch history
+        function clearWatchHistory() {
+            watchHistory = [];
+            saveUserData();
+            renderWatchHistory();
+        }
+
+        // Render watch history section
+        function renderWatchHistory() {
+            const container = document.getElementById('watch-history');
+            const grid = document.getElementById('watch-history-grid');
+            if (!container || !grid) return;
+
+            if (watchHistory.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+            grid.innerHTML = '';
+
+            watchHistory.forEach(function(v) {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.onclick = function() {
+                    const video = VIDEOS.find(function(vid) { return vid.id === v.id; });
+                    if (video) openModal(video);
+                };
+
+                const timeAgo = getTimeAgo(v.timestamp);
+                const available = isAvailable(v.src);
+
+                item.innerHTML =
+                    '<div class="history-thumb">' +
+                        (available ? '<video muted preload="metadata"><source src="' + v.src + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
+                    '</div>' +
+                    '<div class="history-info">' +
+                        '<h4>' + v.title + '</h4>' +
+                        '<p>' + v.category + '</p>' +
+                    '</div>' +
+                    '<span class="history-time">' + timeAgo + '</span>';
+                grid.appendChild(item);
+            });
+        }
+
+        // Get time ago string
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            return Math.floor(seconds / 86400) + 'd ago';
+        }
+
+        // Toggle favorite
+        function toggleFavorite(videoId, event) {
+            if (event) event.stopPropagation();
+            const index = favorites.indexOf(videoId);
+            if (index === -1) {
+                favorites.push(videoId);
+                showAnnouncement('Added to favorites');
+            } else {
+                favorites.splice(index, 1);
+                showAnnouncement('Removed from favorites');
+            }
+            saveUserData();
+            renderVideos();
+            updateModalFavoriteButton();
+        }
+
+        // Toggle favorite from modal
+        function toggleFavoriteFromModal() {
+            if (currentVideo) {
+                toggleFavorite(currentVideo.id);
+            }
+        }
+
+        // Update modal favorite button state
+        function updateModalFavoriteButton() {
+            const btn = document.getElementById('modal-favorite-btn');
+            if (!btn || !currentVideo) return;
+            const isFav = favorites.indexOf(currentVideo.id) !== -1;
+            btn.classList.toggle('active', isFav);
+        }
+
+        // Update video progress
+        function updateVideoProgress(videoId, currentTime, duration) {
+            if (!duration || duration === 0) return;
+            const progress = (currentTime / duration) * 100;
+            videoProgress[videoId] = {
+                currentTime: currentTime,
+                duration: duration,
+                progress: progress,
+                timestamp: Date.now()
+            };
+            saveUserData();
+        }
+
+        // Toggle Picture-in-Picture
+        function togglePiP() {
+            const video = document.getElementById('modal-video');
+            if (!video) return;
+
+            if (document.pictureInPictureElement) {
+                document.exitPictureInPicture().catch(function(e) {});
+            } else if (video.readyState >= 2) {
+                video.requestPictureInPicture().catch(function(e) {
+                    showAnnouncement('Picture-in-Picture not supported');
+                });
+            }
+        }
+
+        // Render related videos
+        function renderRelatedVideos(currentVideo) {
+            const container = document.getElementById('related-videos');
+            const list = document.getElementById('related-list');
+            if (!container || !list || !currentVideo) return;
+
+            const related = VIDEOS.filter(function(v) {
+                return v.id !== currentVideo.id && v.category === currentVideo.category;
+            }).slice(0, 4);
+
+            if (related.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+            list.innerHTML = '';
+
+            related.forEach(function(v) {
+                const item = document.createElement('div');
+                item.className = 'related-item';
+                item.onclick = function() {
+                    openModal(v);
+                };
+
+                const available = isAvailable(v.src);
+
+                item.innerHTML =
+                    '<div class="related-item-thumb">' +
+                        (available ? '<video muted preload="metadata"><source src="' + v.src + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
+                    '</div>' +
+                    '<div class="related-item-info">' +
+                        '<h5>' + v.title + '</h5>' +
+                        '<p>' + v.category + '</p>' +
+                    '</div>';
+                list.appendChild(item);
+            });
+        }
 
         function renderVideos() {
             const grid = document.getElementById('video-grid');
@@ -1120,9 +1495,16 @@
 
             filtered.forEach(function(v) {
                 const available = isAvailable(v.src);
+                const isFav = favorites.indexOf(v.id) !== -1;
+                const progress = videoProgress[v.id] ? videoProgress[v.id].progress : 0;
+
                 const card = document.createElement('div');
                 card.className = 'video-card';
-                card.onclick = function() { openModal(v); };
+                card.onclick = function(e) {
+                    if (!e.target.closest('.favorite-btn')) {
+                        openModal(v);
+                    }
+                };
 
                 const thumb = available
                     ? '<video muted preload="metadata"><source src="' + v.src + '" type="video/mp4"></video>'
@@ -1132,8 +1514,12 @@
                     '<div class="video-thumb">' +
                         '<span class="category-badge">' + v.category + '</span>' +
                         thumb +
+                        '<button class="favorite-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + v.id + '\', event)" title="Add to favorites">' +
+                            '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>' +
+                        '</button>' +
                         '<div class="play-overlay"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>' +
                         (available ? '<span class="duration-badge">' + v.duration + '</span>' : '') +
+                        (progress > 0 ? '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' : '') +
                     '</div>' +
                     '<div class="video-info">' +
                         '<h3>' + v.title + '</h3>' +
@@ -1159,17 +1545,47 @@
         function filterVideos() { renderVideos(); }
 
         function openModal(v) {
+            currentVideo = v;
             const overlay = document.getElementById('modal-overlay');
             const video = document.getElementById('modal-video');
             document.getElementById('modal-title').textContent = v.title;
             document.getElementById('modal-desc').textContent = v.desc;
             const settings = loadSettings();
+
+            // Add to watch history
+            addToWatchHistory(v);
+
+            // Update favorite button
+            updateModalFavoriteButton();
+
+            // Render related videos
+            renderRelatedVideos(v);
+
             if (isAvailable(v.src)) {
                 video.innerHTML = '<source src="' + v.src + '" type="video/mp4">';
                 video.style.display = 'block';
                 video.load();
                 video.playbackRate = parseFloat(settings['playback-speed'] || '1');
-                video.play().catch(function() {});
+
+                // Restore progress if available
+                if (videoProgress[v.id] && videoProgress[v.id].currentTime > 0) {
+                    video.currentTime = videoProgress[v.id].currentTime;
+                }
+
+                // Track progress
+                video.onloadedmetadata = function() {
+                    if (settings['autoplay']) {
+                        video.play().catch(function() {});
+                    }
+                };
+
+                video.ontimeupdate = function() {
+                    updateVideoProgress(v.id, video.currentTime, video.duration);
+                };
+
+                if (settings['autoplay']) {
+                    video.play().catch(function() {});
+                }
             } else {
                 video.innerHTML = '';
                 video.style.display = 'none';
@@ -1210,6 +1626,28 @@
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
+            // Space to play/pause when modal is open
+            if (e.key === ' ' && document.getElementById('modal-overlay').classList.contains('open')) {
+                e.preventDefault();
+                const video = document.getElementById('modal-video');
+                if (video && video.style.display !== 'none') {
+                    if (video.paused) video.play(); else video.pause();
+                }
+            }
+            // Arrow keys for navigation
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                if (document.getElementById('modal-overlay').classList.contains('open') && currentVideo) {
+                    const currentIndex = VIDEOS.findIndex(function(v) { return v.id === currentVideo.id; });
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : VIDEOS.length - 1;
+                    } else {
+                        newIndex = currentIndex < VIDEOS.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    closeModal({ target: document.getElementById('modal-overlay') });
+                    setTimeout(function() { openModal(VIDEOS[newIndex]); }, 100);
+                }
+            }
         });
 
         function updateBackgroundSVG() {
@@ -1440,6 +1878,10 @@
 
         // Initialize settings on load
         initSettingsOnLoad();
+
+        // Load user data and render watch history
+        loadUserData();
+        renderWatchHistory();
 
         // Update stats and render
         function updateStats() {

@@ -654,6 +654,118 @@
             }
             .chip svg { width: 13px; height: 13px; }
 
+            /* ===== Video Card Enhancements ===== */
+            .video-card {
+                position: relative;
+            }
+            .video-card .favorite-btn {
+                position: absolute;
+                top: 0.75rem;
+                right: 0.75rem;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.6);
+                border: none;
+                color: #fff;
+                cursor: pointer;
+                display: grid;
+                place-items: center;
+                opacity: 0;
+                transition: all 0.2s ease;
+                z-index: 5;
+            }
+            .video-card:hover .favorite-btn { opacity: 1; }
+            .video-card .favorite-btn:hover {
+                background: rgba(0, 0, 0, 0.8);
+                transform: scale(1.1);
+            }
+            .video-card .favorite-btn svg { width: 16px; height: 16px; transition: all 0.2s ease; }
+            .video-card .favorite-btn.active { opacity: 1; }
+            .video-card .favorite-btn.active svg { fill: #fbbf24; color: #fbbf24; }
+
+            .video-card .progress-bar {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 10;
+            }
+            .video-card .progress-fill {
+                height: 100%;
+                background: var(--accent);
+                transition: width 0.3s ease;
+            }
+
+            /* ===== Documentation Enhancements ===== */
+            /* Reading Progress */
+            .reading-progress {
+                position: fixed;
+                top: 68px;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: var(--border);
+                z-index: 199;
+            }
+            .reading-progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, var(--accent), var(--accent-2));
+                width: 0%;
+                transition: width 0.1s ease;
+            }
+
+            /* Table of Contents */
+            .doc-toc {
+                position: sticky;
+                top: 85px;
+                background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 1rem;
+                max-height: calc(100vh - 120px);
+                overflow-y: auto;
+            }
+            .doc-toc h4 {
+                font-size: 0.85rem;
+                font-weight: 700;
+                margin: 0 0 0.75rem 0;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+            .toc-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .toc-item {
+                padding: 0.4rem 0.6rem;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                transition: all 0.15s ease;
+                margin-bottom: 0.25rem;
+            }
+            .toc-item:hover {
+                background: var(--surface-2);
+                color: var(--text);
+            }
+            .toc-item.active {
+                background: color-mix(in srgb, var(--accent) 15%, transparent);
+                color: var(--accent);
+                font-weight: 500;
+            }
+            .toc-item.active::before {
+                content: "→";
+                margin-right: 0.4rem;
+            }
+
             .sidebar-overlay { display: none; }
 
             /* ===== Search Assistant ===== */
@@ -1292,6 +1404,11 @@
         </style>
     </head>
     <body>
+        <!-- Reading Progress Bar -->
+        <div class="reading-progress">
+            <div class="reading-progress-bar" id="reading-progress-bar"></div>
+        </div>
+
         <!-- Loading Screen -->
         <div class="loader-screen" id="loader-screen">
             <div class="loader-logo">
@@ -1876,9 +1993,13 @@
 
                 <div id="section-dashboard" class="section-content">
                     <div class="video-grid video-grid--full">
-                        <div class="video-card video-card--full">
+                        <div class="video-card video-card--full" id="section-dashboard">
                             <div class="video-frame">
                                 <video controls playsinline><source src="videos/dashboard.mp4" type="video/mp4"></video>
+                                <button class="favorite-btn" id="video-fav-dashboard" onclick="toggleVideoFavorite('dashboard', event)" title="Add to favorites">
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                                </button>
+                                <div class="progress-bar"><div class="progress-fill" id="video-progress-dashboard" style="width:0%"></div></div>
                             </div>
                             <p class="video-desc">Learn how to navigate the dashboard, monitor compliance, access reports, and use the available system features.</p>
                             <div class="video-meta"><span class="chip">Beginner</span><span class="chip">Getting Started</span></div>
@@ -1886,7 +2007,7 @@
                     </div>
 
                 <!-- Dashboard Documentation -->
-    <div class="documentation">
+    <div class="documentation" id="doc-dashboard">
 
         <div class="doc-header">
             <div class="doc-icon">
@@ -2392,6 +2513,138 @@
                 'settings': ['Settings', 'Configure and customize the system'],
                 'login-signup-tutorial': ['Login & Sign Up', 'Account creation and secure login']
             };
+
+            // ===== Documentation & Video Features =====
+            let videoFavorites = [];
+            let videoProgress = {};
+
+            function loadVideoUserData() {
+                try {
+                    videoFavorites = JSON.parse(localStorage.getItem('dispatch-video-favorites') || '[]');
+                    videoProgress = JSON.parse(localStorage.getItem('dispatch-video-progress') || '{}');
+                } catch (e) {
+                    videoFavorites = [];
+                    videoProgress = {};
+                }
+                updateVideoFavoriteButtons();
+                updateVideoProgressBars();
+            }
+
+            function saveVideoUserData() {
+                try {
+                    localStorage.setItem('dispatch-video-favorites', JSON.stringify(videoFavorites));
+                    localStorage.setItem('dispatch-video-progress', JSON.stringify(videoProgress));
+                } catch (e) {}
+            }
+
+            function toggleVideoFavorite(sectionId, event) {
+                if (event) event.stopPropagation();
+                const index = videoFavorites.indexOf(sectionId);
+                if (index === -1) {
+                    videoFavorites.push(sectionId);
+                } else {
+                    videoFavorites.splice(index, 1);
+                }
+                saveVideoUserData();
+                updateVideoFavoriteButtons();
+            }
+
+            function updateVideoFavoriteButtons() {
+                videoFavorites.forEach(function(sectionId) {
+                    const btn = document.getElementById('video-fav-' + sectionId);
+                    if (btn) btn.classList.add('active');
+                });
+            }
+
+            function updateVideoProgressBars() {
+                Object.keys(videoProgress).forEach(function(sectionId) {
+                    const progressBar = document.getElementById('video-progress-' + sectionId);
+                    if (progressBar && videoProgress[sectionId].progress) {
+                        progressBar.style.width = videoProgress[sectionId].progress + '%';
+                    }
+                });
+            }
+
+            function trackVideoProgress(sectionId, video) {
+                video.ontimeupdate = function() {
+                    if (video.duration && video.duration > 0) {
+                        const progress = (video.currentTime / video.duration) * 100;
+                        videoProgress[sectionId] = {
+                            currentTime: video.currentTime,
+                            duration: video.duration,
+                            progress: progress,
+                            timestamp: Date.now()
+                        };
+                        saveVideoUserData();
+
+                        const progressBar = document.getElementById('video-progress-' + sectionId);
+                        if (progressBar) {
+                            progressBar.style.width = progress + '%';
+                        }
+                    }
+                };
+            }
+
+            // Initialize video features
+            document.addEventListener('DOMContentLoaded', function() {
+                loadVideoUserData();
+
+                // Add progress tracking to all videos
+                document.querySelectorAll('.video-frame video').forEach(function(video) {
+                    const card = video.closest('.video-card');
+                    if (card) {
+                        const sectionId = card.id.replace('section-', '');
+                        trackVideoProgress(sectionId, video);
+
+                        // Restore progress if available
+                        if (videoProgress[sectionId] && videoProgress[sectionId].currentTime > 0) {
+                            video.currentTime = videoProgress[sectionId].currentTime;
+                        }
+                    }
+                });
+            });
+
+            // Reading Progress
+            function updateReadingProgress() {
+                const progressBar = document.getElementById('reading-progress-bar');
+                if (!progressBar) return;
+
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = (scrollTop / docHeight) * 100;
+                progressBar.style.width = Math.min(progress, 100) + '%';
+            }
+
+            // Table of Contents
+            function generateTOC(docId) {
+                const doc = document.getElementById(docId);
+                if (!doc) return;
+
+                const headers = doc.querySelectorAll('.doc-body h4');
+                if (headers.length === 0) return;
+
+                const toc = document.createElement('div');
+                toc.className = 'doc-toc';
+                toc.innerHTML = '<h4>Contents</h4><ul class="toc-list"></ul>';
+                const tocList = toc.querySelector('.toc-list');
+
+                headers.forEach(function(header, index) {
+                    const li = document.createElement('li');
+                    li.className = 'toc-item';
+                    li.textContent = header.textContent;
+                    li.onclick = function() {
+                        header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        document.querySelectorAll('.toc-item').forEach(function(item) { item.classList.remove('active'); });
+                        li.classList.add('active');
+                    };
+                    tocList.appendChild(li);
+                });
+
+                const docHeader = doc.querySelector('.doc-header');
+                if (docHeader) {
+                    docHeader.parentNode.insertBefore(toc, docHeader.nextSibling);
+                }
+            }
 
             function refreshPage() { location.reload(); }
 
@@ -3207,6 +3460,12 @@
 
             // Hide loading screen on full page load
             window.addEventListener('load', function() {
+                // Initialize documentation features
+                generateTOC('doc-dashboard');
+
+                // Scroll event for reading progress
+                window.addEventListener('scroll', updateReadingProgress);
+
                 setTimeout(function() {
                     const loader = document.getElementById('loader-screen');
                     if (loader) loader.classList.add('hidden');
