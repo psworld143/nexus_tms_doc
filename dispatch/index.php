@@ -1,10 +1,17 @@
     <?php
+    // Security headers
+    header('X-Frame-Options: DENY');
+    header('X-Content-Type-Options: nosniff');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('X-XSS-Protection: 1; mode=block');
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self'; img-src 'self' data:; connect-src 'self';");
     ?>
     <!DOCTYPE html>
     <html lang="en" class="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-Frame-Options" content="DENY">
         <title>DISPATCH · Video Tutorial Library</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3994,6 +4001,17 @@
                 return Object.assign({}, SETTINGS_DEFAULTS, saved);
             }
 
+            // Escape HTML to prevent XSS
+            function escapeHtml(str) {
+                if (typeof str !== 'string') return '';
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
             // ===== Announcement Toast =====
             let announceTimer = null;
             function showAnnouncement(text, opts) {
@@ -4021,7 +4039,7 @@
                     iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
                 }
                 if (opts.swatch) {
-                    swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + opts.swatch + '"></span>';
+                    swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + escapeHtml(opts.swatch) + '"></span>';
                 } else {
                     swatchWrap.innerHTML = '';
                 }
@@ -4381,8 +4399,8 @@
                         };
                         const icon = SECTION_ICONS[r.id] || '';
                         item.innerHTML = icon +
-                            '<div><div class="s-title">' + r.title + '</div>' +
-                            '<div class="s-desc">' + r.desc + '</div></div>' +
+                            '<div><div class="s-title">' + escapeHtml(r.title) + '</div>' +
+                            '<div class="s-desc">' + escapeHtml(r.desc) + '</div></div>' +
                             '<span class="s-go">Open &rarr;</span>';
                         sugg.appendChild(item);
                     });

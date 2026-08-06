@@ -1,12 +1,20 @@
 <?php
 // Dispatch Video Tutorial Library — standalone page
 // Displays all dispatch tutorial videos in a clean grid layout
+
+// Security headers
+header('X-Frame-Options: DENY');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('X-XSS-Protection: 1; mode=block');
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self'; img-src 'self' data:; connect-src 'self';");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     <title>DISPATCH · Video Tutorial Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1281,12 +1289,33 @@
 
         function isAvailable(src) { return AVAILABLE_VIDEOS.indexOf(src) !== -1; }
 
+        // Escape HTML to prevent XSS
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         // Load user data from localStorage
         function loadUserData() {
             try {
                 watchHistory = JSON.parse(localStorage.getItem('dispatch-watch-history') || '[]');
                 favorites = JSON.parse(localStorage.getItem('dispatch-favorites') || '[]');
                 videoProgress = JSON.parse(localStorage.getItem('dispatch-video-progress') || '{}');
+                // Validate watchHistory structure
+                if (!Array.isArray(watchHistory)) watchHistory = [];
+                watchHistory = watchHistory.filter(function(v) {
+                    return v && typeof v.id === 'string' && typeof v.title === 'string';
+                });
+                // Validate favorites structure
+                if (!Array.isArray(favorites)) favorites = [];
+                favorites = favorites.filter(function(v) { return typeof v === 'string'; });
+                // Validate videoProgress structure
+                if (typeof videoProgress !== 'object' || videoProgress === null) videoProgress = {};
             } catch (e) {
                 watchHistory = [];
                 favorites = [];
@@ -1356,13 +1385,13 @@
 
                 item.innerHTML =
                     '<div class="history-thumb">' +
-                        (available ? '<video muted preload="metadata"><source src="' + v.src + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
+                        (available ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
                     '</div>' +
                     '<div class="history-info">' +
-                        '<h4>' + v.title + '</h4>' +
-                        '<p>' + v.category + '</p>' +
+                        '<h4>' + escapeHtml(v.title) + '</h4>' +
+                        '<p>' + escapeHtml(v.category) + '</p>' +
                     '</div>' +
-                    '<span class="history-time">' + timeAgo + '</span>';
+                    '<span class="history-time">' + escapeHtml(timeAgo) + '</span>';
                 grid.appendChild(item);
             });
         }
@@ -1463,11 +1492,11 @@
 
                 item.innerHTML =
                     '<div class="related-item-thumb">' +
-                        (available ? '<video muted preload="metadata"><source src="' + v.src + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
+                        (available ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
                     '</div>' +
                     '<div class="related-item-info">' +
-                        '<h5>' + v.title + '</h5>' +
-                        '<p>' + v.category + '</p>' +
+                        '<h5>' + escapeHtml(v.title) + '</h5>' +
+                        '<p>' + escapeHtml(v.category) + '</p>' +
                     '</div>';
                 list.appendChild(item);
             });
@@ -1507,25 +1536,25 @@
                 };
 
                 const thumb = available
-                    ? '<video muted preload="metadata"><source src="' + v.src + '" type="video/mp4"></video>'
+                    ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>'
                     : '<div class="video-empty"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg><span>Coming Soon</span></div>';
 
                 card.innerHTML =
                     '<div class="video-thumb">' +
-                        '<span class="category-badge">' + v.category + '</span>' +
+                        '<span class="category-badge">' + escapeHtml(v.category) + '</span>' +
                         thumb +
-                        '<button class="favorite-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + v.id + '\', event)" title="Add to favorites">' +
+                        '<button class="favorite-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + escapeHtml(v.id) + '\', event)" title="Add to favorites">' +
                             '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>' +
                         '</button>' +
                         '<div class="play-overlay"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>' +
-                        (available ? '<span class="duration-badge">' + v.duration + '</span>' : '') +
+                        (available ? '<span class="duration-badge">' + escapeHtml(v.duration) + '</span>' : '') +
                         (progress > 0 ? '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' : '') +
                     '</div>' +
                     '<div class="video-info">' +
-                        '<h3>' + v.title + '</h3>' +
-                        '<p>' + v.desc + '</p>' +
+                        '<h3>' + escapeHtml(v.title) + '</h3>' +
+                        '<p>' + escapeHtml(v.desc) + '</p>' +
                         '<div class="video-meta">' +
-                            '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>' + v.category + '</span>' +
+                            '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>' + escapeHtml(v.category) + '</span>' +
                             (available
                                 ? '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Available</span>'
                                 : '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Coming Soon</span>') +
@@ -1562,7 +1591,7 @@
             renderRelatedVideos(v);
 
             if (isAvailable(v.src)) {
-                video.innerHTML = '<source src="' + v.src + '" type="video/mp4">';
+                video.innerHTML = '<source src="' + escapeHtml(v.src) + '" type="video/mp4">';
                 video.style.display = 'block';
                 video.load();
                 video.playbackRate = parseFloat(settings['playback-speed'] || '1');
@@ -1680,7 +1709,7 @@
             }
             // Color swatch
             if (opts.swatch) {
-                swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + opts.swatch + '"></span>';
+                swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + escapeHtml(opts.swatch) + '"></span>';
             } else {
                 swatchWrap.innerHTML = '';
             }
