@@ -679,9 +679,65 @@ $site = 'DISPATCH';
             box-shadow: 0 0 0 1px var(--border);
             flex-shrink: 0;
         }
+
+        /* ACD_TMS curved vector background overlay */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bg-canvas svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
     </style>
 </head>
 <body>
+    <!-- ACD_TMS Curved Vector Background -->
+    <div class="bg-canvas">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-dark" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(16,185,129,0.07)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.05)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.10)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-light" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.08)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(14,163,113,0.08)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.14)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+    </div>
+
     <!-- Loading Screen -->
     <div class="loader-screen" id="loader-screen">
         <div class="loader-logo">
@@ -1009,6 +1065,14 @@ $site = 'DISPATCH';
             if (isLight) document.documentElement.classList.add('light');
             else document.documentElement.classList.remove('light');
             updateThemeIcons();
+            updateBackgroundSVG();
+        }
+        function updateBackgroundSVG() {
+            const isLight = document.documentElement.classList.contains('light');
+            const darkSVG = document.getElementById('bg-svg-dark');
+            const lightSVG = document.getElementById('bg-svg-light');
+            if (darkSVG) darkSVG.style.display = isLight ? 'none' : 'block';
+            if (lightSVG) lightSVG.style.display = isLight ? 'block' : 'none';
         }
         (function() {
             syncThemeFromStorage();
@@ -1033,6 +1097,7 @@ $site = 'DISPATCH';
                 localStorage.setItem('dispatch-settings', JSON.stringify(settings));
             } catch (e) {}
             updateThemeIcons();
+            updateBackgroundSVG();
         }
         // Sync theme across tabs (dispatch-theme or dispatch-settings)
         window.addEventListener('storage', function(e) {
@@ -1148,6 +1213,7 @@ $site = 'DISPATCH';
                     else document.documentElement.classList.add('light');
                     try { localStorage.setItem('dispatch-theme', value ? 'dark' : 'light'); } catch(e) {}
                     updateThemeIcons();
+                    updateBackgroundSVG();
                     showAnnouncement(value ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
                     break;
                 case 'reduce-motion':
@@ -1286,6 +1352,7 @@ $site = 'DISPATCH';
             if (s['high-contrast']) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
             if (s['dark-mode']) document.documentElement.classList.remove('light'); else document.documentElement.classList.add('light');
             updateThemeIcons();
+            updateBackgroundSVG();
         }
 
         // Initialize settings on load
