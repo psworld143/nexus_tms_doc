@@ -211,6 +211,20 @@
                 color: #fff;
             }
             .icon-btn.docs-btn svg { width: 20px; height: 20px; }
+            .icon-btn.video-docs-btn {
+                color: #f59e0b;
+                border-color: rgba(245, 158, 11, 0.35);
+                background: rgba(245, 158, 11, 0.10);
+                text-decoration: none;
+            }
+            .icon-btn.video-docs-btn:hover {
+                background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22));
+                border-color: rgba(245, 158, 11, 0.7);
+                box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+                transform: translateY(-2px) scale(1.05);
+                color: #fff;
+            }
+            .icon-btn.video-docs-btn svg { width: 20px; height: 20px; }
             .icon-btn.docs-btn::after {
                 content: attr(title);
                 position: absolute;
@@ -1546,7 +1560,10 @@
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </a>
                 <a href="docs.php" class="icon-btn docs-btn" title="Documentation">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0 -3.332.477-4.5 1.253"/></svg>
+                </a>
+                <a href="video_docs.php" class="icon-btn video-docs-btn" title="Video Docs">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </a>
                 <button class="icon-btn tour-btn" onclick="startTour()" title="Start Tour Guide" aria-label="Start tour guide">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 9m0 8V9m0 0L9 7"/></svg>
@@ -3753,9 +3770,30 @@
                 };
             }
 
+            // Add Docs links to each video card
+            function addVideoDocsLinks() {
+                document.querySelectorAll('.video-card').forEach(function(card) {
+                    const sectionId = card.id.replace('section-', '');
+                    if (!sectionId) return;
+                    const meta = card.querySelector('.video-meta');
+                    if (!meta || meta.querySelector('.video-docs-link')) return;
+                    const link = document.createElement('a');
+                    link.href = 'video_docs.php#doc-' + encodeURIComponent(sectionId);
+                    link.className = 'video-docs-link';
+                    link.textContent = 'Docs';
+                    link.title = 'Read documentation';
+                    link.target = '_blank';
+                    link.style.cssText = 'margin-left:auto;color:var(--accent);font-weight:600;font-size:0.78rem;text-decoration:none;padding:0.22rem 0.55rem;border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);border-radius:6px;transition:all 0.15s ease;cursor:pointer;';
+                    link.addEventListener('mouseenter', function() { link.style.background = 'var(--accent-soft)'; });
+                    link.addEventListener('mouseleave', function() { link.style.background = 'transparent'; });
+                    meta.appendChild(link);
+                });
+            }
+
             // Initialize video features
             document.addEventListener('DOMContentLoaded', function() {
                 loadVideoUserData();
+                addVideoDocsLinks();
 
                 // Add progress tracking to all videos
                 document.querySelectorAll('.video-frame video').forEach(function(video) {

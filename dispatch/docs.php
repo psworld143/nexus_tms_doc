@@ -187,18 +187,26 @@ $totalAvailable = count($availableVideos);
             display: flex; align-items: center; gap: 0.75rem;
             text-decoration: none; color: inherit; flex-shrink: 0;
         }
+        .brand:hover .brand-mark { transform: rotate(-6deg) scale(1.08); }
         .brand-mark {
-            width: 40px; height: 40px;
-            border-radius: 12px;
-            background: var(--accent);
+            width: 42px; height: 42px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
             display: grid; place-items: center;
             color: #fff;
-            box-shadow: 0 8px 24px -8px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 0 1px rgba(255,255,255,0.1) inset;
             flex-shrink: 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: brand-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes brand-glow {
+            from { box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 1px rgba(255,255,255,0.08) inset; }
+            to { box-shadow: 0 10px 28px -6px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 0 1px rgba(255,255,255,0.14) inset; }
         }
         .brand-mark svg { width: 22px; height: 22px; }
-        .brand-text h1 { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.02em; }
-        .brand-text p { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-top: -0.15rem; }
+        .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .brand-text h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: 0.01em; }
+        .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; margin-top: -0.15rem; }
 
         .header-search {
             position: absolute;
