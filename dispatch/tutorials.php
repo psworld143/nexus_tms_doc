@@ -237,11 +237,26 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
         .stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
 
+        /* ===== Page Hero ===== */
+        .page-hero {
+            text-align: center;
+            padding: 2rem 0 0.5rem;
+        }
+        .page-hero h1 {
+            font-size: 2.25rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--text), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.6rem;
+        }
+        .page-hero p { color: var(--text-muted); font-size: 0.95rem; max-width: 520px; margin: 0 auto 1.25rem; line-height: 1.5; }
+
         /* ===== Search ===== */
         .search-bar {
             position: relative;
-            max-width: 500px;
-            margin: 1.5rem auto 2rem;
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
         }
         .search-bar svg {
             position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
@@ -329,22 +344,31 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
             border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            border-top: 2px solid transparent;
             border-radius: 18px;
             overflow: hidden;
-            transition: all 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+        .video-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.25s ease;
         }
         .video-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+            border-top-color: var(--accent);
+            transform: translateY(-6px) scale(1.01);
             box-shadow:
-                0 16px 32px -12px rgba(0, 0, 0, 0.4),
-                0 0 0 1px var(--accent),
-                0 0 20px color-mix(in srgb, var(--accent) 40%, transparent),
-                0 0 40px color-mix(in srgb, var(--accent) 20%, transparent);
+                0 24px 45px -16px rgba(0, 0, 0, 0.45),
+                0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
         }
+        .video-card:hover::before { opacity: 1; }
         .video-thumb {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -425,13 +449,14 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         /* ===== Watch History Section ===== */
         .watch-history {
-            margin-bottom: 2rem;
-            padding: 1.25rem;
-            background: color-mix(in srgb, var(--surface-solid) 40%, transparent);
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
             border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.35);
         }
         .watch-history-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -500,26 +525,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             transition: width 0.3s ease;
         }
 
-        /* ===== Favorite Button ===== */
-        .favorite-btn {
-            position: absolute;
-            top: 0.5rem; right: 0.5rem;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            display: grid; place-items: center;
-            opacity: 0;
-            transition: all 0.2s ease;
-            z-index: 5;
-        }
-        .video-card:hover .favorite-btn { opacity: 1; }
-        .favorite-btn:hover { background: rgba(0, 0, 0, 0.8); transform: scale(1.1); }
-        .favorite-btn svg { width: 16px; height: 16px; transition: all 0.2s ease; }
-        .favorite-btn.active { opacity: 1; }
-        .favorite-btn.active svg { fill: #fbbf24; color: #fbbf24; }
+        .favorite-btn, #modal-favorite-btn { display: none !important; }
 
         /* ===== Modal Enhancements ===== */
         .modal-actions {
@@ -593,14 +599,17 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .modal-overlay.open { display: flex; }
         .modal-player {
             width: 100%;
-            max-width: 900px;
-            background: color-mix(in srgb, var(--surface-solid) 80%, transparent);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            max-width: 960px;
+            background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
             border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-            border-radius: 20px;
+            border-top: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.7);
+            box-shadow:
+                0 32px 70px -16px rgba(0, 0, 0, 0.65),
+                0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent);
             animation: modalSlide 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         @keyframes modalSlide { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -634,8 +643,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         /* ===== No Results ===== */
         .no-results {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem 1.5rem;
             color: var(--text-dim);
+            background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            border-radius: 20px;
+            backdrop-filter: blur(16px);
             display: none;
         }
         .no-results.show { display: block; }
@@ -1064,6 +1077,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     <div class="stat-label">Categories</div>
                 </div>
             </div>
+        </div>
+
+        <!-- Page Hero -->
+        <div class="page-hero">
+            <h1>Video Tutorial Library</h1>
+            <p>Master the DISPATCH system with focused tutorials for every module.</p>
         </div>
 
         <!-- Search -->
@@ -1997,6 +2016,15 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         updateStats();
         renderVideos();
+
+        // Open modal from hash if present
+        (function openFromHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const video = VIDEOS.find(function(v) { return v.id === hash; });
+                if (video) setTimeout(function() { openModal(video); }, 900);
+            }
+        })();
 
         // Hide loading screen on page load
         window.addEventListener('load', function() {

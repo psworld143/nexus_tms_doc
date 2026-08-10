@@ -238,6 +238,26 @@ $totalAvailable = count($availableVideos);
         }
         .icon-btn:hover { background: var(--surface-2); border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
         .icon-btn svg { width: 20px; height: 20px; }
+        .icon-btn.theme-btn {
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, 0.35);
+            background: rgba(167, 139, 250, 0.10);
+        }
+        .icon-btn.theme-btn:hover {
+            background: rgba(167, 139, 250, 0.20);
+            border-color: rgba(167, 139, 250, 0.6);
+            box-shadow: 0 0 14px rgba(167, 139, 250, 0.35);
+        }
+        html:not(.dark) .icon-btn.theme-btn {
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.35);
+            background: rgba(245, 158, 11, 0.10);
+        }
+        html:not(.dark) .icon-btn.theme-btn:hover {
+            background: rgba(245, 158, 11, 0.20);
+            border-color: rgba(245, 158, 11, 0.6);
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+        }
         .icon-btn[title] { position: relative; }
         .icon-btn[title]::after {
             content: attr(title);
@@ -304,82 +324,68 @@ $totalAvailable = count($availableVideos);
 
         /* Layout */
         .layout {
-            max-width: 1240px;
-            margin: 0 auto;
             padding: 0 1.5rem;
             display: grid;
-            grid-template-columns: 250px minmax(0, 1fr);
+            grid-template-columns: 288px minmax(0, 1fr);
             gap: 2.5rem;
             align-items: start;
         }
 
-        /* Sidebar — unique floating glass navigation */
+        /* Sidebar — matching index.php navigation */
         .sidebar {
             position: sticky;
-            top: calc(var(--header-h) + 1.5rem);
-            max-height: calc(100vh - var(--header-h) - 3rem);
+            top: var(--header-h);
+            align-self: start;
+            width: 288px;
+            height: calc(100vh - var(--header-h));
             overflow-y: auto;
-            padding: 1.5rem 1.25rem;
-            background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
-            backdrop-filter: blur(22px) saturate(160%);
-            -webkit-backdrop-filter: blur(22px) saturate(160%);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            box-shadow: 0 24px 50px -20px rgba(0,0,0,0.45);
+            overflow-x: visible;
+            padding: 1.25rem 0.85rem 2rem;
+            border-right: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            z-index: 10;
             scrollbar-width: thin;
         }
-        .sidebar-group { margin-bottom: 1.75rem; }
-        .sidebar-group:last-child { margin-bottom: 0; }
+        .sidebar-group { margin-bottom: 0; }
         .sidebar-label {
-            font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em;
-            text-transform: uppercase; color: var(--accent);
-            margin-bottom: 0.75rem;
-            padding: 0.35rem 0.65rem;
-            display: flex; align-items: center; gap: 0.5rem;
+            padding: 1rem 1rem 0.4rem;
+            font-size: 0.68rem; font-weight: 800; letter-spacing: 0.09em;
+            text-transform: uppercase; color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
         }
-        .sidebar-label::before {
-            content: '';
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
-        }
-        .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+        .sidebar-nav { list-style: none; margin: 0; padding: 0; }
+        .sidebar-nav li { margin: 2px 0; }
         .sidebar-nav a {
-            display: flex; align-items: center; gap: 0.75rem;
-            padding: 0.7rem 0.85rem;
-            border-radius: 14px;
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.62rem 0.85rem;
+            border-radius: 12px;
             text-decoration: none;
             color: var(--text-muted);
             font-size: 0.88rem; font-weight: 500;
-            border-left: none;
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
             position: relative;
-            overflow: hidden;
+            transition: all 0.16s ease;
         }
-        .sidebar-nav a::after {
-            content: '';
-            position: absolute; left: 0; top: 0; bottom: 0;
-            width: 3px; background: var(--accent); border-radius: 14px 0 0 14px;
-            transform: scaleY(0);
-            opacity: 0;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-        .sidebar-nav a svg { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.75; color: var(--text-muted); }
+        .sidebar-nav a svg { width: 19px; height: 19px; flex-shrink: 0; }
         .sidebar-nav a:hover {
-            background: var(--surface);
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             color: var(--text);
-            transform: translateX(4px);
         }
-        .sidebar-nav a:hover svg { color: var(--text); opacity: 1; }
         .sidebar-nav a.active {
-            background: var(--accent-soft);
+            background: color-mix(in srgb, var(--accent) 15%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             color: var(--accent);
-            font-weight: 700;
-            box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+            font-weight: 600;
         }
-        .sidebar-nav a.active svg { opacity: 1; color: var(--accent); }
-        .sidebar-nav a.active::after { transform: scaleY(1); opacity: 1; }
+        .sidebar-nav a.active::before {
+            content: ''; position: absolute; left: -0.85rem; top: 20%; bottom: 20%;
+            width: 3px; border-radius: 999px; background: var(--accent);
+        }
         .sidebar-overlay { display: none; }
 
         /* Content column */
@@ -612,6 +618,7 @@ $totalAvailable = count($availableVideos);
             border-color: var(--accent);
             transform: translateY(-2px);
         }
+        .video-item[data-status="available"] { cursor: pointer; }
         .video-item h5 {
             font-size: 0.98rem;
             font-weight: 600;
@@ -664,6 +671,7 @@ $totalAvailable = count($availableVideos);
         .back-to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
         .back-to-top:hover { border-color: var(--accent); color: var(--accent); }
         .back-to-top svg { width: 20px; height: 20px; }
+
 
         /* Search modal (command palette) */
         .search-overlay {
@@ -729,10 +737,10 @@ $totalAvailable = count($availableVideos);
             .header-search { max-width: 44px; padding: 0.5rem; justify-content: center; }
             .sidebar {
                 position: fixed; top: 0; left: 0; height: 100vh; max-height: none;
-                width: 300px; background: var(--surface-solid);
+                width: 280px; background: var(--surface-solid);
                 border-right: 1px solid var(--border-strong);
-                border-radius: 0 24px 24px 0;
-                padding: 1.5rem; z-index: 260;
+                border-radius: 0;
+                padding: 1.25rem 0.85rem 2rem; z-index: 260;
                 transform: translateX(-100%);
                 transition: transform 0.25s ease;
             }
@@ -748,6 +756,29 @@ $totalAvailable = count($availableVideos);
             .doc-hero h2 { font-size: 1.5rem; }
             .doc-section { padding: 1.25rem; }
         }
+        .doc-floater {
+            position: fixed;
+            left: 0; top: 0;
+            width: 300px;
+            padding: 1.1rem;
+            background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+            border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px -16px rgba(0,0,0,0.45);
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            z-index: 300;
+            display: none;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        .doc-floater.show { display: block; opacity: 1; transform: translateY(0); }
+        .doc-floater h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--text); line-height: 1.25; }
+        .doc-floater p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; margin: 0; max-height: 8.5em; overflow: hidden; }
+        @media (max-width: 900px) { .doc-floater { display: none !important; } }
+
     </style>
 </head>
 <body>
@@ -783,8 +814,9 @@ $totalAvailable = count($availableVideos);
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 <span class="back-label">Back</span>
             </a>
-            <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
+                <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             </button>
         </div>
     </header>
@@ -797,7 +829,6 @@ $totalAvailable = count($availableVideos);
                 <div class="sidebar-label">Getting Started</div>
                 <ul class="sidebar-nav" id="doc-nav">
                     <li><a href="#overview" data-section="overview"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Overview</a></li>
-                    <li><a href="#security" data-section="security"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Security Measures</a></li>
                 </ul>
             </div>
             <div class="sidebar-group">
@@ -818,7 +849,7 @@ $totalAvailable = count($availableVideos);
         <main class="content" id="main-content">
             <section class="doc-hero">
                 <h2>System Documentation</h2>
-                <p>Reference guide for the DISPATCH video tutorial library, UI/UX patterns, and security measures.</p>
+                <p>Reference guide for the DISPATCH video tutorial library.</p>
                 <div class="hero-stats">
                     <div class="hero-stat"><strong><?php echo $totalVideos; ?></strong><span>Total tutorials</span></div>
                     <div class="hero-stat"><strong><?php echo $totalAvailable; ?></strong><span>Available now</span></div>
@@ -828,7 +859,6 @@ $totalAvailable = count($availableVideos);
 
             <nav class="doc-nav-mobile" id="doc-nav-mobile" aria-label="Quick jump">
                 <a href="#overview" data-section="overview" class="active">Overview</a>
-                <a href="#security" data-section="security">Security</a>
                 <a href="#videos" data-section="videos">Videos</a>
                 <a href="#all-videos" data-section="all-videos">Library</a>
                 <a href="#settings" data-section="settings">Settings</a>
@@ -838,7 +868,7 @@ $totalAvailable = count($availableVideos);
                 <a href="#all-videos" class="doc-card">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <h3>Video Tutorials</h3>
-                    <p>Browse, search, and watch tutorials with per-video progress, watch history, and favorites.</p>
+                    <p>Browse, search, and watch tutorials with per-video progress and watch history.</p>
                 </a>
                 <a href="#settings" class="doc-card">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -853,37 +883,18 @@ $totalAvailable = count($availableVideos);
                 <p>Pages in the system share a unified visual identity: dark glassmorphism UI, smooth transitions, Poppins typography, and a consistent emerald accent color. Themes and settings are synchronized across pages via <code>dispatch-settings</code> in localStorage.</p>
             </section>
 
-            <section class="doc-section" id="security">
-                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Security Measures</h3>
-                <p>Recent hardening includes both server-side headers and client-side sanitization to prevent common web attacks.</p>
-                <ul>
-                    <li><strong>PHP security headers</strong> on <code>tutorials.php</code> and <code>index.php</code>: X-Frame-Options, X-Content-Type-Options, Referrer-Policy, X-XSS-Protection, and Content-Security-Policy.</li>
-                    <li><strong>.htaccess rules</strong> in the document root disable directory listing, force HTTPS, block sensitive extensions, and prevent hotlinking of video files.</li>
-                    <li><strong>HTML escaping</strong>: <code>escapeHtml()</code> is used before rendering any values into <code>innerHTML</code> to prevent stored and reflected XSS.</li>
-                    <li><strong>localStorage validation</strong>: User data parsed from localStorage is filtered and validated to reject malformed structures.</li>
-                </ul>
-                <div class="code-block-wrap">
-                    <div class="code-block" id="code-sample">// Example: escaping before innerHTML
-card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
-                    <button class="copy-btn" id="copy-btn" title="Copy to clipboard" aria-label="Copy code">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                    </button>
-                </div>
-            </section>
-
             <section class="doc-section" id="videos">
                 <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Video Module</h3>
                 <p>The tutorial library renders a hardcoded list of training videos in <code>VIDEOS</code> JavaScript array. Each video has an <code>id</code>, <code>title</code>, <code>desc</code>, <code>category</code>, <code>src</code>, and <code>duration</code>.</p>
                 <ul>
                     <li><strong>Availability</strong>: Only files listed in <code>AVAILABLE_VIDEOS</code> have a playable video. Others show a "Coming Soon" placeholder.</li>
                     <li><strong>Progress tracking</strong>: Watch progress is saved to localStorage by <code>video-id</code> and restored when the modal opens.</li>
-                    <li><strong>Watch history &amp; favorites</strong>: Stored locally in the browser, with a shared settings system.</li>
+                    <li><strong>Watch history</strong>: Stored locally in the browser, with a shared settings system.</li>
                 </ul>
             </section>
 
             <section class="doc-section" id="settings">
                 <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings &amp; Accessibility</h3>
-                <p>Settings are stored under the <code>dispatch-settings</code> localStorage key and shared across <code>index.php</code> and <code>tutorials.php</code>.</p>
                 <ul>
                     <li><strong>Dark mode</strong>: toggles <code>html.dark</code> class and persists as <code>dispatch-theme</code>.</li>
                     <li><strong>Font size</strong>: base 15px, adjustable via range input. Large-text mode sets 18px.</li>
@@ -923,15 +934,14 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
                         $isAvailable = in_array($v['src'], $availableVideos);
                         $statusClass = $isAvailable ? 'available' : 'coming';
                         $statusText = $isAvailable ? 'Available' : 'Coming Soon';
-                        $watchLink = $isAvailable ? '<a class="watch-link" href="tutorials.php#' . htmlspecialchars($v['id']) . '">Watch video &rarr;</a>' : '';
-                        echo '<div class="video-item" data-status="' . $statusClass . '" data-title="' . htmlspecialchars(strtolower($v['title'] . ' ' . $v['desc'])) . '">';
+                        $onclick = $isAvailable ? ' onclick="location.href=\'tutorials.php#' . htmlspecialchars($v['id']) . '\'"' : '';
+                        echo '<div class="video-item" data-status="' . $statusClass . '" data-title="' . htmlspecialchars(strtolower($v['title'] . ' ' . $v['desc'])) . '"' . $onclick . '>';
                         echo '<h5>' . htmlspecialchars($v['title']) . '</h5>';
                         echo '<p>' . htmlspecialchars($v['desc']) . '</p>';
                         echo '<div class="video-meta-row">';
                         echo '<span class="video-status ' . $statusClass . '">' . $statusText . '</span>';
                         echo '<span class="video-duration">' . htmlspecialchars($v['duration']) . '</span>';
                         echo '</div>';
-                        echo $watchLink;
                         echo '</div>';
                     }
                     echo '</div></div>';
@@ -941,7 +951,7 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
             </section>
 
             <footer class="footer">
-                <p>&copy; DISPATCH Training Portal. Built with the same UI/UX as tutorials.php and index.php.</p>
+                <p>&copy; DISPATCH Training Portal.</p>
             </footer>
         </main>
     </div>
@@ -970,7 +980,6 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
         // ---- Data passed from PHP for client-side search ----
         const SECTIONS = [
             { id: 'overview', title: 'Overview', sub: 'DISPATCH system, tutorials.php, index.php, shared settings' },
-            { id: 'security', title: 'Security Measures', sub: 'Headers, .htaccess, HTML escaping, localStorage validation' },
             { id: 'videos', title: 'Video Module', sub: 'VIDEOS array, availability, progress tracking' },
             { id: 'settings', title: 'Settings & Accessibility', sub: 'Theme, font size, playback speed, reduce motion' },
             { id: 'all-videos', title: 'Video Library', sub: '<?php echo $totalVideos; ?> tutorials across every category' }
@@ -1018,6 +1027,13 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
             document.body.classList.toggle('reduce-motion', !!s['reduce-motion']);
             document.body.classList.toggle('high-contrast', !!s['high-contrast']);
             document.documentElement.classList.toggle('dark', !!s['dark-mode']);
+            const moonIcon = document.querySelector('.theme-btn .moon-icon');
+            const sunIcon = document.querySelector('.theme-btn .sun-icon');
+            if (moonIcon && sunIcon) {
+                const isDark = document.documentElement.classList.contains('dark');
+                moonIcon.style.display = isDark ? 'block' : 'none';
+                sunIcon.style.display = isDark ? 'none' : 'block';
+            }
         }
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
@@ -1029,6 +1045,13 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
                 s['dark-mode'] = isDark;
                 localStorage.setItem('dispatch-settings', JSON.stringify(s));
             } catch (e) {}
+            const moonIcon = document.querySelector('.theme-btn .moon-icon');
+            const sunIcon = document.querySelector('.theme-btn .sun-icon');
+            if (moonIcon && sunIcon) {
+                moonIcon.style.display = isDark ? 'block' : 'none';
+                sunIcon.style.display = isDark ? 'none' : 'block';
+            }
+            window.dispatchEvent(new StorageEvent('storage', { key: 'dispatch-settings' }));
         }
         (function initSettings() {
             applySharedSettings();
@@ -1062,6 +1085,7 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
                 window.scrollTo({ top: 0, behavior: document.body.classList.contains('reduce-motion') ? 'auto' : 'smooth' });
             });
         })();
+
 
         // ---- Mobile sidebar drawer ----
         (function initDrawer() {
@@ -1284,6 +1308,49 @@ card.innerHTML = '&lt;h3&gt;' + escapeHtml(v.title) + '&lt;/h3&gt;';</div>
                 if (loader) loader.classList.add('hidden');
             }, 350);
         });
+        (function initDocFloater() {
+            const floater = document.getElementById('doc-floater');
+            const titleEl = document.getElementById('doc-floater-title');
+            const descEl = document.getElementById('doc-floater-desc');
+            if (!floater) return;
+            let hideTimer;
+            function extractSectionId(link) {
+                return link.dataset.section || (link.getAttribute('href') || '').replace('#','');
+            }
+            function showFloater(link) {
+                const sectionId = extractSectionId(link);
+                if (!sectionId) return;
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+                const heading = section.querySelector('h3') || section.querySelector('h2') || section.querySelector('h1');
+                const paragraph = section.querySelector('p');
+                titleEl.textContent = heading ? heading.textContent.trim() : link.textContent.trim();
+                if (paragraph) {
+                    const text = paragraph.textContent.trim().replace(/\s+/g, ' ');
+                    descEl.textContent = text.length > 180 ? text.slice(0, 180) + '...' : text;
+                } else {
+                    descEl.textContent = '';
+                }
+                const rect = link.getBoundingClientRect();
+                const w = 300;
+                let left = rect.right + 14;
+                if (left + w > window.innerWidth - 16) left = Math.max(16, rect.left - w - 14);
+                floater.style.left = left + 'px';
+                floater.style.top = Math.max(16, rect.top + 4) + 'px';
+                floater.classList.add('show');
+            }
+            function hideFloater() { floater.classList.remove('show'); }
+            document.querySelectorAll('.sidebar-nav a, #doc-nav-mobile a').forEach(function(link) {
+                link.addEventListener('mouseenter', function() { clearTimeout(hideTimer); showFloater(this); });
+                link.addEventListener('mouseleave', function() { hideTimer = setTimeout(hideFloater, 160); });
+            });
+            floater.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+            floater.addEventListener('mouseleave', function() { hideTimer = setTimeout(hideFloater, 160); });
+        })();
     </script>
+    <div class="doc-floater" id="doc-floater" aria-hidden="true">
+        <h4 id="doc-floater-title"></h4>
+        <p id="doc-floater-desc"></p>
+    </div>
 </body>
 </html>

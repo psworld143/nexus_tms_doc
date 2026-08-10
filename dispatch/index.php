@@ -711,31 +711,7 @@
             .video-card {
                 position: relative;
             }
-            .video-card .favorite-btn {
-                position: absolute;
-                top: 0.75rem;
-                right: 0.75rem;
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                background: rgba(0, 0, 0, 0.6);
-                border: none;
-                color: #fff;
-                cursor: pointer;
-                display: grid;
-                place-items: center;
-                opacity: 0;
-                transition: all 0.2s ease;
-                z-index: 5;
-            }
-            .video-card:hover .favorite-btn { opacity: 1; }
-            .video-card .favorite-btn:hover {
-                background: rgba(0, 0, 0, 0.8);
-                transform: scale(1.1);
-            }
-            .video-card .favorite-btn svg { width: 16px; height: 16px; transition: all 0.2s ease; }
-            .video-card .favorite-btn.active { opacity: 1; }
-            .video-card .favorite-btn.active svg { fill: #fbbf24; color: #fbbf24; }
+            .video-card .favorite-btn { display: none !important; }
 
             .video-card .progress-bar {
                 position: absolute;
@@ -1465,6 +1441,29 @@
             0% { transform: translateX(-100%); }
             100% { transform: translateX(250%); }
         }
+
+        .doc-floater {
+            position: fixed;
+            left: 0; top: 0;
+            width: 300px;
+            padding: 1.1rem;
+            background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+            border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px -16px rgba(0,0,0,0.45);
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            z-index: 300;
+            display: none;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        .doc-floater.show { display: block; opacity: 1; transform: translateY(0); }
+        .doc-floater h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--text); line-height: 1.25; }
+        .doc-floater p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; margin: 0; max-height: 8.5em; overflow: hidden; }
+        @media (max-width: 900px) { .doc-floater { display: none !important; } }
 
         </style>
     </head>
@@ -4527,6 +4526,8 @@
                 saveSettingsImmediate();
                 updateBackgroundSVG();
                 showAnnouncement(isDark ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
+                // Notify other tabs and the current page to resync, matching docs.php behavior
+                window.dispatchEvent(new StorageEvent('storage', { key: 'dispatch-settings' }));
             }
             function updateBackgroundSVG() {
                 const isDark = document.documentElement.classList.contains('dark');
@@ -4660,11 +4661,7 @@
 
             // Hide loading screen on full page load
             window.addEventListener('load', function() {
-                // Initialize documentation features
-                const docSections = ['doc-dashboard', 'doc-my-loads', 'doc-my-trucks', 'doc-my-trailers', 'doc-driver-devices', 'doc-truck-lease-pricing', 'doc-truck-rentals', 'doc-lease-agreements', 'doc-hire-drivers', 'doc-job-postings', 'doc-external-drivers', 'doc-shout-out-scripts', 'doc-shout-out-vlogs', 'doc-accounting', 'doc-my-payroll', 'doc-my-factoring-company', 'doc-fuel-reports', 'doc-my-fuel-cards', 'doc-loans-cash-advance', 'doc-api-integration-keys', 'doc-my-fleet', 'doc-emergency-monitoring', 'doc-compliance-monitoring', 'doc-compliance-software-options', 'doc-drug-alcohol-testing', 'doc-safety-assessments', 'doc-maintenance-monitoring', 'doc-my-drivers', 'doc-my-customers', 'doc-my-shippers-list', 'doc-my-consignee-lists', 'doc-my-brokers', 'doc-violations', 'doc-safety-violations', 'doc-driver-violations', 'doc-vehicle-violations', 'doc-notifications', 'doc-activity', 'doc-maintenance', 'doc-drug-alcohol', 'doc-permit-insurance', 'doc-documents', 'doc-reporting', 'doc-safety', 'doc-hos', 'doc-settings'];
-                docSections.forEach(function(docId) {
-                    generateTOC(docId);
-                });
+                // TOC not generated for video documentation sections
 
                 // Scroll event for reading progress
                 window.addEventListener('scroll', updateReadingProgress);
@@ -4678,6 +4675,13 @@
 
             document.addEventListener('DOMContentLoaded', function () {
                 initSettingsOnLoad();
+                // Sync theme and settings when changed in other tabs (matches docs.php)
+                window.addEventListener('storage', function (e) {
+                    if (e.key === 'dispatch-settings' || e.key === 'dispatch-theme') {
+                        initSettingsOnLoad();
+                        applySettingsToUI();
+                    }
+                });
                 // Initialize sidebar tooltips for mini mode
                 initSidebarTooltips();
                 // Restore sidebar mini state (desktop only)
@@ -4709,6 +4713,53 @@
                     });
                 });
             });
-        </script>
-    </body>
-    </html>
+        (function initDocFloater() {
+            const floater = document.getElementById('doc-floater');
+            const titleEl = document.getElementById('doc-floater-title');
+            const descEl = document.getElementById('doc-floater-desc');
+            if (!floater) return;
+            let hideTimer;
+            function extractSectionId(link) {
+                const onclick = link.getAttribute('onclick') || '';
+                const m = onclick.match(/showSection\('([^']+)'/);
+                if (m) return 'section-' + m[1];
+                return link.dataset.section || (link.getAttribute('href') || '').replace('#','') || '';
+            }
+            function showFloater(link) {
+                const sectionId = extractSectionId(link);
+                if (!sectionId) return;
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+                const heading = section.querySelector('.doc-title h3') || section.querySelector('h3') || section.querySelector('h2') || section.querySelector('h1');
+                const paragraph = section.querySelector('.doc-title p') || section.querySelector('.video-desc') || section.querySelector('p');
+                titleEl.textContent = heading ? heading.textContent.trim() : link.textContent.trim();
+                if (paragraph) {
+                    const text = paragraph.textContent.trim().replace(/\s+/g, ' ');
+                    descEl.textContent = text.length > 180 ? text.slice(0, 180) + '...' : text;
+                } else {
+                    descEl.textContent = '';
+                }
+                const rect = link.getBoundingClientRect();
+                const w = 300;
+                let left = rect.right + 14;
+                if (left + w > window.innerWidth - 16) left = Math.max(16, rect.left - w - 14);
+                floater.style.left = left + 'px';
+                floater.style.top = Math.max(16, rect.top + 4) + 'px';
+                floater.classList.add('show');
+            }
+            function hideFloater() { floater.classList.remove('show'); }
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+                if (link.closest('.submenu')) return;
+                link.addEventListener('mouseenter', function() { clearTimeout(hideTimer); showFloater(this); });
+                link.addEventListener('mouseleave', function() { hideTimer = setTimeout(hideFloater, 160); });
+            });
+            floater.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+            floater.addEventListener('mouseleave', function() { hideTimer = setTimeout(hideFloater, 160); });
+        })();
+    </script>
+    <div class="doc-floater" id="doc-floater" aria-hidden="true">
+        <h4 id="doc-floater-title"></h4>
+        <p id="doc-floater-desc"></p>
+    </div>
+</body>
+</html>
