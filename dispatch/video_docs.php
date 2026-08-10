@@ -180,31 +180,19 @@ $site = 'DISPATCH';
         .theme-btn {
             width: 40px; height: 40px;
             display: grid; place-items: center;
-            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            background: rgba(16, 185, 129, 0.10);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: var(--text);
+            color: #10b981;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.18s ease;
         }
         .theme-btn:hover {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(139, 92, 246, 0.22));
-            border-color: rgba(167, 139, 250, 0.7);
-            box-shadow: 0 0 16px rgba(167, 139, 250, 0.45);
-            transform: translateY(-2px) scale(1.05);
-            color: #fff;
-        }
-        html.light .theme-btn {
-            color: #f59e0b;
-            border-color: rgba(245, 158, 11, 0.35);
-            background: rgba(245, 158, 11, 0.10);
-        }
-        html.light .theme-btn:hover {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22));
-            border-color: rgba(245, 158, 11, 0.7);
-            box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
+            border-color: rgba(16, 185, 129, 0.7);
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
             transform: translateY(-2px) scale(1.05);
             color: #fff;
         }
@@ -239,16 +227,11 @@ $site = 'DISPATCH';
             width: 42px; height: 42px; border-radius: 14px;
             background: linear-gradient(135deg, var(--accent), var(--accent-2));
             display: grid; place-items: center; color: #fff;
-            box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 0 1px rgba(255,255,255,0.1) inset;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            animation: brand-glow 2.5s ease-in-out infinite alternate;
-        }
-        @keyframes brand-glow {
-            from { box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 1px rgba(255,255,255,0.08) inset; }
-            to { box-shadow: 0 10px 28px -6px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 0 1px rgba(255,255,255,0.14) inset; }
+            box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+            transition: transform 0.2s ease;
         }
         .brand a:hover .brand-icon { transform: rotate(-6deg) scale(1.08); }
-        .brand-icon svg { width: 22px; height: 22px; }
+        .brand-icon svg { width: 20px; height: 20px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
         .brand-text small { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
         .topbar-actions { display: flex; align-items: center; gap: 0.6rem; }
@@ -302,11 +285,9 @@ $site = 'DISPATCH';
             transition: all 0.2s ease;
         }
         .btn:hover {
-            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-2) 22%, transparent));
-            border-color: var(--accent);
-            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
-            transform: translateY(-2px) scale(1.05);
-            color: #fff;
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
         }
         .hero {
             background: var(--surface); border: 1px solid var(--border);
@@ -460,9 +441,8 @@ $site = 'DISPATCH';
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
         }
-        .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
+        .settings-header svg { width: 24px; height: 24px; color: #10b981; }
         .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
         .settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
         .settings-close {
@@ -477,12 +457,12 @@ $site = 'DISPATCH';
             font-size: 18px;
             transition: all 0.15s ease;
         }
-        .settings-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .settings-close:hover { background: #10b981; color: #fff; border-color: #10b981; }
         .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
         .settings-group { margin-bottom: 1.75rem; }
         .settings-group-title {
             font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
-            text-transform: uppercase; color: var(--accent);
+            text-transform: uppercase; color: #10b981;
             margin-bottom: 0.75rem; padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
         }
@@ -520,9 +500,8 @@ $site = 'DISPATCH';
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .toggle.on {
-            background: linear-gradient(135deg, var(--accent), #059669);
-            border-color: transparent;
-            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+            background: #10b981;
+            border-color: #10b981;
         }
         .toggle.on::after { transform: translateX(20px); background: #fff; }
         .color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -534,9 +513,9 @@ $site = 'DISPATCH';
             transition: transform 0.15s ease, border-color 0.15s ease;
         }
         .color-swatch:hover { transform: scale(1.1); }
-        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
-        .setting-range { width: 120px; accent-color: var(--accent); cursor: pointer; }
-        .setting-range-value { font-size: 0.78rem; color: var(--accent); font-weight: 600; min-width: 40px; text-align: right; }
+        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px #10b981; }
+        .setting-range { width: 120px; accent-color: #10b981; cursor: pointer; }
+        .setting-range-value { font-size: 0.78rem; color: #10b981; font-weight: 600; min-width: 40px; text-align: right; }
         .font-preview { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
         /* Select dropdown */
         .setting-select {
@@ -562,12 +541,11 @@ $site = 'DISPATCH';
             background-size: 16px;
         }
         .setting-select:hover {
-            border-color: var(--accent);
-            background-color: var(--accent-soft);
+            border-color: #10b981;
         }
         .setting-select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-soft);
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
         }
         .setting-select option {
             background: var(--surface-solid);
@@ -605,8 +583,8 @@ $site = 'DISPATCH';
         }
         .settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
         .settings-btn:active { transform: translateY(0); }
-        .settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
-        .settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
+        .settings-btn.primary { background: #10b981; color: #fff; border-color: #10b981; }
+        .settings-btn.primary:hover { background: #059669; }
         @media (max-width: 560px) {
             .settings-panel { width: 100vw; }
         }
@@ -648,9 +626,9 @@ $site = 'DISPATCH';
             gap: 0.75rem;
             padding: 0.85rem 1.25rem;
             background: var(--surface-solid);
-            border: 1px solid var(--accent);
+            border: 1px solid var(--border);
             border-radius: 14px;
-            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4);
             color: var(--text);
             font-size: 0.88rem;
             font-weight: 500;
@@ -667,8 +645,8 @@ $site = 'DISPATCH';
             width: 28px; height: 28px;
             border-radius: 50%;
             display: grid; place-items: center;
-            background: color-mix(in srgb, var(--accent) 18%, transparent);
-            color: var(--accent);
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
             flex-shrink: 0;
         }
         .announce-toast .announce-icon svg { width: 16px; height: 16px; }
@@ -752,11 +730,7 @@ $site = 'DISPATCH';
             <div class="brand">
                 <a href="docs.php">
                     <span class="brand-icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                            <path d="M14 2v6h6"/>
-                            <path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
                     </span>
                     <span class="brand-text">DISPATCH <small>Video Docs</small></span>
                 </a>
@@ -764,11 +738,11 @@ $site = 'DISPATCH';
             <div class="topbar-actions">
                 <a class="btn" href="index.php">Back to Home</a>
                 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
-                    <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                    <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
+                    <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
                 </button>
                 <button class="theme-btn" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="8" cy="17" r="2" fill="currentColor" stroke="none"/></svg>
                 </button>
             </div>
         </div>
@@ -780,7 +754,7 @@ $site = 'DISPATCH';
 
         <div class="controls">
             <div class="search">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
                 <input type="text" id="filter" placeholder="Filter features…" aria-label="Filter features">
             </div>
             <div class="status-filter" id="status-filter" role="group" aria-label="Filter by availability">
@@ -859,11 +833,6 @@ $site = 'DISPATCH';
                     </div>
                     <div class="color-swatches" id="set-accent-colors">
                         <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
-                        <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="setAccentColor('#3b82f6')"></div>
-                        <div class="color-swatch" style="background:#8b5cf6" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6')"></div>
-                        <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
-                        <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
-                        <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
                     </div>
                 </div>
                 <div class="setting-row">

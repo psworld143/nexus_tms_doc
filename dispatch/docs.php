@@ -194,16 +194,11 @@ $totalAvailable = count($availableVideos);
             background: linear-gradient(135deg, var(--accent), var(--accent-2));
             display: grid; place-items: center;
             color: #fff;
-            box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
             flex-shrink: 0;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            animation: brand-glow 2.5s ease-in-out infinite alternate;
+            transition: transform 0.2s ease;
         }
-        @keyframes brand-glow {
-            from { box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 1px rgba(255,255,255,0.08) inset; }
-            to { box-shadow: 0 10px 28px -6px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 0 1px rgba(255,255,255,0.14) inset; }
-        }
-        .brand-mark svg { width: 22px; height: 22px; }
+        .brand-mark svg { width: 20px; height: 20px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
         .brand-text h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: 0.01em; }
         .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; margin-top: -0.15rem; }
@@ -244,27 +239,21 @@ $totalAvailable = count($availableVideos);
             display: grid; place-items: center;
             transition: all 0.2s ease;
         }
-        .icon-btn:hover { background: var(--surface-2); border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+        .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-2px); }
         .icon-btn svg { width: 20px; height: 20px; }
-        .icon-btn.theme-btn {
-            color: #a78bfa;
-            border-color: rgba(167, 139, 250, 0.35);
-            background: rgba(167, 139, 250, 0.10);
+        .icon-btn.theme-btn,
+        .icon-btn.settings-btn-top {
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.35);
+            background: rgba(16, 185, 129, 0.10);
         }
-        .icon-btn.theme-btn:hover {
-            background: rgba(167, 139, 250, 0.20);
-            border-color: rgba(167, 139, 250, 0.6);
-            box-shadow: 0 0 14px rgba(167, 139, 250, 0.35);
-        }
-        html:not(.dark) .icon-btn.theme-btn {
-            color: #f59e0b;
-            border-color: rgba(245, 158, 11, 0.35);
-            background: rgba(245, 158, 11, 0.10);
-        }
-        html:not(.dark) .icon-btn.theme-btn:hover {
-            background: rgba(245, 158, 11, 0.20);
-            border-color: rgba(245, 158, 11, 0.6);
-            box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+        .icon-btn.theme-btn:hover,
+        .icon-btn.settings-btn-top:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
+            border-color: rgba(16, 185, 129, 0.7);
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
         }
         .icon-btn[title] { position: relative; }
         .icon-btn[title]::after {
@@ -301,13 +290,12 @@ $totalAvailable = count($availableVideos);
             gap: 0.45rem;
             width: 38px;
             padding: 0 0.65rem 0 0;
-            border: none;
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             border-radius: 999px;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            color: #fff;
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            color: var(--text);
             overflow: hidden;
-            box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 60%, transparent);
-            transition: width 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, transform 0.2s ease;
+            transition: width 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.2s ease;
         }
         .icon-btn.back-btn svg {
             width: 18px; height: 18px;
@@ -324,7 +312,6 @@ $totalAvailable = count($availableVideos);
         }
         .icon-btn.back-btn:hover {
             width: 95px;
-            box-shadow: 0 6px 20px -4px color-mix(in srgb, var(--accent) 70%, transparent);
             transform: translateY(-1px);
         }
         .icon-btn.back-btn:hover svg { transform: translateX(-3px); }
@@ -389,15 +376,13 @@ $totalAvailable = count($availableVideos);
             font-size: 0.72rem;
             font-weight: 800;
             letter-spacing: 0.06em;
-            color: var(--accent);
-            background: linear-gradient(90deg, var(--accent-soft), transparent);
-            border-bottom: 2px solid var(--accent);
+            color: var(--text);
+            border-bottom: 2px solid var(--border-strong);
             border-radius: 12px 12px 0 0;
             margin-bottom: 0.3rem;
         }
         .nav-section-title.main-menu svg {
             width: 16px; height: 16px;
-            filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 50%, transparent));
         }
         .nav-list { list-style: none; margin: 0; padding: 0; }
         .nav-item { margin: 2px 0; }
@@ -420,15 +405,13 @@ $totalAvailable = count($availableVideos);
             color: var(--text);
         }
         .nav-link.active {
-            background: color-mix(in srgb, var(--accent) 15%, transparent);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: var(--accent);
+            background: var(--surface-2);
+            color: var(--text);
             font-weight: 600;
         }
         .nav-link.active::before {
             content: ''; position: absolute; left: -0.85rem; top: 20%; bottom: 20%;
-            width: 3px; border-radius: 999px; background: var(--accent);
+            width: 3px; border-radius: 999px; background: var(--text);
         }
 
         /* Mini sidebar (collapsed) */
@@ -998,11 +981,11 @@ $totalAvailable = count($availableVideos);
 
     <header class="header">
         <button class="icon-btn menu-btn" id="menu-btn" aria-label="Open navigation" title="Menu" aria-expanded="false" aria-controls="sidebar">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
         <a href="index.php" class="brand">
             <span class="brand-mark">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
             </span>
             <span class="brand-text">
                 <h1>DISPATCH</h1>
@@ -1010,18 +993,18 @@ $totalAvailable = count($availableVideos);
             </span>
         </a>
         <button class="header-search" id="search-trigger" aria-label="Search documentation">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
             <span>Search docs and videos…</span>
             <span class="kbd">⌘K</span>
         </button>
         <div class="header-actions">
             <a href="index.php" class="icon-btn back-btn" title="Back to Full Tutorial">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
                 <span class="back-label">Back</span>
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
-                <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
+                <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
             </button>
         </div>
     </header>
@@ -1031,17 +1014,17 @@ $totalAvailable = count($availableVideos);
     <div class="layout">
         <aside class="sidebar" id="sidebar" aria-label="Documentation sections">
             <div class="search-wrap">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
                 <input type="text" id="sidebar-search" placeholder="Search sections..." onkeyup="filterMenu()" onclick="if(document.getElementById('sidebar').classList.contains('mini')){toggleSidebarMini();this.focus();}">
             </div>
             <button class="sidebar-hide-btn" onclick="toggleSidebarMini()" title="Collapse sidebar" aria-label="Toggle sidebar" id="sidebar-toggle-btn">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
             </button>
 
             <ul class="nav-list" id="doc-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="#overview" data-section="overview" data-tip="Overview">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#10b981"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Overview
                     </a>
                 </li>
@@ -1051,13 +1034,13 @@ $totalAvailable = count($availableVideos);
             <ul class="nav-list">
                 <li class="nav-item">
                     <a class="nav-link" href="#videos" data-section="videos" data-tip="Video Module">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#3b82f6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                         Video Module
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#all-videos" data-section="all-videos" data-tip="Video Catalog (<?php echo $totalVideos; ?>)">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#f59e0b"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Video Catalog (<?php echo $totalVideos; ?>)
                     </a>
                 </li>
@@ -1067,7 +1050,7 @@ $totalAvailable = count($availableVideos);
             <ul class="nav-list">
                 <li class="nav-item">
                     <a class="nav-link" href="#settings" data-section="settings" data-tip="Settings &amp; Accessibility">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#8b5cf6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         Settings &amp; Accessibility
                     </a>
                 </li>

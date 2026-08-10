@@ -174,60 +174,36 @@
                 opacity: 1;
                 transform: translateX(-50%) translateY(0);
             }
-            .icon-btn.refresh-btn {
-                color: #38bdf8;
-                border-color: rgba(56, 189, 248, 0.35);
-                background: rgba(56, 189, 248, 0.10);
+            .icon-btn.refresh-btn,
+            .icon-btn.tutorials-btn,
+            .icon-btn.docs-btn,
+            .icon-btn.video-docs-btn,
+            .icon-btn.theme-btn,
+            .icon-btn.settings-btn-top,
+            .icon-btn.tour-btn {
+                color: #10b981;
+                border-color: rgba(16, 185, 129, 0.35);
+                background: rgba(16, 185, 129, 0.10);
             }
-            .icon-btn.refresh-btn:hover {
-                background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.22));
-                border-color: rgba(56, 189, 248, 0.7);
-                box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+            .icon-btn.refresh-btn:hover,
+            .icon-btn.tutorials-btn:hover,
+            .icon-btn.docs-btn:hover,
+            .icon-btn.video-docs-btn:hover,
+            .icon-btn.theme-btn:hover,
+            .icon-btn.settings-btn-top:hover,
+            .icon-btn.tour-btn:hover {
+                background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
+                border-color: rgba(16, 185, 129, 0.7);
+                box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
                 transform: translateY(-2px) scale(1.05);
                 color: #fff;
             }
-            .icon-btn.tutorials-btn {
-                color: #f472b6;
-                border-color: rgba(244, 114, 182, 0.35);
-                background: rgba(244, 114, 182, 0.10);
-                text-decoration: none;
-            }
-            .icon-btn.tutorials-btn:hover {
-                background: linear-gradient(135deg, rgba(244, 114, 182, 0.22), rgba(236, 72, 153, 0.22));
-                border-color: rgba(244, 114, 182, 0.7);
-                box-shadow: 0 0 16px rgba(244, 114, 182, 0.45);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
-            }
-            .icon-btn.docs-btn {
-                color: #38bdf8;
-                border-color: rgba(56, 189, 248, 0.35);
-                background: rgba(56, 189, 248, 0.10);
-                text-decoration: none;
-                position: relative;
-            }
-            .icon-btn.docs-btn:hover {
-                background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.22));
-                border-color: rgba(56, 189, 248, 0.7);
-                box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
-            }
-            .icon-btn.docs-btn svg { width: 20px; height: 20px; }
-            .icon-btn.video-docs-btn {
-                color: #f59e0b;
-                border-color: rgba(245, 158, 11, 0.35);
-                background: rgba(245, 158, 11, 0.10);
-                text-decoration: none;
-            }
-            .icon-btn.video-docs-btn:hover {
-                background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22));
-                border-color: rgba(245, 158, 11, 0.7);
-                box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
-            }
+            .icon-btn.tutorials-btn,
+            .icon-btn.docs-btn,
+            .icon-btn.video-docs-btn { text-decoration: none; }
+            .icon-btn.docs-btn svg,
             .icon-btn.video-docs-btn svg { width: 20px; height: 20px; }
+            .icon-btn.docs-btn { position: relative; }
             .icon-btn.docs-btn::after {
                 content: attr(title);
                 position: absolute;
@@ -250,54 +226,6 @@
             .icon-btn.docs-btn:hover::after {
                 opacity: 1;
                 transform: translateX(-50%) translateY(0);
-            }
-            .icon-btn.theme-btn {
-                color: #a78bfa;
-                border-color: rgba(167, 139, 250, 0.35);
-                background: rgba(167, 139, 250, 0.10);
-            }
-            .icon-btn.theme-btn:hover {
-                background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(139, 92, 246, 0.22));
-                border-color: rgba(167, 139, 250, 0.7);
-                box-shadow: 0 0 16px rgba(167, 139, 250, 0.45);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
-            }
-            html:not(.dark) .icon-btn.theme-btn {
-                color: #f59e0b;
-                border-color: rgba(245, 158, 11, 0.35);
-                background: rgba(245, 158, 11, 0.10);
-            }
-            html:not(.dark) .icon-btn.theme-btn:hover {
-                background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22));
-                border-color: rgba(245, 158, 11, 0.7);
-                box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
-            }
-            .icon-btn.settings-btn-top {
-                color: var(--accent);
-                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-                background: color-mix(in srgb, var(--accent) 10%, transparent);
-            }
-            .icon-btn.settings-btn-top:hover {
-                background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-2) 22%, transparent));
-                border-color: color-mix(in srgb, var(--accent) 70%, transparent);
-                box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
-            }
-            .icon-btn.tour-btn {
-                color: #fbbf24;
-                border-color: rgba(251, 191, 36, 0.35);
-                background: rgba(251, 191, 36, 0.10);
-            }
-            .icon-btn.tour-btn:hover {
-                background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(245, 158, 11, 0.22));
-                border-color: rgba(251, 191, 36, 0.7);
-                box-shadow: 0 0 16px rgba(251, 191, 36, 0.45);
-                transform: translateY(-2px) scale(1.05);
-                color: #fff;
             }
 
             /* ===== Tour Guide Overlay ===== */
@@ -577,8 +505,8 @@
                 border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
             }
             .page-head .ph-icon svg { width: 26px; height: 26px; }
-            .page-head h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
-            .page-head p { margin: 0.15rem 0 0; color: var(--text-muted); font-size: 0.9rem; }
+            .page-head h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: #10b981; }
+            .page-head p { margin: 0.15rem 0 0; color: #10b981; font-size: 0.9rem; opacity: 0.8; }
 
             .section-content { animation: fadeIn 0.35s ease; }
             @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -612,12 +540,6 @@
             }
             .video-card:hover {
                 transform: translateY(-4px);
-                border-color: var(--accent);
-                box-shadow:
-                    0 24px 48px -20px rgba(0, 0, 0, 0.7),
-                    0 0 0 1px var(--accent),
-                    0 0 20px color-mix(in srgb, var(--accent) 40%, transparent),
-                    0 0 40px color-mix(in srgb, var(--accent) 20%, transparent);
             }
             .video-frame {
                 position: relative;
@@ -719,16 +641,17 @@
             .video-empty svg { width: 40px; height: 40px; opacity: 0.7; }
             .video-desc {
                 margin: 1rem 0.35rem 0.35rem;
-                color: var(--text-muted);
+                color: #10b981;
                 line-height: 1.65;
                 font-size: 0.92rem;
+                opacity: 0.8;
             }
             .video-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0.35rem 0; }
             .chip {
                 display: inline-flex; align-items: center; gap: 0.4rem;
                 padding: 0.35rem 0.7rem; border-radius: 999px;
-                background: var(--surface-2); border: 1px solid var(--border);
-                font-size: 0.74rem; color: var(--text-muted); font-weight: 500;
+                background: rgba(16, 185, 129, 0.10); border: 1px solid rgba(16, 185, 129, 0.25);
+                font-size: 0.74rem; color: #10b981; font-weight: 500;
             }
             .chip svg { width: 13px; height: 13px; }
 
@@ -749,28 +672,11 @@
             }
             .video-card .progress-fill {
                 height: 100%;
-                background: var(--accent);
+                background: var(--text-muted);
                 transition: width 0.3s ease;
             }
 
             /* ===== Documentation Enhancements ===== */
-            /* Reading Progress */
-            .reading-progress {
-                position: fixed;
-                top: 68px;
-                left: 0;
-                right: 0;
-                height: 3px;
-                background: var(--border);
-                z-index: 199;
-            }
-            .reading-progress-bar {
-                height: 100%;
-                background: linear-gradient(90deg, var(--accent), var(--accent-2));
-                width: 0%;
-                transition: width 0.1s ease;
-            }
-
             /* Table of Contents */
             .doc-toc {
                 position: sticky;
@@ -1493,10 +1399,6 @@
         </style>
     </head>
     <body>
-        <!-- Reading Progress Bar -->
-        <div class="reading-progress">
-            <div class="reading-progress-bar" id="reading-progress-bar"></div>
-        </div>
 
         <!-- Loading Screen -->
         <div class="loader-screen" id="loader-screen">
@@ -3821,17 +3723,6 @@
                 });
             });
 
-            // Reading Progress
-            function updateReadingProgress() {
-                const progressBar = document.getElementById('reading-progress-bar');
-                if (!progressBar) return;
-
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = (scrollTop / docHeight) * 100;
-                progressBar.style.width = Math.min(progress, 100) + '%';
-            }
-
             // Table of Contents
             function generateTOC(docId) {
                 const doc = document.getElementById(docId);
@@ -4711,9 +4602,6 @@
             // Hide loading screen on full page load
             window.addEventListener('load', function() {
                 // TOC not generated for video documentation sections
-
-                // Scroll event for reading progress
-                window.addEventListener('scroll', updateReadingProgress);
 
                 setTimeout(function() {
                     const loader = document.getElementById('loader-screen');

@@ -86,15 +86,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             display: grid; place-items: center;
             background: linear-gradient(135deg, var(--accent), var(--accent-2));
             color: #fff;
-            box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 0 1px rgba(255,255,255,0.1) inset;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            animation: brand-glow 2.5s ease-in-out infinite alternate;
+            box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+            transition: transform 0.2s ease;
         }
-        @keyframes brand-glow {
-            from { box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 0 1px rgba(255,255,255,0.08) inset; }
-            to { box-shadow: 0 10px 28px -6px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 0 1px rgba(255,255,255,0.14) inset; }
-        }
-        .brand-mark svg { width: 22px; height: 22px; }
+        .brand-mark svg { width: 20px; height: 20px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
         .brand-text h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
         .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
@@ -138,83 +133,48 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
-        .icon-btn.theme-btn { color: #a78bfa; border-color: rgba(167, 139, 250, 0.35); background: rgba(167, 139, 250, 0.10); }
-        .icon-btn.theme-btn:hover { background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(139, 92, 246, 0.22)); border-color: rgba(167, 139, 250, 0.7); box-shadow: 0 0 16px rgba(167, 139, 250, 0.45); transform: translateY(-2px) scale(1.05); color: #fff; }
-        html:not(.dark) .icon-btn.theme-btn { color: #f59e0b; border-color: rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.10); }
-        html:not(.dark) .icon-btn.theme-btn:hover { background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22)); border-color: rgba(245, 158, 11, 0.7); box-shadow: 0 0 16px rgba(245, 158, 11, 0.45); transform: translateY(-2px) scale(1.05); color: #fff; }
-        .icon-btn.docs-btn {
-            color: #38bdf8;
-            border-color: rgba(56, 189, 248, 0.35);
-            background: rgba(56, 189, 248, 0.10);
-            text-decoration: none;
-            position: relative;
+        .icon-btn.docs-btn,
+        .icon-btn.theme-btn,
+        .icon-btn.settings-btn-top {
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.35);
+            background: rgba(16, 185, 129, 0.10);
         }
-        .icon-btn.docs-btn:hover {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.22));
-            border-color: rgba(56, 189, 248, 0.7);
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+        .icon-btn.docs-btn:hover,
+        .icon-btn.theme-btn:hover,
+        .icon-btn.settings-btn-top:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
+            border-color: rgba(16, 185, 129, 0.7);
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
             transform: translateY(-2px) scale(1.05);
             color: #fff;
         }
+        .icon-btn.docs-btn { text-decoration: none; }
         .icon-btn.docs-btn svg { width: 20px; height: 20px; }
-        .icon-btn.docs-btn::after {
-            content: attr(title);
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%) translateY(-6px);
-            padding: 0.35rem 0.65rem;
-            background: var(--surface-solid);
-            color: var(--text);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.18s ease;
-            z-index: 10;
-        }
-        .icon-btn.docs-btn:hover::after {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
         .back-btn {
             display: inline-flex; align-items: center; gap: 0.55rem;
             padding: 0.55rem 1.1rem;
-            border: none;
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             border-radius: 999px;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            color: #fff;
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            color: var(--text);
             text-decoration: none;
             font-size: 0.82rem;
             font-weight: 600;
             letter-spacing: 0.01em;
-            box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 60%, transparent);
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .back-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.25s ease;
+            transition: all 0.2s ease;
         }
         .back-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px -6px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 20px color-mix(in srgb, var(--accent) 30%, transparent);
+            background: var(--surface-2);
+            border-color: var(--border-strong);
         }
-        .back-btn:hover::before { opacity: 1; }
         .back-btn:active { transform: translateY(0); }
         .back-btn svg {
             width: 16px; height: 16px;
             transition: transform 0.25s ease;
         }
-        .back-btn:hover svg { transform: scale(1.1) rotate(-3deg); }
+        .back-btn:hover svg { transform: translateX(-3px); }
 
         /* ===== Main Content ===== */
         .main { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem 2rem; }
@@ -672,20 +632,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             margin-top: 2rem;
         }
 
-        /* ===== Settings Button ===== */
-        .icon-btn.settings-btn-top {
-            color: var(--accent);
-            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-            background: color-mix(in srgb, var(--accent) 10%, transparent);
-        }
-        .icon-btn.settings-btn-top:hover {
-            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-2) 22%, transparent));
-            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
-            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
-            transform: translateY(-2px) scale(1.05);
-            color: #fff;
-        }
-
         /* ===== Settings Panel ===== */
         .settings-overlay {
             position: fixed; inset: 0;
@@ -719,9 +665,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
         }
-        .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
+        .settings-header svg { width: 24px; height: 24px; color: #10b981; }
         .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
         .settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
         .settings-close {
@@ -736,12 +681,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             font-size: 18px;
             transition: all 0.15s ease;
         }
-        .settings-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .settings-close:hover { background: #10b981; color: #fff; border-color: #10b981; }
         .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
         .settings-group { margin-bottom: 1.75rem; }
         .settings-group-title {
             font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
-            text-transform: uppercase; color: var(--accent);
+            text-transform: uppercase; color: #10b981;
             margin-bottom: 0.75rem; padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
         }
@@ -779,9 +724,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .toggle.on {
-            background: linear-gradient(135deg, var(--accent), #059669);
-            border-color: transparent;
-            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+            background: #10b981;
+            border-color: #10b981;
         }
         .toggle.on::after { transform: translateX(20px); background: #fff; }
         .setting-select {
@@ -806,8 +750,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             background-position: right 0.6rem center;
             background-size: 16px;
         }
-        .setting-select:hover { border-color: var(--accent); background-color: var(--accent-soft); }
-        .setting-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .setting-select:hover { border-color: #10b981; }
+        .setting-select:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
         .setting-select option { background: var(--surface-solid); color: var(--text); padding: 0.5rem 0.7rem; font-size: 0.85rem; }
         html.dark .setting-select option { background: #111c30; color: #e8eef7; }
         html:not(.dark) .setting-select option { background: #ffffff; color: #0f172a; }
@@ -820,9 +764,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             transition: transform 0.15s ease, border-color 0.15s ease;
         }
         .color-swatch:hover { transform: scale(1.1); }
-        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
-        .setting-range { width: 120px; accent-color: var(--accent); cursor: pointer; }
-        .setting-range-value { font-size: 0.78rem; color: var(--accent); font-weight: 600; min-width: 40px; text-align: right; }
+        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px #10b981; }
+        .setting-range { width: 120px; accent-color: #10b981; cursor: pointer; }
+        .setting-range-value { font-size: 0.78rem; color: #10b981; font-weight: 600; min-width: 40px; text-align: right; }
         .font-preview { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
         .settings-footer {
             padding: 1rem 1.5rem;
@@ -845,8 +789,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
         .settings-btn:active { transform: translateY(0); }
-        .settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
-        .settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
+        .settings-btn.primary { background: #10b981; color: #fff; border-color: #10b981; }
+        .settings-btn.primary:hover { background: #059669; }
         @media (max-width: 560px) {
             .settings-panel { width: 100vw; }
         }
@@ -888,9 +832,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             gap: 0.75rem;
             padding: 0.85rem 1.25rem;
             background: var(--surface-solid);
-            border: 1px solid var(--accent);
+            border: 1px solid var(--border);
             border-radius: 14px;
-            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4);
             color: var(--text);
             font-size: 0.88rem;
             font-weight: 500;
@@ -907,8 +851,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             width: 28px; height: 28px;
             border-radius: 50%;
             display: grid; place-items: center;
-            background: color-mix(in srgb, var(--accent) 18%, transparent);
-            color: var(--accent);
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
             flex-shrink: 0;
         }
         .announce-toast .announce-icon svg { width: 16px; height: 16px; }
@@ -1053,7 +997,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <header class="header">
         <div class="brand">
             <span class="brand-mark">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
             </span>
             <span class="brand-text">
                 <h1>DISPATCH</h1>
@@ -1062,18 +1006,18 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         </div>
         <div class="header-actions">
             <a href="docs.php" class="icon-btn docs-btn" title="Documentation">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
             </a>
             <a href="index.php" class="back-btn">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.829 5.477 9.5 5 8 5c-1.5 0-2.829.477-4 1.253v13C5.171 18.477 6.5 18 8 18c1.5 0 2.829.477 4 1.253m0-13C13.171 5.477 14.5 5 16 5c1.5 0 2.829.477 4 1.253v13C18.829 18.477 17.5 18 16 18c-1.5 0-2.829.477-4 1.253"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
                 Full Tutorial
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
-                <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
+                <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
             </button>
             <button class="icon-btn settings-btn-top" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="8" cy="17" r="2" fill="currentColor" stroke="none"/></svg>
             </button>
         </div>
     </header>
@@ -1228,11 +1172,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     </div>
                     <div class="color-swatches" id="set-accent-colors">
                         <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
-                        <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="setAccentColor('#3b82f6')"></div>
-                        <div class="color-swatch" style="background:#8b5cf6" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6')"></div>
-                        <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
-                        <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
-                        <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
                     </div>
                 </div>
                 <div class="setting-row">
