@@ -176,6 +176,39 @@ $site = 'DISPATCH';
             --text-dim: #64748b;
             --accent-soft: rgba(16, 185, 129, 0.12);
         }
+        /* Theme button */
+        .theme-btn {
+            width: 40px; height: 40px;
+            display: grid; place-items: center;
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--text);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .theme-btn:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(139, 92, 246, 0.22));
+            border-color: rgba(167, 139, 250, 0.7);
+            box-shadow: 0 0 16px rgba(167, 139, 250, 0.45);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
+        }
+        html.light .theme-btn {
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.35);
+            background: rgba(245, 158, 11, 0.10);
+        }
+        html.light .theme-btn:hover {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22));
+            border-color: rgba(245, 158, 11, 0.7);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
+        }
+        .theme-btn svg { width: 18px; height: 18px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Poppins', sans-serif;
@@ -183,10 +216,17 @@ $site = 'DISPATCH';
                 radial-gradient(ellipse at 10% 10%, color-mix(in srgb, var(--accent-2) 25%, transparent), transparent 50%),
                 radial-gradient(ellipse at 90% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 50%),
                 radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 45%),
-                linear-gradient(160deg, #121b31 0%, #0b1020 55%, #070a12 100%);
+                linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
             background-attachment: fixed;
             color: var(--text);
             min-height: 100vh;
+        }
+        html.light body {
+            background:
+                radial-gradient(ellipse at 10% 10%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%),
+                radial-gradient(ellipse at 90% 20%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
+                radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+                linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
         }
         .page { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
         .topbar {
@@ -212,6 +252,48 @@ $site = 'DISPATCH';
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
         .brand-text small { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
         .topbar-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+        /* ===== Loading Screen ===== */
+        .loader-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem;
+            background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        html.light .loader-screen {
+            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
+        }
+        .loader-screen.hidden { opacity: 0; visibility: hidden; }
+        .loader-logo {
+            width: 56px; height: 56px; border-radius: 14px;
+            display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
+            animation: loader-logo-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes loader-logo-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.92); opacity: 0.7; }
+        }
+        .loader-logo svg { width: 28px; height: 28px; }
+        .loader-text {
+            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em;
+            color: var(--text); text-transform: uppercase;
+        }
+        .loader-bar {
+            width: 180px; height: 3px; border-radius: 999px;
+            background: var(--border); overflow: hidden;
+        }
+        .loader-bar-fill {
+            height: 100%; width: 40%; border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            animation: loader-slide 1.2s ease-in-out infinite;
+        }
+        @keyframes loader-slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(250%); }
+        }
         .btn {
             display: inline-flex; align-items: center; gap: 0.4rem;
             padding: 0.55rem 1rem; border-radius: 12px; text-decoration: none;
@@ -219,7 +301,13 @@ $site = 'DISPATCH';
             background: var(--surface); color: var(--text);
             transition: all 0.2s ease;
         }
-        .btn:hover { background: var(--surface-2); border-color: var(--accent); }
+        .btn:hover {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-2) 22%, transparent));
+            border-color: var(--accent);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
+        }
         .hero {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: var(--radius); padding: 2.5rem 2rem;
@@ -293,9 +381,15 @@ $site = 'DISPATCH';
             background:
                 radial-gradient(ellipse at 15% 10%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%),
                 radial-gradient(ellipse at 90% 90%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 50%),
-                linear-gradient(160deg, #0f1625 0%, #0a0f1a 60%, #070a12 100%);
+                linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 60%, var(--bg) 100%);
             display: flex; flex-direction: column;
             color: var(--text);
+        }
+        html.light .doc-modal {
+            background:
+                radial-gradient(ellipse at 15% 10%, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 50%),
+                radial-gradient(ellipse at 90% 90%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 50%),
+                linear-gradient(160deg, #f8fafc 0%, #ffffff 60%, #f1f5f9 100%);
         }
         .doc-modal-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -332,25 +426,294 @@ $site = 'DISPATCH';
             .doc-modal-body { padding: 2rem 1.25rem; }
             .doc-modal-header { padding: 0.85rem 1.25rem; }
         }
+
+        /* ===== Settings Panel ===== */
+        .settings-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1200;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .settings-overlay.open { display: block; }
+        .settings-panel {
+            position: fixed;
+            top: 0; right: 0;
+            width: 420px;
+            max-width: 100vw;
+            height: 100vh;
+            background: color-mix(in srgb, var(--surface-solid) 75%, transparent);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            z-index: 1201;
+            display: none;
+            flex-direction: column;
+            animation: settingsSlide 0.3s ease;
+        }
+        @keyframes settingsSlide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .settings-panel.open { display: flex; }
+        .settings-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+        }
+        .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
+        .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+        .settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
+        .settings-close {
+            margin-left: auto;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: grid; place-items: center;
+            font-size: 18px;
+            transition: all 0.15s ease;
+        }
+        .settings-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+        .settings-group { margin-bottom: 1.75rem; }
+        .settings-group-title {
+            font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--accent);
+            margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .setting-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.85rem 1rem;
+            margin: 0 -0.5rem;
+            gap: 1rem;
+            border-radius: 12px;
+            transition: all 0.18s ease;
+        }
+        .setting-row:hover { background: var(--surface-2); }
+        .setting-label { flex: 1; }
+        .setting-label .s-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+        .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 3px; }
+        .toggle {
+            position: relative;
+            width: 46px; height: 26px;
+            border-radius: 999px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-strong);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2.5px; left: 2.5px;
+            width: 19px; height: 19px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #fff, #d1d5db);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .toggle.on {
+            background: linear-gradient(135deg, var(--accent), #059669);
+            border-color: transparent;
+            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+        }
+        .toggle.on::after { transform: translateX(20px); background: #fff; }
+        .color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .color-swatch {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .color-swatch:hover { transform: scale(1.1); }
+        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
+        .setting-range { width: 120px; accent-color: var(--accent); cursor: pointer; }
+        .setting-range-value { font-size: 0.78rem; color: var(--accent); font-weight: 600; min-width: 40px; text-align: right; }
+        .font-preview { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
+        /* Select dropdown */
+        .setting-select {
+            padding: 0.55rem 2rem 0.55rem 0.85rem;
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            background: var(--surface-2);
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.18s ease;
+            flex-shrink: 0;
+            min-width: 130px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238ea0b8'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.6rem center;
+            background-size: 16px;
+        }
+        .setting-select:hover {
+            border-color: var(--accent);
+            background-color: var(--accent-soft);
+        }
+        .setting-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+        .setting-select option {
+            background: var(--surface-solid);
+            color: var(--text);
+            padding: 0.5rem 0.7rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        html.dark .setting-select option {
+            background: #111c30;
+            color: #e8eef7;
+        }
+        html:not(.dark) .setting-select option {
+            background: #ffffff;
+            color: #0f172a;
+        }
+        .settings-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.75rem;
+        }
+        .settings-btn {
+            flex: 1;
+            padding: 0.65rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+        .settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
+        .settings-btn:active { transform: translateY(0); }
+        .settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
+        .settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
+        @media (max-width: 560px) {
+            .settings-panel { width: 100vw; }
+        }
+
+        /* Accessibility modes */
+        body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+            animation-duration: 0.01s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01s !important;
+        }
+        body.high-contrast {
+            --text: #ffffff;
+            --text-muted: #c0c8d4;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.25);
+            --border-strong: rgba(255, 255, 255, 0.4);
+            --surface: rgba(255, 255, 255, 0.08);
+            --surface-2: rgba(255, 255, 255, 0.12);
+        }
+        html.light body.high-contrast {
+            --text: #000000;
+            --text-muted: #1a1a1a;
+            --text-dim: #333333;
+            --border: rgba(0, 0, 0, 0.3);
+            --border-strong: rgba(0, 0, 0, 0.5);
+            --surface: rgba(0, 0, 0, 0.05);
+            --surface-2: rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== Announcement Toast ===== */
+        .announce-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(120%);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.25rem;
+            background: var(--surface-solid);
+            border: 1px solid var(--accent);
+            border-radius: 14px;
+            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+            color: var(--text);
+            font-size: 0.88rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+            pointer-events: none;
+            max-width: 90vw;
+        }
+        .announce-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .announce-toast .announce-icon {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            background: color-mix(in srgb, var(--accent) 18%, transparent);
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .announce-toast .announce-icon svg { width: 16px; height: 16px; }
+        .announce-toast .announce-swatch {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--surface-solid);
+            box-shadow: 0 0 0 1px var(--border);
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loader-screen" id="loader-screen">
+        <div class="loader-logo">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="loader-text">DISPATCH Video Docs</div>
+        <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    </div>
+
     <div class="page">
         <div class="topbar">
             <div class="brand">
                 <a href="docs.php">
                     <span class="brand-icon">
-                        <svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                            <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <path d="M14 2v6h6"/>
+                            <path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/>
                         </svg>
                     </span>
                     <span class="brand-text">DISPATCH <small>Video Docs</small></span>
                 </a>
             </div>
             <div class="topbar-actions">
-                <a class="btn" href="docs.php">Back to Docs</a>
-                <button class="btn" id="theme-btn" onclick="toggleTheme()">Toggle theme</button>
+                <a class="btn" href="index.php">Back to Home</a>
+                <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
+                    <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                </button>
+                <button class="theme-btn" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </button>
             </div>
         </div>
 
@@ -409,6 +772,153 @@ $site = 'DISPATCH';
         <footer>
             <p>&copy; DISPATCH Training Portal.</p>
         </footer>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-overlay" id="settings-overlay" onclick="toggleSettings()"></div>
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <div>
+                <h2>Settings</h2>
+                <p>Customize your experience</p>
+            </div>
+            <button class="settings-close" onclick="toggleSettings()" aria-label="Close settings">&times;</button>
+        </div>
+        <div class="settings-body">
+            <!-- Theme & Appearance -->
+            <div class="settings-group">
+                <div class="settings-group-title">Theme &amp; Appearance</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Dark Mode</div>
+                        <div class="s-hint">Switch between dark and light theme</div>
+                    </div>
+                    <div class="toggle" id="set-dark-mode" onclick="toggleSetting('dark-mode','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Accent Color</div>
+                        <div class="s-hint">Choose your preferred accent color</div>
+                    </div>
+                    <div class="color-swatches" id="set-accent-colors">
+                        <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
+                        <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="setAccentColor('#3b82f6')"></div>
+                        <div class="color-swatch" style="background:#8b5cf6" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6')"></div>
+                        <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
+                        <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
+                        <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Font Size</div>
+                        <div class="s-hint">Adjust the base text size</div>
+                        <div class="font-preview" id="font-preview">The quick brown fox jumps over the lazy dog</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <input type="range" class="setting-range" id="set-font-size" min="13" max="20" value="15" oninput="setFontSize(this.value)">
+                        <span class="setting-range-value" id="font-size-value">15px</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Preferences -->
+            <div class="settings-group">
+                <div class="settings-group-title">Video Preferences</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Autoplay</div>
+                        <div class="s-hint">Automatically play videos when opening a section</div>
+                    </div>
+                    <div class="toggle" id="set-autoplay" onclick="toggleSetting('autoplay','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Default Playback Speed</div>
+                        <div class="s-hint">Set the default speed for all videos</div>
+                    </div>
+                    <select class="setting-select" id="set-playback-speed" onchange="setPlaybackSpeed(this.value)">
+                        <option value="0.5">0.5x (Slow)</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1x (Normal)</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x (Fast)</option>
+                        <option value="2">2x (Fastest)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Video Quality</div>
+                        <div class="s-hint">Preferred video quality (if available)</div>
+                    </div>
+                    <select class="setting-select" id="set-video-quality" onchange="setVideoQuality(this.value)">
+                        <option value="auto" selected>Auto</option>
+                        <option value="high">High (1080p)</option>
+                        <option value="medium">Medium (720p)</option>
+                        <option value="low">Low (480p)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Navigation & Layout -->
+            <div class="settings-group">
+                <div class="settings-group-title">Navigation &amp; Layout</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Mini Sidebar (Icons Only)</div>
+                        <div class="s-hint">Show only icons in the sidebar on desktop</div>
+                    </div>
+                    <div class="toggle" id="set-sidebar-collapsed" onclick="toggleSetting('sidebar-collapsed','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Sync Search</div>
+                        <div class="s-hint">Keep assistant and sidebar search in sync</div>
+                    </div>
+                    <div class="toggle on" id="set-sync-search" onclick="toggleSetting('sync-search','toggle')"></div>
+                </div>
+            </div>
+
+            <!-- Accessibility -->
+            <div class="settings-group">
+                <div class="settings-group-title">Accessibility</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Reduce Motion</div>
+                        <div class="s-hint">Minimize animations and transitions</div>
+                    </div>
+                    <div class="toggle" id="set-reduce-motion" onclick="toggleSetting('reduce-motion','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">High Contrast</div>
+                        <div class="s-hint">Increase contrast for better readability</div>
+                    </div>
+                    <div class="toggle" id="set-high-contrast" onclick="toggleSetting('high-contrast','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Larger Text Mode</div>
+                        <div class="s-hint">Scale up all text for easier reading</div>
+                    </div>
+                    <div class="toggle" id="set-large-text" onclick="toggleSetting('large-text','toggle')"></div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-footer">
+            <button class="settings-btn" onclick="resetSettings()">Reset to Default</button>
+            <button class="settings-btn primary" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Announcement Toast -->
+    <div class="announce-toast" id="announce-toast">
+        <span class="announce-icon" id="announce-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        </span>
+        <span id="announce-swatch-wrap"></span>
+        <span id="announce-text">Settings updated</span>
     </div>
 
     <div class="doc-modal-overlay" id="doc-modal-overlay">
@@ -486,16 +996,300 @@ $site = 'DISPATCH';
         })();
 
         // Theme support
+        function syncThemeFromStorage() {
+            // Check dispatch-theme first, then dispatch-settings dark-mode
+            const themeKey = localStorage.getItem('dispatch-theme');
+            let isLight = (themeKey === 'light');
+            if (!themeKey) {
+                try {
+                    const settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
+                    isLight = (settings['dark-mode'] === false);
+                } catch (e) {}
+            }
+            if (isLight) document.documentElement.classList.add('light');
+            else document.documentElement.classList.remove('light');
+            updateThemeIcons();
+        }
         (function() {
-            const saved = localStorage.getItem('dispatch-theme');
-            if (saved === 'light') document.documentElement.classList.add('light');
-            if (saved === 'dark') document.documentElement.classList.remove('light');
+            syncThemeFromStorage();
         })();
+        function updateThemeIcons() {
+            const isLight = document.documentElement.classList.contains('light');
+            const moonIcon = document.querySelector('.theme-btn .moon-icon');
+            const sunIcon = document.querySelector('.theme-btn .sun-icon');
+            if (moonIcon && sunIcon) {
+                moonIcon.style.display = isLight ? 'none' : 'block';
+                sunIcon.style.display = isLight ? 'block' : 'none';
+            }
+        }
         function toggleTheme() {
             document.documentElement.classList.toggle('light');
             const isLight = document.documentElement.classList.contains('light');
             try { localStorage.setItem('dispatch-theme', isLight ? 'light' : 'dark'); } catch (e) {}
+            // Also sync to dispatch-settings
+            try {
+                const settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
+                settings['dark-mode'] = !isLight;
+                localStorage.setItem('dispatch-settings', JSON.stringify(settings));
+            } catch (e) {}
+            updateThemeIcons();
         }
+        // Sync theme across tabs (dispatch-theme or dispatch-settings)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dispatch-theme' || e.key === 'dispatch-settings') {
+                syncThemeFromStorage();
+                applySettingsToUI();
+            }
+        });
+
+        // ===== Settings (synced with index.php via localStorage) =====
+        const SETTINGS_DEFAULTS = {
+            'dark-mode': true,
+            'autoplay': false,
+            'sidebar-collapsed': false,
+            'sync-search': true,
+            'reduce-motion': false,
+            'high-contrast': false,
+            'large-text': false,
+            'accent-color': '#10b981',
+            'font-size': '15',
+            'playback-speed': '1',
+            'video-quality': 'auto'
+        };
+
+        function loadSettings() {
+            let saved = {};
+            try { saved = JSON.parse(localStorage.getItem('dispatch-settings') || '{}'); } catch (e) {}
+            return Object.assign({}, SETTINGS_DEFAULTS, saved);
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        let announceTimer = null;
+        function showAnnouncement(text, opts) {
+            opts = opts || {};
+            const toast = document.getElementById('announce-toast');
+            const textEl = document.getElementById('announce-text');
+            const iconEl = document.getElementById('announce-icon');
+            const swatchWrap = document.getElementById('announce-swatch-wrap');
+            if (!toast || !textEl) return;
+            textEl.textContent = text;
+            if (opts.icon === 'palette') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h8a2 2 0 002-2V5a2 2 0 00-2-2H9m4 18a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"/></svg>';
+            } else if (opts.icon === 'theme') {
+                const isDark = !document.documentElement.classList.contains('light');
+                if (isDark) {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
+                } else {
+                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>';
+                }
+            } else if (opts.icon === 'reset') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>';
+            } else if (opts.icon === 'sidebar') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';
+            } else {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+            }
+            if (opts.swatch) {
+                swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + escapeHtml(opts.swatch) + '"></span>';
+            } else {
+                swatchWrap.innerHTML = '';
+            }
+            toast.classList.add('show');
+            if (announceTimer) clearTimeout(announceTimer);
+            announceTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
+        }
+
+        function toggleSettings() {
+            const panel = document.getElementById('settings-panel');
+            const overlay = document.getElementById('settings-overlay');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open');
+            overlay.classList.toggle('open');
+            if (!isOpen) applySettingsToUI();
+        }
+
+        const SETTING_LABELS = {
+            'dark-mode': 'Dark mode',
+            'autoplay': 'Autoplay',
+            'sidebar-collapsed': 'Mini sidebar',
+            'sync-search': 'Sync search',
+            'reduce-motion': 'Reduce motion',
+            'high-contrast': 'High contrast',
+            'large-text': 'Larger text'
+        };
+
+        function toggleSetting(key, type) {
+            const el = document.getElementById('set-' + key);
+            if (!el) return;
+            const isOn = el.classList.toggle('on');
+            applySetting(key, isOn);
+            saveSettingsImmediate();
+            const label = SETTING_LABELS[key] || key;
+            showAnnouncement(label + ' ' + (isOn ? 'enabled' : 'disabled'));
+        }
+
+        function applySetting(key, value) {
+            const settings = loadSettings();
+            settings[key] = value;
+            try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
+            switch (key) {
+                case 'dark-mode':
+                    if (value) document.documentElement.classList.remove('light');
+                    else document.documentElement.classList.add('light');
+                    try { localStorage.setItem('dispatch-theme', value ? 'dark' : 'light'); } catch(e) {}
+                    updateThemeIcons();
+                    showAnnouncement(value ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
+                    break;
+                case 'reduce-motion':
+                    if (value) document.body.classList.add('reduce-motion');
+                    else document.body.classList.remove('reduce-motion');
+                    break;
+                case 'high-contrast':
+                    if (value) document.body.classList.add('high-contrast');
+                    else document.body.classList.remove('high-contrast');
+                    break;
+                case 'large-text':
+                    if (value) document.documentElement.style.fontSize = '18px';
+                    else document.documentElement.style.fontSize = settings['font-size'] + 'px';
+                    break;
+                case 'sidebar-collapsed':
+                    if (window.innerWidth > 900) {
+                        const sidebar = document.getElementById('sidebar');
+                        const btn = document.getElementById('sidebar-toggle-btn');
+                        if (value) {
+                            sidebar.classList.add('mini');
+                            if (btn) { btn.title = 'Expand sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>'; }
+                        } else {
+                            sidebar.classList.remove('mini');
+                            if (btn) { btn.title = 'Collapse sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>'; }
+                        }
+                    }
+                    showAnnouncement(value ? 'Mini sidebar enabled' : 'Full sidebar enabled', { icon: 'sidebar' });
+                    break;
+                case 'autoplay':
+                case 'sync-search':
+                    // Stored for use by other functions
+                    break;
+            }
+        }
+
+        function setAccentColor(color) {
+            document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(s) {
+                s.classList.toggle('active', s.dataset.color === color);
+            });
+            document.documentElement.style.setProperty('--accent', color);
+            document.documentElement.style.setProperty('--accent-soft', color + '22');
+            applySetting('accent-color', color);
+            saveSettingsImmediate();
+            showAnnouncement('Accent color changed', { icon: 'palette', swatch: color });
+        }
+
+        function setFontSize(val) {
+            document.getElementById('font-size-value').textContent = val + 'px';
+            const settings = loadSettings();
+            if (!settings['large-text']) document.documentElement.style.fontSize = val + 'px';
+            applySetting('font-size', val);
+            saveSettingsImmediate();
+            showAnnouncement('Font size set to ' + val + 'px');
+        }
+
+        function setPlaybackSpeed(val) {
+            document.querySelectorAll('video').forEach(function(v) { v.playbackRate = parseFloat(val); });
+            applySetting('playback-speed', val);
+            saveSettingsImmediate();
+            showAnnouncement('Playback speed set to ' + val + 'x');
+        }
+
+        function setVideoQuality(val) {
+            applySetting('video-quality', val);
+            saveSettingsImmediate();
+            showAnnouncement('Video quality set to ' + val);
+        }
+
+        function saveSettingsImmediate() {
+            const settings = loadSettings();
+            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) settings[key] = el.classList.contains('on');
+            });
+            // Read select values
+            ['playback-speed','video-quality'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) settings[key] = el.value;
+            });
+            // Read accent color
+            const activeSwatch = document.querySelector('#set-accent-colors .color-swatch.active');
+            if (activeSwatch) settings['accent-color'] = activeSwatch.dataset.color;
+            // Read font size
+            const fontSizeEl = document.getElementById('set-font-size');
+            if (fontSizeEl) settings['font-size'] = fontSizeEl.value;
+            try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
+        }
+
+        function saveSettings() {
+            saveSettingsImmediate();
+            const btn = event.target;
+            const orig = btn.textContent;
+            btn.textContent = 'Saved!';
+            btn.style.background = '#059669';
+            setTimeout(function() { btn.textContent = orig; btn.style.background = ''; }, 1500);
+        }
+
+        function resetSettings() {
+            try { localStorage.removeItem('dispatch-settings'); } catch (e) {}
+            document.documentElement.style.setProperty('--accent', '#10b981');
+            document.documentElement.style.setProperty('--accent-soft', 'rgba(16, 185, 129, 0.14)');
+            document.documentElement.style.fontSize = '15px';
+            document.body.classList.remove('reduce-motion', 'high-contrast');
+            document.documentElement.classList.remove('light');
+            try { localStorage.setItem('dispatch-theme', 'dark'); } catch(e) {}
+            updateThemeIcons();
+            applySettingsToUI();
+            showAnnouncement('Settings reset to default', { icon: 'reset' });
+        }
+
+        function applySettingsToUI() {
+            const s = loadSettings();
+            // Toggles
+            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) el.classList.toggle('on', !!s[key]);
+            });
+            // Selects
+            ['playback-speed','video-quality'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) el.value = s[key];
+            });
+            // Font size
+            const fsEl = document.getElementById('set-font-size');
+            if (fsEl) { fsEl.value = s['font-size']; document.getElementById('font-size-value').textContent = s['font-size'] + 'px'; }
+            // Accent color
+            document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(sw) {
+                sw.classList.toggle('active', sw.dataset.color === s['accent-color']);
+            });
+            // Apply to DOM
+            document.documentElement.style.setProperty('--accent', s['accent-color']);
+            document.documentElement.style.setProperty('--accent-soft', s['accent-color'] + '22');
+            if (s['large-text']) document.documentElement.style.fontSize = '18px';
+            else document.documentElement.style.fontSize = s['font-size'] + 'px';
+            if (s['reduce-motion']) document.body.classList.add('reduce-motion'); else document.body.classList.remove('reduce-motion');
+            if (s['high-contrast']) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
+            if (s['dark-mode']) document.documentElement.classList.remove('light'); else document.documentElement.classList.add('light');
+            updateThemeIcons();
+        }
+
+        // Initialize settings on load
+        applySettingsToUI();
 
         // Filter
         (function() {
@@ -537,6 +1331,14 @@ $site = 'DISPATCH';
             });
             applyFilter();
         })();
+
+        // Hide loader on load
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-screen');
+            if (loader) {
+                setTimeout(function() { loader.classList.add('hidden'); }, 500);
+            }
+        });
     </script>
 </body>
 </html>

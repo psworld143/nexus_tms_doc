@@ -332,7 +332,7 @@ $totalAvailable = count($availableVideos);
 
         /* Layout */
         .layout {
-            padding: 0 1.5rem;
+            padding: 0 1.5rem 0 0;
             display: grid;
             grid-template-columns: 288px minmax(0, 1fr);
             gap: 2.5rem;
@@ -355,17 +355,53 @@ $totalAvailable = count($availableVideos);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
             z-index: 10;
             scrollbar-width: thin;
+            transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease;
         }
-        .sidebar-group { margin-bottom: 0; }
-        .sidebar-label {
+        .search-wrap { position: relative; padding: 0 0.4rem 0.5rem; }
+        .search-wrap svg { position: absolute; left: 1rem; top: 50%; transform: translateY(-60%); width: 16px; height: 16px; color: var(--text-dim); }
+        .search-wrap input {
+            width: 100%;
+            padding: 0.7rem 2rem 0.7rem 2.4rem;
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.18s ease;
+        }
+        .search-wrap input::placeholder { color: var(--text-dim); }
+        .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+        .nav-section-title {
             padding: 1rem 1rem 0.4rem;
             font-size: 0.68rem; font-weight: 800; letter-spacing: 0.09em;
             text-transform: uppercase; color: var(--text-dim);
             border-bottom: 1px solid var(--border);
         }
-        .sidebar-nav { list-style: none; margin: 0; padding: 0; }
-        .sidebar-nav li { margin: 2px 0; }
-        .sidebar-nav a {
+        .nav-section-title.main-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            background: linear-gradient(90deg, var(--accent-soft), transparent);
+            border-bottom: 2px solid var(--accent);
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0.3rem;
+        }
+        .nav-section-title.main-menu svg {
+            width: 16px; height: 16px;
+            filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 50%, transparent));
+        }
+        .nav-list { list-style: none; margin: 0; padding: 0; }
+        .nav-item { margin: 2px 0; }
+        .nav-link {
             display: flex; align-items: center; gap: 0.7rem;
             padding: 0.62rem 0.85rem;
             border-radius: 12px;
@@ -376,24 +412,122 @@ $totalAvailable = count($availableVideos);
             position: relative;
             transition: all 0.16s ease;
         }
-        .sidebar-nav a svg { width: 19px; height: 19px; flex-shrink: 0; }
-        .sidebar-nav a:hover {
+        .nav-link svg { width: 19px; height: 19px; flex-shrink: 0; }
+        .nav-link:hover {
             background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: var(--text);
         }
-        .sidebar-nav a.active {
+        .nav-link.active {
             background: color-mix(in srgb, var(--accent) 15%, transparent);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: var(--accent);
             font-weight: 600;
         }
-        .sidebar-nav a.active::before {
+        .nav-link.active::before {
             content: ''; position: absolute; left: -0.85rem; top: 20%; bottom: 20%;
             width: 3px; border-radius: 999px; background: var(--accent);
         }
+
+        /* Mini sidebar (collapsed) */
+        .sidebar.mini { width: 64px; padding: 1.25rem 0.5rem 2rem; }
+        .sidebar.mini .search-wrap { padding: 0 0 0.5rem; }
+        .sidebar.mini .search-wrap svg { left: 50%; transform: translate(-50%, -60%); }
+        .sidebar.mini .search-wrap input { padding: 0.7rem; width: 40px; height: 40px; text-indent: -999px; overflow: hidden; }
+        .sidebar.mini .search-wrap input::placeholder { color: transparent; }
+        .sidebar.mini .nav-section-title {
+            font-size: 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+        .sidebar.mini .nav-section-title.main-menu {
+            padding: 0.5rem 0;
+            border-radius: 8px;
+            background: var(--accent-soft);
+            border-bottom: 2px solid var(--accent);
+            justify-content: center;
+        }
+        .sidebar.mini .nav-section-title.main-menu svg { width: 18px; height: 18px; }
+        .sidebar.mini .nav-link {
+            justify-content: center;
+            padding: 0.62rem 0;
+            font-size: 0;
+            gap: 0;
+        }
+        .sidebar.mini .nav-link svg { width: 20px; height: 20px; }
+        .sidebar.mini .nav-link.active::before { left: 0; }
+        .sidebar.mini .nav-link::after {
+            content: attr(data-tip);
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.35rem 0.7rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+            z-index: 100;
+        }
+        .sidebar.mini .nav-link:hover::after { opacity: 1; }
+
+        /* Collapse button */
+        .sidebar-hide-btn {
+            position: absolute;
+            top: 50%;
+            right: -18px;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--surface-solid);
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 15;
+            box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+        }
+        .sidebar-hide-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--accent), transparent, var(--accent));
+            opacity: 0;
+            z-index: -1;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sidebar-hide-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+        }
+        .sidebar-hide-btn:hover::before { opacity: 0.6; }
+        .sidebar-hide-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
+
         .sidebar-overlay { display: none; }
 
         /* Content column */
@@ -753,6 +887,13 @@ $totalAvailable = count($availableVideos);
                 transition: transform 0.25s ease;
             }
             .sidebar.open { transform: translateX(0); }
+            .sidebar.mini { width: 280px; padding: 1.25rem 0.85rem 2rem; }
+            .sidebar.mini .search-wrap input { text-indent: 0; width: 100%; padding: 0.7rem 2rem 0.7rem 2.4rem; }
+            .sidebar.mini .search-wrap svg { left: 1rem; transform: translateY(-60%); }
+            .sidebar.mini .nav-link { justify-content: flex-start; font-size: 0.88rem; gap: 0.7rem; padding: 0.62rem 0.85rem; }
+            .sidebar.mini .nav-section-title { font-size: 0.68rem; padding: 1rem 1rem 0.4rem; justify-content: flex-start; }
+            .sidebar.mini .nav-link::after { display: none; }
+            .sidebar-hide-btn { display: none; }
             .sidebar-overlay {
                 display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
                 z-index: 250;
@@ -787,9 +928,65 @@ $totalAvailable = count($availableVideos);
         .doc-floater p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; margin: 0; max-height: 8.5em; overflow: hidden; }
         @media (max-width: 900px) { .doc-floater { display: none !important; } }
 
+        /* ACD_TMS curved vector background overlay */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bg-canvas svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- ACD_TMS Curved Vector Background -->
+    <div class="bg-canvas">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-dark" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(16,185,129,0.07)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.05)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.10)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" id="bg-svg-light" style="display: none;">
+            <path d="M -72 696 C 168 576, 384 640, 600 536 C 816 432, 888 352, 1056 448 C 1200 536, 1224 624, 1320 552 L 1320 816 L -72 816 Z" fill="rgba(16,185,129,0.08)"/>
+            <path d="M 744 -56 C 960 56, 1080 192, 1056 352 C 1032 520, 960 552, 1164 624 L 1320 568 L 1320 -56 Z" fill="rgba(14,163,113,0.08)"/>
+            <path d="M -48 0 C 72 72, 204 32, 312 144 C 408 240, 384 376, 264 408 C 48 480, -48 424, -48 352 Z" fill="rgba(16,185,129,0.06)"/>
+            <path d="M 84 728 C 276 624, 480 680, 636 568 C 816 440, 864 408, 1032 480" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1.4"/>
+            <path d="M -36 496 C 144 424, 312 480, 480 392 C 672 248, 792 280, 840 288" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <path d="M 180 0 C 252 128, 156 232, 228 336 C 336 448, 360 544, 288 552" fill="none" stroke="rgba(16,185,129,0.08)" stroke-width="1"/>
+            <circle cx="696" cy="160" r="78" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="132" cy="608" r="50" fill="rgba(16,185,129,0.05)"/>
+            <circle cx="468" cy="728" r="34" fill="rgba(16,185,129,0.05)"/>
+            <g fill="rgba(16,185,129,0.14)">
+                <circle cx="36" cy="272" r="1.8"/><circle cx="84" cy="272" r="1.8"/><circle cx="132" cy="272" r="1.8"/><circle cx="180" cy="272" r="1.8"/><circle cx="228" cy="272" r="1.8"/><circle cx="276" cy="272" r="1.8"/><circle cx="324" cy="272" r="1.8"/>
+                <circle cx="36" cy="312" r="1.8"/><circle cx="84" cy="312" r="1.8"/><circle cx="132" cy="312" r="1.8"/><circle cx="180" cy="312" r="1.8"/><circle cx="228" cy="312" r="1.8"/><circle cx="276" cy="312" r="1.8"/><circle cx="324" cy="312" r="1.8"/>
+                <circle cx="36" cy="352" r="1.8"/><circle cx="84" cy="352" r="1.8"/><circle cx="132" cy="352" r="1.8"/><circle cx="180" cy="352" r="1.8"/><circle cx="228" cy="352" r="1.8"/><circle cx="276" cy="352" r="1.8"/><circle cx="324" cy="352" r="1.8"/>
+                <circle cx="36" cy="392" r="1.8"/><circle cx="84" cy="392" r="1.8"/><circle cx="132" cy="392" r="1.8"/><circle cx="180" cy="392" r="1.8"/><circle cx="228" cy="392" r="1.8"/><circle cx="276" cy="392" r="1.8"/><circle cx="324" cy="392" r="1.8"/>
+                <circle cx="36" cy="432" r="1.8"/><circle cx="84" cy="432" r="1.8"/><circle cx="132" cy="432" r="1.8"/><circle cx="180" cy="432" r="1.8"/><circle cx="228" cy="432" r="1.8"/><circle cx="276" cy="432" r="1.8"/><circle cx="324" cy="432" r="1.8"/>
+            </g>
+        </svg>
+    </div>
 
     <div class="loader-overlay" id="loader">
         <div class="spinner"></div>
@@ -833,25 +1030,48 @@ $totalAvailable = count($availableVideos);
 
     <div class="layout">
         <aside class="sidebar" id="sidebar" aria-label="Documentation sections">
-            <div class="sidebar-group">
-                <div class="sidebar-label">Getting Started</div>
-                <ul class="sidebar-nav" id="doc-nav">
-                    <li><a href="#overview" data-section="overview"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Overview</a></li>
-                </ul>
+            <div class="search-wrap">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input type="text" id="sidebar-search" placeholder="Search sections..." onkeyup="filterMenu()" onclick="if(document.getElementById('sidebar').classList.contains('mini')){toggleSidebarMini();this.focus();}">
             </div>
-            <div class="sidebar-group">
-                <div class="sidebar-label">Video Library</div>
-                <ul class="sidebar-nav">
-                    <li><a href="#videos" data-section="videos"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Video Module</a></li>
-                    <li><a href="#all-videos" data-section="all-videos"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Video Catalog (<?php echo $totalVideos; ?>)</a></li>
-                </ul>
-            </div>
-            <div class="sidebar-group">
-                <div class="sidebar-label">Configuration</div>
-                <ul class="sidebar-nav">
-                    <li><a href="#settings" data-section="settings"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings &amp; Accessibility</a></li>
-                </ul>
-            </div>
+            <button class="sidebar-hide-btn" onclick="toggleSidebarMini()" title="Collapse sidebar" aria-label="Toggle sidebar" id="sidebar-toggle-btn">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
+            </button>
+
+            <ul class="nav-list" id="doc-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#overview" data-section="overview" data-tip="Overview">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#10b981"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Overview
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-section-title">Video Library</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a class="nav-link" href="#videos" data-section="videos" data-tip="Video Module">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#3b82f6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        Video Module
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#all-videos" data-section="all-videos" data-tip="Video Catalog (<?php echo $totalVideos; ?>)">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#f59e0b"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Video Catalog (<?php echo $totalVideos; ?>)
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-section-title">Configuration</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a class="nav-link" href="#settings" data-section="settings" data-tip="Settings &amp; Accessibility">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#8b5cf6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        Settings &amp; Accessibility
+                    </a>
+                </li>
+            </ul>
         </aside>
 
         <main class="content" id="main-content">
@@ -1042,6 +1262,7 @@ $totalAvailable = count($availableVideos);
                 moonIcon.style.display = isDark ? 'block' : 'none';
                 sunIcon.style.display = isDark ? 'none' : 'block';
             }
+            updateBackgroundSVG();
         }
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
@@ -1059,7 +1280,15 @@ $totalAvailable = count($availableVideos);
                 moonIcon.style.display = isDark ? 'block' : 'none';
                 sunIcon.style.display = isDark ? 'none' : 'block';
             }
+            updateBackgroundSVG();
             window.dispatchEvent(new StorageEvent('storage', { key: 'dispatch-settings' }));
+        }
+        function updateBackgroundSVG() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const darkSVG = document.getElementById('bg-svg-dark');
+            const lightSVG = document.getElementById('bg-svg-light');
+            if (darkSVG) darkSVG.style.display = isDark ? 'block' : 'none';
+            if (lightSVG) lightSVG.style.display = isDark ? 'none' : 'block';
         }
         (function initSettings() {
             applySharedSettings();
@@ -1119,10 +1348,58 @@ $totalAvailable = count($availableVideos);
             });
         })();
 
+        // ---- Sidebar mini (collapse) ----
+        function toggleSidebarMini() {
+            const sidebar = document.getElementById('sidebar');
+            const btn = document.getElementById('sidebar-toggle-btn');
+            const isMini = sidebar.classList.contains('mini');
+            if (isMini) {
+                sidebar.classList.remove('mini');
+                btn.title = 'Collapse sidebar';
+                btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>';
+                try { localStorage.setItem('dispatch-sidebar-mini', 'false'); } catch (e) {}
+            } else {
+                sidebar.classList.add('mini');
+                btn.title = 'Expand sidebar';
+                btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+                try { localStorage.setItem('dispatch-sidebar-mini', 'true'); } catch (e) {}
+            }
+        }
+        (function initSidebarMiniRestore() {
+            try {
+                if (localStorage.getItem('dispatch-sidebar-mini') === 'true' && window.innerWidth > 900) {
+                    var sidebar = document.getElementById('sidebar');
+                    var btn = document.getElementById('sidebar-toggle-btn');
+                    sidebar.classList.add('mini');
+                    btn.title = 'Expand sidebar';
+                    btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+                }
+            } catch (e) {}
+        })();
+
+        // ---- Sidebar search filter ----
+        function filterMenu() {
+            const term = document.getElementById('sidebar-search').value.toLowerCase().trim();
+            document.querySelectorAll('.sidebar .nav-section-title').forEach(function (title) {
+                const list = title.nextElementSibling;
+                if (!list || !list.classList.contains('nav-list')) return;
+                const sectionMatch = title.textContent.toLowerCase().includes(term);
+                let visibleCount = 0;
+                list.querySelectorAll(':scope > .nav-item').forEach(function (item) {
+                    const link = item.querySelector('.nav-link');
+                    const text = link ? link.textContent.toLowerCase() : '';
+                    const match = !term || sectionMatch || text.includes(term);
+                    item.style.display = match ? '' : 'none';
+                    if (match) visibleCount++;
+                });
+                title.style.display = visibleCount > 0 ? '' : 'none';
+            });
+        }
+
         // ---- Scrollspy: highlight active nav link (sidebar + mobile pills) ----
         (function initScrollspy() {
             const sections = Array.from(document.querySelectorAll('.doc-section[id]'));
-            const sidebarLinks = Array.from(document.querySelectorAll('.sidebar-nav a'));
+            const sidebarLinks = Array.from(document.querySelectorAll('.sidebar .nav-link'));
             const mobileLinks = Array.from(document.querySelectorAll('#doc-nav-mobile a'));
             function setActive(id) {
                 [...sidebarLinks, ...mobileLinks].forEach(function (l) {
@@ -1348,7 +1625,7 @@ $totalAvailable = count($availableVideos);
                 floater.classList.add('show');
             }
             function hideFloater() { floater.classList.remove('show'); }
-            document.querySelectorAll('.sidebar-nav a, #doc-nav-mobile a').forEach(function(link) {
+            document.querySelectorAll('.sidebar .nav-link, #doc-nav-mobile a').forEach(function(link) {
                 link.addEventListener('mouseenter', function() { clearTimeout(hideTimer); showFloater(this); });
                 link.addEventListener('mouseleave', function() { hideTimer = setTimeout(hideFloater, 160); });
             });

@@ -139,9 +139,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             transform: translateX(-50%) translateY(0);
         }
         .icon-btn.theme-btn { color: #a78bfa; border-color: rgba(167, 139, 250, 0.35); background: rgba(167, 139, 250, 0.10); }
-        .icon-btn.theme-btn:hover { background: rgba(167, 139, 250, 0.20); border-color: rgba(167, 139, 250, 0.6); box-shadow: 0 0 14px rgba(167, 139, 250, 0.35); }
+        .icon-btn.theme-btn:hover { background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(139, 92, 246, 0.22)); border-color: rgba(167, 139, 250, 0.7); box-shadow: 0 0 16px rgba(167, 139, 250, 0.45); transform: translateY(-2px) scale(1.05); color: #fff; }
         html:not(.dark) .icon-btn.theme-btn { color: #f59e0b; border-color: rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.10); }
-        html:not(.dark) .icon-btn.theme-btn:hover { background: rgba(245, 158, 11, 0.20); border-color: rgba(245, 158, 11, 0.6); box-shadow: 0 0 14px rgba(245, 158, 11, 0.35); }
+        html:not(.dark) .icon-btn.theme-btn:hover { background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.22)); border-color: rgba(245, 158, 11, 0.7); box-shadow: 0 0 16px rgba(245, 158, 11, 0.45); transform: translateY(-2px) scale(1.05); color: #fff; }
         .icon-btn.docs-btn {
             color: #38bdf8;
             border-color: rgba(56, 189, 248, 0.35);
@@ -679,9 +679,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             background: color-mix(in srgb, var(--accent) 10%, transparent);
         }
         .icon-btn.settings-btn-top:hover {
-            background: color-mix(in srgb, var(--accent) 20%, transparent);
-            border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-2) 22%, transparent));
+            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
         }
 
         /* ===== Settings Panel ===== */
@@ -717,6 +719,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
         }
         .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
         .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
@@ -737,39 +740,49 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
         .settings-group { margin-bottom: 1.75rem; }
         .settings-group-title {
-            font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em;
-            text-transform: uppercase; color: var(--text-dim);
+            font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--accent);
             margin-bottom: 0.75rem; padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
         }
         .setting-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0.7rem 0;
+            padding: 0.85rem 1rem;
+            margin: 0 -0.5rem;
             gap: 1rem;
+            border-radius: 12px;
+            transition: all 0.18s ease;
         }
+        .setting-row:hover { background: var(--surface-2); }
         .setting-label { flex: 1; }
-        .setting-label .s-name { font-size: 0.88rem; font-weight: 500; color: var(--text); }
-        .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+        .setting-label .s-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+        .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 3px; }
         .toggle {
             position: relative;
-            width: 44px; height: 24px;
+            width: 46px; height: 26px;
             border-radius: 999px;
             background: var(--surface-2);
             border: 1px solid var(--border-strong);
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             flex-shrink: 0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
         }
         .toggle::after {
             content: '';
             position: absolute;
-            top: 2px; left: 2px;
-            width: 18px; height: 18px;
+            top: 2.5px; left: 2.5px;
+            width: 19px; height: 19px;
             border-radius: 50%;
-            background: var(--text-muted);
-            transition: transform 0.2s ease, background 0.2s ease;
+            background: linear-gradient(145deg, #fff, #d1d5db);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .toggle.on { background: var(--accent); border-color: var(--accent); }
+        .toggle.on {
+            background: linear-gradient(135deg, var(--accent), #059669);
+            border-color: transparent;
+            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+        }
         .toggle.on::after { transform: translateX(20px); background: #fff; }
         .setting-select {
             padding: 0.55rem 2rem 0.55rem 0.85rem;
@@ -830,9 +843,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             transition: all 0.15s ease;
             font-family: inherit;
         }
-        .settings-btn:hover { background: var(--surface-2); }
-        .settings-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .settings-btn.primary:hover { background: #059669; }
+        .settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
+        .settings-btn:active { transform: translateY(0); }
+        .settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
+        .settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
+        @media (max-width: 560px) {
+            .settings-panel { width: 100vw; }
+        }
 
         /* Accessibility modes */
         body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
@@ -1052,7 +1069,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 Full Tutorial
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             </button>
             <button class="icon-btn settings-btn-top" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -1253,7 +1271,39 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         <option value="2">2x (Fastest)</option>
                     </select>
                 </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Video Quality</div>
+                        <div class="s-hint">Preferred video quality (if available)</div>
+                    </div>
+                    <select class="setting-select" id="set-video-quality" onchange="setVideoQuality(this.value)">
+                        <option value="auto" selected>Auto</option>
+                        <option value="high">High (1080p)</option>
+                        <option value="medium">Medium (720p)</option>
+                        <option value="low">Low (480p)</option>
+                    </select>
+                </div>
             </div>
+
+            <!-- Navigation & Layout -->
+            <div class="settings-group">
+                <div class="settings-group-title">Navigation &amp; Layout</div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Mini Sidebar (Icons Only)</div>
+                        <div class="s-hint">Show only icons in the sidebar on desktop</div>
+                    </div>
+                    <div class="toggle" id="set-sidebar-collapsed" onclick="toggleSetting('sidebar-collapsed','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Sync Search</div>
+                        <div class="s-hint">Keep assistant and sidebar search in sync</div>
+                    </div>
+                    <div class="toggle on" id="set-sync-search" onclick="toggleSetting('sync-search','toggle')"></div>
+                </div>
+            </div>
+
             <!-- Accessibility -->
             <div class="settings-group">
                 <div class="settings-group-title">Accessibility</div>
@@ -1791,6 +1841,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
             } else if (opts.icon === 'reset') {
                 iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>';
+            } else if (opts.icon === 'sidebar') {
+                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';
             } else {
                 iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
             }
@@ -1805,12 +1857,28 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             announceTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
         }
 
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const moonIcon = document.querySelector('.theme-btn .moon-icon');
+            const sunIcon = document.querySelector('.theme-btn .sun-icon');
+            if (moonIcon && sunIcon) {
+                moonIcon.style.display = isDark ? 'block' : 'none';
+                sunIcon.style.display = isDark ? 'none' : 'block';
+            }
+        }
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             try { localStorage.setItem('dispatch-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            // Also sync to dispatch-settings
+            try {
+                const settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
+                settings['dark-mode'] = isDark;
+                localStorage.setItem('dispatch-settings', JSON.stringify(settings));
+            } catch (e) {}
             const darkToggle = document.getElementById('set-dark-mode');
             if (darkToggle) darkToggle.classList.toggle('on', isDark);
+            updateThemeIcons();
             updateBackgroundSVG();
             saveSettingsImmediate();
             showAnnouncement(isDark ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
@@ -1820,12 +1888,15 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         const SETTINGS_DEFAULTS = {
             'dark-mode': true,
             'autoplay': false,
+            'sidebar-collapsed': false,
+            'sync-search': true,
             'reduce-motion': false,
             'high-contrast': false,
             'large-text': false,
             'accent-color': '#10b981',
             'font-size': '15',
-            'playback-speed': '1'
+            'playback-speed': '1',
+            'video-quality': 'auto'
         };
 
         function loadSettings() {
@@ -1846,6 +1917,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         const SETTING_LABELS = {
             'dark-mode': 'Dark mode',
             'autoplay': 'Autoplay',
+            'sidebar-collapsed': 'Mini sidebar',
+            'sync-search': 'Sync search',
             'reduce-motion': 'Reduce motion',
             'high-contrast': 'High contrast',
             'large-text': 'Larger text'
@@ -1885,7 +1958,23 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     if (value) document.documentElement.style.fontSize = '18px';
                     else document.documentElement.style.fontSize = settings['font-size'] + 'px';
                     break;
+                case 'sidebar-collapsed':
+                    if (window.innerWidth > 900) {
+                        const sidebar = document.getElementById('sidebar');
+                        const btn = document.getElementById('sidebar-toggle-btn');
+                        if (value) {
+                            sidebar.classList.add('mini');
+                            if (btn) { btn.title = 'Expand sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>'; }
+                        } else {
+                            sidebar.classList.remove('mini');
+                            if (btn) { btn.title = 'Collapse sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>'; }
+                        }
+                    }
+                    showAnnouncement(value ? 'Mini sidebar enabled' : 'Full sidebar enabled', { icon: 'sidebar' });
+                    break;
                 case 'autoplay':
+                case 'sync-search':
+                    // Stored for use by other functions
                     break;
             }
         }
@@ -1918,13 +2007,19 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             showAnnouncement('Playback speed set to ' + val + 'x');
         }
 
+        function setVideoQuality(val) {
+            applySetting('video-quality', val);
+            saveSettingsImmediate();
+            showAnnouncement('Video quality set to ' + val);
+        }
+
         function saveSettingsImmediate() {
             const settings = loadSettings();
-            ['dark-mode','autoplay','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) settings[key] = el.classList.contains('on');
             });
-            ['playback-speed'].forEach(function(key) {
+            ['playback-speed','video-quality'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) settings[key] = el.value;
             });
@@ -1959,17 +2054,24 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         function applySettingsToUI() {
             const s = loadSettings();
-            ['dark-mode','autoplay','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+            // Toggles
+            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) el.classList.toggle('on', !!s[key]);
             });
-            const psEl = document.getElementById('set-playback-speed');
-            if (psEl) psEl.value = s['playback-speed'];
+            // Selects
+            ['playback-speed','video-quality'].forEach(function(key) {
+                const el = document.getElementById('set-' + key);
+                if (el) el.value = s[key];
+            });
+            // Font size
             const fsEl = document.getElementById('set-font-size');
             if (fsEl) { fsEl.value = s['font-size']; document.getElementById('font-size-value').textContent = s['font-size'] + 'px'; }
+            // Accent color
             document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(sw) {
                 sw.classList.toggle('active', sw.dataset.color === s['accent-color']);
             });
+            // Apply to DOM
             document.documentElement.style.setProperty('--accent', s['accent-color']);
             document.documentElement.style.setProperty('--accent-soft', s['accent-color'] + '22');
             if (s['large-text']) document.documentElement.style.fontSize = '18px';
@@ -1994,6 +2096,16 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         // Initialize settings on load
         initSettingsOnLoad();
+        updateThemeIcons();
+
+        // Sync theme and settings when changed in other tabs
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dispatch-theme' || e.key === 'dispatch-settings') {
+                initSettingsOnLoad();
+                applySettingsToUI();
+                updateThemeIcons();
+            }
+        });
 
         // Load user data and render watch history
         loadUserData();
