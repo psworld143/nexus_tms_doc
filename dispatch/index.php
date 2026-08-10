@@ -148,8 +148,32 @@
                 cursor: pointer;
                 transition: all 0.18s ease;
             }
-            .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-1px); }
+            .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-2px); }
             .icon-btn svg { width: 18px; height: 18px; }
+            .icon-btn[title] { position: relative; }
+            .icon-btn[title]::after {
+                content: attr(title);
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 50%;
+                transform: translateX(-50%) translateY(-6px);
+                padding: 0.35rem 0.65rem;
+                background: var(--surface-solid);
+                color: var(--text);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.18s ease;
+                z-index: 10;
+            }
+            .icon-btn[title]:hover::after {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
             .icon-btn.refresh-btn {
                 color: #38bdf8;
                 border-color: rgba(56, 189, 248, 0.35);
@@ -171,6 +195,44 @@
                 border-color: rgba(244, 114, 182, 0.6);
                 box-shadow: 0 0 14px rgba(244, 114, 182, 0.35);
                 transform: translateY(-1px);
+            }
+            .icon-btn.docs-btn {
+                color: #38bdf8;
+                border-color: rgba(56, 189, 248, 0.35);
+                background: rgba(56, 189, 248, 0.10);
+                text-decoration: none;
+                position: relative;
+            }
+            .icon-btn.docs-btn:hover {
+                background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.22));
+                border-color: rgba(56, 189, 248, 0.7);
+                box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+                transform: translateY(-2px) scale(1.05);
+                color: #fff;
+            }
+            .icon-btn.docs-btn svg { width: 20px; height: 20px; }
+            .icon-btn.docs-btn::after {
+                content: attr(title);
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 50%;
+                transform: translateX(-50%) translateY(-6px);
+                padding: 0.35rem 0.65rem;
+                background: var(--surface-solid);
+                color: var(--text);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.18s ease;
+                z-index: 10;
+            }
+            .icon-btn.docs-btn:hover::after {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
             }
             .icon-btn.theme-btn {
                 color: #a78bfa;
@@ -206,28 +268,12 @@
                 color: #fbbf24;
                 border-color: rgba(251, 191, 36, 0.35);
                 background: rgba(251, 191, 36, 0.10);
-                position: relative;
             }
             .icon-btn.tour-btn:hover {
                 background: rgba(251, 191, 36, 0.20);
                 border-color: rgba(251, 191, 36, 0.6);
                 box-shadow: 0 0 14px rgba(251, 191, 36, 0.35);
             }
-            .icon-btn.tour-btn::after {
-                content: '';
-                position: absolute;
-                top: -3px; right: -3px;
-                width: 10px; height: 10px;
-                border-radius: 50%;
-                background: #fbbf24;
-                box-shadow: 0 0 8px #fbbf24;
-                animation: tour-pulse 1.5s ease-in-out infinite;
-            }
-            @keyframes tour-pulse {
-                0%, 100% { opacity: 1; transform: scale(1); }
-                50% { opacity: 0.5; transform: scale(1.4); }
-            }
-            .icon-btn.tour-btn.touring::after { display: none; }
 
             /* ===== Tour Guide Overlay ===== */
             .tour-overlay {
@@ -985,6 +1031,7 @@
                 display: flex;
                 align-items: center;
                 gap: 0.75rem;
+                background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
             }
             .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
             .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
@@ -1005,40 +1052,50 @@
             .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
             .settings-group { margin-bottom: 1.75rem; }
             .settings-group-title {
-                font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em;
-                text-transform: uppercase; color: var(--text-dim);
+                font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+                text-transform: uppercase; color: var(--accent);
                 margin-bottom: 0.75rem; padding-bottom: 0.5rem;
                 border-bottom: 1px solid var(--border);
             }
             .setting-row {
                 display: flex; align-items: center; justify-content: space-between;
-                padding: 0.7rem 0;
+                padding: 0.85rem 1rem;
+                margin: 0 -0.5rem;
                 gap: 1rem;
+                border-radius: 12px;
+                transition: all 0.18s ease;
             }
+            .setting-row:hover { background: var(--surface-2); }
             .setting-label { flex: 1; }
-            .setting-label .s-name { font-size: 0.88rem; font-weight: 500; color: var(--text); }
-            .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+            .setting-label .s-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+            .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 3px; }
             /* Toggle switch */
             .toggle {
                 position: relative;
-                width: 44px; height: 24px;
+                width: 46px; height: 26px;
                 border-radius: 999px;
                 background: var(--surface-2);
                 border: 1px solid var(--border-strong);
                 cursor: pointer;
-                transition: background 0.2s ease;
+                transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
                 flex-shrink: 0;
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
             }
             .toggle::after {
                 content: '';
                 position: absolute;
-                top: 2px; left: 2px;
-                width: 18px; height: 18px;
+                top: 2.5px; left: 2.5px;
+                width: 19px; height: 19px;
                 border-radius: 50%;
-                background: var(--text-muted);
-                transition: transform 0.2s ease, background 0.2s ease;
+                background: linear-gradient(145deg, #fff, #d1d5db);
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+                transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
-            .toggle.on { background: var(--accent); border-color: var(--accent); }
+            .toggle.on {
+                background: linear-gradient(135deg, var(--accent), #059669);
+                border-color: transparent;
+                box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+            }
             .toggle.on::after { transform: translateX(20px); background: #fff; }
             /* Select dropdown */
             .setting-select {
@@ -1122,12 +1179,13 @@
                 font-size: 0.85rem;
                 font-weight: 600;
                 cursor: pointer;
-                transition: all 0.15s ease;
+                transition: all 0.18s ease;
                 font-family: inherit;
             }
-            .settings-btn:hover { background: var(--surface-2); }
-            .settings-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-            .settings-btn.primary:hover { background: #059669; }
+            .settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
+            .settings-btn:active { transform: translateY(0); }
+            .settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
+            .settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
             @media (max-width: 560px) {
                 .settings-panel { width: 100vw; }
             }
@@ -1487,6 +1545,9 @@
                 </button>
                 <a href="tutorials.php" class="icon-btn tutorials-btn" title="Video Tutorial Library">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </a>
+                <a href="docs.php" class="icon-btn docs-btn" title="Documentation">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                 </a>
                 <button class="icon-btn tour-btn" onclick="startTour()" title="Start Tour Guide" aria-label="Start tour guide">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 9m0 8V9m0 0L9 7"/></svg>

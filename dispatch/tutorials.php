@@ -109,12 +109,74 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             cursor: pointer;
             transition: all 0.18s ease;
         }
-        .icon-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); }
+        .icon-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); transform: translateY(-2px); }
         .icon-btn svg { width: 18px; height: 18px; }
+        .icon-btn[title] { position: relative; }
+        .icon-btn[title]::after {
+            content: attr(title);
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            padding: 0.35rem 0.65rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.18s ease;
+            z-index: 10;
+        }
+        .icon-btn[title]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         .icon-btn.theme-btn { color: #a78bfa; border-color: rgba(167, 139, 250, 0.35); background: rgba(167, 139, 250, 0.10); }
         .icon-btn.theme-btn:hover { background: rgba(167, 139, 250, 0.20); border-color: rgba(167, 139, 250, 0.6); box-shadow: 0 0 14px rgba(167, 139, 250, 0.35); }
         html:not(.dark) .icon-btn.theme-btn { color: #f59e0b; border-color: rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.10); }
         html:not(.dark) .icon-btn.theme-btn:hover { background: rgba(245, 158, 11, 0.20); border-color: rgba(245, 158, 11, 0.6); box-shadow: 0 0 14px rgba(245, 158, 11, 0.35); }
+        .icon-btn.docs-btn {
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.35);
+            background: rgba(56, 189, 248, 0.10);
+            text-decoration: none;
+            position: relative;
+        }
+        .icon-btn.docs-btn:hover {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.22));
+            border-color: rgba(56, 189, 248, 0.7);
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
+        }
+        .icon-btn.docs-btn svg { width: 20px; height: 20px; }
+        .icon-btn.docs-btn::after {
+            content: attr(title);
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            padding: 0.35rem 0.65rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.18s ease;
+            z-index: 10;
+        }
+        .icon-btn.docs-btn:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         .back-btn {
             display: inline-flex; align-items: center; gap: 0.55rem;
             padding: 0.55rem 1.1rem;
@@ -966,6 +1028,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             </span>
         </div>
         <div class="header-actions">
+            <a href="docs.php" class="icon-btn docs-btn" title="Documentation">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </a>
             <a href="index.php" class="back-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.829 5.477 9.5 5 8 5c-1.5 0-2.829.477-4 1.253v13C5.171 18.477 6.5 18 8 18c1.5 0 2.829.477 4 1.253m0-13C13.171 5.477 14.5 5 16 5c1.5 0 2.829.477 4 1.253v13C18.829 18.477 17.5 18 16 18c-1.5 0-2.829.477-4 1.253"/></svg>
                 Full Tutorial
