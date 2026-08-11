@@ -181,7 +181,7 @@ $site = 'DISPATCH';
         .theme-btn {
             width: 40px; height: 40px;
             display: grid; place-items: center;
-            border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+            border: 1px solid var(--border-strong);
             background: color-mix(in srgb, var(--accent) 10%, transparent);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -192,7 +192,7 @@ $site = 'DISPATCH';
         }
         .theme-btn:hover {
             background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
-            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            border-color: var(--border-strong);
             box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
             transform: translateY(-2px) scale(1.05);
             color: #fff;
@@ -278,40 +278,27 @@ $site = 'DISPATCH';
             0% { transform: translateX(-100%); }
             100% { transform: translateX(250%); }
         }
-        /* Unique Back to Home Button */
+        /* Simple Back Button */
         .back-home-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.5rem 1rem 0.5rem 0.7rem;
-            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-            border-radius: 999px;
-            background: color-mix(in srgb, var(--accent) 8%, transparent);
-            color: var(--accent);
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
+            font-size: 0.8rem; font-weight: 500;
             font-family: inherit;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative; overflow: hidden;
+            transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
         }
-        .back-home-btn::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            opacity: 0; transition: opacity 0.25s ease;
-            border-radius: inherit;
-        }
-        .back-home-btn > * { position: relative; z-index: 1; }
         .back-home-btn svg {
-            width: 17px; height: 17px; flex-shrink: 0;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 16px; height: 16px; flex-shrink: 0;
         }
         .back-home-btn:hover {
-            color: #fff;
-            border-color: transparent;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent);
+            border-color: var(--border-strong);
+            color: var(--text);
+            background: var(--surface-2);
         }
-        .back-home-btn:hover::before { opacity: 1; }
-        .back-home-btn:hover svg { transform: translateX(-3px) scale(1.1); }
-        .back-home-btn:active { transform: translateY(0); }
         .hero {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: var(--radius); padding: 2.5rem 2rem;
@@ -354,10 +341,11 @@ $site = 'DISPATCH';
             font-family: inherit; padding: 0.45rem 0.85rem; border-radius: 999px;
             border: 1px solid var(--border); background: var(--surface-2);
             color: var(--text-muted); font-size: 0.78rem; font-weight: 600;
-            cursor: pointer; transition: all 0.15s ease;
+            cursor: pointer; transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
         }
-        .status-filter button:hover { border-color: var(--accent); color: var(--text); }
-        .status-filter button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .status-filter button:hover { transform: translateY(-3px); border-color: var(--border-strong); color: var(--text); }
+        .status-filter button:active { transform: translateY(0) scale(0.97); }
+        .status-filter button.active { background: var(--accent); color: #fff; border-color: var(--border-strong); transform: translateY(-3px); }
         .doc-actions a {
             padding: 0.45rem 0.9rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
             text-decoration: none; transition: all 0.15s ease; border: 1px solid transparent;
@@ -406,8 +394,8 @@ $site = 'DISPATCH';
             color: var(--text); background: var(--surface-2); transition: all 0.15s ease;
             font-family: inherit;
         }
-        .dmh-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .dmh-btn:hover { border-color: var(--accent); }
+        .dmh-btn.primary { background: var(--accent); color: #fff; border-color: var(--border-strong); }
+        .dmh-btn:hover { border-color: var(--border-strong); }
         .doc-modal-body {
             flex: 1; overflow-y: auto;
             padding: 3rem 1.5rem;
@@ -605,11 +593,11 @@ $site = 'DISPATCH';
             background-size: 16px;
         }
         .setting-select:hover {
-            border-color: var(--accent);
+            border-color: var(--border-strong);
             background-color: var(--accent-soft);
         }
         .setting-select:focus {
-            border-color: var(--accent);
+            border-color: var(--border-strong);
             box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .setting-select option {
@@ -798,15 +786,15 @@ $site = 'DISPATCH';
             <div class="brand">
                 <a href="docs.php">
                     <span class="brand-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
                     </span>
                     <span class="brand-text">DISPATCH <small>Video Docs</small></span>
                 </a>
             </div>
             <div class="topbar-actions">
                 <a href="index.php" class="back-home-btn" title="Back to Home">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    <span>Back to Home</span>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    <span>Back</span>
                 </a>
                 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
                     <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
@@ -1011,7 +999,7 @@ $site = 'DISPATCH';
     <div class="doc-modal-overlay" id="doc-modal-overlay">
         <div class="doc-modal" role="dialog" aria-modal="true" aria-label="Documentation view">
             <div class="doc-modal-header">
-                <div class="dmh-brand">DISPATCH Video Docs</div>
+                <div class="dmh-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg> DISPATCH Video Docs</div>
                 <div class="dmh-actions">
                     <a class="dmh-btn primary" href="#" id="doc-modal-watch" target="_blank">Watch tutorial</a>
                     <button class="dmh-btn" id="doc-modal-close" type="button">Close</button>

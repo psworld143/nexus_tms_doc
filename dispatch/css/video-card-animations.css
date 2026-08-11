@@ -38,7 +38,7 @@
 
 .doc-card:hover {
     transform: translateY(-3px);
-    border-color: var(--accent);
+    border-color: var(--border-strong);
     box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.3);
 }
 
@@ -59,18 +59,18 @@
 
 /* ===== Doc Card Highlight (from URL hash) ===== */
 .doc-card.doc-highlight {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px var(--accent), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-strong);
+    box-shadow: 0 0 0 2px var(--border-strong), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
     animation: docHighlightPulse 1.5s ease;
 }
 
 @keyframes docHighlightPulse {
     0%, 100% {
-        box-shadow: 0 0 0 2px var(--accent), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 0 2px var(--border-strong), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
     }
     50% {
         box-shadow:
-            0 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent),
+            0 0 0 3px var(--border-strong),
             0 12px 28px -12px rgba(0, 0, 0, 0.3);
     }
 }
@@ -115,8 +115,8 @@
 
 /* Suggested card hover */
 .dm-suggest-card:hover {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-color: var(--border-strong);
+    background: var(--surface-2);
     box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.2);
 }
 
@@ -198,6 +198,7 @@
 /* ===== Category Title Underline ===== */
 .category-title {
     position: relative;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .category-title::after {
@@ -207,6 +208,10 @@
     width: 0; height: 2px;
     background: linear-gradient(90deg, var(--accent), transparent);
     transition: width 0.3s ease;
+}
+
+.category-block:hover .category-title {
+    transform: translateX(4px);
 }
 
 .category-block:hover .category-title::after {

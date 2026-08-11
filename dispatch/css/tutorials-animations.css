@@ -83,56 +83,37 @@
 }
 
 .search-bar input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
+    border-color: var(--border-strong);
 }
 
 .search-bar:focus-within svg {
     color: var(--accent);
 }
 
-/* ===== Filter Chips ===== */
-@keyframes filterChipFadeIn {
+/* ===== Sidebar Nav Items ===== */
+@keyframes navItemFadeIn {
     from {
         opacity: 0;
-        transform: translateY(6px);
+        transform: translateX(-8px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
-.filter-chip {
-    animation: filterChipFadeIn 0.3s ease both;
+.tut-nav-item {
+    animation: navItemFadeIn 0.3s ease both;
 }
 
-.filter-chip:nth-child(1) { animation-delay: 0.04s; }
-.filter-chip:nth-child(2) { animation-delay: 0.08s; }
-.filter-chip:nth-child(3) { animation-delay: 0.12s; }
-.filter-chip:nth-child(4) { animation-delay: 0.16s; }
-.filter-chip:nth-child(5) { animation-delay: 0.20s; }
-.filter-chip:nth-child(6) { animation-delay: 0.24s; }
-
-.filter-chip {
-    transition:
-        border-color 0.2s ease,
-        color 0.2s ease,
-        background 0.2s ease;
-}
-
-.filter-chip:hover {
-    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-    color: var(--text);
-}
-
-.filter-chip:hover svg {
-    opacity: 0.8;
-}
-
-.filter-chip.active svg {
-    opacity: 1;
-}
+.tut-nav-item:nth-child(1) { animation-delay: 0.04s; }
+.tut-nav-item:nth-child(2) { animation-delay: 0.08s; }
+.tut-nav-item:nth-child(3) { animation-delay: 0.12s; }
+.tut-nav-item:nth-child(4) { animation-delay: 0.16s; }
+.tut-nav-item:nth-child(5) { animation-delay: 0.20s; }
+.tut-nav-item:nth-child(6) { animation-delay: 0.24s; }
+.tut-nav-item:nth-child(7) { animation-delay: 0.28s; }
+.tut-nav-item:nth-child(8) { animation-delay: 0.32s; }
 
 /* ===== Video Card Entrance ===== */
 @keyframes videoCardFadeInUp {
@@ -171,8 +152,7 @@
 
 .video-card:hover {
     transform: translateY(-4px);
-    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-    border-top-color: var(--accent);
+    border-color: var(--border-strong);
     box-shadow: 0 16px 36px -14px rgba(0, 0, 0, 0.4);
 }
 
@@ -212,11 +192,12 @@
 
 /* Category badge */
 .category-badge {
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .video-card:hover .category-badge {
     opacity: 0.95;
+    transform: translateY(-2px) scale(1.05);
 }
 
 /* Duration badge */
@@ -266,8 +247,8 @@
 }
 
 .history-item:hover {
-    background: color-mix(in srgb, var(--accent) 6%, var(--surface-2));
-    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
 }
 
 /* ===== Progress Bar ===== */
@@ -315,7 +296,7 @@
 .modal-action-btn:hover {
     background: var(--surface-2);
     color: var(--text);
-    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    border-color: var(--border-strong);
 }
 
 /* ===== Related Videos ===== */
@@ -383,20 +364,11 @@
     animation-delay: 0.2s;
 }
 
-/* ===== Back to Home Button ===== */
-.back-home-btn svg {
-    transition: transform 0.2s ease;
-}
-
-.back-home-btn:hover svg {
-    transform: translateX(-3px);
-}
-
 /* ===== Reduce Motion Support ===== */
 body.reduce-motion .hero,
 body.reduce-motion .page-hero,
 body.reduce-motion .search-bar,
-body.reduce-motion .filter-chip,
+body.reduce-motion .tut-nav-item,
 body.reduce-motion .video-card,
 body.reduce-motion .video-empty,
 body.reduce-motion .watch-history,
@@ -410,7 +382,7 @@ body.reduce-motion .modal-video-frame {
 }
 
 body.reduce-motion .video-card:hover,
-body.reduce-motion .filter-chip:hover,
+body.reduce-motion .tut-nav-link:hover,
 body.reduce-motion .history-item:hover,
 body.reduce-motion .related-item:hover {
     transform: none !important;
@@ -418,8 +390,7 @@ body.reduce-motion .related-item:hover {
 
 body.reduce-motion .video-card::before,
 body.reduce-motion .video-card:hover .video-thumb video,
-body.reduce-motion .video-card:hover .video-info h3,
-body.reduce-motion .back-home-btn:hover svg {
+body.reduce-motion .video-card:hover .video-info h3 {
     transition: none !important;
     transform: none !important;
 }

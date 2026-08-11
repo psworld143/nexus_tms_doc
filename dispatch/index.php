@@ -126,7 +126,7 @@
                 background: var(--accent-soft);
                 color: var(--accent);
                 font-size: 0.78rem; font-weight: 600;
-                border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+                border: 1px solid var(--border-strong);
             }
             .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: pulse 2s infinite; }
             @keyframes pulse {
@@ -149,6 +149,11 @@
                 transition: all 0.18s ease;
             }
             .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-2px); }
+            .icon-btn:focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 2px;
+            }
+            .icon-btn:active { transform: translateY(0) scale(0.96); }
             .icon-btn svg { width: 18px; height: 18px; }
             .icon-btn[title] { position: relative; }
             .icon-btn[title]::after {
@@ -182,7 +187,7 @@
             .icon-btn.settings-btn-top,
             .icon-btn.tour-btn {
                 color: var(--accent);
-                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+                border-color: var(--border-strong);
                 background: color-mix(in srgb, var(--accent) 10%, transparent);
             }
             .icon-btn.refresh-btn:hover,
@@ -193,7 +198,7 @@
             .icon-btn.settings-btn-top:hover,
             .icon-btn.tour-btn:hover {
                 background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
-                border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+                border-color: var(--border-strong);
                 box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
                 transform: translateY(-2px) scale(1.05);
                 color: #fff;
@@ -227,6 +232,10 @@
                 opacity: 1;
                 transform: translateX(-50%) translateY(0);
             }
+            @media (prefers-reduced-motion: reduce) {
+                .icon-btn, .icon-btn:hover { transition: none; transform: none; }
+                .icon-btn:active { transform: none; }
+            }
 
             /* ===== Tour Guide Overlay ===== */
             .tour-overlay {
@@ -251,7 +260,7 @@
             .tour-tooltip {
                 position: absolute;
                 background: var(--surface-solid);
-                border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+                border: 1px solid var(--border-strong);
                 border-radius: 20px;
                 padding: 0;
                 max-width: 380px;
@@ -266,8 +275,8 @@
                 position: absolute;
                 width: 14px; height: 14px;
                 background: var(--surface-solid);
-                border-left: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-                border-top: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+                border-left: 1px solid var(--border-strong);
+                border-top: 1px solid var(--border-strong);
                 transform: rotate(45deg);
                 z-index: 1;
             }
@@ -358,7 +367,7 @@
             .tour-btn-control.primary {
                 background: var(--accent);
                 color: #fff;
-                border-color: var(--accent);
+                border-color: var(--border-strong);
                 box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--accent) 50%, transparent);
             }
             .tour-btn-control.primary:hover { background: #059669; box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--accent) 60%, transparent); }
@@ -428,7 +437,7 @@
                 transition: all 0.18s ease;
             }
             .search-wrap input::placeholder { color: var(--text-dim); }
-            .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+            .search-wrap input:focus { border-color: var(--border-strong); }
 
             .nav-section-title {
                 padding: 1rem 1rem 0.4rem;
@@ -446,7 +455,7 @@
                 letter-spacing: 0.06em;
                 color: var(--accent);
                 background: linear-gradient(90deg, var(--accent-soft), transparent);
-                border-bottom: 2px solid var(--accent);
+                border-bottom: 2px solid var(--border-strong);
                 border-radius: 12px 12px 0 0;
                 margin-bottom: 0.3rem;
             }
@@ -502,7 +511,7 @@
                 width: 52px; height: 52px; border-radius: 14px;
                 display: grid; place-items: center;
                 background: var(--accent-soft); color: var(--accent);
-                border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+                border: 1px solid var(--border-strong);
             }
             .page-head .ph-icon svg { width: 26px; height: 26px; }
             .page-head h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
@@ -575,7 +584,7 @@
                 background: color-mix(in srgb, var(--accent) 12%, transparent);
                 backdrop-filter: blur(12px);
                 -webkit-backdrop-filter: blur(12px);
-                border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+                border: 1px solid var(--border-strong);
                 border-radius: 14px;
                 margin-bottom: 1rem;
             }
@@ -853,7 +862,7 @@
                 background: var(--surface);
             }
             .assistant-suggestion:hover {
-                border-color: var(--accent);
+                border-color: var(--border-strong);
                 background: var(--accent-soft);
                 transform: translateX(4px);
             }
@@ -891,7 +900,7 @@
                 outline: none;
                 transition: border-color 0.15s ease;
             }
-            .assistant-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+            .assistant-input:focus { border-color: var(--border-strong); }
             .assistant-send {
                 width: 40px; height: 40px;
                 border: none;
@@ -920,7 +929,7 @@
                 cursor: pointer;
                 transition: all 0.15s ease;
             }
-            .assistant-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+            .assistant-chip:hover { border-color: var(--border-strong); color: var(--accent); background: var(--accent-soft); }
             @media (max-width: 560px) {
                 .assistant-panel { right: 0.75rem; bottom: 4.75rem; }
                 .assistant-fab { right: 0.75rem; bottom: 0.75rem; }
@@ -1048,11 +1057,11 @@
                 background-size: 16px;
             }
             .setting-select:hover {
-                border-color: var(--accent);
+                border-color: var(--border-strong);
                 background-color: var(--accent-soft);
             }
             .setting-select:focus {
-                border-color: var(--accent);
+                border-color: var(--border-strong);
                 box-shadow: 0 0 0 3px var(--accent-soft);
             }
             .setting-select option {
@@ -1129,7 +1138,7 @@
                 gap: 0.75rem;
                 padding: 0.85rem 1.25rem;
                 background: var(--surface-solid);
-                border: 1px solid var(--accent);
+                border: 1px solid var(--border-strong);
                 border-radius: 14px;
                 box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
                 color: var(--text);
@@ -1212,7 +1221,7 @@
                 padding: 0.5rem 0;
                 border-radius: 8px;
                 background: var(--accent-soft);
-                border-bottom: 2px solid var(--accent);
+                border-bottom: 2px solid var(--border-strong);
                 justify-content: center;
             }
             .sidebar.mini .nav-section-title.main-menu svg { width: 18px; height: 18px; }
@@ -1287,7 +1296,7 @@
             @keyframes spin { to { transform: rotate(360deg); } }
             .sidebar-hide-btn:hover {
                 color: var(--accent);
-                border-color: var(--accent);
+                border-color: var(--border-strong);
                 transform: translateY(-50%) scale(1.15);
                 box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
             }
@@ -1710,7 +1719,7 @@
                 </div>
                 <div class="tour-tooltip-body">
                     <div class="tour-title" id="tour-title">Welcome!</div>
-                    <div class="tour-desc" id="tour-desc">Let's take a quick tour of the DISPATCH system.</div>
+                    <div class="tour-desc" id="tour-desc">Let's take a quick tour of Dispatch LMS.</div>
                     <div class="tour-controls">
                         <button class="tour-btn-control" id="tour-prev" onclick="tourPrev()">Back</button>
                         <button class="tour-btn-control primary" id="tour-next" onclick="tourNext()">Next</button>
@@ -2629,7 +2638,7 @@
                 {
                     target: '.brand',
                     title: 'Welcome to DISPATCH!',
-                    desc: 'This is your video tutorial library for the DISPATCH Transportation Management System. Let me show you around in 8 quick steps.',
+                    desc: 'This is your video tutorial library for Dispatch LMS. Let me show you around in 8 quick steps.',
                     action: null
                 },
                 {

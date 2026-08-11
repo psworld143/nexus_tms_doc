@@ -152,40 +152,27 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .icon-btn.docs-btn { text-decoration: none; }
         .icon-btn.docs-btn svg { width: 20px; height: 20px; }
-        /* Unique Back to Home Button */
+        /* Simple Back Button */
         .back-home-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.5rem 1rem 0.5rem 0.7rem;
-            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-            border-radius: 999px;
-            background: color-mix(in srgb, var(--accent) 8%, transparent);
-            color: var(--accent);
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
+            font-size: 0.8rem; font-weight: 500;
             font-family: inherit;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative; overflow: hidden;
+            transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
         }
-        .back-home-btn::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            opacity: 0; transition: opacity 0.25s ease;
-            border-radius: inherit;
-        }
-        .back-home-btn > * { position: relative; z-index: 1; }
         .back-home-btn svg {
-            width: 17px; height: 17px; flex-shrink: 0;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 16px; height: 16px; flex-shrink: 0;
         }
         .back-home-btn:hover {
-            color: #fff;
-            border-color: transparent;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent);
+            border-color: var(--border-strong);
+            color: var(--text);
+            background: var(--surface-2);
         }
-        .back-home-btn:hover::before { opacity: 1; }
-        .back-home-btn:hover svg { transform: translateX(-3px) scale(1.1); }
-        .back-home-btn:active { transform: translateY(0); }
 
         /* ===== Main Content ===== */
         .main { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem 2rem; }
@@ -1028,8 +1015,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
             </a>
             <a href="index.php" class="back-home-btn" title="Back to Home">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                <span>Back to Home</span>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>Back</span>
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
@@ -1046,7 +1033,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         <!-- Hero -->
         <div class="hero">
             <h2>Dispatch Video Tutorials</h2>
-            <p>Watch step-by-step video guides for every feature in the DISPATCH system. Click any video to play it in full screen.</p>
+            <p>Watch step-by-step video guides for every feature in Dispatch LMS. Click any video to play it in full screen.</p>
             <div class="hero-stats">
                 <div class="stat">
                     <div class="stat-num" id="stat-total">0</div>
@@ -1066,7 +1053,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         <!-- Page Hero -->
         <div class="page-hero">
             <h1>Video Tutorial Library</h1>
-            <p>Master the DISPATCH system with focused tutorials for every module.</p>
+            <p>Master Dispatch LMS with focused tutorials for every module.</p>
         </div>
 
         <!-- Search -->

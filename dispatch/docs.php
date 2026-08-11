@@ -152,8 +152,8 @@ $totalAvailable = count($availableVideos);
         .loader-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .spinner {
             width: 44px; height: 44px;
-            border: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
-            border-top-color: var(--accent);
+            border: 3px solid var(--border-strong);
+            border-top-color: var(--border-strong);
             border-radius: 50%;
             animation: spin 0.9s linear infinite;
         }
@@ -187,7 +187,6 @@ $totalAvailable = count($availableVideos);
             display: flex; align-items: center; gap: 0.75rem;
             text-decoration: none; color: inherit; flex-shrink: 0;
         }
-        .brand:hover .brand-mark { transform: rotate(-6deg) scale(1.08); }
         .brand-mark {
             width: 42px; height: 42px;
             border-radius: 14px;
@@ -219,7 +218,7 @@ $totalAvailable = count($availableVideos);
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .header-search:hover { border-color: var(--accent); color: var(--text); }
+        .header-search:hover { border-color: var(--border-strong); color: var(--text); }
         .header-search svg { width: 17px; height: 17px; flex-shrink: 0; }
         .header-search span { font-size: 0.85rem; flex: 1; text-align: left; }
         .kbd {
@@ -240,17 +239,22 @@ $totalAvailable = count($availableVideos);
             transition: all 0.2s ease;
         }
         .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-2px); }
+        .icon-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .icon-btn:active { transform: translateY(0) scale(0.96); }
         .icon-btn svg { width: 20px; height: 20px; }
         .icon-btn.theme-btn,
         .icon-btn.settings-btn-top {
             color: var(--accent);
-            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            border-color: var(--border-strong);
             background: color-mix(in srgb, var(--accent) 10%, transparent);
         }
         .icon-btn.theme-btn:hover,
         .icon-btn.settings-btn-top:hover {
             background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
-            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            border-color: var(--border-strong);
             box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
             transform: translateY(-2px) scale(1.05);
             color: #fff;
@@ -279,42 +283,33 @@ $totalAvailable = count($availableVideos);
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+        @media (prefers-reduced-motion: reduce) {
+            .icon-btn, .icon-btn:hover { transition: none; transform: none; }
+            .icon-btn:active { transform: none; }
+        }
         .menu-btn { display: none; }
 
-        /* Unique Back to Home Button */
+        /* Simple Back Button */
         .back-home-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.5rem 1rem 0.5rem 0.7rem;
-            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-            border-radius: 999px;
-            background: color-mix(in srgb, var(--accent) 8%, transparent);
-            color: var(--accent);
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
+            font-size: 0.8rem; font-weight: 500;
             font-family: inherit;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative; overflow: hidden;
+            transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
         }
-        .back-home-btn::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            opacity: 0; transition: opacity 0.25s ease;
-            border-radius: inherit;
-        }
-        .back-home-btn > * { position: relative; z-index: 1; }
         .back-home-btn svg {
-            width: 17px; height: 17px; flex-shrink: 0;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 16px; height: 16px; flex-shrink: 0;
         }
         .back-home-btn:hover {
-            color: #fff;
-            border-color: transparent;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent);
+            border-color: var(--border-strong);
+            color: var(--text);
+            background: var(--surface-2);
         }
-        .back-home-btn:hover::before { opacity: 1; }
-        .back-home-btn:hover svg { transform: translateX(-3px) scale(1.1); }
-        .back-home-btn:active { transform: translateY(0); }
 
         /* Layout */
         .layout {
@@ -359,7 +354,7 @@ $totalAvailable = count($availableVideos);
             transition: all 0.18s ease;
         }
         .search-wrap input::placeholder { color: var(--text-dim); }
-        .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .search-wrap input:focus { border-color: var(--border-strong); box-shadow: 0 0 0 3px var(--accent-soft); }
 
         .nav-section-title {
             padding: 1rem 1rem 0.4rem;
@@ -377,7 +372,7 @@ $totalAvailable = count($availableVideos);
             letter-spacing: 0.06em;
             color: var(--accent);
             background: linear-gradient(90deg, var(--accent-soft), transparent);
-            border-bottom: 2px solid var(--accent);
+            border-bottom: 2px solid var(--border-strong);
             border-radius: 12px 12px 0 0;
             margin-bottom: 0.3rem;
         }
@@ -435,7 +430,7 @@ $totalAvailable = count($availableVideos);
             padding: 0.5rem 0;
             border-radius: 8px;
             background: var(--accent-soft);
-            border-bottom: 2px solid var(--accent);
+            border-bottom: 2px solid var(--border-strong);
             justify-content: center;
         }
         .sidebar.mini .nav-section-title.main-menu svg { width: 18px; height: 18px; }
@@ -503,7 +498,7 @@ $totalAvailable = count($availableVideos);
         @keyframes spin { to { transform: rotate(360deg); } }
         .sidebar-hide-btn:hover {
             color: var(--accent);
-            border-color: var(--accent);
+            border-color: var(--border-strong);
             transform: translateY(-50%) scale(1.15);
             box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
         }
@@ -513,7 +508,6 @@ $totalAvailable = count($availableVideos);
             height: 16px;
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
 
         .sidebar-overlay { display: none; }
 
@@ -576,7 +570,7 @@ $totalAvailable = count($availableVideos);
             transition: opacity 0.25s ease;
         }
         .doc-card:hover {
-            border-color: var(--accent);
+            border-color: var(--border-strong);
             transform: translateY(-5px) scale(1.01);
             box-shadow: 0 24px 40px -20px rgba(0,0,0,0.45);
         }
@@ -585,9 +579,7 @@ $totalAvailable = count($availableVideos);
             width: 38px; height: 38px;
             color: var(--accent);
             margin-bottom: 1.1rem;
-            transition: transform 0.25s ease;
         }
-        .doc-card:hover svg { transform: scale(1.1) rotate(-4deg); }
         .doc-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.55rem; }
         .doc-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
 
@@ -595,7 +587,7 @@ $totalAvailable = count($availableVideos);
         .doc-section {
             background: color-mix(in srgb, var(--surface-solid) 55%, transparent);
             border: 1px solid var(--border);
-            border-top: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+            border-top: 2px solid var(--border-strong);
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 1.75rem;
@@ -605,7 +597,7 @@ $totalAvailable = count($availableVideos);
             box-shadow: 0 16px 35px -20px rgba(0,0,0,0.35);
             transition: border-color 0.2s ease;
         }
-        .doc-section:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+        .doc-section:hover { border-color: var(--border-strong); }
         .doc-section h3 {
             font-size: 1.4rem;
             font-weight: 800;
@@ -644,7 +636,7 @@ $totalAvailable = count($availableVideos);
             width: 90%; max-width: 560px;
             max-height: 80vh; overflow-y: auto;
             background: var(--surface-solid);
-            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            border: 1px solid var(--border-strong);
             border-radius: 18px;
             box-shadow: 0 24px 60px -16px rgba(0,0,0,0.5);
             padding: 1.5rem;
@@ -683,7 +675,7 @@ $totalAvailable = count($availableVideos);
             color: inherit;
         }
         .vid-popup-item:hover {
-            border-color: var(--accent);
+            border-color: var(--border-strong);
             background: color-mix(in srgb, var(--accent) 8%, transparent);
             transform: translateX(4px);
         }
@@ -718,7 +710,7 @@ $totalAvailable = count($availableVideos);
             display: inline-flex; align-items: center; gap: 0.4rem;
             margin-left: auto;
             padding: 0.3rem 0.7rem;
-            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            border: 1px solid var(--border-strong);
             border-radius: 8px;
             background: transparent;
             color: var(--accent);
@@ -728,7 +720,7 @@ $totalAvailable = count($availableVideos);
         }
         .vid-suggest-btn:hover {
             background: var(--accent-soft);
-            border-color: var(--accent);
+            border-color: var(--border-strong);
         }
         .vid-suggest-btn svg { width: 14px; height: 14px; }
 
@@ -753,7 +745,7 @@ $totalAvailable = count($availableVideos);
             color: var(--text-muted); cursor: pointer;
             display: grid; place-items: center; transition: all 0.15s ease;
         }
-        .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .copy-btn:hover { color: var(--accent); border-color: var(--border-strong); }
         .copy-btn svg { width: 15px; height: 15px; }
         .copy-btn.copied { color: var(--accent); }
 
@@ -776,8 +768,11 @@ $totalAvailable = count($availableVideos);
             font-size: 0.8rem;
             font-weight: 500;
             white-space: nowrap;
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.18s ease, color 0.18s ease;
         }
-        .doc-nav-mobile a.active { background: #10b981; color: #fff; border-color: #10b981; }
+        .doc-nav-mobile a:hover { transform: translateY(-3px); border-color: var(--border-strong); color: var(--text); }
+        .doc-nav-mobile a:active { transform: translateY(0) scale(0.97); }
+        .doc-nav-mobile a.active { background: #10b981; color: #fff; border-color: var(--border-strong); transform: translateY(-3px); }
 
         /* Footer */
         .footer {
@@ -816,10 +811,11 @@ $totalAvailable = count($availableVideos);
             background: var(--surface-2);
             color: var(--text-muted);
             font-size: 0.78rem; font-weight: 600;
-            cursor: pointer; transition: all 0.15s ease;
+            cursor: pointer; transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
         }
-        .status-filter button:hover { border-color: var(--accent); color: var(--text); }
-        .status-filter button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .status-filter button:hover { transform: translateY(-3px); border-color: var(--border-strong); color: var(--text); }
+        .status-filter button:active { transform: translateY(0) scale(0.97); }
+        .status-filter button.active { background: var(--accent); color: #fff; border-color: var(--border-strong); transform: translateY(-3px); }
         .video-results-count { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1rem; }
         .video-empty { display: none; text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.88rem; }
         .video-empty.show { display: block; }
@@ -849,7 +845,7 @@ $totalAvailable = count($availableVideos);
         }
         .video-item.hidden { display: none; }
         .video-item:hover {
-            border-color: var(--accent);
+            border-color: var(--border-strong);
             transform: translateY(-2px);
         }
         .video-item[data-status="available"] { cursor: pointer; }
@@ -903,7 +899,7 @@ $totalAvailable = count($availableVideos);
             transition: all 0.2s ease; z-index: 150;
         }
         .back-to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .back-to-top:hover { border-color: var(--accent); color: var(--accent); }
+        .back-to-top:hover { border-color: var(--border-strong); color: var(--accent); }
         .back-to-top svg { width: 20px; height: 20px; }
 
 
@@ -1111,8 +1107,8 @@ $totalAvailable = count($availableVideos);
         </button>
         <div class="header-actions">
             <a href="index.php" class="back-home-btn" title="Back to Home">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                <span>Back to Home</span>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>Back</span>
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
@@ -1172,7 +1168,7 @@ $totalAvailable = count($availableVideos);
         <main class="content" id="main-content">
             <section class="doc-hero">
                 <h2>System Documentation</h2>
-                <p>Reference guide for the DISPATCH video tutorial library.</p>
+                <p>Reference guide for the Dispatch LMS video tutorial library.</p>
                 <div class="hero-stats">
                     <div class="hero-stat"><strong><?php echo $totalVideos; ?></strong><span>Total tutorials</span></div>
                     <div class="hero-stat"><strong><?php echo $totalAvailable; ?></strong><span>Available now</span></div>
@@ -1207,8 +1203,8 @@ $totalAvailable = count($availableVideos);
                         Suggested Videos
                     </button>
                 </h3>
-                <p>The <strong>DISPATCH</strong> system is a training portal for dispatch management. It includes a video tutorial library (<code>dispatch/tutorials.php</code>), searchable documentation (<code>dispatch/index.php</code>), and a shared settings layer that persists user preferences in the browser's localStorage.</p>
-                <p>Pages in the system share a unified visual identity: dark glassmorphism UI, smooth transitions, Poppins typography, and a consistent emerald accent color. Themes and settings are synchronized across pages via <code>dispatch-settings</code> in localStorage.</p>
+                <p><strong>Dispatch LMS</strong> is a learning management system for dispatch operations training. It delivers a structured video tutorial library (<code>dispatch/tutorials.php</code>), searchable documentation (<code>dispatch/index.php</code>), and a shared settings layer that persists user preferences in the browser's localStorage.</p>
+                <p>All pages in the LMS share a unified visual identity: dark glassmorphism UI, smooth transitions, Poppins typography, and a consistent emerald accent color. Themes and settings are synchronized across pages via <code>dispatch-settings</code> in localStorage.</p>
             </section>
 
             <section class="doc-section" id="videos">
@@ -1218,11 +1214,17 @@ $totalAvailable = count($availableVideos);
                         Suggested Videos
                     </button>
                 </h3>
-                <p>The tutorial library renders a hardcoded list of training videos in <code>VIDEOS</code> JavaScript array. Each video has an <code>id</code>, <code>title</code>, <code>desc</code>, <code>category</code>, <code>src</code>, and <code>duration</code>.</p>
+                <p>Each tutorial is rendered as a <strong>video card</strong> — a self-contained component built from a <code>VIDEOS</code> JavaScript array entry. Every video object has an <code>id</code>, <code>title</code>, <code>desc</code>, <code>category</code>, <code>src</code>, and <code>duration</code>. The card is assembled dynamically in <code>renderVideos()</code> and injected into the <code>.video-grid</code> container.</p>
                 <ul>
-                    <li><strong>Availability</strong>: Only files listed in <code>AVAILABLE_VIDEOS</code> have a playable video. Others show a "Coming Soon" placeholder.</li>
-                    <li><strong>Progress tracking</strong>: Watch progress is saved to localStorage by <code>video-id</code> and restored when the modal opens.</li>
-                    <li><strong>Watch history</strong>: Stored locally in the browser, with a shared settings system.</li>
+                    <li><strong>Card structure</strong>: Each <code>.video-card</code> contains a <code>.video-thumb</code> (thumbnail area) and a <code>.video-info</code> (title, description, and metadata). The thumbnail holds the <code>category-badge</code>, <code>duration-badge</code>, <code>play-overlay</code>, <code>favorite-btn</code>, and a <code>progress-bar</code> when applicable.</li>
+                    <li><strong>Availability</strong>: Only files listed in <code>AVAILABLE_VIDEOS</code> render a playable <code>&lt;video&gt;</code> element. Unavailable videos display a <code>.video-empty</code> "Coming Soon" placeholder inside the thumbnail instead.</li>
+                    <li><strong>Category badge</strong>: A colored pill in the top-left corner of the thumbnail showing the video's <code>category</code> (e.g. Operations, Fleet, Finance). It floats and scales on card hover.</li>
+                    <li><strong>Duration badge</strong>: A dark pill in the bottom-right corner showing the video's <code>duration</code>. Only rendered for available videos.</li>
+                    <li><strong>Play overlay</strong>: A semi-transparent overlay with a play icon that fades in on card hover, indicating the video is clickable.</li>
+                    <li><strong>Favorite button</strong>: A star toggle in the top-right corner of the thumbnail. State is persisted per <code>video-id</code> in localStorage.</li>
+                    <li><strong>Progress bar</strong>: A thin bar at the bottom of the thumbnail showing watch progress (0–100%). Saved to localStorage by <code>video-id</code> and restored on render.</li>
+                    <li><strong>Video metadata</strong>: Below the description, a <code>.video-meta</code> row displays the category and availability status (Available or Coming Soon) with corresponding icons.</li>
+                    <li><strong>Watch history</strong>: Recently watched videos are stored locally in the browser and surfaced in a dedicated history section above the grid.</li>
                 </ul>
             </section>
 
@@ -1322,7 +1324,7 @@ $totalAvailable = count($availableVideos);
     <script>
         // ---- Data passed from PHP for client-side search ----
         const SECTIONS = [
-            { id: 'overview', title: 'Overview', sub: 'DISPATCH system, tutorials.php, index.php, shared settings' },
+            { id: 'overview', title: 'Overview', sub: 'Dispatch LMS, tutorials.php, index.php, shared settings' },
             { id: 'videos', title: 'Video Module', sub: 'VIDEOS array, availability, progress tracking' },
             { id: 'settings', title: 'Settings & Accessibility', sub: 'Theme, font size, playback speed, reduce motion' },
             { id: 'all-videos', title: 'Video Library', sub: '<?php echo $totalVideos; ?> tutorials across every category' }
