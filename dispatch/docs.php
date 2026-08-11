@@ -62,7 +62,7 @@ $totalVideos = count($videoCatalog);
 $totalAvailable = count($availableVideos);
 ?>
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,14 +73,13 @@ $totalAvailable = count($availableVideos);
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a1220;
-            --bg-grad-1: #0d1a2f;
-            --bg-grad-2: #0a1220;
-            --surface: rgba(255, 255, 255, 0.04);
-            --surface-2: rgba(255, 255, 255, 0.06);
-            --surface-solid: #111c30;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.14);
+            --bg: #0b0f19;
+            --bg-2: #121929;
+            --surface: rgba(17, 24, 45, 0.72);
+            --surface-solid: #11182d;
+            --surface-2: #182240;
+            --border: rgba(255,255,255,0.08);
+            --border-strong: rgba(255,255,255,0.14);
             --text: #e8eef7;
             --text-muted: #8ea0b8;
             --text-dim: #5f7189;
@@ -88,18 +87,18 @@ $totalAvailable = count($availableVideos);
             --accent-soft: rgba(16, 185, 129, 0.14);
             --accent-2: #38bdf8;
             --danger: #f43f5e;
-            --shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+            --radius: 20px;
+            --shadow: 0 24px 50px -20px rgba(0,0,0,0.45);
             --header-h: 64px;
         }
-        html:not(.dark) {
-            --bg: #eef2f7;
-            --bg-grad-1: #f4f7fb;
-            --bg-grad-2: #e7edf5;
-            --surface: rgba(15, 23, 42, 0.02);
-            --surface-2: rgba(15, 23, 42, 0.04);
+        html.light {
+            --bg: #f8fafc;
+            --bg-2: #ffffff;
+            --surface: rgba(255,255,255,0.82);
             --surface-solid: #ffffff;
-            --border: rgba(15, 23, 42, 0.08);
-            --border-strong: rgba(15, 23, 42, 0.14);
+            --surface-2: #f1f5f9;
+            --border: rgba(0,0,0,0.08);
+            --border-strong: rgba(0,0,0,0.14);
             --text: #0f172a;
             --text-muted: #55627a;
             --text-dim: #8a96ab;
@@ -115,15 +114,23 @@ $totalAvailable = count($availableVideos);
         body {
             font-family: 'Poppins', sans-serif;
             background:
-                radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
-                radial-gradient(900px 500px at -10% 10%, rgba(56, 189, 248, 0.08), transparent 55%),
-                linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
+                radial-gradient(ellipse at 10% 10%, color-mix(in srgb, var(--accent-2) 25%, transparent), transparent 50%),
+                radial-gradient(ellipse at 90% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 50%),
+                radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 45%),
+                linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
             background-attachment: fixed;
             color: var(--text);
             min-height: 100vh;
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+        }
+        html.light body {
+            background:
+                radial-gradient(ellipse at 10% 10%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%),
+                radial-gradient(ellipse at 90% 20%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
+                radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+                linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
         }
 
         a { color: inherit; }
@@ -138,27 +145,47 @@ $totalAvailable = count($availableVideos);
         .skip-link:focus { top: 1rem; }
 
         /* Loading screen */
-        .loader-overlay {
-            position: fixed; inset: 0;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
-            background:
-                radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
-                radial-gradient(900px 500px at -10% 10%, rgba(56, 189, 248, 0.08), transparent 55%),
-                linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
-            background-attachment: fixed;
-            z-index: 1000;
-            transition: opacity 0.45s ease, visibility 0.45s ease;
+        /* ===== Loading Screen ===== */
+        .loader-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem;
+            background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        .loader-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .spinner {
-            width: 44px; height: 44px;
-            border: 3px solid var(--border-strong);
-            border-top-color: var(--border-strong);
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
+        html.light .loader-screen {
+            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
         }
-        .loader-overlay p { color: var(--text-muted); font-size: 0.85rem; margin: 0; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-logo {
+            width: 56px; height: 56px; border-radius: 14px;
+            display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
+            animation: loader-logo-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes loader-logo-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.92); opacity: 0.7; }
+        }
+        .loader-logo svg { width: 28px; height: 28px; }
+        .loader-text {
+            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em;
+            color: var(--text); text-transform: uppercase;
+        }
+        .loader-bar {
+            width: 180px; height: 3px; border-radius: 999px;
+            background: var(--border); overflow: hidden;
+        }
+        .loader-bar-fill {
+            height: 100%; width: 40%; border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            animation: loader-slide 1.2s ease-in-out infinite;
+        }
+        @keyframes loader-slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(250%); }
+        }
 
         /* Reading progress */
         .progress-bar {
@@ -181,7 +208,6 @@ $totalAvailable = count($availableVideos);
             background: color-mix(in srgb, var(--bg) 70%, transparent);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
         }
         .brand {
             display: flex; align-items: center; gap: 0.75rem;
@@ -1077,6 +1103,7 @@ $totalAvailable = count($availableVideos);
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="css/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/ai-assistant.css">
 </head>
 <body>
 
@@ -1120,9 +1147,12 @@ $totalAvailable = count($availableVideos);
         </svg>
     </div>
 
-    <div class="loader-overlay" id="loader">
-        <div class="spinner"></div>
-        <p>Loading documentation…</p>
+    <div class="loader-screen" id="loader">
+        <div class="loader-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+        </div>
+        <div class="loader-text">DISPATCH Documentation</div>
+        <div class="loader-bar"><div class="loader-bar-fill"></div></div>
     </div>
 
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -1141,11 +1171,6 @@ $totalAvailable = count($availableVideos);
                 <p>Documentation</p>
             </span>
         </a>
-        <button class="header-search" id="search-trigger" aria-label="Search documentation">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-            <span>Search docs and videos…</span>
-            <span class="kbd">⌘K</span>
-        </button>
         <div class="header-actions">
             <a href="tutorials.php" class="icon-btn shortcut-btn" title="Video Tutorials">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
@@ -1282,7 +1307,7 @@ $totalAvailable = count($availableVideos);
                     </button>
                 </h3>
                 <ul>
-                    <li><strong>Dark mode</strong>: toggles <code>html.dark</code> class and persists as <code>dispatch-theme</code>.</li>
+                    <li><strong>Dark mode</strong>: toggles <code>html.light</code> class and persists as <code>dispatch-theme</code>.</li>
                     <li><strong>Font size</strong>: base 15px, adjustable via range input. Large-text mode sets 18px.</li>
                     <li><strong>Playback speed</strong>: controls the modal video playback rate.</li>
                     <li><strong>Reduce motion</strong>: disables CSS animations for users with vestibular disorders.</li>
@@ -1417,41 +1442,46 @@ $totalAvailable = count($availableVideos);
             else document.documentElement.style.fontSize = s['font-size'] + 'px';
             document.body.classList.toggle('reduce-motion', !!s['reduce-motion']);
             document.body.classList.toggle('high-contrast', !!s['high-contrast']);
-            document.documentElement.classList.toggle('dark', !!s['dark-mode']);
+            // Check dispatch-theme first, then dispatch-settings dark-mode
+            const themeKey = localStorage.getItem('dispatch-theme');
+            let isLight = (themeKey === 'light');
+            if (!themeKey) isLight = (s['dark-mode'] === false);
+            if (isLight) document.documentElement.classList.add('light');
+            else document.documentElement.classList.remove('light');
             const moonIcon = document.querySelector('.theme-btn .moon-icon');
             const sunIcon = document.querySelector('.theme-btn .sun-icon');
             if (moonIcon && sunIcon) {
-                const isDark = document.documentElement.classList.contains('dark');
+                const isDark = !document.documentElement.classList.contains('light');
                 moonIcon.style.display = isDark ? 'block' : 'none';
                 sunIcon.style.display = isDark ? 'none' : 'block';
             }
             updateBackgroundSVG();
         }
         function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            try { localStorage.setItem('dispatch-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            document.documentElement.classList.toggle('light');
+            const isLight = document.documentElement.classList.contains('light');
+            try { localStorage.setItem('dispatch-theme', isLight ? 'light' : 'dark'); } catch (e) {}
             try {
                 const raw = localStorage.getItem('dispatch-settings') || '{}';
-                const s = Object.assign({ 'dark-mode': isDark }, JSON.parse(raw));
-                s['dark-mode'] = isDark;
+                const s = Object.assign({ 'dark-mode': !isLight }, JSON.parse(raw));
+                s['dark-mode'] = !isLight;
                 localStorage.setItem('dispatch-settings', JSON.stringify(s));
             } catch (e) {}
             const moonIcon = document.querySelector('.theme-btn .moon-icon');
             const sunIcon = document.querySelector('.theme-btn .sun-icon');
             if (moonIcon && sunIcon) {
-                moonIcon.style.display = isDark ? 'block' : 'none';
-                sunIcon.style.display = isDark ? 'none' : 'block';
+                moonIcon.style.display = isLight ? 'none' : 'block';
+                sunIcon.style.display = isLight ? 'block' : 'none';
             }
             updateBackgroundSVG();
             window.dispatchEvent(new StorageEvent('storage', { key: 'dispatch-settings' }));
         }
         function updateBackgroundSVG() {
-            const isDark = document.documentElement.classList.contains('dark');
+            const isLight = document.documentElement.classList.contains('light');
             const darkSVG = document.getElementById('bg-svg-dark');
             const lightSVG = document.getElementById('bg-svg-light');
-            if (darkSVG) darkSVG.style.display = isDark ? 'block' : 'none';
-            if (lightSVG) lightSVG.style.display = isDark ? 'none' : 'block';
+            if (darkSVG) darkSVG.style.display = isLight ? 'none' : 'block';
+            if (lightSVG) lightSVG.style.display = isLight ? 'block' : 'none';
         }
         (function initSettings() {
             applySharedSettings();
@@ -1721,7 +1751,7 @@ $totalAvailable = count($availableVideos);
                 overlay.classList.remove('open');
             }
 
-            trigger.addEventListener('click', open);
+            if (trigger) trigger.addEventListener('click', open);
             overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
             modalInput.addEventListener('input', function () { render(modalInput.value); });
             resultsEl.addEventListener('click', function () { close(); });
@@ -1754,7 +1784,7 @@ $totalAvailable = count($availableVideos);
             setTimeout(function () {
                 const loader = document.getElementById('loader');
                 if (loader) loader.classList.add('hidden');
-            }, 350);
+            }, 500);
         });
         (function initDocFloater() {
             const floater = document.getElementById('doc-floater');
@@ -1888,6 +1918,167 @@ $totalAvailable = count($availableVideos);
 
         overlay.addEventListener('click', function(e) { if (e.target === overlay) closeVidPopup(); });
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeVidPopup(); });
+    })();
+    </script>
+
+    <!-- AI Assistant Widget -->
+    <div class="ai-root">
+        <button class="ai-fab" id="ai-fab" title="Ask AI Assistant" aria-label="Open AI Assistant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+        </button>
+        <div class="ai-widget" id="ai-widget">
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+                </div>
+                <div class="ai-chat-header-info">
+                    <h3>DISPATCH AI</h3>
+                    <p><span class="ai-status-dot"></span> Online</p>
+                </div>
+                <div class="ai-chat-header-actions">
+                    <a href="ai-assistant.php" class="ai-header-btn" title="Open full page">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                    </a>
+                    <button class="ai-header-btn" onclick="document.getElementById('ai-widget').classList.remove('open')" title="Close">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-welcome" id="ai-welcome">
+                    <div class="ai-welcome-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+                    </div>
+                    <h2>How can I help?</h2>
+                    <p>Ask me about DISPATCH documentation, video tutorials, or video docs.</p>
+                </div>
+                <div class="ai-chips" id="ai-chips"></div>
+            </div>
+            <div class="ai-input-area">
+                <div class="ai-input-row">
+                    <button class="ai-mic-btn" id="ai-mic-btn" title="Voice input" aria-label="Voice input">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><path d="M12 19v4M8 23h8"/></svg>
+                    </button>
+                    <textarea class="ai-input" id="ai-input" placeholder="Ask me anything…" rows="1"></textarea>
+                    <button class="ai-send-btn" id="ai-send-btn" title="Send" aria-label="Send" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/ai-assistant.js"></script>
+    <script>
+    (function(){
+        const AI = window.DispatchAI;
+        const fab = document.getElementById('ai-fab');
+        const widget = document.getElementById('ai-widget');
+        const messagesEl = document.getElementById('ai-messages');
+        const welcomeEl = document.getElementById('ai-welcome');
+        const chipsEl = document.getElementById('ai-chips');
+        const inputEl = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('ai-send-btn');
+        const micBtn = document.getElementById('ai-mic-btn');
+        let messages = [];
+        let isTyping = false;
+
+        fab.addEventListener('click', function(){ widget.classList.toggle('open'); });
+
+        function renderChips(){
+            chipsEl.innerHTML = '';
+            AI.QUICK_ACTIONS.forEach(function(a){
+                const c = document.createElement('button');
+                c.className = 'ai-chip';
+                c.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
+                c.addEventListener('click', function(){ inputEl.value = a.label; sendMessage(); });
+                chipsEl.appendChild(c);
+            });
+        }
+        function renderMessage(msg){
+            const isUser = msg.role === 'user';
+            const el = document.createElement('div');
+            el.className = 'ai-msg ' + (isUser ? 'user' : 'bot');
+            const avatar = document.createElement('div');
+            avatar.className = 'ai-msg-avatar';
+            avatar.innerHTML = isUser ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' : AI.ICONS['sparkle'];
+            const content = document.createElement('div');
+            const bubble = document.createElement('div');
+            bubble.className = 'ai-msg-bubble';
+            bubble.textContent = msg.text;
+            content.appendChild(bubble);
+            if(!isUser && msg.actions && msg.actions.length > 0){
+                const ae = document.createElement('div');
+                ae.className = 'ai-msg-actions';
+                msg.actions.forEach(function(a){
+                    const b = document.createElement('a');
+                    b.className = 'ai-action-btn';
+                    b.href = a.href;
+                    b.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
+                    ae.appendChild(b);
+                });
+                content.appendChild(ae);
+            }
+            el.appendChild(avatar);
+            el.appendChild(content);
+            messagesEl.appendChild(el);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function showTyping(){
+            const e = document.createElement('div');
+            e.className = 'ai-msg bot'; e.id = 'ai-typing-msg';
+            e.innerHTML = '<div class="ai-msg-avatar">'+AI.ICONS['sparkle']+'</div><div><div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div></div>';
+            messagesEl.appendChild(e);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function hideTyping(){ const e = document.getElementById('ai-typing-msg'); if(e) e.remove(); }
+        function sendMessage(){
+            const text = inputEl.value.trim();
+            if(!text || isTyping) return;
+            if(welcomeEl) welcomeEl.style.display = 'none';
+            if(chipsEl) chipsEl.style.display = 'none';
+            const um = {role:'user',text:text};
+            messages.push(um); renderMessage(um);
+            inputEl.value = ''; inputEl.style.height = 'auto'; updateSendBtn();
+            isTyping = true; showTyping();
+            setTimeout(function(){
+                hideTyping();
+                const m = AI.findBestMatch(text) || AI.generateFallback(text);
+                const bm = {role:'bot',text:m.description,actions:m.actions||[]};
+                messages.push(bm); renderMessage(bm); AI.saveHistory(messages); isTyping = false;
+            }, 600 + Math.random()*400);
+        }
+        function updateSendBtn(){ sendBtn.disabled = inputEl.value.trim().length === 0; }
+        inputEl.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,100)+'px'; updateSendBtn(); });
+        inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } });
+        sendBtn.addEventListener('click', sendMessage);
+        if(!AI.isVoiceSupported()){ micBtn.classList.add('unsupported'); micBtn.title='Voice not supported'; }
+        micBtn.addEventListener('click', function(){
+            if(!AI.isVoiceSupported()) return;
+            if(AI.isListening()){ AI.stopListening(); micBtn.classList.remove('listening'); }
+            else { const s = AI.startListening(function(t){ inputEl.value=t; updateSendBtn(); inputEl.focus(); }, function(){ micBtn.classList.remove('listening'); }); if(s) micBtn.classList.add('listening'); }
+        });
+        function loadHistory(){
+            const saved = AI.loadHistory();
+            if(saved.length > 0){
+                messages = saved;
+                if(welcomeEl) welcomeEl.style.display = 'none';
+                if(chipsEl) chipsEl.style.display = 'none';
+                saved.forEach(renderMessage);
+            }
+        }
+        renderChips();
+        loadHistory();
+
+        // Sync AI widget with page settings changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dispatch-settings' || e.key === 'dispatch-theme') {
+                const root = document.querySelector('.ai-root');
+                if (root) {
+                    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+                    if (accent) root.style.setProperty('--ai-accent', accent);
+                }
+            }
+        });
     })();
     </script>
 </body>

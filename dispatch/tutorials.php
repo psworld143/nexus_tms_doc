@@ -10,7 +10,7 @@ header('X-XSS-Protection: 1; mode=block');
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self'; img-src 'self' data:; connect-src 'self';");
 ?>
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,14 +22,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="stylesheet" href="css/tutorials-animations.css">
     <style>
         :root {
-            --bg: #0a1220;
-            --bg-grad-1: #0d1a2f;
-            --bg-grad-2: #0a1220;
-            --surface: rgba(255, 255, 255, 0.04);
-            --surface-2: rgba(255, 255, 255, 0.06);
-            --surface-solid: #111c30;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.14);
+            --bg: #0b0f19;
+            --bg-2: #121929;
+            --surface: rgba(17, 24, 45, 0.72);
+            --surface-solid: #11182d;
+            --surface-2: #182240;
+            --border: rgba(255,255,255,0.08);
+            --border-strong: rgba(255,255,255,0.14);
             --text: #e8eef7;
             --text-muted: #8ea0b8;
             --text-dim: #5f7189;
@@ -37,17 +36,17 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             --accent-soft: rgba(16, 185, 129, 0.14);
             --accent-2: #38bdf8;
             --danger: #f43f5e;
-            --shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+            --radius: 20px;
+            --shadow: 0 24px 50px -20px rgba(0,0,0,0.45);
         }
-        html:not(.dark) {
-            --bg: #eef2f7;
-            --bg-grad-1: #f4f7fb;
-            --bg-grad-2: #e7edf5;
-            --surface: rgba(15, 23, 42, 0.02);
-            --surface-2: rgba(15, 23, 42, 0.04);
+        html.light {
+            --bg: #f8fafc;
+            --bg-2: #ffffff;
+            --surface: rgba(255,255,255,0.82);
             --surface-solid: #ffffff;
-            --border: rgba(15, 23, 42, 0.08);
-            --border-strong: rgba(15, 23, 42, 0.14);
+            --surface-2: #f1f5f9;
+            --border: rgba(0,0,0,0.08);
+            --border-strong: rgba(0,0,0,0.14);
             --text: #0f172a;
             --text-muted: #55627a;
             --text-dim: #8a96ab;
@@ -58,15 +57,23 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: var(--text);
             background:
-                radial-gradient(1200px 600px at 80% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
-                radial-gradient(900px 500px at -10% 10%, rgba(56, 189, 248, 0.08), transparent 55%),
-                linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
+                radial-gradient(ellipse at 10% 10%, color-mix(in srgb, var(--accent-2) 25%, transparent), transparent 50%),
+                radial-gradient(ellipse at 90% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 50%),
+                radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 45%),
+                linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
             background-attachment: fixed;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+        }
+        html.light body {
+            background:
+                radial-gradient(ellipse at 10% 10%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%),
+                radial-gradient(ellipse at 90% 20%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
+                radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+                linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
         }
 
         /* ===== Header ===== */
@@ -77,7 +84,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
         }
         .brand { display: flex; align-items: center; gap: 0.75rem; }
         .brand:hover .brand-mark { transform: rotate(-6deg) scale(1.08); }
@@ -784,11 +790,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             font-size: 0.85rem;
             font-weight: 500;
         }
-        html.dark .setting-select option {
-            background: #111c30;
+        html:not(.light) .setting-select option {
+            background: #11182d;
             color: #e8eef7;
         }
-        html:not(.dark) .setting-select option {
+        html.light .setting-select option {
             background: #ffffff;
             color: #0f172a;
         }
@@ -854,7 +860,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             --surface: rgba(255, 255, 255, 0.08);
             --surface-2: rgba(255, 255, 255, 0.12);
         }
-        html:not(.dark) body.high-contrast {
+        html.light body.high-contrast {
             --text: #000000;
             --text-muted: #1a1a1a;
             --text-dim: #333333;
@@ -918,24 +924,23 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         /* ===== Loading Screen ===== */
         .loader-screen {
-            position: fixed; inset: 0;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.25rem;
-            background: var(--bg-grad-1);
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 1.25rem; text-align: center;
+            background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        .loader-screen.hidden { opacity: 0; visibility: hidden; }
+        html.light .loader-screen {
+            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
+        }
+        .loader-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .loader-logo {
-            width: 56px; height: 56px;
-            border-radius: 14px;
+            width: 56px; height: 56px; border-radius: 14px;
             display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), #059669);
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
             color: #fff;
-            box-shadow: 0 6px 20px -6px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
             animation: loader-logo-pulse 1.6s ease-in-out infinite;
         }
         @keyframes loader-logo-pulse {
@@ -944,24 +949,17 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .loader-logo svg { width: 28px; height: 28px; }
         .loader-text {
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            color: var(--text);
-            text-transform: uppercase;
+            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em;
+            color: var(--text); text-transform: uppercase;
+            text-align: center;
         }
         .loader-bar {
-            width: 180px;
-            height: 3px;
-            border-radius: 999px;
-            background: var(--border);
-            overflow: hidden;
+            width: 180px; height: 3px; border-radius: 999px;
+            background: var(--border); overflow: hidden;
         }
         .loader-bar-fill {
-            height: 100%;
-            width: 40%;
-            border-radius: 999px;
-            background: var(--accent);
+            height: 100%; width: 40%; border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
             animation: loader-slide 1.2s ease-in-out infinite;
         }
         @keyframes loader-slide {
@@ -989,6 +987,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="css/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/ai-assistant.css">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -996,7 +995,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         <div class="loader-logo">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         </div>
-        <div class="loader-text">DISPATCH</div>
+        <div class="loader-text">DISPATCH Video Tutorials</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
     </div>
 
@@ -1811,7 +1810,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         });
 
         function updateBackgroundSVG() {
-            const isDark = document.documentElement.classList.contains('dark');
+            const isDark = !document.documentElement.classList.contains('light');
             const darkSVG = document.getElementById('bg-svg-dark');
             const lightSVG = document.getElementById('bg-svg-light');
             if (darkSVG) darkSVG.style.display = isDark ? 'block' : 'none';
@@ -1852,7 +1851,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
 
         function updateThemeIcons() {
-            const isDark = document.documentElement.classList.contains('dark');
+            const isDark = !document.documentElement.classList.contains('light');
             const moonIcon = document.querySelector('.theme-btn .moon-icon');
             const sunIcon = document.querySelector('.theme-btn .sun-icon');
             if (moonIcon && sunIcon) {
@@ -1861,17 +1860,17 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             }
         }
         function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            try { localStorage.setItem('dispatch-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            document.documentElement.classList.toggle('light');
+            const isLight = document.documentElement.classList.contains('light');
+            try { localStorage.setItem('dispatch-theme', isLight ? 'light' : 'dark'); } catch (e) {}
             // Also sync to dispatch-settings
             try {
                 const settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
-                settings['dark-mode'] = isDark;
+                settings['dark-mode'] = !isLight;
                 localStorage.setItem('dispatch-settings', JSON.stringify(settings));
             } catch (e) {}
             const darkToggle = document.getElementById('set-dark-mode');
-            if (darkToggle) darkToggle.classList.toggle('on', isDark);
+            if (darkToggle) darkToggle.classList.toggle('on', !isLight);
             updateThemeIcons();
             updateBackgroundSVG();
             saveSettingsImmediate();
@@ -1934,8 +1933,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
             switch (key) {
                 case 'dark-mode':
-                    if (value) document.documentElement.classList.add('dark');
-                    else document.documentElement.classList.remove('dark');
+                    if (value) document.documentElement.classList.remove('light');
+                    else document.documentElement.classList.add('light');
                     try { localStorage.setItem('dispatch-theme', value ? 'dark' : 'light'); } catch(e) {}
                     updateBackgroundSVG();
                     showAnnouncement(value ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
@@ -2039,7 +2038,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             document.documentElement.style.setProperty('--accent-soft', 'rgba(16, 185, 129, 0.14)');
             document.documentElement.style.fontSize = '15px';
             document.body.classList.remove('reduce-motion', 'high-contrast');
-            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
             try { localStorage.setItem('dispatch-theme', 'dark'); } catch(e) {}
             updateBackgroundSVG();
             applySettingsToUI();
@@ -2072,7 +2071,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             else document.documentElement.style.fontSize = s['font-size'] + 'px';
             if (s['reduce-motion']) document.body.classList.add('reduce-motion'); else document.body.classList.remove('reduce-motion');
             if (s['high-contrast']) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
-            if (s['dark-mode']) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+            if (s['dark-mode']) document.documentElement.classList.remove('light'); else document.documentElement.classList.add('light');
             updateBackgroundSVG();
         }
 
@@ -2084,7 +2083,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             else document.documentElement.style.fontSize = s['font-size'] + 'px';
             if (s['reduce-motion']) document.body.classList.add('reduce-motion');
             if (s['high-contrast']) document.body.classList.add('high-contrast');
-            if (s['dark-mode']) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+            // Check dispatch-theme first, then dispatch-settings dark-mode
+            const themeKey = localStorage.getItem('dispatch-theme');
+            let isLight = (themeKey === 'light');
+            if (!themeKey) isLight = (s['dark-mode'] === false);
+            if (isLight) document.documentElement.classList.add('light');
+            else document.documentElement.classList.remove('light');
             updateBackgroundSVG();
         }
 
@@ -2143,6 +2147,167 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 setTimeout(function() { if (loader) loader.style.display = 'none'; }, 600);
             }, 800);
         });
+    </script>
+
+    <!-- AI Assistant Widget -->
+    <div class="ai-root">
+        <button class="ai-fab" id="ai-fab" title="Ask AI Assistant" aria-label="Open AI Assistant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+        </button>
+        <div class="ai-widget" id="ai-widget">
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+                </div>
+                <div class="ai-chat-header-info">
+                    <h3>DISPATCH AI</h3>
+                    <p><span class="ai-status-dot"></span> Online</p>
+                </div>
+                <div class="ai-chat-header-actions">
+                    <a href="ai-assistant.php" class="ai-header-btn" title="Open full page">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                    </a>
+                    <button class="ai-header-btn" onclick="document.getElementById('ai-widget').classList.remove('open')" title="Close">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-welcome" id="ai-welcome">
+                    <div class="ai-welcome-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+                    </div>
+                    <h2>How can I help?</h2>
+                    <p>Ask me about DISPATCH documentation, video tutorials, or video docs.</p>
+                </div>
+                <div class="ai-chips" id="ai-chips"></div>
+            </div>
+            <div class="ai-input-area">
+                <div class="ai-input-row">
+                    <button class="ai-mic-btn" id="ai-mic-btn" title="Voice input" aria-label="Voice input">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><path d="M12 19v4M8 23h8"/></svg>
+                    </button>
+                    <textarea class="ai-input" id="ai-input" placeholder="Ask me anything…" rows="1"></textarea>
+                    <button class="ai-send-btn" id="ai-send-btn" title="Send" aria-label="Send" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/ai-assistant.js"></script>
+    <script>
+    (function(){
+        const AI = window.DispatchAI;
+        const fab = document.getElementById('ai-fab');
+        const widget = document.getElementById('ai-widget');
+        const messagesEl = document.getElementById('ai-messages');
+        const welcomeEl = document.getElementById('ai-welcome');
+        const chipsEl = document.getElementById('ai-chips');
+        const inputEl = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('ai-send-btn');
+        const micBtn = document.getElementById('ai-mic-btn');
+        let messages = [];
+        let isTyping = false;
+
+        fab.addEventListener('click', function(){ widget.classList.toggle('open'); });
+
+        function renderChips(){
+            chipsEl.innerHTML = '';
+            AI.QUICK_ACTIONS.forEach(function(a){
+                const c = document.createElement('button');
+                c.className = 'ai-chip';
+                c.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
+                c.addEventListener('click', function(){ inputEl.value = a.label; sendMessage(); });
+                chipsEl.appendChild(c);
+            });
+        }
+        function renderMessage(msg){
+            const isUser = msg.role === 'user';
+            const el = document.createElement('div');
+            el.className = 'ai-msg ' + (isUser ? 'user' : 'bot');
+            const avatar = document.createElement('div');
+            avatar.className = 'ai-msg-avatar';
+            avatar.innerHTML = isUser ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' : AI.ICONS['sparkle'];
+            const content = document.createElement('div');
+            const bubble = document.createElement('div');
+            bubble.className = 'ai-msg-bubble';
+            bubble.textContent = msg.text;
+            content.appendChild(bubble);
+            if(!isUser && msg.actions && msg.actions.length > 0){
+                const ae = document.createElement('div');
+                ae.className = 'ai-msg-actions';
+                msg.actions.forEach(function(a){
+                    const b = document.createElement('a');
+                    b.className = 'ai-action-btn';
+                    b.href = a.href;
+                    b.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
+                    ae.appendChild(b);
+                });
+                content.appendChild(ae);
+            }
+            el.appendChild(avatar);
+            el.appendChild(content);
+            messagesEl.appendChild(el);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function showTyping(){
+            const e = document.createElement('div');
+            e.className = 'ai-msg bot'; e.id = 'ai-typing-msg';
+            e.innerHTML = '<div class="ai-msg-avatar">'+AI.ICONS['sparkle']+'</div><div><div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div></div>';
+            messagesEl.appendChild(e);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function hideTyping(){ const e = document.getElementById('ai-typing-msg'); if(e) e.remove(); }
+        function sendMessage(){
+            const text = inputEl.value.trim();
+            if(!text || isTyping) return;
+            if(welcomeEl) welcomeEl.style.display = 'none';
+            if(chipsEl) chipsEl.style.display = 'none';
+            const um = {role:'user',text:text};
+            messages.push(um); renderMessage(um);
+            inputEl.value = ''; inputEl.style.height = 'auto'; updateSendBtn();
+            isTyping = true; showTyping();
+            setTimeout(function(){
+                hideTyping();
+                const m = AI.findBestMatch(text) || AI.generateFallback(text);
+                const bm = {role:'bot',text:m.description,actions:m.actions||[]};
+                messages.push(bm); renderMessage(bm); AI.saveHistory(messages); isTyping = false;
+            }, 600 + Math.random()*400);
+        }
+        function updateSendBtn(){ sendBtn.disabled = inputEl.value.trim().length === 0; }
+        inputEl.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,100)+'px'; updateSendBtn(); });
+        inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } });
+        sendBtn.addEventListener('click', sendMessage);
+        if(!AI.isVoiceSupported()){ micBtn.classList.add('unsupported'); micBtn.title='Voice not supported'; }
+        micBtn.addEventListener('click', function(){
+            if(!AI.isVoiceSupported()) return;
+            if(AI.isListening()){ AI.stopListening(); micBtn.classList.remove('listening'); }
+            else { const s = AI.startListening(function(t){ inputEl.value=t; updateSendBtn(); inputEl.focus(); }, function(){ micBtn.classList.remove('listening'); }); if(s) micBtn.classList.add('listening'); }
+        });
+        function loadHistory(){
+            const saved = AI.loadHistory();
+            if(saved.length > 0){
+                messages = saved;
+                if(welcomeEl) welcomeEl.style.display = 'none';
+                if(chipsEl) chipsEl.style.display = 'none';
+                saved.forEach(renderMessage);
+            }
+        }
+        renderChips();
+        loadHistory();
+
+        // Sync AI widget with page settings changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dispatch-settings' || e.key === 'dispatch-theme') {
+                const root = document.querySelector('.ai-root');
+                if (root) {
+                    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+                    if (accent) root.style.setProperty('--ai-accent', accent);
+                }
+            }
+        });
+    })();
     </script>
 </body>
 </html>

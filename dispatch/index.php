@@ -758,183 +758,6 @@
             .sidebar-overlay { display: none; }
 
             /* ===== Search Assistant ===== */
-            .assistant-fab {
-                position: fixed;
-                right: 1.5rem;
-                bottom: 1.5rem;
-                width: 56px;
-                height: 56px;
-                border-radius: 50%;
-                border: none;
-                background: linear-gradient(135deg, var(--accent), #059669);
-                color: #fff;
-                cursor: pointer;
-                z-index: 1100;
-                display: grid;
-                place-items: center;
-                box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.6);
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
-                animation: brand-glow 2.5s ease-in-out infinite alternate;
-            }
-            .assistant-fab:hover { transform: scale(1.08); }
-            .assistant-fab svg { width: 26px; height: 26px; }
-            .assistant-fab.active { transform: scale(0.9); }
-            .assistant-panel {
-                position: fixed;
-                right: 1.5rem;
-                bottom: 5.5rem;
-                width: 400px;
-                max-width: calc(100vw - 3rem);
-                max-height: 520px;
-                background: var(--surface-solid);
-                border: 1px solid var(--border);
-                border-radius: 20px;
-                box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
-                z-index: 1100;
-                display: none;
-                flex-direction: column;
-                overflow: hidden;
-                animation: assistantSlide 0.25s ease;
-            }
-            @keyframes assistantSlide {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            .assistant-panel.open { display: flex; }
-            .assistant-header {
-                padding: 1rem 1.25rem;
-                background: linear-gradient(135deg, var(--accent), #059669);
-                color: #fff;
-                display: flex;
-                align-items: center;
-                gap: 0.6rem;
-            }
-            .assistant-header svg { width: 22px; height: 22px; flex-shrink: 0; }
-            .assistant-header h3 { margin: 0; font-size: 1rem; font-weight: 700; }
-            .assistant-header p { margin: 0; font-size: 0.72rem; opacity: 0.85; }
-            .assistant-close {
-                margin-left: auto;
-                background: rgba(255,255,255,0.2);
-                border: none;
-                color: #fff;
-                width: 28px; height: 28px;
-                border-radius: 50%;
-                cursor: pointer;
-                display: grid; place-items: center;
-                font-size: 16px;
-                transition: background 0.15s ease;
-            }
-            .assistant-close:hover { background: rgba(255,255,255,0.35); }
-            .assistant-body {
-                flex: 1;
-                overflow-y: auto;
-                padding: 1rem 1.25rem;
-            }
-            .assistant-msg {
-                margin-bottom: 0.75rem;
-                font-size: 0.85rem;
-                line-height: 1.5;
-            }
-            .assistant-msg.bot {
-                color: var(--text);
-                background: var(--surface-2);
-                padding: 0.7rem 0.9rem;
-                border-radius: 12px 12px 12px 4px;
-            }
-            .assistant-msg.user {
-                color: #fff;
-                background: var(--accent);
-                padding: 0.7rem 0.9rem;
-                border-radius: 12px 12px 4px 12px;
-                margin-left: 2rem;
-                text-align: right;
-            }
-            .assistant-suggestions { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
-            .assistant-suggestion {
-                display: flex;
-                align-items: center;
-                gap: 0.6rem;
-                padding: 0.65rem 0.85rem;
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                cursor: pointer;
-                transition: all 0.15s ease;
-                background: var(--surface);
-            }
-            .assistant-suggestion:hover {
-                border-color: var(--border-strong);
-                background: var(--accent-soft);
-                transform: translateX(4px);
-            }
-            .assistant-suggestion svg { width: 20px; height: 20px; flex-shrink: 0; }
-            .assistant-suggestion .s-title { font-size: 0.84rem; font-weight: 600; color: var(--text); }
-            .assistant-suggestion .s-desc { font-size: 0.72rem; color: var(--text-muted); }
-            .assistant-suggestion .s-go {
-                margin-left: auto;
-                color: var(--accent);
-                font-size: 0.72rem;
-                font-weight: 600;
-                white-space: nowrap;
-            }
-            .assistant-empty {
-                text-align: center;
-                padding: 1.5rem 1rem;
-                color: var(--text-dim);
-                font-size: 0.82rem;
-            }
-            .assistant-footer {
-                padding: 0.75rem 1rem;
-                border-top: 1px solid var(--border);
-                display: flex;
-                gap: 0.5rem;
-            }
-            .assistant-input {
-                flex: 1;
-                padding: 0.65rem 0.85rem;
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                background: var(--surface);
-                color: var(--text);
-                font-size: 0.85rem;
-                font-family: inherit;
-                outline: none;
-                transition: border-color 0.15s ease;
-            }
-            .assistant-input:focus { border-color: var(--border-strong); }
-            .assistant-send {
-                width: 40px; height: 40px;
-                border: none;
-                border-radius: 12px;
-                background: var(--accent);
-                color: #fff;
-                cursor: pointer;
-                display: grid; place-items: center;
-                transition: background 0.15s ease;
-            }
-            .assistant-send:hover { background: #059669; }
-            .assistant-send svg { width: 18px; height: 18px; }
-            .assistant-quick {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.4rem;
-                padding: 0 1.25rem 0.75rem;
-            }
-            .assistant-chip {
-                padding: 0.3rem 0.7rem;
-                border: 1px solid var(--border);
-                border-radius: 999px;
-                background: var(--surface);
-                color: var(--text-muted);
-                font-size: 0.75rem;
-                cursor: pointer;
-                transition: all 0.15s ease;
-            }
-            .assistant-chip:hover { border-color: var(--border-strong); color: var(--accent); background: var(--accent-soft); }
-            @media (max-width: 560px) {
-                .assistant-panel { right: 0.75rem; bottom: 4.75rem; }
-                .assistant-fab { right: 0.75rem; bottom: 0.75rem; }
-            }
-
             /* ===== Settings Panel ===== */
             .settings-overlay {
                 position: fixed; inset: 0;
@@ -1429,6 +1252,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="css/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/ai-assistant.css">
     </head>
     <body>
 
@@ -1524,37 +1348,6 @@
         </header>
 
         <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
-
-        <!-- Search Assistant -->
-        <button class="assistant-fab" id="assistant-fab" onclick="toggleAssistant()" title="Search Assistant" aria-label="Open search assistant">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 3v-3z"/></svg>
-        </button>
-        <div class="assistant-panel" id="assistant-panel">
-            <div class="assistant-header">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                <div>
-                    <h3>Search Assistant</h3>
-                    <p>Ask me what you need help with</p>
-                </div>
-                <button class="assistant-close" onclick="toggleAssistant()" aria-label="Close">&times;</button>
-            </div>
-            <div class="assistant-body" id="assistant-body">
-                <div class="assistant-msg bot">Hi! I'm your search assistant. Tell me what you're looking for and I'll find the right tutorial for you. For example: "how do I add a driver?" or "fuel reports"</div>
-                <div class="assistant-quick" id="assistant-quick">
-                    <span class="assistant-chip" onclick="assistantAsk('How do I register a new driver?')">Register a driver</span>
-                    <span class="assistant-chip" onclick="assistantAsk('How do I manage my fleet?')">Manage fleet</span>
-                    <span class="assistant-chip" onclick="assistantAsk('How do I view fuel reports?')">Fuel reports</span>
-                    <span class="assistant-chip" onclick="assistantAsk('How do I manage payroll?')">Payroll</span>
-                    <span class="assistant-chip" onclick="assistantAsk('How do I track violations?')">Violations</span>
-                </div>
-            </div>
-            <div class="assistant-footer">
-                <input type="text" class="assistant-input" id="assistant-input" placeholder="Type your question..." onkeypress="if(event.key==='Enter')assistantSend()">
-                <button class="assistant-send" onclick="assistantSend()" aria-label="Send">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                </button>
-            </div>
-        </div>
 
         <!-- Settings Panel -->
         <div class="settings-overlay" id="settings-overlay" onclick="toggleSettings()"></div>
@@ -1734,7 +1527,7 @@
             <aside class="sidebar" id="sidebar">
                 <div class="search-wrap">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()" oninput="syncAssistantFromSidebar()" onclick="if(document.getElementById('sidebar').classList.contains('mini')){toggleSidebarMini();this.focus();}">
+                    <input type="text" id="sidebar-search" placeholder="Search tutorials..." onkeyup="filterMenu()" onclick="if(document.getElementById('sidebar').classList.contains('mini')){toggleSidebarMini();this.focus();}">
                 </div>
                 <button class="sidebar-hide-btn" onclick="toggleSidebarMini()" title="Collapse sidebar" aria-label="Toggle sidebar" id="sidebar-toggle-btn">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
@@ -2660,9 +2453,9 @@
                     action: null
                 },
                 {
-                    target: '#assistant-fab',
-                    title: 'AI Search Assistant',
-                    desc: 'Click this floating button to open the search assistant. Ask questions in plain English like "how do I add a driver?" and it will find the right tutorial for you.',
+                    target: '#ai-fab',
+                    title: 'AI Assistant',
+                    desc: 'Click this floating button to open the AI assistant. Ask questions in plain English like "how do I add a driver?" and it will find the right tutorial for you.',
                     action: function() {
                         if (window.innerWidth <= 900) { document.getElementById('sidebar').classList.add('open'); }
                     }
@@ -3179,153 +2972,6 @@
                 'login-signup-tutorial': ['login', 'sign up', 'signup', 'register', 'account', 'password', 'log in', 'authentication']
             };
 
-            function toggleAssistant() {
-                const panel = document.getElementById('assistant-panel');
-                const fab = document.getElementById('assistant-fab');
-                const isOpen = panel.classList.contains('open');
-                panel.classList.toggle('open');
-                fab.classList.toggle('active');
-                if (!isOpen) {
-                    setTimeout(function() { document.getElementById('assistant-input').focus(); }, 200);
-                } else {
-                    // When closing, reset the assistant and sidebar search
-                    const body = document.getElementById('assistant-body');
-                    body.innerHTML = '<div class="assistant-msg bot">Hi! I\'m your search assistant. Tell me what you\'re looking for and I\'ll find the right tutorial for you. For example: "how do I add a driver?" or "fuel reports"</div>' +
-                        '<div class="assistant-quick" id="assistant-quick">' +
-                        '<span class="assistant-chip" onclick="assistantAsk(\'How do I register a new driver?\')">Register a driver</span>' +
-                        '<span class="assistant-chip" onclick="assistantAsk(\'How do I manage my fleet?\')">Manage fleet</span>' +
-                        '<span class="assistant-chip" onclick="assistantAsk(\'How do I view fuel reports?\')">Fuel reports</span>' +
-                        '<span class="assistant-chip" onclick="assistantAsk(\'How do I manage payroll?\')">Payroll</span>' +
-                        '<span class="assistant-chip" onclick="assistantAsk(\'How do I track violations?\')">Violations</span>' +
-                        '</div>';
-                    const sidebarSearch = document.getElementById('sidebar-search');
-                    if (sidebarSearch) { sidebarSearch.value = ''; filterMenu(); }
-                }
-            }
-
-            function assistantAsk(question) {
-                document.getElementById('assistant-input').value = question;
-                assistantSend();
-            }
-
-            function syncAssistantFromSidebar() {
-                const settings = loadSettings();
-                if (settings['sync-search'] === false) return;
-                const sidebarSearch = document.getElementById('sidebar-search');
-                const assistantInput = document.getElementById('assistant-input');
-                if (sidebarSearch && assistantInput) {
-                    assistantInput.value = sidebarSearch.value;
-                }
-            }
-
-            function assistantSend() {
-                const input = document.getElementById('assistant-input');
-                const query = input.value.trim();
-                if (!query) return;
-                const body = document.getElementById('assistant-body');
-                const quick = document.getElementById('assistant-quick');
-
-                // Clear all previous history before showing new results
-                body.innerHTML = '';
-                if (quick) quick.style.display = 'none';
-
-                // Sync the sidebar search and filter the navigation (if sync-search is enabled)
-                const settings = loadSettings();
-                if (settings['sync-search'] !== false) {
-                    const sidebarSearch = document.getElementById('sidebar-search');
-                    if (sidebarSearch) {
-                        sidebarSearch.value = query;
-                        filterMenu();
-                    }
-                }
-
-                // Show user message
-                const userMsg = document.createElement('div');
-                userMsg.className = 'assistant-msg user';
-                userMsg.textContent = query;
-                body.appendChild(userMsg);
-
-                input.value = '';
-
-                // Search for matches
-                const results = assistantSearch(query);
-
-                // Show bot response
-                const botMsg = document.createElement('div');
-                botMsg.className = 'assistant-msg bot';
-
-                if (results.length === 0) {
-                    botMsg.innerHTML = "I couldn't find a tutorial matching that. Try different keywords, or browse the sidebar menu for all available sections.";
-                } else {
-                    botMsg.innerHTML = results.length === 1
-                        ? "I found a tutorial that matches:"
-                        : "I found " + results.length + " tutorials that match:";
-                }
-                body.appendChild(botMsg);
-
-                // Show suggestions
-                if (results.length > 0) {
-                    const sugg = document.createElement('div');
-                    sugg.className = 'assistant-suggestions';
-                    results.forEach(function(r) {
-                        const item = document.createElement('div');
-                        item.className = 'assistant-suggestion';
-                        item.onclick = function() {
-                            showSection(r.id);
-                            toggleAssistant();
-                        };
-                        const icon = SECTION_ICONS[r.id] || '';
-                        item.innerHTML = icon +
-                            '<div><div class="s-title">' + escapeHtml(r.title) + '</div>' +
-                            '<div class="s-desc">' + escapeHtml(r.desc) + '</div></div>' +
-                            '<span class="s-go">Open &rarr;</span>';
-                        sugg.appendChild(item);
-                    });
-                    body.appendChild(sugg);
-                }
-
-                body.scrollTop = body.scrollHeight;
-            }
-
-            function assistantSearch(query) {
-                const q = query.toLowerCase().trim();
-                const words = q.split(/\s+/);
-                const results = [];
-
-                Object.keys(ASSISTANT_KEYWORDS).forEach(function(id) {
-                    const meta = SECTION_META[id];
-                    if (!meta) return;
-                    const title = meta[0].toLowerCase();
-                    const desc = meta[1].toLowerCase();
-                    const keywords = ASSISTANT_KEYWORDS[id];
-                    let score = 0;
-
-                    // Exact title match
-                    if (title === q) score += 100;
-
-                    // Title contains query
-                    if (title.includes(q)) score += 50;
-
-                    // Description contains query
-                    if (desc.includes(q)) score += 20;
-
-                    // Keyword matches
-                    keywords.forEach(function(kw) {
-                        if (q.includes(kw)) score += 30;
-                        if (kw.includes(q)) score += 15;
-                        // Word-level matches
-                        words.forEach(function(w) {
-                            if (w.length > 2 && (kw === w || kw.includes(w))) score += 10;
-                        });
-                    });
-
-                    if (score > 0) results.push({ id: id, title: meta[0], desc: meta[1], score: score });
-                });
-
-                results.sort(function(a, b) { return b.score - a.score; });
-                return results.slice(0, 5);
-            }
-
             function toggleTheme() {
                 document.documentElement.classList.toggle('dark');
                 const isDark = document.documentElement.classList.contains('dark');
@@ -3589,5 +3235,169 @@
         <h4 id="doc-floater-title"></h4>
         <p id="doc-floater-desc"></p>
     </div>
+
+    <!-- AI Assistant Widget -->
+    <div class="ai-root">
+        <button class="ai-fab" id="ai-fab" title="Ask AI Assistant" aria-label="Open AI Assistant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+        </button>
+        <div class="ai-widget" id="ai-widget">
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+                </div>
+                <div class="ai-chat-header-info">
+                    <h3>DISPATCH AI</h3>
+                    <p><span class="ai-status-dot"></span> Online</p>
+                </div>
+                <div class="ai-chat-header-actions">
+                    <a href="ai-assistant.php" class="ai-header-btn" title="Open full page">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                    </a>
+                    <button class="ai-header-btn" onclick="document.getElementById('ai-widget').classList.remove('open')" title="Close">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-welcome" id="ai-welcome">
+                    <div class="ai-welcome-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
+                    </div>
+                    <h2>How can I help?</h2>
+                    <p>Ask me about DISPATCH documentation, video tutorials, or video docs.</p>
+                </div>
+                <div class="ai-chips" id="ai-chips"></div>
+            </div>
+            <div class="ai-input-area">
+                <div class="ai-input-row">
+                    <button class="ai-mic-btn" id="ai-mic-btn" title="Voice input" aria-label="Voice input">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><path d="M12 19v4M8 23h8"/></svg>
+                    </button>
+                    <textarea class="ai-input" id="ai-input" placeholder="Ask me anything…" rows="1"></textarea>
+                    <button class="ai-send-btn" id="ai-send-btn" title="Send" aria-label="Send" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/ai-assistant.js"></script>
+    <script>
+    (function(){
+        const AI = window.DispatchAI;
+        const fab = document.getElementById('ai-fab');
+        const widget = document.getElementById('ai-widget');
+        const messagesEl = document.getElementById('ai-messages');
+        const welcomeEl = document.getElementById('ai-welcome');
+        const chipsEl = document.getElementById('ai-chips');
+        const inputEl = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('ai-send-btn');
+        const micBtn = document.getElementById('ai-mic-btn');
+        let messages = [];
+        let isTyping = false;
+
+        fab.addEventListener('click', function(){ widget.classList.toggle('open'); });
+
+        function renderChips(){
+            chipsEl.innerHTML = '';
+            AI.QUICK_ACTIONS.forEach(function(a){
+                const c = document.createElement('button');
+                c.className = 'ai-chip';
+                c.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
+                c.addEventListener('click', function(){ inputEl.value = a.label; sendMessage(); });
+                chipsEl.appendChild(c);
+            });
+        }
+        function renderMessage(msg){
+            const isUser = msg.role === 'user';
+            const el = document.createElement('div');
+            el.className = 'ai-msg ' + (isUser ? 'user' : 'bot');
+            const avatar = document.createElement('div');
+            avatar.className = 'ai-msg-avatar';
+            avatar.innerHTML = isUser ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' : AI.ICONS['sparkle'];
+            const content = document.createElement('div');
+            const bubble = document.createElement('div');
+            bubble.className = 'ai-msg-bubble';
+            bubble.textContent = msg.text;
+            content.appendChild(bubble);
+            if(!isUser && msg.actions && msg.actions.length > 0){
+                const ae = document.createElement('div');
+                ae.className = 'ai-msg-actions';
+                msg.actions.forEach(function(a){
+                    const b = document.createElement('a');
+                    b.className = 'ai-action-btn';
+                    b.href = a.href;
+                    b.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
+                    ae.appendChild(b);
+                });
+                content.appendChild(ae);
+            }
+            el.appendChild(avatar);
+            el.appendChild(content);
+            messagesEl.appendChild(el);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function showTyping(){
+            const e = document.createElement('div');
+            e.className = 'ai-msg bot'; e.id = 'ai-typing-msg';
+            e.innerHTML = '<div class="ai-msg-avatar">'+AI.ICONS['sparkle']+'</div><div><div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div></div>';
+            messagesEl.appendChild(e);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function hideTyping(){ const e = document.getElementById('ai-typing-msg'); if(e) e.remove(); }
+        function sendMessage(){
+            const text = inputEl.value.trim();
+            if(!text || isTyping) return;
+            if(welcomeEl) welcomeEl.style.display = 'none';
+            if(chipsEl) chipsEl.style.display = 'none';
+            const um = {role:'user',text:text};
+            messages.push(um); renderMessage(um);
+            inputEl.value = ''; inputEl.style.height = 'auto'; updateSendBtn();
+            isTyping = true; showTyping();
+            setTimeout(function(){
+                hideTyping();
+                const m = AI.findBestMatch(text) || AI.generateFallback(text);
+                const bm = {role:'bot',text:m.description,actions:m.actions||[]};
+                messages.push(bm); renderMessage(bm); AI.saveHistory(messages); isTyping = false;
+            }, 600 + Math.random()*400);
+        }
+        function updateSendBtn(){ sendBtn.disabled = inputEl.value.trim().length === 0; }
+        inputEl.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,100)+'px'; updateSendBtn(); });
+        inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } });
+        sendBtn.addEventListener('click', sendMessage);
+        if(!AI.isVoiceSupported()){ micBtn.classList.add('unsupported'); micBtn.title='Voice not supported'; }
+        micBtn.addEventListener('click', function(){
+            if(!AI.isVoiceSupported()) return;
+            if(AI.isListening()){ AI.stopListening(); micBtn.classList.remove('listening'); }
+            else { const s = AI.startListening(function(t){ inputEl.value=t; updateSendBtn(); inputEl.focus(); }, function(){ micBtn.classList.remove('listening'); }); if(s) micBtn.classList.add('listening'); }
+        });
+        function loadHistory(){
+            const saved = AI.loadHistory();
+            if(saved.length > 0){
+                messages = saved;
+                if(welcomeEl) welcomeEl.style.display = 'none';
+                if(chipsEl) chipsEl.style.display = 'none';
+                saved.forEach(renderMessage);
+            }
+        }
+        renderChips();
+        loadHistory();
+
+        // Sync AI widget with page settings changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dispatch-settings' || e.key === 'dispatch-theme') {
+                // The page's own settings handler will update --accent,
+                // and our CSS uses var(--accent) so the widget updates automatically.
+                // Just force a re-render of chips to pick up any accent changes.
+                const root = document.querySelector('.ai-root');
+                if (root) {
+                    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+                    if (accent) root.style.setProperty('--ai-accent', accent);
+                }
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
