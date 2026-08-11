@@ -134,6 +134,30 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+        .back-home-btn[title] { position: relative; }
+        .back-home-btn[title]::after {
+            content: attr(title);
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            padding: 0.35rem 0.65rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.18s ease;
+            z-index: 300;
+        }
+        .back-home-btn[title]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         .icon-btn.docs-btn,
         .icon-btn.theme-btn,
         .icon-btn.settings-btn-top {
@@ -152,26 +176,43 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .icon-btn.docs-btn { text-decoration: none; }
         .icon-btn.docs-btn svg { width: 20px; height: 20px; }
-        /* Simple Back Button */
+        /* Back Button — X modal style (red) */
         .back-home-btn {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.45rem 0.85rem;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text-muted);
+            display: grid;
+            place-items: center;
+            width: 38px; height: 38px;
+            border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+            border-radius: 50%;
+            background: color-mix(in srgb, #ef4444 8%, transparent);
+            color: #ef4444;
             text-decoration: none;
-            font-size: 0.8rem; font-weight: 500;
             font-family: inherit;
-            transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+            transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
         .back-home-btn svg {
-            width: 16px; height: 16px; flex-shrink: 0;
+            width: 18px; height: 18px; flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .back-home-btn:hover {
-            border-color: var(--border-strong);
-            color: var(--text);
-            background: var(--surface-2);
+            border-color: #ef4444;
+            background: color-mix(in srgb, #ef4444 15%, transparent);
+            color: #ef4444;
+            box-shadow: 0 0 14px -4px color-mix(in srgb, #ef4444 50%, transparent);
+            transform: rotate(90deg);
+        }
+        .back-home-btn:active { transform: scale(0.92); }
+        /* Shortcut icons — green */
+        .icon-btn.docs-btn {
+            color: var(--accent);
+            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+        .icon-btn.docs-btn:hover {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
+            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
         }
 
         /* ===== Main Content ===== */
@@ -1003,7 +1044,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <header class="header">
         <div class="brand">
             <span class="brand-mark">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
             </span>
             <span class="brand-text">
                 <h1>DISPATCH</h1>
@@ -1011,12 +1052,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             </span>
         </div>
         <div class="header-actions">
+            <a href="video_docs.php" class="icon-btn docs-btn" title="Video Docs">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+            </a>
             <a href="docs.php" class="icon-btn docs-btn" title="Documentation">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
-            </a>
-            <a href="index.php" class="back-home-btn" title="Back to Home">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                <span>Back</span>
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
@@ -1025,6 +1065,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <button class="icon-btn settings-btn-top" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="8" cy="17" r="2" fill="currentColor" stroke="none"/></svg>
             </button>
+            <a href="index.php" class="back-home-btn">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </a>
         </div>
     </header>
 

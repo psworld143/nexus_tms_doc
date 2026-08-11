@@ -283,32 +283,73 @@ $totalAvailable = count($availableVideos);
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+        .back-home-btn[title] { position: relative; }
+        .back-home-btn[title]::after {
+            content: attr(title);
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            padding: 0.35rem 0.65rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.18s ease;
+            z-index: 300;
+        }
+        .back-home-btn[title]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         @media (prefers-reduced-motion: reduce) {
             .icon-btn, .icon-btn:hover { transition: none; transform: none; }
             .icon-btn:active { transform: none; }
         }
         .menu-btn { display: none; }
 
-        /* Simple Back Button */
+        /* Back Button — X modal style (red) */
         .back-home-btn {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.45rem 0.85rem;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text-muted);
+            display: grid;
+            place-items: center;
+            width: 38px; height: 38px;
+            border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+            border-radius: 50%;
+            background: color-mix(in srgb, #ef4444 8%, transparent);
+            color: #ef4444;
             text-decoration: none;
-            font-size: 0.8rem; font-weight: 500;
             font-family: inherit;
-            transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+            transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
         .back-home-btn svg {
-            width: 16px; height: 16px; flex-shrink: 0;
+            width: 18px; height: 18px; flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .back-home-btn:hover {
-            border-color: var(--border-strong);
-            color: var(--text);
-            background: var(--surface-2);
+            border-color: #ef4444;
+            background: color-mix(in srgb, #ef4444 15%, transparent);
+            color: #ef4444;
+            box-shadow: 0 0 14px -4px color-mix(in srgb, #ef4444 50%, transparent);
+            transform: rotate(90deg);
+        }
+        .back-home-btn:active { transform: scale(0.92); }
+        /* Shortcut icons — green */
+        .icon-btn.shortcut-btn {
+            color: var(--accent);
+            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+        .icon-btn.shortcut-btn:hover {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
+            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
         }
 
         /* Layout */
@@ -614,7 +655,7 @@ $totalAvailable = count($availableVideos);
             background: var(--surface-2);
             padding: 0.15rem 0.4rem;
             border-radius: 6px;
-            font-family: 'Courier New', monospace;
+            font-family: 'Poppins', sans-serif;
             font-size: 0.85em;
             color: var(--accent-2);
         }
@@ -732,7 +773,7 @@ $totalAvailable = count($availableVideos);
             border-radius: 12px;
             padding: 1rem;
             padding-right: 3rem;
-            font-family: 'Courier New', monospace;
+            font-family: 'Poppins', sans-serif;
             font-size: 0.85rem;
             color: var(--text);
             overflow-x: auto;
@@ -1106,14 +1147,19 @@ $totalAvailable = count($availableVideos);
             <span class="kbd">⌘K</span>
         </button>
         <div class="header-actions">
-            <a href="index.php" class="back-home-btn" title="Back to Home">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                <span>Back</span>
+            <a href="tutorials.php" class="icon-btn shortcut-btn" title="Video Tutorials">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </a>
+            <a href="video_docs.php" class="icon-btn shortcut-btn" title="Video Docs">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
                 <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
             </button>
+            <a href="index.php" class="back-home-btn">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </a>
         </div>
     </header>
 

@@ -663,22 +663,22 @@
             }
             .chip svg { width: 13px; height: 13px; }
             .docs-link {
-                display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;
-                margin: 0.4rem 0.35rem 0.3rem;
-                padding: 0.5rem 1rem;
+                display: inline-flex; align-items: center; justify-content: flex-start; gap: 0.4rem;
+                margin: 0.5rem 0.35rem 0.4rem;
+                padding: 0.65rem 1.25rem;
                 width: fit-content;
-                min-width: 130px;
-                border-radius: 6px;
+                min-width: 150px;
+                border-radius: 8px;
                 background: linear-gradient(135deg, var(--accent), #059669);
                 color: #fff;
-                font-size: 0.62rem; font-weight: 600;
+                font-size: 0.75rem; font-weight: 600;
                 text-decoration: none;
                 cursor: pointer;
                 border: none;
                 font-family: inherit;
                 transition: all 0.18s ease;
             }
-            .docs-link svg { width: 11px; height: 11px; }
+            .docs-link svg { width: 14px; height: 14px; }
             .docs-link:hover {
                 transform: translateY(-1px);
                 box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--accent) 50%, transparent);
