@@ -108,12 +108,12 @@
                 display: grid; place-items: center;
                 background: linear-gradient(135deg, var(--accent), #059669);
                 color: #fff;
-                box-shadow: 0 8px 20px -8px rgba(16, 185, 129, 0.7);
+                box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 70%, transparent);
                 animation: brand-glow 2.5s ease-in-out infinite alternate;
             }
             @keyframes brand-glow {
-                from { box-shadow: 0 8px 20px -8px rgba(16, 185, 129, 0.5), 0 0 12px rgba(16, 185, 129, 0.3); }
-                to   { box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.85), 0 0 22px rgba(16, 185, 129, 0.5); }
+                from { box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 30%, transparent); }
+                to   { box-shadow: 0 8px 24px -6px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 22px color-mix(in srgb, var(--accent) 50%, transparent); }
             }
             .brand-mark svg { width: 22px; height: 22px; }
             .brand-text h1 { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; }
@@ -181,9 +181,9 @@
             .icon-btn.theme-btn,
             .icon-btn.settings-btn-top,
             .icon-btn.tour-btn {
-                color: #10b981;
-                border-color: rgba(16, 185, 129, 0.35);
-                background: rgba(16, 185, 129, 0.10);
+                color: var(--accent);
+                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+                background: color-mix(in srgb, var(--accent) 10%, transparent);
             }
             .icon-btn.refresh-btn:hover,
             .icon-btn.tutorials-btn:hover,
@@ -192,9 +192,9 @@
             .icon-btn.theme-btn:hover,
             .icon-btn.settings-btn-top:hover,
             .icon-btn.tour-btn:hover {
-                background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
-                border-color: rgba(16, 185, 129, 0.7);
-                box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
+                background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
+                border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+                box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
                 transform: translateY(-2px) scale(1.05);
                 color: #fff;
             }
@@ -505,8 +505,8 @@
                 border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
             }
             .page-head .ph-icon svg { width: 26px; height: 26px; }
-            .page-head h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: #10b981; }
-            .page-head p { margin: 0.15rem 0 0; color: #10b981; font-size: 0.9rem; opacity: 0.8; }
+            .page-head h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+            .page-head p { margin: 0.15rem 0 0; color: var(--text-muted); font-size: 0.9rem; }
 
             .section-content { animation: fadeIn 0.35s ease; }
             @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -641,10 +641,9 @@
             .video-empty svg { width: 40px; height: 40px; opacity: 0.7; }
             .video-desc {
                 margin: 1rem 0.35rem 0.35rem;
-                color: #10b981;
+                color: var(--text);
                 line-height: 1.65;
                 font-size: 0.92rem;
-                opacity: 0.8;
             }
             .video-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0.35rem 0; }
             .chip {
@@ -654,6 +653,27 @@
                 font-size: 0.74rem; color: #10b981; font-weight: 500;
             }
             .chip svg { width: 13px; height: 13px; }
+            .docs-link {
+                display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;
+                margin: 0.4rem 0.35rem 0.3rem;
+                padding: 0.5rem 1rem;
+                width: fit-content;
+                min-width: 130px;
+                border-radius: 6px;
+                background: linear-gradient(135deg, var(--accent), #059669);
+                color: #fff;
+                font-size: 0.62rem; font-weight: 600;
+                text-decoration: none;
+                cursor: pointer;
+                border: none;
+                font-family: inherit;
+                transition: all 0.18s ease;
+            }
+            .docs-link svg { width: 11px; height: 11px; }
+            .docs-link:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--accent) 50%, transparent);
+            }
 
             /* ===== Video Card Enhancements ===== */
             .video-card {
@@ -1397,6 +1417,9 @@
         @media (max-width: 900px) { .doc-floater { display: none !important; } }
 
         </style>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="css/tailwind-config.js"></script>
     </head>
     <body>
 
@@ -1559,6 +1582,7 @@
                             <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
                             <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
                             <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
+                            <div class="color-swatch" style="background:#9A6735" data-color="#9A6735" onclick="setAccentColor('#9A6735')"></div>
                         </div>
                     </div>
                     <div class="setting-row">
@@ -2004,53 +2028,7 @@
                         </div>
                     </div>
 
-                <!-- Dashboard Documentation -->
-    <div class="documentation" id="doc-dashboard">
-
-        <div class="doc-header">
-            <div class="doc-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M7 16V8m5 8V4m5 12v-6"/></svg>
-            </div>
-
-            <div class="doc-title">
-                <h3>Dashboard Documentation</h3>
-                <p>
-                    The Dashboard is the main landing page of the Asset Logistics
-                    system. It provides a real-time overview of fleet compliance,
-                    operational performance, and important alerts.
-                </p>
-            </div>
-        </div>
-
-        <div class="doc-body">
-
-            <h4>Key Features</h4>
-
-            <ul class="feature-list">
-                <li>Compliance Status – Monitor IRP, IFTA, Insurance, BOC-3, MC Authority, DOT, and other compliance documents.</li>
-
-                <li>Analytics & Monitoring – View charts, graphs, and operational metrics.</li>
-
-                <li>Alert Status – Track expired documents and pending compliance requirements.</li>
-
-                <li>Safety Score – Review your fleet's safety performance.</li>
-
-                <li>Performance Reports – Analyze operational trends and statistics.</li>
-
-                <li>Quick Navigation – Easily access Drivers, Fleet, Maintenance, Documents, Reporting, and other modules.</li>
-            </ul>
-
-            <h4>Purpose</h4>
-
-            <p>
-                The Dashboard serves as the central control panel for monitoring fleet
-                operations, compliance, and performance from one location.
-            </p>
-            </div>
-
-        </div>
-
-    </div>
+                </div>
                 <div id="section-my-loads" class="section-content" style="display:none;">
                     <div class="video-card">
                         <div class="video-frame"><video controls playsinline><source src="videos/my-loads.mp4" type="video/mp4"></video></div>
@@ -2058,30 +2036,6 @@
                         <div class="video-meta"><span class="chip">Operations</span><span class="chip">Dispatch</span></div>
                     </div>
 
-                    <!-- My Loads Documentation -->
-                    <div class="documentation" id="doc-my-loads">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Loads Documentation</h3>
-                                <p>Create, assign, and track loads through dispatch — from booking to delivery.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Load Creation – Create new loads with pickup, delivery, and rate information.</li>
-                                <li>Driver Assignment – Assign loads to available drivers or owner-operators.</li>
-                                <li>Load Tracking – Monitor load status from pickup to delivery.</li>
-                                <li>Route Planning – Optimize routes and track driver progress.</li>
-                                <li>Documentation – Attach PODs, BOLs, and other load documents.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Loads module is the core dispatch tool for managing freight operations, enabling efficient load creation, assignment, and tracking throughout the entire delivery lifecycle.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-my-trucks" class="section-content" style="display:none;">
@@ -2091,30 +2045,6 @@
                         <div class="video-meta"><span class="chip">Fleet</span></div>
                     </div>
 
-                    <!-- My Trucks Documentation -->
-                    <div class="documentation" id="doc-my-trucks">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Trucks Documentation</h3>
-                                <p>Add, view, and manage the trucks in your fleet.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Truck Profiles – Create detailed truck records with VIN, make, model, and year.</li>
-                                <li>Registration Tracking – Monitor registration expiration and renewal dates.</li>
-                                <li>Insurance Management – Track insurance policies and coverage details.</li>
-                                <li>Maintenance History – View all maintenance records and service history.</li>
-                                <li>Status Management – Track truck availability and operational status.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Trucks module provides comprehensive fleet management for all power units, ensuring compliance with registration and insurance requirements while tracking maintenance and operational status.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-trailers" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2123,30 +2053,6 @@
                         <div class="video-meta"><span class="chip">Fleet</span></div>
                     </div>
 
-                    <!-- My Trailers Documentation -->
-                    <div class="documentation" id="doc-my-trailers">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Trailers Documentation</h3>
-                                <p>Add, view, and manage the trailers in your fleet.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Trailer Profiles – Create detailed trailer records with VIN, type, and capacity.</li>
-                                <li>Registration Tracking – Monitor registration expiration and renewal dates.</li>
-                                <li>Inspection Records – Track annual inspections and safety checks.</li>
-                                <li>Maintenance History – View all maintenance records and service history.</li>
-                                <li>Assignment Tracking – Track which truck is currently assigned to each trailer.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Trailers module provides comprehensive fleet management for all trailers, ensuring compliance with registration and inspection requirements while tracking maintenance and assignment status.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-driver-devices" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2155,30 +2061,6 @@
                         <div class="video-meta"><span class="chip">Fleet</span></div>
                     </div>
 
-                    <!-- Driver Devices Documentation -->
-                    <div class="documentation" id="doc-driver-devices">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Driver Devices Documentation</h3>
-                                <p>Manage driver mobile devices and ELD connections.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Device Registration – Register and track driver mobile devices.</li>
-                                <li>ELD Integration – Connect and manage Electronic Logging Device connections.</li>
-                                <li>App Management – Control which apps are installed on driver devices.</li>
-                                <li>Device Status – Monitor device connectivity and battery status.</li>
-                                <li>Remote Management – Configure device settings remotely.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Driver Devices module ensures your drivers have properly configured devices for HOS compliance and communication, enabling remote management and monitoring of all fleet devices.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-truck-lease-pricing" class="section-content" style="display:none;">
@@ -2188,30 +2070,6 @@
                         <div class="video-meta"><span class="chip">Lease</span></div>
                     </div>
 
-                    <!-- Truck Lease Pricing Documentation -->
-                    <div class="documentation" id="doc-truck-lease-pricing">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m3-1h9a2 2 0 002-2v-6a2 2 0 00-2-2h-9a2 2 0 00-2 2v6a2 2 0 002 2zm7-3a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Truck Lease Pricing Documentation</h3>
-                                <p>Review and configure truck lease pricing options.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Pricing Models – Configure different pricing structures for various lease types.</li>
-                                <li>Rate Management – Set and adjust lease rates based on truck type and duration.</li>
-                                <li>Discount Rules – Apply promotional discounts and volume-based pricing.</li>
-                                <li>Payment Terms – Define payment schedules and billing cycles.</li>
-                                <li>Price History – Track pricing changes and historical rates.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Truck Lease Pricing module enables flexible pricing configuration for all lease agreements, ensuring competitive rates and transparent billing for your fleet leasing operations.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-truck-rentals" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2220,30 +2078,6 @@
                         <div class="video-meta"><span class="chip">Lease</span></div>
                     </div>
 
-                    <!-- Truck Rentals Documentation -->
-                    <div class="documentation" id="doc-truck-rentals">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Truck Rentals Documentation</h3>
-                                <p>Manage truck rentals and short-term equipment agreements.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Rental Booking – Schedule and manage short-term truck rentals.</li>
-                                <li>Availability Tracking – Monitor rental fleet availability in real-time.</li>
-                                <li>Rate Calculation – Automatic pricing based on duration and truck type.</li>
-                                <li>Check-in/Check-out – Track rental start and end times.</li>
-                                <li>Damage Reporting – Document and track rental equipment condition.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Truck Rentals module provides flexible short-term equipment solutions, enabling you to manage temporary fleet needs efficiently while tracking costs and equipment condition.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-lease-agreements" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2252,30 +2086,6 @@
                         <div class="video-meta"><span class="chip">Lease</span></div>
                     </div>
 
-                    <!-- Lease Agreements Documentation -->
-                    <div class="documentation" id="doc-lease-agreements">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Lease Agreements Documentation</h3>
-                                <p>Create, sign, and track lease agreements.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Agreement Creation – Generate comprehensive lease agreements with custom terms.</li>
-                                <li>Digital Signatures – Enable electronic signing for faster execution.</li>
-                                <li>Term Management – Track lease start dates, end dates, and renewal options.</li>
-                                <li>Document Storage – Secure storage of all signed agreements.</li>
-                                <li>Expiration Alerts – Automated notifications for upcoming lease expirations.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Lease Agreements module streamlines the entire lease lifecycle from creation to renewal, ensuring all agreements are properly documented, signed, and tracked for compliance.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-hire-drivers" class="section-content" style="display:none;">
@@ -2285,30 +2095,6 @@
                         <div class="video-meta"><span class="chip">Recruitment</span></div>
                     </div>
 
-                    <!-- Hire Drivers Documentation -->
-                    <div class="documentation" id="doc-hire-drivers">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Hire Drivers Documentation</h3>
-                                <p>Recruit and onboard new drivers into your operation.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Application Management – Collect and review driver applications.</li>
-                                <li>Background Checks – Initiate and track background screening.</li>
-                                <li>Onboarding Checklist – Track completion of required onboarding tasks.</li>
-                                <li>Training Assignment – Assign required training modules to new hires.</li>
-                                <li>Status Tracking – Monitor progress through the hiring pipeline.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Hire Drivers module streamlines the recruitment and onboarding process, ensuring all new drivers complete required checks, training, and documentation before joining your fleet.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-job-postings" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2317,30 +2103,6 @@
                         <div class="video-meta"><span class="chip">Recruitment</span></div>
                     </div>
 
-                    <!-- Job Postings Documentation -->
-                    <div class="documentation" id="doc-job-postings">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Job Postings Documentation</h3>
-                                <p>Create and manage driver job postings.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Job Creation – Create detailed job postings with requirements and benefits.</li>
-                                <li>Multi-platform Publishing – Post to multiple job boards simultaneously.</li>
-                                <li>Application Tracking – Receive and manage applications through the platform.</li>
-                                <li>Template Library – Use pre-built templates for common positions.</li>
-                                <li>Performance Analytics – Track posting views and application rates.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Job Postings module enables efficient recruitment marketing, allowing you to create, publish, and manage job listings across multiple platforms from a single interface.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-external-drivers" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2349,30 +2111,6 @@
                         <div class="video-meta"><span class="chip">Recruitment</span></div>
                     </div>
 
-                    <!-- External Drivers Documentation -->
-                    <div class="documentation" id="doc-external-drivers">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>External Drivers Documentation</h3>
-                                <p>Manage external and owner-operator drivers.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Contractor Profiles – Manage owner-operator and contractor information.</li>
-                                <li>Agreement Tracking – Store and track independent contractor agreements.</li>
-                                <li>Performance Metrics – Monitor external driver performance and compliance.</li>
-                                <li>Payment Management – Track contractor payments and settlements.</li>
-                                <li>Compliance Monitoring – Ensure external drivers meet regulatory requirements.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The External Drivers module provides specialized management for owner-operators and contractors, handling the unique requirements of non-employee drivers while maintaining compliance and performance tracking.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-shout-out-scripts" class="section-content" style="display:none;">
@@ -2382,30 +2120,6 @@
                         <div class="video-meta"><span class="chip">Marketing</span></div>
                     </div>
 
-                    <!-- Shout Out Scripts Documentation -->
-                    <div class="documentation" id="doc-shout-out-scripts">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Shout Out Scripts Documentation</h3>
-                                <p>Access ready-made shout out scripts for your marketing.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Script Library – Access a collection of pre-written marketing scripts.</li>
-                                <li>Customization – Edit scripts to match your brand voice and messaging.</li>
-                                <li>Category Organization – Scripts organized by campaign type and audience.</li>
-                                <li>Performance Tracking – Track which scripts generate the best engagement.</li>
-                                <li>Template Creation – Save your own custom scripts for future use.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Shout Out Scripts module provides ready-to-use marketing content, enabling you to quickly deploy effective campaigns without starting from scratch while maintaining brand consistency.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-shout-out-vlogs" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2414,30 +2128,6 @@
                         <div class="video-meta"><span class="chip">Marketing</span></div>
                     </div>
 
-                    <!-- Shout Out Vlogs Documentation -->
-                    <div class="documentation" id="doc-shout-out-vlogs">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Shout Out Vlogs Documentation</h3>
-                                <p>Watch shout out vlog examples and marketing walkthroughs.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Video Library – Access a collection of marketing vlog examples.</li>
-                                <li>Walkthrough Tutorials – Step-by-step guides for marketing campaigns.</li>
-                                <li>Best Practices – Learn proven strategies from successful campaigns.</li>
-                                <li>Trend Analysis – Stay updated with current marketing trends.</li>
-                                <li>Interactive Learning – Engage with interactive marketing exercises.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Shout Out Vlogs module provides visual learning resources and examples, helping you understand and implement effective marketing strategies through real-world demonstrations.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-accounting" class="section-content" style="display:none;">
@@ -2447,30 +2137,6 @@
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
 
-                    <!-- Accounting Documentation -->
-                    <div class="documentation" id="doc-accounting">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-6 4h6m-6 4h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Accounting Documentation</h3>
-                                <p>Manage accounting, invoices, and financial records.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Invoice Management – Create, send, and track invoices for loads.</li>
-                                <li>Expense Tracking – Record and categorize business expenses.</li>
-                                <li>Financial Reports – Generate profit/loss statements and balance sheets.</li>
-                                <li>Tax Preparation – Organize financial data for tax filing.</li>
-                                <li>Payment Processing – Track customer payments and outstanding balances.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Accounting module provides comprehensive financial management, enabling you to track revenue, expenses, and profitability while maintaining accurate records for business operations and compliance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-payroll" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2479,30 +2145,6 @@
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
 
-                    <!-- Payroll Documentation -->
-                    <div class="documentation" id="doc-my-payroll">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m3-1h9a2 2 0 002-2v-6a2 2 0 00-2-2h-9a2 2 0 00-2 2v6a2 2 0 002 2zm7-3a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Payroll Documentation</h3>
-                                <p>Run and manage driver and staff payroll.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Pay Calculation – Automatically calculate pay based on miles, hours, or rates.</li>
-                                <li>Deduction Management – Handle taxes, benefits, and other deductions.</li>
-                                <li>Direct Deposit – Set up and manage electronic payments.</li>
-                                <li>Pay Stubs – Generate detailed pay statements for employees.</li>
-                                <li>Payroll History – Access historical payroll records and reports.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Payroll module automates the entire payroll process, ensuring accurate and timely payment to drivers and staff while handling all necessary deductions and compliance requirements.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-factoring-company" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2511,30 +2153,6 @@
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
 
-                    <!-- Factoring Company Documentation -->
-                    <div class="documentation" id="doc-my-factoring-company">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Factoring Company Documentation</h3>
-                                <p>Connect and manage your factoring company.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Factor Integration – Connect with your factoring company for invoice financing.</li>
-                                <li>Invoice Submission – Submit invoices directly to your factor for funding.</li>
-                                <li>Funding Tracking – Monitor factoring status and payment schedules.</li>
-                                <li>Fee Management – Track factoring fees and advance rates.</li>
-                                <li>Reserve Accounting – Track reserve balances and releases.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Factoring Company module streamlines invoice financing, enabling you to submit invoices for quick funding while tracking fees, reserves, and payment schedules through your factoring partner.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-fuel-reports" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2543,30 +2161,6 @@
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
 
-                    <!-- Fuel Reports Documentation -->
-                    <div class="documentation" id="doc-fuel-reports">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Fuel Reports Documentation</h3>
-                                <p>View fuel spending reports and analytics.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Spending Analytics – Analyze fuel costs by truck, driver, and route.</li>
-                                <li>MPG Tracking – Monitor fuel efficiency across your fleet.</li>
-                                <li>Cost Comparison – Compare fuel prices across locations and vendors.</li>
-                                <li>IFTA Reporting – Generate IFTA fuel tax reports.</li>
-                                <li>Trend Analysis – Identify fuel consumption patterns and anomalies.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Fuel Reports module provides comprehensive fuel cost analysis, helping you optimize fuel efficiency, reduce costs, and maintain compliance with IFTA reporting requirements.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-fuel-cards" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2575,30 +2169,6 @@
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
 
-                    <!-- Fuel Cards Documentation -->
-                    <div class="documentation" id="doc-my-fuel-cards">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Fuel Cards Documentation</h3>
-                                <p>Manage fuel cards and driver spending limits.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Card Management – Issue, activate, and deactivate fuel cards.</li>
-                                <li>Spending Limits – Set daily, weekly, and transaction limits per driver.</li>
-                                <li>Product Restrictions – Control which fuel products can be purchased.</li>
-                                <li>Location Controls – Restrict card usage to specific fuel stations.</li>
-                                <li>Transaction Monitoring – Review all fuel card transactions in real-time.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Fuel Cards module provides complete control over fleet fuel purchases, enabling you to set spending limits, restrict usage, and monitor transactions to prevent fraud and control costs.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-loans-cash-advance" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2607,30 +2177,6 @@
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
 
-                    <!-- Loans/Cash Advance Documentation -->
-                    <div class="documentation" id="doc-loans-cash-advance">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Loans & Cash Advance Documentation</h3>
-                                <p>Apply for and track loans and cash advances.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Loan Application – Apply for business loans and cash advances online.</li>
-                                <li>Approval Tracking – Monitor application status and approval decisions.</li>
-                                <li>Repayment Management – Track payment schedules and outstanding balances.</li>
-                                <li>Interest Calculation – View interest rates and total repayment amounts.</li>
-                                <li>Document Management – Upload and manage loan documentation.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Loans & Cash Advance module provides access to working capital financing, enabling you to apply for and manage loans and cash advances to support fleet operations and growth.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-api-integration-keys" class="section-content" style="display:none;">
@@ -2640,30 +2186,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- API Integration Keys Documentation -->
-                    <div class="documentation" id="doc-api-integration-keys">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>API Integration Keys Documentation</h3>
-                                <p>Generate and manage API integration keys.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Key Generation – Create secure API keys for third-party integrations.</li>
-                                <li>Permission Management – Set access levels and permissions for each key.</li>
-                                <li>Activity Logging – Track API usage and access patterns.</li>
-                                <li>Key Rotation – Rotate keys for enhanced security.</li>
-                                <li>Revocation – Disable compromised or unused keys immediately.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The API Integration Keys module enables secure third-party integrations, allowing you to control access to your system while monitoring usage and maintaining security through key management.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-fleet" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2672,30 +2194,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- My Fleet Documentation -->
-                    <div class="documentation" id="doc-my-fleet">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Fleet Documentation</h3>
-                                <p>Monitor your fleet's safety and compliance status.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Fleet Overview – View all fleet assets in a unified dashboard.</li>
-                                <li>Safety Scores – Monitor safety ratings across all vehicles.</li>
-                                <li>Compliance Status – Track regulatory compliance for each asset.</li>
-                                <li>Performance Metrics – Analyze fleet performance and utilization.</li>
-                                <li>Alert Management – Receive notifications for fleet issues.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Fleet module provides a comprehensive view of your entire fleet, enabling you to monitor safety, compliance, and performance across all assets from a single centralized dashboard.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-emergency-monitoring" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2704,30 +2202,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- Emergency Monitoring Documentation -->
-                    <div class="documentation" id="doc-emergency-monitoring">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Emergency Monitoring Documentation</h3>
-                                <p>Set up and respond to emergency monitoring alerts.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Alert Configuration – Set up emergency alert triggers and thresholds.</li>
-                                <li>Real-time Monitoring – Track emergency events as they occur.</li>
-                                <li>Notification System – Send alerts to designated personnel instantly.</li>
-                                <li>Response Tracking – Log and track emergency response actions.</li>
-                                <li>Incident Reports – Generate detailed emergency incident reports.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Emergency Monitoring module ensures rapid response to critical situations by providing real-time alerts, tracking response actions, and maintaining comprehensive incident records for safety and compliance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-compliance-monitoring" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2736,30 +2210,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- Compliance Monitoring Documentation -->
-                    <div class="documentation" id="doc-compliance-monitoring">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h4l3 8 4-16 3 8h4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Compliance Monitoring Documentation</h3>
-                                <p>Track compliance metrics in real time.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Real-time Tracking – Monitor compliance status across all regulatory areas.</li>
-                                <li>Expiration Alerts – Receive notifications for upcoming document expirations.</li>
-                                <li>Score Calculation – Calculate overall compliance scores for fleet and drivers.</li>
-                                <li>Gap Analysis – Identify areas needing compliance improvement.</li>
-                                <li>Audit Trails – Maintain complete records of compliance activities.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Compliance Monitoring module provides continuous oversight of regulatory requirements, ensuring your fleet maintains compliance through real-time tracking, alerts, and comprehensive reporting.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-compliance-software-options" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2768,30 +2218,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- Compliance Software Options Documentation -->
-                    <div class="documentation" id="doc-compliance-software-options">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Compliance Software Options Documentation</h3>
-                                <p>Explore available compliance software integrations.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Integration Catalog – Browse available compliance software integrations.</li>
-                                <li>Setup Guides – Step-by-step instructions for each integration.</li>
-                                <li>Data Mapping – Configure data flow between systems.</li>
-                                <li>Status Monitoring – Track integration health and sync status.</li>
-                                <li>Support Resources – Access documentation and support for integrations.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Compliance Software Options module enables seamless integration with third-party compliance tools, streamlining data flow and ensuring comprehensive compliance management across your technology stack.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-drug-alcohol-testing" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2800,30 +2226,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- Drug & Alcohol Testing Documentation -->
-                    <div class="documentation" id="doc-drug-alcohol-testing">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Drug & Alcohol Testing Documentation</h3>
-                                <p>Manage drug and alcohol testing programs.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Test Scheduling – Schedule random and pre-employment drug tests.</li>
-                                <li>Result Tracking – Record and track test results securely.</li>
-                                <li>Program Management – Maintain compliant testing programs per DOT regulations.</li>
-                                <li>Consortium Integration – Connect with testing consortiums for random selection.</li>
-                                <li>Reporting – Generate required testing reports and documentation.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Drug & Alcohol Testing module ensures DOT compliance by managing all aspects of your testing program, from scheduling to reporting, while maintaining secure records of all testing activities.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-safety-assessments" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2832,30 +2234,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- Safety Assessments Documentation -->
-                    <div class="documentation" id="doc-safety-assessments">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Safety Assessments Documentation</h3>
-                                <p>Run and review driver and vehicle safety assessments.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Assessment Templates – Use standardized safety assessment forms.</li>
-                                <li>Driver Evaluations – Conduct comprehensive driver safety reviews.</li>
-                                <li>Vehicle Inspections – Perform detailed vehicle safety checks.</li>
-                                <li>Scoring System – Calculate safety scores based on assessment results.</li>
-                                <li>Improvement Tracking – Monitor safety improvements over time.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Safety Assessments module provides structured tools for evaluating driver and vehicle safety, enabling proactive risk management and continuous improvement of fleet safety performance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-maintenance-monitoring" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2864,30 +2242,6 @@
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
 
-                    <!-- Maintenance Monitoring Documentation -->
-                    <div class="documentation" id="doc-maintenance-monitoring">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Maintenance Monitoring Documentation</h3>
-                                <p>Monitor maintenance schedules and vehicle health.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Schedule Management – Create and track maintenance schedules.</li>
-                                <li>Due Alerts – Receive notifications for upcoming maintenance.</li>
-                                <li>Service History – Maintain complete maintenance records.</li>
-                                <li>Cost Tracking – Monitor maintenance expenses by vehicle.</li>
-                                <li>Health Monitoring – Track vehicle health indicators and diagnostics.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Maintenance Monitoring module ensures fleet reliability through proactive maintenance scheduling, tracking, and cost management while maintaining comprehensive service records for each vehicle.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-drivers" class="section-content" style="display:none;">
                     <div class="video-grid video-grid--full">
@@ -2898,39 +2252,6 @@
                         </div>
                     </div>
 
-                    <div class="documentation">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-2m4-4a4 4 0 11-8 0 4 4 0 018 0zm-1.5-3h.01M14 16l1.5-1.5"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Drivers Documentation</h3>
-                                <p>The My Drivers module allows you to manage all driver profiles, track compliance status, and register new drivers into the system.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Driver Registration – Add new drivers by entering their personal details, license information, and contact data.</li>
-                                <li>Driver List – View all registered drivers in a searchable, filterable table.</li>
-                                <li>Compliance Tracking – Monitor each driver's CDL status, medical certificates, and HOS compliance.</li>
-                                <li>Profile Management – Edit or update driver information including license renewals and address changes.</li>
-                                <li>Document Upload – Attach required documents such as CDL, medical card, and background check results.</li>
-                                <li>Status Indicators – Quickly see which drivers are active, inactive, or pending compliance review.</li>
-                            </ul>
-                            <h4>How to Register a New Driver</h4>
-                            <ul class="feature-list">
-                                <li>Navigate to the My Drivers section from the sidebar menu.</li>
-                                <li>Click the "Add Driver" or "Register New Driver" button.</li>
-                                <li>Fill in the required fields: full name, date of birth, phone number, and email address.</li>
-                                <li>Enter license details including CDL number, license class, issuing state, and expiration date.</li>
-                                <li>Upload necessary documents (CDL copy, medical certificate, etc.).</li>
-                                <li>Review the information and click "Save" to complete the registration.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Drivers module serves as the central hub for managing your workforce, ensuring all drivers are properly registered, documented, and compliant with regulatory requirements.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-my-customers" class="section-content" style="display:none;">
@@ -2940,30 +2261,6 @@
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
 
-                    <!-- My Customers Documentation -->
-                    <div class="documentation" id="doc-my-customers">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Customers Documentation</h3>
-                                <p>Add, view, and manage your customers.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Customer Profiles – Create detailed customer records with contact information.</li>
-                                <li>Load History – View all loads associated with each customer.</li>
-                                <li>Payment Terms – Set and track payment terms for each customer.</li>
-                                <li>Rating System – Rate customers based on payment history and reliability.</li>
-                                <li>Communication Log – Track all interactions with customers.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Customers module centralizes customer relationship management, enabling you to track customer information, load history, and payment performance while maintaining comprehensive communication records.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-shippers-list" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -2972,30 +2269,6 @@
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
 
-                    <!-- My Shippers List Documentation -->
-                    <div class="documentation" id="doc-my-shippers-list">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Shippers List Documentation</h3>
-                                <p>Manage your list of shippers.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Shipper Database – Maintain a comprehensive list of all shippers.</li>
-                                <li>Location Details – Store pickup locations and contact information.</li>
-                                <li>Special Requirements – Note specific pickup requirements or instructions.</li>
-                                <li>Load Frequency – Track how often you work with each shipper.</li>
-                                <li>Performance Tracking – Monitor shipper reliability and on-time performance.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Shippers List module organizes all pickup locations and shipper information, streamlining load creation and ensuring accurate pickup details for every shipment.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-consignee-lists" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3004,30 +2277,6 @@
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
 
-                    <!-- My Consignee Lists Documentation -->
-                    <div class="documentation" id="doc-my-consignee-lists">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Consignee Lists Documentation</h3>
-                                <p>Manage your consignee lists and locations.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Consignee Database – Maintain a comprehensive list of all consignees.</li>
-                                <li>Delivery Locations – Store delivery addresses and contact information.</li>
-                                <li>Delivery Instructions – Note specific delivery requirements or instructions.</li>
-                                <li>Appointment Windows – Track required delivery appointment times.</li>
-                                <li>Delivery History – View past deliveries to each consignee.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Consignee Lists module organizes all delivery locations and consignee information, streamlining load creation and ensuring accurate delivery details for every shipment.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-my-brokers" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3036,30 +2285,6 @@
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
 
-                    <!-- My Brokers Documentation -->
-                    <div class="documentation" id="doc-my-brokers">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>My Brokers Documentation</h3>
-                                <p>Add and manage your brokers.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Broker Profiles – Create detailed broker records with contact information.</li>
-                                <li>Load Matching – Track loads sourced from each broker.</li>
-                                <li>Commission Tracking – Monitor broker fees and commission rates.</li>
-                                <li>Performance Rating – Rate brokers based on load quality and reliability.</li>
-                                <li>Payment Terms – Track payment terms and history with each broker.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The My Brokers module manages your relationships with freight brokers, tracking load sources, commissions, and performance to optimize your freight acquisition strategy.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="section-violations" class="section-content" style="display:none;">
@@ -3069,30 +2294,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Violations Documentation -->
-                    <div class="documentation" id="doc-violations">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Violations Documentation</h3>
-                                <p>Track and manage compliance violations across your operations.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Violation Logging – Record all compliance violations with detailed information.</li>
-                                <li>Severity Classification – Categorize violations by severity level.</li>
-                                <li>Corrective Actions – Track resolution steps and completion status.</li>
-                                <li>Trend Analysis – Identify patterns in violation occurrences.</li>
-                                <li>Regulatory Reporting – Generate reports for regulatory agencies.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Violations module provides comprehensive tracking of all compliance violations, enabling proactive management, corrective action implementation, and regulatory reporting to maintain fleet compliance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-safety-violations" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3101,30 +2302,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Safety Violations Documentation -->
-                    <div class="documentation" id="doc-safety-violations">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Safety Violations Documentation</h3>
-                                <p>Monitor safety-related violations and ensure regulatory compliance.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Safety Incident Logging – Record safety violations and incidents.</li>
-                                <li>OSHA Compliance – Track OSHA-reportable incidents.</li>
-                                <li>Root Cause Analysis – Document investigation findings and causes.</li>
-                                <li>Prevention Plans – Develop and track safety improvement measures.</li>
-                                <li>Safety Score Impact – Monitor impact on overall safety ratings.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Safety Violations module focuses on safety-specific compliance issues, enabling detailed tracking, investigation, and prevention of safety incidents to protect your workforce and maintain regulatory compliance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-driver-violations" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3133,30 +2310,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Driver Violations Documentation -->
-                    <div class="documentation" id="doc-driver-violations">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Driver Violations Documentation</h3>
-                                <p>Track driver-specific violations and implement corrective actions.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Driver Violation History – Track violations by individual driver.</li>
-                                <li>HOS Violations – Monitor hours of service compliance issues.</li>
-                                <li>License Violations – Track CDL and license-related violations.</li>
-                                <li>Corrective Training – Assign required training based on violations.</li>
-                                <li>Performance Impact – Monitor impact on driver safety scores.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Driver Violations module tracks individual driver compliance issues, enabling targeted corrective actions, training assignments, and performance monitoring to improve driver safety and compliance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-vehicle-violations" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3165,30 +2318,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Vehicle Violations Documentation -->
-                    <div class="documentation" id="doc-vehicle-violations">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Vehicle Violations Documentation</h3>
-                                <p>Monitor vehicle-related violations and maintenance issues.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Vehicle Violation History – Track violations by individual vehicle.</li>
-                                <li>Inspection Violations – Monitor failed inspection items and issues.</li>
-                                <li>Maintenance Links – Connect violations to required maintenance.</li>
-                                <li>Out-of-Service Tracking – Monitor vehicles placed out of service.</li>
-                                <li>Fleet Impact – Analyze vehicle violation trends across the fleet.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Vehicle Violations module tracks equipment-related compliance issues, linking violations to maintenance requirements and monitoring fleet-wide equipment compliance patterns.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-notifications" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3197,30 +2326,6 @@
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
 
-                    <!-- Notifications Documentation -->
-                    <div class="documentation" id="doc-notifications">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Notifications Documentation</h3>
-                                <p>Stay informed with real-time alerts and system notifications.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Real-time Alerts – Receive instant notifications for critical events.</li>
-                                <li>Custom Preferences – Configure notification types and delivery methods.</li>
-                                <li>Priority Levels – Set urgency levels for different notification types.</li>
-                                <li>Notification History – View past notifications and their status.</li>
-                                <li>Mobile Push – Get alerts on mobile devices when away from desk.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Notifications module ensures you never miss important events by providing customizable, real-time alerts for all critical system activities and compliance requirements.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-activity" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3229,30 +2334,6 @@
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
 
-                    <!-- Activity Documentation -->
-                    <div class="documentation" id="doc-activity">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Activity Documentation</h3>
-                                <p>View system activity logs and track user actions.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Activity Logging – Track all user actions and system events.</li>
-                                <li>Searchable History – Search and filter activity logs by user, date, or action.</li>
-                                <li>Audit Trail – Maintain complete records for compliance and security.</li>
-                                <li>User Tracking – Monitor individual user activity patterns.</li>
-                                <li>Export Reports – Generate activity reports for analysis.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Activity module provides comprehensive audit trail functionality, enabling you to track all system actions for security, compliance, and operational oversight.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-maintenance" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3261,30 +2342,6 @@
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
 
-                    <!-- Maintenance Documentation -->
-                    <div class="documentation" id="doc-maintenance">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Maintenance Documentation</h3>
-                                <p>Schedule and track vehicle maintenance to ensure optimal performance.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Maintenance Scheduling – Create and manage maintenance schedules.</li>
-                                <li>Work Orders – Generate and track maintenance work orders.</li>
-                                <li>Vendor Management – Manage maintenance vendors and service providers.</li>
-                                <li>Cost Tracking – Monitor maintenance expenses by vehicle and category.</li>
-                                <li>Service History – Maintain complete maintenance records for each vehicle.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Maintenance module ensures fleet reliability through proactive maintenance scheduling, cost tracking, and comprehensive service history management for all vehicles.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-drug-alcohol" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3293,30 +2350,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Drug & Alcohol Documentation -->
-                    <div class="documentation" id="doc-drug-alcohol">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Drug & Alcohol Documentation</h3>
-                                <p>Manage drug and alcohol testing programs and compliance records.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Testing Programs – Manage DOT-compliant drug and alcohol testing programs.</li>
-                                <li>Random Selection – Implement random testing selection per regulations.</li>
-                                <li>Result Management – Track and store all test results securely.</li>
-                                <li>Consortium Integration – Connect with testing consortiums for compliance.</li>
-                                <li>Compliance Reports – Generate required documentation and reports.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Drug & Alcohol module ensures DOT compliance by managing all aspects of your testing program, from random selection to result tracking and reporting.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-documents" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3325,30 +2358,6 @@
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
 
-                    <!-- Documents Documentation -->
-                    <div class="documentation" id="doc-documents">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Documents Documentation</h3>
-                                <p>Store and manage all compliance documents in one centralized location.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Document Storage – Secure cloud storage for all compliance documents.</li>
-                                <li>Expiration Tracking – Monitor document expiration dates and renewals.</li>
-                                <li>Version Control – Track document versions and updates.</li>
-                                <li>Access Control – Manage who can view and edit documents.</li>
-                                <li>Document Sharing – Share documents with authorized parties securely.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Documents module provides centralized document management, ensuring all compliance documents are securely stored, tracked, and easily accessible when needed.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-permit-insurance" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3357,30 +2366,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Permit & Insurance Documentation -->
-                    <div class="documentation" id="doc-permit-insurance">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Permit & Insurance Documentation</h3>
-                                <p>Track permits, licenses, and insurance documentation for compliance.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Permit Tracking – Monitor operating permits and their expiration dates.</li>
-                                <li>License Management – Track CDLs, business licenses, and other credentials.</li>
-                                <li>Insurance Monitoring – Track insurance policies and coverage details.</li>
-                                <li>Renewal Alerts – Receive notifications for upcoming expirations.</li>
-                                <li>Document Repository – Store all permit and insurance documents centrally.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Permit & Insurance module ensures continuous compliance by tracking all regulatory permits, licenses, and insurance documentation with automated renewal alerts.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-reporting" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3389,30 +2374,6 @@
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
 
-                    <!-- Reporting Documentation -->
-                    <div class="documentation" id="doc-reporting">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Reporting Documentation</h3>
-                                <p>Generate comprehensive reports for compliance and operational insights.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Custom Reports – Create customized reports based on your needs.</li>
-                                <li>Pre-built Templates – Use standard report templates for common requirements.</li>
-                                <li>Data Visualization – View data through charts and graphs.</li>
-                                <li>Scheduled Reports – Automate report generation and delivery.</li>
-                                <li>Export Options – Export reports in multiple formats (PDF, Excel, CSV).</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Reporting module provides powerful analytics and reporting capabilities, enabling data-driven decision making and compliance reporting across all fleet operations.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-safety" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3421,30 +2382,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- Safety Documentation -->
-                    <div class="documentation" id="doc-safety">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Safety Documentation</h3>
-                                <p>Monitor safety metrics and implement risk management strategies.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>Safety Dashboard – View overall fleet safety metrics at a glance.</li>
-                                <li>Risk Assessment – Identify and evaluate safety risks.</li>
-                                <li>Incident Tracking – Record and analyze safety incidents.</li>
-                                <li>Safety Training – Track driver safety training completion.</li>
-                                <li>Performance Metrics – Monitor safety KPIs and trends.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Safety module provides comprehensive safety management, enabling you to monitor metrics, assess risks, track incidents, and implement proactive safety strategies across your fleet.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-hos" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3453,30 +2390,6 @@
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
 
-                    <!-- HOS Documentation -->
-                    <div class="documentation" id="doc-hos">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>HOS Documentation</h3>
-                                <p>Track Hours of Service compliance and driver duty status.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>HOS Tracking – Monitor driver hours of service in real-time.</li>
-                                <li>ELD Integration – Connect with electronic logging devices.</li>
-                                <li>Violation Alerts – Receive alerts for potential HOS violations.</li>
-                                <li>Duty Status – Track driver duty status changes.</li>
-                                <li>Compliance Reports – Generate HOS compliance reports for audits.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The HOS module ensures DOT Hours of Service compliance through real-time tracking, ELD integration, and comprehensive reporting to prevent violations and maintain regulatory compliance.</p>
-                        </div>
-                    </div>
                 </div>
                 <div id="section-settings" class="section-content" style="display:none;">
                     <div class="video-card">
@@ -3485,30 +2398,6 @@
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
 
-                    <!-- Settings Documentation -->
-                    <div class="documentation" id="doc-settings">
-                        <div class="doc-header">
-                            <div class="doc-icon">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            </div>
-                            <div class="doc-title">
-                                <h3>Settings Documentation</h3>
-                                <p>Configure system settings and customize your experience.</p>
-                            </div>
-                        </div>
-                        <div class="doc-body">
-                            <h4>Key Features</h4>
-                            <ul class="feature-list">
-                                <li>User Management – Manage user accounts and permissions.</li>
-                                <li>System Configuration – Configure system-wide settings and preferences.</li>
-                                <li>Notification Settings – Customize notification preferences and alerts.</li>
-                                <li>Integration Settings – Manage third-party integrations and APIs.</li>
-                                <li>Security Settings – Configure security policies and access controls.</li>
-                            </ul>
-                            <h4>Purpose</h4>
-                            <p>The Settings module provides comprehensive system configuration, enabling you to customize the platform to match your operational needs while maintaining security and control.</p>
-                        </div>
-                    </div>
                 </div>
         
         <script>
@@ -3683,30 +2572,9 @@
                 };
             }
 
-            // Add Docs links to each video card
-            function addVideoDocsLinks() {
-                document.querySelectorAll('.video-card').forEach(function(card) {
-                    const sectionId = card.id.replace('section-', '');
-                    if (!sectionId) return;
-                    const meta = card.querySelector('.video-meta');
-                    if (!meta || meta.querySelector('.video-docs-link')) return;
-                    const link = document.createElement('a');
-                    link.href = 'video_docs.php#doc-' + encodeURIComponent(sectionId);
-                    link.className = 'video-docs-link';
-                    link.textContent = 'Docs';
-                    link.title = 'Read documentation';
-                    link.target = '_blank';
-                    link.style.cssText = 'margin-left:auto;color:var(--accent);font-weight:600;font-size:0.78rem;text-decoration:none;padding:0.22rem 0.55rem;border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);border-radius:6px;transition:all 0.15s ease;cursor:pointer;';
-                    link.addEventListener('mouseenter', function() { link.style.background = 'var(--accent-soft)'; });
-                    link.addEventListener('mouseleave', function() { link.style.background = 'transparent'; });
-                    meta.appendChild(link);
-                });
-            }
-
             // Initialize video features
             document.addEventListener('DOMContentLoaded', function() {
                 loadVideoUserData();
-                addVideoDocsLinks();
 
                 // Add progress tracking to all videos
                 document.querySelectorAll('.video-frame video').forEach(function(video) {
@@ -4650,6 +3518,20 @@
                     });
                 });
             });
+        (function initDocsLinks() {
+            const docIconSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
+            document.querySelectorAll('.section-content').forEach(function(section) {
+                const videoCard = section.querySelector('.video-card');
+                if (!videoCard) return;
+                if (videoCard.querySelector('.docs-link')) return;
+                const sectionId = section.id.replace('section-', '');
+                const btn = document.createElement('a');
+                btn.className = 'docs-link';
+                btn.href = 'video_docs.php#doc-' + sectionId;
+                btn.innerHTML = docIconSvg + ' View Documentation';
+                videoCard.appendChild(btn);
+            });
+        })();
         (function initDocFloater() {
             const floater = document.getElementById('doc-floater');
             const titleEl = document.getElementById('doc-floater-title');

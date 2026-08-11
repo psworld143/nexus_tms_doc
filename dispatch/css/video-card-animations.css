@@ -1,0 +1,258 @@
+/* ============================================================
+   Video Card & Suggested Video Animations
+   Used by: video_docs.php
+   ============================================================ */
+
+/* ===== Doc Card Entrance Animations ===== */
+@keyframes cardFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Doc Card Stagger Animation ===== */
+.doc-card {
+    animation: cardFadeInUp 0.4s ease both;
+}
+.doc-card:nth-child(1) { animation-delay: 0.04s; }
+.doc-card:nth-child(2) { animation-delay: 0.08s; }
+.doc-card:nth-child(3) { animation-delay: 0.12s; }
+.doc-card:nth-child(4) { animation-delay: 0.16s; }
+.doc-card:nth-child(5) { animation-delay: 0.20s; }
+.doc-card:nth-child(6) { animation-delay: 0.24s; }
+.doc-card:nth-child(7) { animation-delay: 0.28s; }
+.doc-card:nth-child(8) { animation-delay: 0.32s; }
+
+/* ===== Doc Card Hover ===== */
+.doc-card {
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.doc-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.3);
+}
+
+/* Top accent bar on hover */
+.doc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.doc-card:hover::before {
+    opacity: 1;
+}
+
+/* ===== Doc Card Highlight (from URL hash) ===== */
+.doc-card.doc-highlight {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
+    animation: docHighlightPulse 1.5s ease;
+}
+
+@keyframes docHighlightPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 2px var(--accent), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow:
+            0 0 0 3px color-mix(in srgb, var(--accent) 50%, transparent),
+            0 12px 28px -12px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* ===== Status Badge ===== */
+.status-badge {
+    animation: badgeFadeIn 0.3s ease both;
+}
+
+@keyframes badgeFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== Suggested Video Card Animations ===== */
+@keyframes suggestCardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger suggested video cards */
+.dm-suggest-card {
+    animation: suggestCardSlideIn 0.3s ease both;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dm-suggest-card:nth-child(1) { animation-delay: 0.04s; }
+.dm-suggest-card:nth-child(2) { animation-delay: 0.08s; }
+.dm-suggest-card:nth-child(3) { animation-delay: 0.12s; }
+.dm-suggest-card:nth-child(4) { animation-delay: 0.16s; }
+.dm-suggest-card:nth-child(5) { animation-delay: 0.20s; }
+.dm-suggest-card:nth-child(6) { animation-delay: 0.24s; }
+
+/* Suggested card hover */
+.dm-suggest-card:hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.2);
+}
+
+/* Suggested card thumb on hover */
+.dm-suggest-card:hover .dm-suggest-thumb {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.dm-suggest-thumb {
+    transition: background 0.2s ease;
+}
+
+/* Suggested card icon on hover */
+.dm-suggest-card:hover .dm-suggest-thumb svg {
+    color: var(--accent);
+}
+
+.dm-suggest-thumb svg {
+    transition: color 0.2s ease;
+}
+
+/* Suggested badge on hover */
+.dm-suggest-badge {
+    transition: opacity 0.2s ease;
+}
+
+.dm-suggest-card:hover .dm-suggest-badge {
+    opacity: 0.85;
+}
+
+/* ===== Suggested Videos Section Header ===== */
+@keyframes suggestHeadFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.dm-suggest-head {
+    animation: suggestHeadFadeIn 0.3s ease both;
+}
+
+/* ===== Suggested Empty State ===== */
+@keyframes emptyFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.dm-suggest-empty {
+    animation: emptyFadeIn 0.3s ease both;
+}
+
+/* ===== Category Block Entrance ===== */
+@keyframes categoryFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-block {
+    animation: categoryFadeIn 0.4s ease both;
+}
+
+.category-block:nth-child(1) { animation-delay: 0.05s; }
+.category-block:nth-child(2) { animation-delay: 0.12s; }
+.category-block:nth-child(3) { animation-delay: 0.19s; }
+.category-block:nth-child(4) { animation-delay: 0.26s; }
+.category-block:nth-child(5) { animation-delay: 0.33s; }
+
+/* ===== Category Title Underline ===== */
+.category-title {
+    position: relative;
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transition: width 0.3s ease;
+}
+
+.category-block:hover .category-title::after {
+    width: 100%;
+}
+
+/* ===== Doc Modal Open Animation ===== */
+@keyframes modalContentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.doc-modal-article {
+    animation: modalContentFadeIn 0.3s ease both;
+}
+
+/* ===== Reduce Motion Support ===== */
+body.reduce-motion .doc-card,
+body.reduce-motion .dm-suggest-card,
+body.reduce-motion .category-block,
+body.reduce-motion .dm-suggest-head,
+body.reduce-motion .dm-suggest-empty,
+body.reduce-motion .doc-modal-article,
+body.reduce-motion .status-badge {
+    animation: none !important;
+}
+
+body.reduce-motion .doc-card:hover,
+body.reduce-motion .dm-suggest-card:hover {
+    transform: none !important;
+}
+
+body.reduce-motion .doc-card::before,
+body.reduce-motion .category-title::after {
+    transition: none !important;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 640px) {
+    .doc-card:hover {
+        transform: translateY(-2px);
+    }
+}

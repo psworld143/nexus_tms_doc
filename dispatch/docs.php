@@ -243,15 +243,15 @@ $totalAvailable = count($availableVideos);
         .icon-btn svg { width: 20px; height: 20px; }
         .icon-btn.theme-btn,
         .icon-btn.settings-btn-top {
-            color: #10b981;
-            border-color: rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.10);
+            color: var(--accent);
+            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
         }
         .icon-btn.theme-btn:hover,
         .icon-btn.settings-btn-top:hover {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
-            border-color: rgba(16, 185, 129, 0.7);
-            box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
+            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
             transform: translateY(-2px) scale(1.05);
             color: #fff;
         }
@@ -281,41 +281,40 @@ $totalAvailable = count($availableVideos);
         }
         .menu-btn { display: none; }
 
-        /* Unique Back Button */
-        .icon-btn.back-btn {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 0.45rem;
-            width: 38px;
-            padding: 0 0.65rem 0 0;
-            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+        /* Unique Back to Home Button */
+        .back-home-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem 0.5rem 0.7rem;
+            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
             border-radius: 999px;
-            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
-            color: var(--text);
-            overflow: hidden;
-            transition: width 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.2s ease;
+            background: color-mix(in srgb, var(--accent) 8%, transparent);
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
+            font-family: inherit;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
         }
-        .icon-btn.back-btn svg {
-            width: 18px; height: 18px;
-            flex-shrink: 0;
-            margin-left: 0.55rem;
-            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .back-home-btn::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            opacity: 0; transition: opacity 0.25s ease;
+            border-radius: inherit;
         }
-        .icon-btn.back-btn .back-label {
-            font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: opacity 0.2s ease, transform 0.25s ease;
+        .back-home-btn > * { position: relative; z-index: 1; }
+        .back-home-btn svg {
+            width: 17px; height: 17px; flex-shrink: 0;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .icon-btn.back-btn:hover {
-            width: 95px;
-            transform: translateY(-1px);
+        .back-home-btn:hover {
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent);
         }
-        .icon-btn.back-btn:hover svg { transform: translateX(-3px); }
-        .icon-btn.back-btn:hover .back-label { opacity: 1; transform: translateX(0); }
+        .back-home-btn:hover::before { opacity: 1; }
+        .back-home-btn:hover svg { transform: translateX(-3px) scale(1.1); }
+        .back-home-btn:active { transform: translateY(0); }
 
         /* Layout */
         .layout {
@@ -376,13 +375,15 @@ $totalAvailable = count($availableVideos);
             font-size: 0.72rem;
             font-weight: 800;
             letter-spacing: 0.06em;
-            color: var(--text);
-            border-bottom: 2px solid var(--border-strong);
+            color: var(--accent);
+            background: linear-gradient(90deg, var(--accent-soft), transparent);
+            border-bottom: 2px solid var(--accent);
             border-radius: 12px 12px 0 0;
             margin-bottom: 0.3rem;
         }
         .nav-section-title.main-menu svg {
             width: 16px; height: 16px;
+            filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 50%, transparent));
         }
         .nav-list { list-style: none; margin: 0; padding: 0; }
         .nav-item { margin: 2px 0; }
@@ -405,13 +406,15 @@ $totalAvailable = count($availableVideos);
             color: var(--text);
         }
         .nav-link.active {
-            background: var(--surface-2);
-            color: var(--text);
+            background: color-mix(in srgb, var(--accent) 15%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: var(--accent);
             font-weight: 600;
         }
         .nav-link.active::before {
             content: ''; position: absolute; left: -0.85rem; top: 20%; bottom: 20%;
-            width: 3px; border-radius: 999px; background: var(--text);
+            width: 3px; border-radius: 999px; background: var(--accent);
         }
 
         /* Mini sidebar (collapsed) */
@@ -435,6 +438,7 @@ $totalAvailable = count($availableVideos);
             border-bottom: 2px solid var(--accent);
             justify-content: center;
         }
+        .sidebar.mini .nav-section-title.main-menu svg { width: 18px; height: 18px; }
         .sidebar.mini .nav-section-title.main-menu svg { width: 18px; height: 18px; }
         .sidebar.mini .nav-link {
             justify-content: center;
@@ -623,6 +627,111 @@ $totalAvailable = count($availableVideos);
             color: var(--accent-2);
         }
 
+        /* Suggested Videos Popup */
+        .vid-popup-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 400;
+            display: none;
+            align-items: center; justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .vid-popup-overlay.open { display: flex; opacity: 1; }
+        .vid-popup {
+            width: 90%; max-width: 560px;
+            max-height: 80vh; overflow-y: auto;
+            background: var(--surface-solid);
+            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            border-radius: 18px;
+            box-shadow: 0 24px 60px -16px rgba(0,0,0,0.5);
+            padding: 1.5rem;
+            transform: translateY(12px);
+            transition: transform 0.2s ease;
+        }
+        .vid-popup-overlay.open .vid-popup { transform: translateY(0); }
+        .vid-popup-head {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .vid-popup-head h4 {
+            font-size: 1.1rem; font-weight: 700; margin: 0;
+            display: flex; align-items: center; gap: 0.5rem;
+            color: var(--text);
+        }
+        .vid-popup-head h4 svg { width: 20px; height: 20px; color: var(--accent); }
+        .vid-popup-close {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--text-muted); cursor: pointer;
+            display: grid; place-items: center;
+            transition: all 0.15s ease;
+        }
+        .vid-popup-close:hover { background: var(--surface-2); color: var(--text); }
+        .vid-popup-close svg { width: 16px; height: 16px; }
+        .vid-popup-list { display: flex; flex-direction: column; gap: 0.6rem; }
+        .vid-popup-item {
+            display: flex; align-items: center; gap: 0.85rem;
+            padding: 0.75rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        .vid-popup-item:hover {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 8%, transparent);
+            transform: translateX(4px);
+        }
+        .vid-popup-thumb {
+            width: 44px; height: 44px; border-radius: 10px;
+            background: color-mix(in srgb, var(--accent) 15%, transparent);
+            display: grid; place-items: center;
+            flex-shrink: 0;
+        }
+        .vid-popup-thumb svg { width: 20px; height: 20px; color: var(--accent); }
+        .vid-popup-info { flex: 1; min-width: 0; }
+        .vid-popup-info h5 {
+            font-size: 0.9rem; font-weight: 600; margin: 0 0 0.2rem;
+            color: var(--text);
+        }
+        .vid-popup-info p {
+            font-size: 0.76rem; color: var(--text-muted); margin: 0;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .vid-popup-badge {
+            font-size: 0.68rem; font-weight: 600;
+            padding: 0.2rem 0.5rem; border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .vid-popup-badge.available { background: rgba(16,185,129,0.15); color: #10b981; }
+        .vid-popup-badge.coming { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .vid-popup-empty {
+            text-align: center; padding: 2rem 1rem;
+            color: var(--text-muted); font-size: 0.88rem;
+        }
+        .vid-suggest-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            margin-left: auto;
+            padding: 0.3rem 0.7rem;
+            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--accent);
+            font-size: 0.72rem; font-weight: 600;
+            cursor: pointer; font-family: inherit;
+            transition: all 0.15s ease;
+        }
+        .vid-suggest-btn:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+        }
+        .vid-suggest-btn svg { width: 14px; height: 14px; }
+
         /* Code block */
         .code-block-wrap { position: relative; margin: 1rem 0; }
         .code-block {
@@ -668,7 +777,7 @@ $totalAvailable = count($availableVideos);
             font-weight: 500;
             white-space: nowrap;
         }
-        .doc-nav-mobile a.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .doc-nav-mobile a.active { background: #10b981; color: #fff; border-color: #10b981; }
 
         /* Footer */
         .footer {
@@ -928,6 +1037,9 @@ $totalAvailable = count($availableVideos);
         }
 
     </style>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="css/tailwind-config.js"></script>
 </head>
 <body>
 
@@ -985,7 +1097,7 @@ $totalAvailable = count($availableVideos);
         </button>
         <a href="index.php" class="brand">
             <span class="brand-mark">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
             </span>
             <span class="brand-text">
                 <h1>DISPATCH</h1>
@@ -998,9 +1110,9 @@ $totalAvailable = count($availableVideos);
             <span class="kbd">⌘K</span>
         </button>
         <div class="header-actions">
-            <a href="index.php" class="icon-btn back-btn" title="Back to Full Tutorial">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
-                <span class="back-label">Back</span>
+            <a href="index.php" class="back-home-btn" title="Back to Home">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>Back to Home</span>
             </a>
             <button class="icon-btn theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">
                 <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
@@ -1024,7 +1136,7 @@ $totalAvailable = count($availableVideos);
             <ul class="nav-list" id="doc-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="#overview" data-section="overview" data-tip="Overview">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#10b981"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Overview
                     </a>
                 </li>
@@ -1034,13 +1146,13 @@ $totalAvailable = count($availableVideos);
             <ul class="nav-list">
                 <li class="nav-item">
                     <a class="nav-link" href="#videos" data-section="videos" data-tip="Video Module">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#3b82f6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                         Video Module
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#all-videos" data-section="all-videos" data-tip="Video Catalog (<?php echo $totalVideos; ?>)">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#f59e0b"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Video Catalog (<?php echo $totalVideos; ?>)
                     </a>
                 </li>
@@ -1050,7 +1162,7 @@ $totalAvailable = count($availableVideos);
             <ul class="nav-list">
                 <li class="nav-item">
                     <a class="nav-link" href="#settings" data-section="settings" data-tip="Settings &amp; Accessibility">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#8b5cf6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         Settings &amp; Accessibility
                     </a>
                 </li>
@@ -1089,13 +1201,23 @@ $totalAvailable = count($availableVideos);
             </div>
 
             <section class="doc-section" id="overview">
-                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Overview</h3>
+                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Overview
+                    <button class="vid-suggest-btn" onclick="openVidPopup('overview', this)">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Suggested Videos
+                    </button>
+                </h3>
                 <p>The <strong>DISPATCH</strong> system is a training portal for dispatch management. It includes a video tutorial library (<code>dispatch/tutorials.php</code>), searchable documentation (<code>dispatch/index.php</code>), and a shared settings layer that persists user preferences in the browser's localStorage.</p>
                 <p>Pages in the system share a unified visual identity: dark glassmorphism UI, smooth transitions, Poppins typography, and a consistent emerald accent color. Themes and settings are synchronized across pages via <code>dispatch-settings</code> in localStorage.</p>
             </section>
 
             <section class="doc-section" id="videos">
-                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Video Module</h3>
+                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Video Module
+                    <button class="vid-suggest-btn" onclick="openVidPopup('videos', this)">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Suggested Videos
+                    </button>
+                </h3>
                 <p>The tutorial library renders a hardcoded list of training videos in <code>VIDEOS</code> JavaScript array. Each video has an <code>id</code>, <code>title</code>, <code>desc</code>, <code>category</code>, <code>src</code>, and <code>duration</code>.</p>
                 <ul>
                     <li><strong>Availability</strong>: Only files listed in <code>AVAILABLE_VIDEOS</code> have a playable video. Others show a "Coming Soon" placeholder.</li>
@@ -1105,7 +1227,12 @@ $totalAvailable = count($availableVideos);
             </section>
 
             <section class="doc-section" id="settings">
-                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings &amp; Accessibility</h3>
+                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings &amp; Accessibility
+                    <button class="vid-suggest-btn" onclick="openVidPopup('settings', this)">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Suggested Videos
+                    </button>
+                </h3>
                 <ul>
                     <li><strong>Dark mode</strong>: toggles <code>html.dark</code> class and persists as <code>dispatch-theme</code>.</li>
                     <li><strong>Font size</strong>: base 15px, adjustable via range input. Large-text mode sets 18px.</li>
@@ -1116,7 +1243,12 @@ $totalAvailable = count($availableVideos);
             </section>
 
             <section class="doc-section" id="all-videos">
-                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Video Library</h3>
+                <h3><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Video Library
+                    <button class="vid-suggest-btn" onclick="openVidPopup('all-videos', this)">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Suggested Videos
+                    </button>
+                </h3>
                 <p>Complete catalog of all DISPATCH tutorial videos. Available videos link directly to the tutorial player.</p>
 
                 <div class="video-toolbar">
@@ -1620,5 +1752,95 @@ $totalAvailable = count($availableVideos);
         <h4 id="doc-floater-title"></h4>
         <p id="doc-floater-desc"></p>
     </div>
+
+    <!-- Suggested Videos Popup -->
+    <div class="vid-popup-overlay" id="vid-popup-overlay">
+        <div class="vid-popup">
+            <div class="vid-popup-head">
+                <h4>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span id="vid-popup-title">Suggested Videos</span>
+                </h4>
+                <button class="vid-popup-close" onclick="closeVidPopup()" aria-label="Close">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="vid-popup-list" id="vid-popup-list"></div>
+        </div>
+    </div>
+
+    <script>
+    (function initVidPopup() {
+        const overlay = document.getElementById('vid-popup-overlay');
+        const listEl = document.getElementById('vid-popup-list');
+        const titleEl = document.getElementById('vid-popup-title');
+        if (!overlay || !listEl) return;
+
+        const thumbSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+
+        // Map sections to related video categories/keywords
+        const sectionMap = {
+            'overview': { title: 'Overview', categories: ['Main'], keywords: ['dashboard', 'overview'] },
+            'videos': { title: 'Video Module', categories: ['Main', 'Operations'], keywords: ['video', 'tutorial', 'load', 'truck'] },
+            'settings': { title: 'Settings & Accessibility', categories: ['Account'], keywords: ['settings', 'notification', 'activity'] },
+            'all-videos': { title: 'Video Library', categories: [], keywords: [] }
+        };
+
+        window.openVidPopup = function(sectionId, btn) {
+            const config = sectionMap[sectionId] || { title: 'Suggested Videos', categories: [], keywords: [] };
+            titleEl.textContent = config.title + ' — Suggested Videos';
+
+            let suggestions;
+            if (sectionId === 'all-videos') {
+                suggestions = VIDEOS.slice(0, 8);
+            } else {
+                suggestions = VIDEOS.filter(function(v) {
+                    if (config.categories.length && config.categories.indexOf(v.category) !== -1) return true;
+                    if (config.keywords.length) {
+                        const text = (v.title + ' ' + v.desc + ' ' + v.category).toLowerCase();
+                        return config.keywords.some(function(k) { return text.indexOf(k) !== -1; });
+                    }
+                    return false;
+                });
+                if (suggestions.length < 3) {
+                    const existing = new Set(suggestions.map(function(s) { return s.id; }));
+                    VIDEOS.forEach(function(v) {
+                        if (!existing.has(v.id) && suggestions.length < 8) {
+                            suggestions.push(v);
+                            existing.add(v.id);
+                        }
+                    });
+                }
+            }
+
+            if (suggestions.length === 0) {
+                listEl.innerHTML = '<div class="vid-popup-empty">No suggested videos available for this section.</div>';
+            } else {
+                listEl.innerHTML = suggestions.map(function(v) {
+                    var badge = v.available
+                        ? '<span class="vid-popup-badge available">Available</span>'
+                        : '<span class="vid-popup-badge coming">Coming Soon</span>';
+                    var href = v.available ? 'tutorials.php#' + v.id : 'javascript:void(0)';
+                    var style = v.available ? '' : ' style="opacity:0.6;cursor:default;"';
+                    return '<a class="vid-popup-item" href="' + href + '"' + style + '>' +
+                        '<div class="vid-popup-thumb">' + thumbSvg + '</div>' +
+                        '<div class="vid-popup-info"><h5>' + v.title + '</h5><p>' + v.desc + '</p></div>' +
+                        badge + '</a>';
+                }).join('');
+            }
+
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeVidPopup = function() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        overlay.addEventListener('click', function(e) { if (e.target === overlay) closeVidPopup(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeVidPopup(); });
+    })();
+    </script>
 </body>
 </html>

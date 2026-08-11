@@ -144,6 +144,7 @@ $site = 'DISPATCH';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/video-card-animations.css">
     <style>
         :root {
             --bg: #0b0f19;
@@ -180,19 +181,19 @@ $site = 'DISPATCH';
         .theme-btn {
             width: 40px; height: 40px;
             display: grid; place-items: center;
-            border: 1px solid rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.10);
+            border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: #10b981;
+            color: var(--accent);
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.18s ease;
         }
         .theme-btn:hover {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.22));
-            border-color: rgba(16, 185, 129, 0.7);
-            box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
+            border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+            box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
             transform: translateY(-2px) scale(1.05);
             color: #fff;
         }
@@ -277,18 +278,40 @@ $site = 'DISPATCH';
             0% { transform: translateX(-100%); }
             100% { transform: translateX(250%); }
         }
-        .btn {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.55rem 1rem; border-radius: 12px; text-decoration: none;
-            font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border-strong);
-            background: var(--surface); color: var(--text);
-            transition: all 0.2s ease;
+        /* Unique Back to Home Button */
+        .back-home-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem 0.5rem 0.7rem;
+            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--accent) 8%, transparent);
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
+            font-family: inherit;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
         }
-        .btn:hover {
-            background: var(--surface-2);
-            border-color: var(--border-strong);
+        .back-home-btn::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            opacity: 0; transition: opacity 0.25s ease;
+            border-radius: inherit;
+        }
+        .back-home-btn > * { position: relative; z-index: 1; }
+        .back-home-btn svg {
+            width: 17px; height: 17px; flex-shrink: 0;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .back-home-btn:hover {
+            color: #fff;
+            border-color: transparent;
             transform: translateY(-2px);
+            box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent);
         }
+        .back-home-btn:hover::before { opacity: 1; }
+        .back-home-btn:hover svg { transform: translateX(-3px) scale(1.1); }
+        .back-home-btn:active { transform: translateY(0); }
         .hero {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: var(--radius); padding: 2.5rem 2rem;
@@ -315,14 +338,8 @@ $site = 'DISPATCH';
         .doc-card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 18px; padding: 1.5rem; display: flex; flex-direction: column;
-            transition: all 0.2s ease; position: relative; overflow: hidden; cursor: pointer;
+            position: relative; overflow: hidden; cursor: pointer;
         }
-        .doc-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 20px 40px -20px rgba(0,0,0,0.35); }
-        .doc-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: 0.2s;
-        }
-        .doc-card:hover::before { opacity: 1; }
         .doc-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
         .doc-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 1.2rem; flex: 1; }
         .doc-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
@@ -402,6 +419,43 @@ $site = 'DISPATCH';
         .doc-modal .dm-category { color: var(--accent); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
         .doc-modal p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin: 1.5rem 0; }
         .doc-modal .dm-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+        /* Suggested Videos inside doc modal */
+        .dm-suggest { max-width: 720px; margin: 2rem auto 0; width: 100%; }
+        .dm-suggest-head {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 1rem; font-weight: 700; color: var(--text);
+            margin-bottom: 1rem; padding-bottom: 0.6rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .dm-suggest-head svg { width: 20px; height: 20px; color: var(--accent); }
+        .dm-suggest-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;
+        }
+        .dm-suggest-card {
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.7rem 0.85rem;
+            border: 1px solid var(--border); border-radius: 12px;
+            text-decoration: none; color: inherit;
+            cursor: pointer;
+        }
+        .dm-suggest-card.disabled { opacity: 0.55; cursor: default; pointer-events: none; }
+        .dm-suggest-thumb {
+            width: 38px; height: 38px; border-radius: 9px;
+            background: color-mix(in srgb, var(--accent) 15%, transparent);
+            display: grid; place-items: center; flex-shrink: 0;
+        }
+        .dm-suggest-thumb svg { width: 17px; height: 17px; color: var(--accent); }
+        .dm-suggest-info { flex: 1; min-width: 0; }
+        .dm-suggest-info h5 { font-size: 0.82rem; font-weight: 600; margin: 0 0 0.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .dm-suggest-info p { font-size: 0.7rem; color: var(--text-muted); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .dm-suggest-badge {
+            font-size: 0.62rem; font-weight: 600; padding: 0.15rem 0.45rem;
+            border-radius: 5px; flex-shrink: 0;
+        }
+        .dm-suggest-badge.available { background: rgba(16,185,129,0.15); color: #10b981; }
+        .dm-suggest-badge.coming { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .dm-suggest-empty { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1.5rem; }
         @media (max-width: 640px) {
             .doc-modal h2 { font-size: 1.6rem; }
             .doc-modal-body { padding: 2rem 1.25rem; }
@@ -441,8 +495,9 @@ $site = 'DISPATCH';
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
         }
-        .settings-header svg { width: 24px; height: 24px; color: #10b981; }
+        .settings-header svg { width: 24px; height: 24px; color: var(--accent); }
         .settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
         .settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
         .settings-close {
@@ -457,12 +512,12 @@ $site = 'DISPATCH';
             font-size: 18px;
             transition: all 0.15s ease;
         }
-        .settings-close:hover { background: #10b981; color: #fff; border-color: #10b981; }
+        .settings-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
         .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
         .settings-group { margin-bottom: 1.75rem; }
         .settings-group-title {
             font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
-            text-transform: uppercase; color: #10b981;
+            text-transform: uppercase; color: var(--accent);
             margin-bottom: 0.75rem; padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
         }
@@ -478,6 +533,7 @@ $site = 'DISPATCH';
         .setting-label { flex: 1; }
         .setting-label .s-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
         .setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 3px; }
+        /* Toggle switch */
         .toggle {
             position: relative;
             width: 46px; height: 26px;
@@ -500,10 +556,12 @@ $site = 'DISPATCH';
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .toggle.on {
-            background: #10b981;
-            border-color: #10b981;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            border-color: transparent;
+            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
         }
         .toggle.on::after { transform: translateX(20px); background: #fff; }
+        /* Color swatches */
         .color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .color-swatch {
             width: 30px; height: 30px;
@@ -513,9 +571,15 @@ $site = 'DISPATCH';
             transition: transform 0.15s ease, border-color 0.15s ease;
         }
         .color-swatch:hover { transform: scale(1.1); }
-        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px #10b981; }
-        .setting-range { width: 120px; accent-color: #10b981; cursor: pointer; }
-        .setting-range-value { font-size: 0.78rem; color: #10b981; font-weight: 600; min-width: 40px; text-align: right; }
+        .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
+        /* Range slider */
+        .setting-range {
+            width: 120px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .setting-range-value { font-size: 0.78rem; color: var(--accent); font-weight: 600; min-width: 40px; text-align: right; }
+        /* Font size preview */
         .font-preview { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
         /* Select dropdown */
         .setting-select {
@@ -541,11 +605,12 @@ $site = 'DISPATCH';
             background-size: 16px;
         }
         .setting-select:hover {
-            border-color: #10b981;
+            border-color: var(--accent);
+            background-color: var(--accent-soft);
         }
         .setting-select:focus {
-            border-color: #10b981;
-            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .setting-select option {
             background: var(--surface-solid);
@@ -578,13 +643,13 @@ $site = 'DISPATCH';
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.18s ease;
             font-family: inherit;
         }
         .settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
         .settings-btn:active { transform: translateY(0); }
-        .settings-btn.primary { background: #10b981; color: #fff; border-color: #10b981; }
-        .settings-btn.primary:hover { background: #059669; }
+        .settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
+        .settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
         @media (max-width: 560px) {
             .settings-panel { width: 100vw; }
         }
@@ -674,6 +739,9 @@ $site = 'DISPATCH';
             left: 0;
         }
     </style>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="css/tailwind-config.js"></script>
 </head>
 <body>
     <!-- ACD_TMS Curved Vector Background -->
@@ -736,7 +804,10 @@ $site = 'DISPATCH';
                 </a>
             </div>
             <div class="topbar-actions">
-                <a class="btn" href="index.php">Back to Home</a>
+                <a href="index.php" class="back-home-btn" title="Back to Home">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span>Back to Home</span>
+                </a>
                 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
                     <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
                     <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -825,15 +896,6 @@ $site = 'DISPATCH';
                         <div class="s-hint">Switch between dark and light theme</div>
                     </div>
                     <div class="toggle" id="set-dark-mode" onclick="toggleSetting('dark-mode','toggle')"></div>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-label">
-                        <div class="s-name">Accent Color</div>
-                        <div class="s-hint">Choose your preferred accent color</div>
-                    </div>
-                    <div class="color-swatches" id="set-accent-colors">
-                        <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
-                    </div>
                 </div>
                 <div class="setting-row">
                     <div class="setting-label">
@@ -960,6 +1022,47 @@ $site = 'DISPATCH';
     </div>
 
     <script>
+        const ALL_VIDEOS = <?php echo json_encode(array_map(function($v) use ($availableVideos) {
+            return [
+                'id' => $v['id'],
+                'title' => $v['title'],
+                'desc' => $v['desc'],
+                'category' => $v['category'],
+                'duration' => $v['duration'],
+                'available' => in_array($v['src'], $availableVideos)
+            ];
+        }, $videoCatalog)); ?>;
+
+        // Build suggested videos HTML for the doc modal
+        function buildSuggestedVideos(currentId, category) {
+            const thumbSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+            // Find related videos: same category first, then fill with others
+            var sameCat = ALL_VIDEOS.filter(function(v) { return v.id !== currentId && v.category === category; });
+            var others = ALL_VIDEOS.filter(function(v) { return v.id !== currentId && v.category !== category; });
+            var suggestions = sameCat.concat(others).slice(0, 6);
+            if (suggestions.length === 0) {
+                return '<div class="dm-suggest"><div class="dm-suggest-empty">No suggested videos available.</div></div>';
+            }
+            var cards = suggestions.map(function(v) {
+                var badge = v.available
+                    ? '<span class="dm-suggest-badge available">Available</span>'
+                    : '<span class="dm-suggest-badge coming">Coming Soon</span>';
+                var disabled = v.available ? '' : ' disabled';
+                var href = v.available ? 'tutorials.php#' + encodeURIComponent(v.id) : '#';
+                return '<a class="dm-suggest-card' + disabled + '" href="' + href + '"' + (v.available ? ' target="_blank"' : '') + '>' +
+                    '<div class="dm-suggest-thumb">' + thumbSvg + '</div>' +
+                    '<div class="dm-suggest-info"><h5>' + v.title + '</h5><p>' + v.desc + '</p></div>' +
+                    badge + '</a>';
+            }).join('');
+            return '<div class="dm-suggest">' +
+                '<div class="dm-suggest-head">' +
+                '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' +
+                'Suggested Videos' +
+                '</div>' +
+                '<div class="dm-suggest-grid">' + cards + '</div>' +
+                '</div>';
+        }
+
         // Documentation full-screen modal
         (function initDocModal() {
             const overlay = document.getElementById('doc-modal-overlay');
@@ -997,7 +1100,8 @@ $site = 'DISPATCH';
                         '<span class="duration">' + escapeHtml(duration) + '</span>' +
                     '</div>' +
                     '<p>' + escapeHtml(desc) + '</p>' +
-                    '</article>';
+                    '</article>' +
+                    buildSuggestedVideos(id, category);
                 overlay.classList.add('open');
                 document.body.style.overflow = 'hidden';
             }
@@ -1018,6 +1122,21 @@ $site = 'DISPATCH';
             if (close) close.addEventListener('click', closeDocModal);
             overlay.addEventListener('click', function(e) { if (e.target === overlay) closeDocModal(); });
             document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeDocModal(); });
+        })();
+
+        // Scroll to doc card from URL hash and open its modal
+        (function initHashScroll() {
+            function scrollToDoc() {
+                const hash = window.location.hash;
+                if (!hash) return;
+                const card = document.querySelector(hash);
+                if (!card || !card.classList.contains('doc-card')) return;
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.classList.add('doc-highlight');
+                setTimeout(function() { card.classList.remove('doc-highlight'); }, 2500);
+            }
+            if (document.readyState === 'complete') scrollToDoc();
+            else window.addEventListener('load', scrollToDoc);
         })();
 
         // Theme support
