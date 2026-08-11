@@ -1252,7 +1252,6 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="css/tailwind-config.js"></script>
-    <link rel="stylesheet" href="css/ai-assistant.css">
     </head>
     <body>
 
@@ -2453,14 +2452,6 @@
                     action: null
                 },
                 {
-                    target: '#ai-fab',
-                    title: 'AI Assistant',
-                    desc: 'Click this floating button to open the AI assistant. Ask questions in plain English like "how do I add a driver?" and it will find the right tutorial for you.',
-                    action: function() {
-                        if (window.innerWidth <= 900) { document.getElementById('sidebar').classList.add('open'); }
-                    }
-                },
-                {
                     target: '.icon-btn.settings-btn-top',
                     title: 'Settings Panel',
                     desc: 'Customize your experience — change the accent color, adjust font size, toggle dark mode, set video playback speed, enable accessibility features, and more.',
@@ -3235,169 +3226,5 @@
         <h4 id="doc-floater-title"></h4>
         <p id="doc-floater-desc"></p>
     </div>
-
-    <!-- AI Assistant Widget -->
-    <div class="ai-root">
-        <button class="ai-fab" id="ai-fab" title="Ask AI Assistant" aria-label="Open AI Assistant">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
-        </button>
-        <div class="ai-widget" id="ai-widget">
-            <div class="ai-chat-header">
-                <div class="ai-chat-header-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
-                </div>
-                <div class="ai-chat-header-info">
-                    <h3>DISPATCH AI</h3>
-                    <p><span class="ai-status-dot"></span> Online</p>
-                </div>
-                <div class="ai-chat-header-actions">
-                    <a href="ai-assistant.php" class="ai-header-btn" title="Open full page">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-                    </a>
-                    <button class="ai-header-btn" onclick="document.getElementById('ai-widget').classList.remove('open')" title="Close">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="ai-messages" id="ai-messages">
-                <div class="ai-welcome" id="ai-welcome">
-                    <div class="ai-welcome-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M12 8V4M9 4h6"/></svg>
-                    </div>
-                    <h2>How can I help?</h2>
-                    <p>Ask me about DISPATCH documentation, video tutorials, or video docs.</p>
-                </div>
-                <div class="ai-chips" id="ai-chips"></div>
-            </div>
-            <div class="ai-input-area">
-                <div class="ai-input-row">
-                    <button class="ai-mic-btn" id="ai-mic-btn" title="Voice input" aria-label="Voice input">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><path d="M12 19v4M8 23h8"/></svg>
-                    </button>
-                    <textarea class="ai-input" id="ai-input" placeholder="Ask me anything…" rows="1"></textarea>
-                    <button class="ai-send-btn" id="ai-send-btn" title="Send" aria-label="Send" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="js/ai-assistant.js"></script>
-    <script>
-    (function(){
-        const AI = window.DispatchAI;
-        const fab = document.getElementById('ai-fab');
-        const widget = document.getElementById('ai-widget');
-        const messagesEl = document.getElementById('ai-messages');
-        const welcomeEl = document.getElementById('ai-welcome');
-        const chipsEl = document.getElementById('ai-chips');
-        const inputEl = document.getElementById('ai-input');
-        const sendBtn = document.getElementById('ai-send-btn');
-        const micBtn = document.getElementById('ai-mic-btn');
-        let messages = [];
-        let isTyping = false;
-
-        fab.addEventListener('click', function(){ widget.classList.toggle('open'); });
-
-        function renderChips(){
-            chipsEl.innerHTML = '';
-            AI.QUICK_ACTIONS.forEach(function(a){
-                const c = document.createElement('button');
-                c.className = 'ai-chip';
-                c.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
-                c.addEventListener('click', function(){ inputEl.value = a.label; sendMessage(); });
-                chipsEl.appendChild(c);
-            });
-        }
-        function renderMessage(msg){
-            const isUser = msg.role === 'user';
-            const el = document.createElement('div');
-            el.className = 'ai-msg ' + (isUser ? 'user' : 'bot');
-            const avatar = document.createElement('div');
-            avatar.className = 'ai-msg-avatar';
-            avatar.innerHTML = isUser ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' : AI.ICONS['sparkle'];
-            const content = document.createElement('div');
-            const bubble = document.createElement('div');
-            bubble.className = 'ai-msg-bubble';
-            bubble.textContent = msg.text;
-            content.appendChild(bubble);
-            if(!isUser && msg.actions && msg.actions.length > 0){
-                const ae = document.createElement('div');
-                ae.className = 'ai-msg-actions';
-                msg.actions.forEach(function(a){
-                    const b = document.createElement('a');
-                    b.className = 'ai-action-btn';
-                    b.href = a.href;
-                    b.innerHTML = (AI.ICONS[a.icon]||'') + '<span>'+a.label+'</span>';
-                    ae.appendChild(b);
-                });
-                content.appendChild(ae);
-            }
-            el.appendChild(avatar);
-            el.appendChild(content);
-            messagesEl.appendChild(el);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
-        function showTyping(){
-            const e = document.createElement('div');
-            e.className = 'ai-msg bot'; e.id = 'ai-typing-msg';
-            e.innerHTML = '<div class="ai-msg-avatar">'+AI.ICONS['sparkle']+'</div><div><div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div></div>';
-            messagesEl.appendChild(e);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
-        function hideTyping(){ const e = document.getElementById('ai-typing-msg'); if(e) e.remove(); }
-        function sendMessage(){
-            const text = inputEl.value.trim();
-            if(!text || isTyping) return;
-            if(welcomeEl) welcomeEl.style.display = 'none';
-            if(chipsEl) chipsEl.style.display = 'none';
-            const um = {role:'user',text:text};
-            messages.push(um); renderMessage(um);
-            inputEl.value = ''; inputEl.style.height = 'auto'; updateSendBtn();
-            isTyping = true; showTyping();
-            setTimeout(function(){
-                hideTyping();
-                const m = AI.findBestMatch(text) || AI.generateFallback(text);
-                const bm = {role:'bot',text:m.description,actions:m.actions||[]};
-                messages.push(bm); renderMessage(bm); AI.saveHistory(messages); isTyping = false;
-            }, 600 + Math.random()*400);
-        }
-        function updateSendBtn(){ sendBtn.disabled = inputEl.value.trim().length === 0; }
-        inputEl.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,100)+'px'; updateSendBtn(); });
-        inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } });
-        sendBtn.addEventListener('click', sendMessage);
-        if(!AI.isVoiceSupported()){ micBtn.classList.add('unsupported'); micBtn.title='Voice not supported'; }
-        micBtn.addEventListener('click', function(){
-            if(!AI.isVoiceSupported()) return;
-            if(AI.isListening()){ AI.stopListening(); micBtn.classList.remove('listening'); }
-            else { const s = AI.startListening(function(t){ inputEl.value=t; updateSendBtn(); inputEl.focus(); }, function(){ micBtn.classList.remove('listening'); }); if(s) micBtn.classList.add('listening'); }
-        });
-        function loadHistory(){
-            const saved = AI.loadHistory();
-            if(saved.length > 0){
-                messages = saved;
-                if(welcomeEl) welcomeEl.style.display = 'none';
-                if(chipsEl) chipsEl.style.display = 'none';
-                saved.forEach(renderMessage);
-            }
-        }
-        renderChips();
-        loadHistory();
-
-        // Sync AI widget with page settings changes
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'dispatch-settings' || e.key === 'dispatch-theme') {
-                // The page's own settings handler will update --accent,
-                // and our CSS uses var(--accent) so the widget updates automatically.
-                // Just force a re-render of chips to pick up any accent changes.
-                const root = document.querySelector('.ai-root');
-                if (root) {
-                    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-                    if (accent) root.style.setProperty('--ai-accent', accent);
-                }
-            }
-        });
-    })();
-    </script>
 </body>
 </html>
