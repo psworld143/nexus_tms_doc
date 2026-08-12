@@ -8,106 +8,9 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-XSS-Protection: 1; mode=block');
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self'; img-src 'self' data:; connect-src 'self';");
 
-// Full video catalog
-$videoCatalog = [
-    ['id' => 'dashboard', 'title' => 'Dashboard', 'desc' => 'Overview and statistics walkthrough', 'category' => 'Main', 'duration' => '2:30', 'src' => 'videos/dashboard.mp4'],
-    ['id' => 'my-loads', 'title' => 'My Loads', 'desc' => 'Create, assign and track loads through dispatch', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-loads.mp4'],
-    ['id' => 'my-trucks', 'title' => 'My Trucks', 'desc' => 'Add, view and manage your trucks', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-trucks.mp4'],
-    ['id' => 'my-trailers', 'title' => 'My Trailers', 'desc' => 'Add, view and manage your trailers', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-trailers.mp4'],
-    ['id' => 'driver-devices', 'title' => 'Driver Devices', 'desc' => 'Manage driver devices and ELD connections', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/driver-devices.mp4'],
-    ['id' => 'my-drivers', 'title' => 'My Drivers', 'desc' => 'View and manage your drivers', 'category' => 'Operations', 'duration' => '3:45', 'src' => 'videos/how-to-register-new-drivers.mp4'],
-    ['id' => 'my-customers', 'title' => 'My Customers', 'desc' => 'Add, view and manage your customers', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-customers.mp4'],
-    ['id' => 'my-shippers-list', 'title' => 'My Shippers List', 'desc' => 'Manage your list of shippers', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-shippers-list.mp4'],
-    ['id' => 'my-consignee-lists', 'title' => 'My Consignee Lists', 'desc' => 'Manage your consignee lists and locations', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-consignee-lists.mp4'],
-    ['id' => 'my-brokers', 'title' => 'My Brokers', 'desc' => 'Add and manage your brokers', 'category' => 'Operations', 'duration' => '—', 'src' => 'videos/my-brokers.mp4'],
-    ['id' => 'truck-lease-pricing', 'title' => 'Truck Lease Pricing', 'desc' => 'Review and configure lease pricing', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/truck-lease-pricing.mp4'],
-    ['id' => 'truck-rentals', 'title' => 'Truck Rentals', 'desc' => 'Manage truck rentals and equipment', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/truck-rentals.mp4'],
-    ['id' => 'lease-agreements', 'title' => 'Lease Agreements', 'desc' => 'Create, sign and track lease agreements', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/lease-agreements.mp4'],
-    ['id' => 'hire-drivers', 'title' => 'Hire Drivers', 'desc' => 'Recruit and onboard new drivers', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/hire-drivers.mp4'],
-    ['id' => 'job-postings', 'title' => 'Job Postings', 'desc' => 'Create and manage driver job postings', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/job-postings.mp4'],
-    ['id' => 'external-drivers', 'title' => 'External Drivers', 'desc' => 'Manage external and owner-operator drivers', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/external-drivers.mp4'],
-    ['id' => 'shout-out-scripts', 'title' => 'Shout Out Scripts', 'desc' => 'Ready-made scripts for your marketing', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/shout-out-scripts.mp4'],
-    ['id' => 'shout-out-vlogs', 'title' => 'Shout Out Vlogs', 'desc' => 'Shout out vlog examples and walkthroughs', 'category' => 'Fleet', 'duration' => '—', 'src' => 'videos/shout-out-vlogs.mp4'],
-    ['id' => 'accounting', 'title' => 'Accounting', 'desc' => 'Manage accounting and financial records', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/accounting.mp4'],
-    ['id' => 'my-payroll', 'title' => 'My Payroll', 'desc' => 'Run and manage payroll', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/my-payroll.mp4'],
-    ['id' => 'my-factoring-company', 'title' => 'My Factoring Company', 'desc' => 'Connect and manage your factoring company', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/my-factoring-company.mp4'],
-    ['id' => 'fuel-reports', 'title' => 'Fuel Reports', 'desc' => 'View fuel spending reports and analytics', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/fuel-reports.mp4'],
-    ['id' => 'my-fuel-cards', 'title' => 'My Fuel Cards', 'desc' => 'Manage fuel cards and spending limits', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/my-fuel-cards.mp4'],
-    ['id' => 'loans-cash-advance', 'title' => 'Loans/Cash Advance', 'desc' => 'Apply for and track loans and cash advances', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/loans-cash-advance.mp4'],
-    ['id' => 'api-integration-keys', 'title' => 'API Integration Keys', 'desc' => 'Generate and manage API integration keys', 'category' => 'Finance', 'duration' => '—', 'src' => 'videos/api-integration-keys.mp4'],
-    ['id' => 'my-fleet', 'title' => 'My Fleet', 'desc' => 'Monitor your fleet safety and compliance', 'category' => 'Safety', 'duration' => '—', 'src' => 'videos/my-fleet.mp4'],
-    ['id' => 'emergency-monitoring', 'title' => 'Emergency Monitoring', 'desc' => 'Set up and respond to emergency alerts', 'category' => 'Safety', 'duration' => '—', 'src' => 'videos/emergency-monitoring.mp4'],
-    ['id' => 'safety-assessments', 'title' => 'Safety Assessments', 'desc' => 'Run and review safety assessments', 'category' => 'Safety', 'duration' => '—', 'src' => 'videos/safety-assessments.mp4'],
-    ['id' => 'maintenance-monitoring', 'title' => 'Maintenance Monitoring', 'desc' => 'Monitor maintenance and vehicle health', 'category' => 'Safety', 'duration' => '—', 'src' => 'videos/maintenance-monitoring.mp4'],
-    ['id' => 'safety-violations', 'title' => 'Safety Violations', 'desc' => 'Safety-related compliance issues', 'category' => 'Safety', 'duration' => '—', 'src' => 'videos/safety-violations.mp4'],
-    ['id' => 'compliance-monitoring', 'title' => 'Compliance Monitoring', 'desc' => 'Track compliance metrics in real time', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/compliance-monitoring.mp4'],
-    ['id' => 'compliance-software-options', 'title' => 'Compliance Software Options', 'desc' => 'Explore compliance software integrations', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/compliance-software-options.mp4'],
-    ['id' => 'drug-alcohol-testing', 'title' => 'Drug & Alcohol Testing', 'desc' => 'Manage drug and alcohol testing programs', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/drug-alcohol-testing.mp4'],
-    ['id' => 'violations', 'title' => 'Violations', 'desc' => 'Track compliance violations', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/violations.mp4'],
-    ['id' => 'driver-violations', 'title' => 'Driver Violations', 'desc' => 'Driver-specific violations', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/driver-violations.mp4'],
-    ['id' => 'vehicle-violations', 'title' => 'Vehicle Violations', 'desc' => 'Vehicle-related violations', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/vehicle-violations.mp4'],
-    ['id' => 'hos', 'title' => 'HOS', 'desc' => 'Hours of Service compliance', 'category' => 'Compliance', 'duration' => '—', 'src' => 'videos/hos.mp4'],
-    ['id' => 'notifications', 'title' => 'Notifications', 'desc' => 'Real-time alerts and updates', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/notifications.mp4'],
-    ['id' => 'activity', 'title' => 'Activity', 'desc' => 'System activity logs', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/activity.mp4'],
-    ['id' => 'maintenance', 'title' => 'Maintenance', 'desc' => 'Vehicle maintenance scheduling', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/maintenance.mp4'],
-    ['id' => 'drug-alcohol', 'title' => 'Drug & Alcohol', 'desc' => 'Testing programs and records', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/drug-alcohol.mp4'],
-    ['id' => 'documents', 'title' => 'Documents', 'desc' => 'Centralized document management', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/documents.mp4'],
-    ['id' => 'permit-insurance', 'title' => 'Permit & Insurance', 'desc' => 'Permits, licenses and insurance', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/permit-insurance.mp4'],
-    ['id' => 'reporting', 'title' => 'Reporting', 'desc' => 'Reports and operational insights', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/reporting.mp4'],
-    ['id' => 'safety', 'title' => 'Safety', 'desc' => 'Safety metrics and risk management', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/safety.mp4'],
-    ['id' => 'settings', 'title' => 'Settings', 'desc' => 'Configure and customize the system', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/settings.mp4'],
-    ['id' => 'login-signup-tutorial', 'title' => 'Login & Sign Up', 'desc' => 'Account creation and secure login', 'category' => 'Account', 'duration' => '—', 'src' => 'videos/login-signup-tutorial.mp4']
-];
-
-$videoDocs = [
-    'dashboard' => 'The Dashboard is the central command center of DISPATCH. It gives you a real-time overview of your operations, including active loads, driver status, fleet health, and key performance indicators. Use it to monitor daily activity, identify bottlenecks, and make quick decisions without navigating through multiple screens.',
-    'my-loads' => 'My Loads is where you create, assign, and track every shipment in your dispatch pipeline. You can build new loads, assign drivers and trucks, update statuses, and view load details from pickup to delivery. It keeps your operation organized and ensures loads move on time.',
-    'my-trucks' => 'My Trucks lets you add, view, and manage all trucks in your fleet. Record vehicle details, maintenance history, assigned drivers, and lease or rental information so you always know which equipment is available and road-ready.',
-    'my-trailers' => 'My Trailers gives you a dedicated view for managing trailers across your fleet. Track ownership, inspection dates, assignments, and capacity so dispatch and safety teams have accurate trailer data for every load.',
-    'driver-devices' => 'Driver Devices helps you manage ELD connections, mobile devices, and other hardware your drivers use. It ensures devices are properly paired, synced, and compliant with logging and tracking requirements.',
-    'my-drivers' => 'My Drivers is the hub for managing your driver workforce. Add driver profiles, store license and medical card details, track hiring status, and view assigned trucks so your team stays compliant and qualified.',
-    'my-customers' => 'My Customers stores customer profiles, billing details, and contact information. Use it to keep track of shipping partners, invoice addresses, and special requirements for each customer.',
-    'my-shippers-list' => 'My Shippers List centralizes your recurring shipping locations. Save shipper names, addresses, and contact details so dispatchers can quickly select origin points when building loads.',
-    'my-consignee-lists' => 'My Consignee Lists stores all delivery destination information. Maintain consignee addresses, hours, and instructions to improve routing and reduce delivery errors.',
-    'my-brokers' => 'My Brokers helps you add and manage freight broker relationships. Store broker names, contact info, and notes so your team can quickly reference broker details during load negotiations.',
-    'truck-lease-pricing' => 'Truck Lease Pricing allows you to review and configure lease rates and payment terms for your equipment. Use it to compare lease options, set pricing, and understand the financial impact of each lease agreement.',
-    'truck-rentals' => 'Truck Rentals manages rental equipment and contracts. Track rental periods, costs, and return dates so rented trucks stay integrated with dispatch and accounting.',
-    'lease-agreements' => 'Lease Agreements lets you create, sign, and track lease documents digitally. Store signed contracts, renewal dates, and terms so fleet and finance teams always have the latest agreement details.',
-    'hire-drivers' => 'Hire Drivers streamlines driver recruitment and onboarding. Track applicants, collect documents, schedule interviews, and move candidates through the hiring pipeline efficiently.',
-    'job-postings' => 'Job Postings lets you create and manage driver job openings. Post openings, track applications, and update hiring status so your recruiting efforts stay organized and visible.',
-    'external-drivers' => 'External Drivers helps you manage owner-operators and contracted drivers who are not direct employees. Track contact information, equipment, and independent contractor status alongside your fleet.',
-    'shout-out-scripts' => 'Shout Out Scripts provides ready-made marketing and recruiting scripts. Use these templates for social media, email, or phone outreach to attract drivers and promote your brand.',
-    'shout-out-vlogs' => 'Shout Out Vlogs offers video examples and walkthroughs for creating driver-focused content. Learn how to produce effective vlogs that showcase your fleet and recruit talent.',
-    'accounting' => 'Accounting keeps your financial records organized. Track invoices, payments, expenses, and profit so your operation has a clear view of its financial health.',
-    'my-payroll' => 'My Payroll lets you run and manage driver and staff payroll. Calculate pay, track hours, and process payments while staying aligned with accounting records.',
-    'my-factoring-company' => 'My Factoring Company connects you to invoice factoring services. Manage factoring provider details, submit invoices, and track advances to improve cash flow.',
-    'fuel-reports' => 'Fuel Reports shows fuel spending, usage trends, and efficiency analytics. Use this data to identify waste, optimize routes, and manage fuel card spending.',
-    'my-fuel-cards' => 'My Fuel Cards lets you manage fuel card assignments and spending limits. Track cardholders, set limits, and monitor transactions to control fuel costs.',
-    'loans-cash-advance' => 'Loans and Cash Advance helps you apply for and track working capital. Record loan details, repayment schedules, and advance requests so cash flow needs are documented.',
-    'api-integration-keys' => 'API Integration Keys lets you generate and manage keys for connecting DISPATCH with other systems. Control access and track which integrations are active.',
-    'my-fleet' => 'My Fleet provides a safety and compliance overview of all your vehicles and drivers. Track inspections, violations, CSA scores, and preventive maintenance to keep your fleet safe and roadworthy.',
-    'emergency-monitoring' => 'Emergency Monitoring helps you set up and respond to critical driver and vehicle alerts. Configure notification rules, monitor panic events, and coordinate emergency response.',
-    'safety-assessments' => 'Safety Assessments lets you run and review driver and vehicle safety reviews. Schedule assessments, record results, and take action on any safety concerns.',
-    'maintenance-monitoring' => 'Maintenance Monitoring tracks vehicle health and service schedules. Log repairs, schedule preventive maintenance, and set reminders to keep equipment in top condition.',
-    'safety-violations' => 'Safety Violations records and tracks incidents that affect your safety score. Review violation details, assign corrective actions, and monitor resolution progress.',
-    'compliance-monitoring' => 'Compliance Monitoring gives you a real-time view of regulatory compliance. Track HOS, inspections, and certifications to avoid fines and out-of-service risk.',
-    'compliance-software-options' => 'Compliance Software Options lets you explore and configure integrations with ELD and compliance tools. Choose the right providers and sync data for accurate compliance reporting.',
-    'drug-alcohol-testing' => 'Drug and Alcohol Testing manages testing programs and driver records. Track testing schedules, results, and program membership to meet DOT and company requirements.',
-    'violations' => 'Violations tracks all compliance-related incidents across your operation. Review details, assign responsibility, and manage the resolution process from a single view.',
-    'driver-violations' => 'Driver Violations focuses on citations and incidents tied to individual drivers. Monitor driver history, take corrective action, and track improvements over time.',
-    'vehicle-violations' => 'Vehicle Violations tracks citations and defects tied to specific trucks or trailers. Use it to prioritize repairs and improve your fleet roadside inspection record.',
-    'hos' => 'HOS, or Hours of Service, tracks driver duty and rest rules. Monitor on-duty time, breaks, and daily limits to ensure compliance and prevent driver fatigue.',
-    'notifications' => 'Notifications delivers real-time alerts for loads, drivers, vehicles, and compliance events. Customize what you receive so important updates never get missed.',
-    'activity' => 'Activity keeps a detailed log of system events and user actions. Use it for auditing, troubleshooting, and understanding how your team uses DISPATCH.',
-    'maintenance' => 'Maintenance schedules and tracks vehicle maintenance tasks. Plan oil changes, inspections, and repairs so your fleet stays reliable and compliant.',
-    'drug-alcohol' => 'Drug and Alcohol records testing data and program details. Maintain DOT compliance by tracking testing status, results, and program enrollments.',
-    'documents' => 'Documents gives you a centralized place to store and manage permits, licenses, insurance, and other important files. Organize files by driver or vehicle and access them quickly.',
-    'permit-insurance' => 'Permit and Insurance tracks registration, permits, and insurance certificates. Store expiration dates and upload documents so your fleet never runs out of coverage.',
-    'reporting' => 'Reporting provides pre-built and custom reports for operations, safety, and finance. Generate insights that help you make data-driven decisions.',
-    'safety' => 'Safety is the central place for safety metrics and risk management. Monitor accident rates, training status, and violation trends to build a stronger safety culture.',
-    'settings' => 'Settings lets you configure your DISPATCH experience. Manage users, preferences, notifications, and system-wide options to match your workflow.',
-    'login-signup-tutorial' => 'Login and Sign Up walks new users through creating an account and signing in securely. Learn how to set credentials, recover access, and protect your account.'
-];
+// Full video catalog + long-form documentation text live in doc_data.php
+// so they can be shared with index.php (inline fullscreen doc modal).
+require __DIR__ . '/doc_data.php';
 
 $totalVideos = count($videoCatalog);
 
@@ -256,7 +159,7 @@ $site = 'DISPATCH';
         .brand a { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; }
         .brand-icon {
             width: 42px; height: 42px; border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            background: linear-gradient(135deg, var(--accent), #059669);
             display: grid; place-items: center; color: #fff;
             box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
             transition: transform 0.2s ease;
@@ -283,7 +186,7 @@ $site = 'DISPATCH';
         .loader-logo {
             width: 56px; height: 56px; border-radius: 14px;
             display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
             box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
             animation: loader-logo-pulse 1.6s ease-in-out infinite;
@@ -444,7 +347,31 @@ $site = 'DISPATCH';
             gap: 1rem;
         }
         .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
-        .dmh-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .dmh-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+        /* Watch tutorial — enhanced primary action */
+        .dmh-watch {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.55rem 1.15rem;
+            border-radius: 12px;
+            font-size: 0.82rem; font-weight: 700; letter-spacing: 0.01em;
+            text-decoration: none; cursor: pointer;
+            font-family: inherit;
+            color: #fff;
+            border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
+            box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,0.18);
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.18s ease,
+                        filter 0.18s ease;
+        }
+        .dmh-watch:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.06); box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent) 80%, transparent), inset 0 1px 0 rgba(255,255,255,0.22); }
+        .dmh-watch:active { transform: translateY(0) scale(0.98); }
+        .dmh-watch svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .dmh-watch[hidden] { display: none; }
+
+        /* Generic secondary action (kept for backwards compat) */
         .dmh-btn {
             padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
             text-decoration: none; border: 1px solid var(--border-strong); cursor: pointer;
@@ -453,6 +380,36 @@ $site = 'DISPATCH';
         }
         .dmh-btn.primary { background: var(--accent); color: #fff; border-color: var(--border-strong); }
         .dmh-btn:hover { border-color: var(--border-strong); }
+
+        /* Close (X) button — copied from tutorials.php .back-home-btn */
+        .dmh-close {
+            display: grid; place-items: center;
+            width: 38px; height: 38px;
+            border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+            border-radius: 50%;
+            background: color-mix(in srgb, #ef4444 8%, transparent);
+            color: #ef4444;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        }
+        .dmh-close svg {
+            width: 18px; height: 18px; flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .dmh-close:hover {
+            border-color: #ef4444;
+            background: color-mix(in srgb, #ef4444 15%, transparent);
+            color: #ef4444;
+            box-shadow: 0 0 14px -4px color-mix(in srgb, #ef4444 50%, transparent);
+            transform: rotate(90deg);
+        }
+        .dmh-close:active { transform: scale(0.92); }
+        @media (max-width: 640px) {
+            .dmh-watch { padding: 0.5rem 0.9rem; font-size: 0.78rem; }
+            .dmh-close { width: 34px; height: 34px; }
+        }
         .doc-modal-body {
             flex: 1; overflow-y: auto;
             padding: 3rem 1.5rem;
@@ -1063,8 +1020,13 @@ $site = 'DISPATCH';
             <div class="doc-modal-header">
                 <div class="dmh-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg> DISPATCH Video Docs</div>
                 <div class="dmh-actions">
-                    <a class="dmh-btn primary" href="#" id="doc-modal-watch" target="_blank">Watch tutorial</a>
-                    <button class="dmh-btn" id="doc-modal-close" type="button">Close</button>
+                    <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Watch tutorial
+                    </a>
+                    <button class="dmh-close" id="doc-modal-close" type="button" aria-label="Close documentation">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
                 </div>
             </div>
             <div class="doc-modal-body" id="doc-modal-body"></div>

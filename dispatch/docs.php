@@ -159,7 +159,7 @@ $totalAvailable = count($availableVideos);
         .loader-logo {
             width: 56px; height: 56px; border-radius: 14px;
             display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
             box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
             animation: loader-logo-pulse 1.6s ease-in-out infinite;
@@ -216,7 +216,7 @@ $totalAvailable = count($availableVideos);
         .brand-mark {
             width: 42px; height: 42px;
             border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            background: linear-gradient(135deg, var(--accent), #059669);
             display: grid; place-items: center;
             color: #fff;
             box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);

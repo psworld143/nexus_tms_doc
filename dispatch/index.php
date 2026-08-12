@@ -5,6 +5,10 @@
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('X-XSS-Protection: 1; mode=block');
     header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self'; img-src 'self' data:; connect-src 'self';");
+
+    // Shared documentation catalog + long-form doc text (used by the inline
+    // fullscreen doc modal on this page and by video_docs.php).
+    require __DIR__ . '/doc_data.php';
     ?>
     <!DOCTYPE html>
     <html lang="en" class="dark">
@@ -682,6 +686,174 @@
             .docs-link:hover {
                 transform: translateY(-1px);
                 box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--accent) 50%, transparent);
+            }
+
+            /* ===== Documentation full-screen modal (inline, no page navigation) ===== */
+            .doc-modal-overlay {
+                position: fixed; inset: 0; z-index: 9000;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.18s ease;
+            }
+            .doc-modal-overlay.open { display: block; opacity: 1; }
+            .doc-modal {
+                position: fixed; inset: 0;
+                background:
+                    radial-gradient(ellipse at 15% 10%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%),
+                    radial-gradient(ellipse at 90% 90%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 50%),
+                    linear-gradient(160deg, var(--bg) 0%, var(--bg-grad-1) 60%, var(--bg) 100%);
+                display: flex; flex-direction: column;
+                color: var(--text);
+            }
+            html:not(.dark) .doc-modal {
+                background:
+                    radial-gradient(ellipse at 15% 10%, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 50%),
+                    radial-gradient(ellipse at 90% 90%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 50%),
+                    linear-gradient(160deg, #f8fafc 0%, #ffffff 60%, #f1f5f9 100%);
+            }
+            .doc-modal-header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--border);
+                background: color-mix(in srgb, var(--surface-solid) 70%, transparent);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                position: sticky; top: 0; z-index: 2;
+                gap: 1rem;
+            }
+            .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
+            .dmh-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+            /* Watch tutorial — enhanced primary action */
+            .dmh-watch {
+                display: inline-flex; align-items: center; gap: 0.5rem;
+                padding: 0.55rem 1.15rem;
+                border-radius: 12px;
+                font-size: 0.82rem; font-weight: 700; letter-spacing: 0.01em;
+                text-decoration: none; cursor: pointer;
+                font-family: inherit;
+                color: #fff;
+                border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+                background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #059669));
+                box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent),
+                            inset 0 1px 0 rgba(255,255,255,0.18);
+                transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                            box-shadow 0.18s ease,
+                            filter 0.18s ease;
+            }
+            .dmh-watch:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.06); box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent) 80%, transparent), inset 0 1px 0 rgba(255,255,255,0.22); }
+            .dmh-watch:active { transform: translateY(0) scale(0.98); }
+            .dmh-watch svg { width: 15px; height: 15px; flex-shrink: 0; }
+            .dmh-watch[hidden] { display: none; }
+
+            /* Secondary "Open full docs" link */
+            .dmh-secondary {
+                display: inline-flex; align-items: center; gap: 0.4rem;
+                padding: 0.5rem 1rem; border-radius: 12px; font-size: 0.78rem; font-weight: 600;
+                text-decoration: none; border: 1px solid var(--border-strong); cursor: pointer;
+                color: var(--text); background: var(--surface-2); transition: all 0.15s ease;
+                font-family: inherit;
+            }
+            .dmh-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+            .dmh-secondary svg { width: 14px; height: 14px; }
+
+            /* Generic secondary action (kept for backwards compat) */
+            .dmh-btn {
+                padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
+                text-decoration: none; border: 1px solid var(--border-strong); cursor: pointer;
+                color: var(--text); background: var(--surface-2); transition: all 0.15s ease;
+                font-family: inherit;
+            }
+            .dmh-btn.primary { background: var(--accent); color: #fff; border-color: var(--border-strong); }
+            .dmh-btn:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+
+            /* Close (X) button — copied from tutorials.php .back-home-btn */
+            .dmh-close {
+                display: grid; place-items: center;
+                width: 38px; height: 38px;
+                border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+                border-radius: 50%;
+                background: color-mix(in srgb, #ef4444 8%, transparent);
+                color: #ef4444;
+                text-decoration: none;
+                font-family: inherit;
+                cursor: pointer;
+                transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+            }
+            .dmh-close svg {
+                width: 18px; height: 18px; flex-shrink: 0;
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .dmh-close:hover {
+                border-color: #ef4444;
+                background: color-mix(in srgb, #ef4444 15%, transparent);
+                color: #ef4444;
+                box-shadow: 0 0 14px -4px color-mix(in srgb, #ef4444 50%, transparent);
+                transform: rotate(90deg);
+            }
+            .dmh-close:active { transform: scale(0.92); }
+            @media (max-width: 640px) {
+                .dmh-watch { padding: 0.5rem 0.9rem; font-size: 0.78rem; }
+                .dmh-close { width: 34px; height: 34px; }
+            }
+            .doc-modal-body {
+                flex: 1; overflow-y: auto;
+                padding: 3rem 1.5rem;
+            }
+            .doc-modal-article {
+                max-width: 720px; margin: 0 auto; width: 100%;
+            }
+            .doc-modal h2 { font-size: 2.4rem; font-weight: 800; margin: 0 0 0.75rem; line-height: 1.1; }
+            .doc-modal .dm-category { color: var(--accent); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+            .doc-modal p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin: 1.5rem 0; }
+            .doc-modal .dm-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+            .doc-modal .status-badge { padding: 0.18rem 0.55rem; border-radius: 6px; font-weight: 700; text-transform: uppercase; font-size: 0.72rem; }
+            .doc-modal .status-badge.available { background: var(--accent-soft); color: var(--accent); }
+            .doc-modal .status-badge.coming { background: rgba(248, 113, 113, 0.14); color: var(--danger); }
+            .doc-modal .duration { color: var(--text-dim); font-size: 0.85rem; }
+
+            /* Suggested Videos inside doc modal */
+            .dm-suggest { max-width: 720px; margin: 2rem auto 0; width: 100%; }
+            .dm-suggest-head {
+                display: flex; align-items: center; gap: 0.5rem;
+                font-size: 1rem; font-weight: 700; color: var(--text);
+                margin-bottom: 1rem; padding-bottom: 0.6rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .dm-suggest-head svg { width: 20px; height: 20px; color: var(--accent); }
+            .dm-suggest-grid {
+                display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;
+            }
+            .dm-suggest-card {
+                display: flex; align-items: center; gap: 0.7rem;
+                padding: 0.7rem 0.85rem;
+                border: 1px solid var(--border); border-radius: 12px;
+                text-decoration: none; color: inherit;
+                cursor: pointer;
+                transition: border-color 0.15s ease, transform 0.15s ease;
+            }
+            .dm-suggest-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+            .dm-suggest-card.disabled { opacity: 0.55; cursor: default; pointer-events: none; }
+            .dm-suggest-thumb {
+                width: 38px; height: 38px; border-radius: 9px;
+                background: color-mix(in srgb, var(--accent) 15%, transparent);
+                display: grid; place-items: center; flex-shrink: 0;
+            }
+            .dm-suggest-thumb svg { width: 17px; height: 17px; color: var(--accent); }
+            .dm-suggest-info { flex: 1; min-width: 0; }
+            .dm-suggest-info h5 { font-size: 0.82rem; font-weight: 600; margin: 0 0 0.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .dm-suggest-info p { font-size: 0.7rem; color: var(--text-muted); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .dm-suggest-badge {
+                font-size: 0.62rem; font-weight: 600; padding: 0.15rem 0.45rem;
+                border-radius: 5px; flex-shrink: 0;
+            }
+            .dm-suggest-badge.available { background: rgba(16,185,129,0.15); color: #10b981; }
+            .dm-suggest-badge.coming { background: rgba(245,158,11,0.15); color: #f59e0b; }
+            .dm-suggest-empty { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1.5rem; }
+            @media (max-width: 640px) {
+                .doc-modal h2 { font-size: 1.6rem; }
+                .doc-modal-body { padding: 2rem 1.25rem; }
+                .doc-modal-header { padding: 0.85rem 1.25rem; }
             }
 
             /* ===== Video Card Enhancements ===== */
@@ -2200,7 +2372,30 @@
                     </div>
 
                 </div>
-        
+
+        <!-- Documentation full-screen modal (inline overlay, preserves page UI) -->
+        <div class="doc-modal-overlay" id="doc-modal-overlay">
+            <div class="doc-modal" role="dialog" aria-modal="true" aria-label="Documentation view">
+                <div class="doc-modal-header">
+                    <div class="dmh-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg> DISPATCH Docs</div>
+                    <div class="dmh-actions">
+                        <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Watch tutorial
+                        </a>
+                        <a class="dmh-secondary" href="video_docs.php" id="doc-modal-open-full">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+                            Open full docs
+                        </a>
+                        <button class="dmh-close" id="doc-modal-close" type="button" aria-label="Close documentation">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="doc-modal-body" id="doc-modal-body"></div>
+            </div>
+        </div>
+
         <script>
             const SECTION_ICONS = {
                 'dashboard': '<svg fill="none" viewBox="0 0 24 24" stroke="#10b981"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>',
@@ -3173,9 +3368,137 @@
                 const sectionId = section.id.replace('section-', '');
                 const btn = document.createElement('a');
                 btn.className = 'docs-link';
+                // Keep the href as a fallback (middle-click / open-in-new-tab),
+                // but a normal click opens the fullscreen doc modal inline so
+                // the current page UI is preserved.
                 btn.href = 'video_docs.php#doc-' + sectionId;
+                btn.dataset.docId = sectionId;
                 btn.innerHTML = docIconSvg + ' View Documentation';
+                btn.addEventListener('click', function(e) {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+                    e.preventDefault();
+                    if (typeof window.openDocModal === 'function') {
+                        window.openDocModal(sectionId);
+                    } else {
+                        window.location.href = btn.href;
+                    }
+                });
                 videoCard.appendChild(btn);
+            });
+        })();
+
+        // ===== Inline fullscreen documentation modal =====
+        // Doc data injected from PHP (shared doc_data.php). Opens the selected
+        // module's documentation full-screen without navigating away, so the
+        // underlying page UI stays intact.
+        (function initDocModal() {
+            const overlay = document.getElementById('doc-modal-overlay');
+            const body = document.getElementById('doc-modal-body');
+            const closeBtn = document.getElementById('doc-modal-close');
+            const watchLink = document.getElementById('doc-modal-watch');
+            const fullLink = document.getElementById('doc-modal-open-full');
+            if (!overlay || !body) return;
+
+            const DOC_DATA = <?php
+                // Build a JSON map: id => { title, desc, docText, category, duration, available }
+                $availableMap = [];
+                if (is_dir(__DIR__ . '/videos')) {
+                    foreach (scandir(__DIR__ . '/videos') as $f) {
+                        if (pathinfo($f, PATHINFO_EXTENSION) === 'mp4') {
+                            $availableMap['videos/' . $f] = true;
+                        }
+                    }
+                }
+                $out = [];
+                foreach ($videoCatalog as $v) {
+                    $id = $v['id'];
+                    $out[$id] = [
+                        'id' => $id,
+                        'title' => $v['title'],
+                        'desc' => $v['desc'],
+                        'docText' => isset($videoDocs[$id]) ? $videoDocs[$id] : $v['desc'],
+                        'category' => $v['category'],
+                        'duration' => $v['duration'],
+                        'available' => isset($availableMap[$v['src']]),
+                    ];
+                }
+                echo json_encode($out);
+            ?>;
+            const ALL_DOCS = Object.values(DOC_DATA);
+
+            function escapeHtml(str) {
+                return String(str).replace(/[&<>"']/g, function (c) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+                });
+            }
+
+            function buildSuggestedVideos(currentId, category) {
+                const thumbSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+                const sameCat = ALL_DOCS.filter(function(v) { return v.id !== currentId && v.category === category; });
+                const others = ALL_DOCS.filter(function(v) { return v.id !== currentId && v.category !== category; });
+                const suggestions = sameCat.concat(others).slice(0, 6);
+                if (suggestions.length === 0) {
+                    return '<div class="dm-suggest"><div class="dm-suggest-empty">No suggested videos available.</div></div>';
+                }
+                const cards = suggestions.map(function(v) {
+                    const badge = v.available
+                        ? '<span class="dm-suggest-badge available">Available</span>'
+                        : '<span class="dm-suggest-badge coming">Coming Soon</span>';
+                    const disabled = v.available ? '' : ' disabled';
+                    const href = v.available ? 'tutorials.php#' + encodeURIComponent(v.id) : '#';
+                    return '<a class="dm-suggest-card' + disabled + '" href="' + href + '"' + (v.available ? ' target="_blank" rel="noopener"' : '') + '>' +
+                        '<div class="dm-suggest-thumb">' + thumbSvg + '</div>' +
+                        '<div class="dm-suggest-info"><h5>' + escapeHtml(v.title) + '</h5><p>' + escapeHtml(v.desc) + '</p></div>' +
+                        badge + '</a>';
+                }).join('');
+                return '<div class="dm-suggest">' +
+                    '<div class="dm-suggest-head">' +
+                    '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' +
+                    'Suggested Videos' +
+                    '</div>' +
+                    '<div class="dm-suggest-grid">' + cards + '</div>' +
+                    '</div>';
+            }
+
+            function openModal(id) {
+                const doc = DOC_DATA[id];
+                if (!doc) return;
+                const statusClass = doc.available ? 'available' : 'coming';
+                const status = doc.available ? 'Available' : 'Coming Soon';
+                const watchHref = 'tutorials.php#' + encodeURIComponent(id);
+                if (watchLink) {
+                    watchLink.href = watchHref;
+                    watchLink.style.display = doc.available ? '' : 'none';
+                }
+                if (fullLink) fullLink.href = 'video_docs.php#doc-' + encodeURIComponent(id);
+                body.innerHTML =
+                    '<article class="doc-modal-article">' +
+                    '<div class="dm-category">' + escapeHtml(doc.category) + '</div>' +
+                    '<h2>' + escapeHtml(doc.title) + '</h2>' +
+                    '<div class="dm-meta">' +
+                        '<span class="status-badge ' + statusClass + '">' + status + '</span>' +
+                        '<span class="duration">' + escapeHtml(doc.duration) + '</span>' +
+                    '</div>' +
+                    '<p>' + escapeHtml(doc.docText) + '</p>' +
+                    '</article>' +
+                    buildSuggestedVideos(id, doc.category);
+                body.scrollTop = 0;
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            window.openDocModal = openModal;
+            window.closeDocModal = closeModal;
+
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
             });
         })();
         (function initDocFloater() {

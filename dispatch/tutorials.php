@@ -91,7 +91,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             width: 42px; height: 42px;
             border-radius: 14px;
             display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
             box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
             transition: transform 0.2s ease;
@@ -352,13 +352,28 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
             border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-            border-top: 2px solid transparent;
             border-radius: 18px;
             overflow: hidden;
-            cursor: pointer;
             display: flex;
             flex-direction: column;
             position: relative;
+            box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.35);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+        }
+        .video-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.45);
+        }
+        html.light .video-card {
+            box-shadow: 0 8px 24px -10px rgba(15, 23, 42, 0.18);
+        }
+        html.light .video-card:hover {
+            box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.25);
+        }
+        body.reduce-motion .video-card,
+        body.reduce-motion .video-card:hover {
+            transition: none !important;
+            transform: none !important;
         }
         .video-thumb {
             position: relative;
@@ -938,7 +953,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .loader-logo {
             width: 56px; height: 56px; border-radius: 14px;
             display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
             box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
             animation: loader-logo-pulse 1.6s ease-in-out infinite;
