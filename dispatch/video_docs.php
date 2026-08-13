@@ -43,6 +43,7 @@ $site = 'DISPATCH';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title><?php echo $site; ?> Video Documentation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -163,6 +164,11 @@ $site = 'DISPATCH';
             display: grid; place-items: center; color: #fff;
             box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
             transition: transform 0.2s ease;
+            animation: brand-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes brand-glow {
+            from { box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent); }
+            to   { box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent); }
         }
         .brand a:hover .brand-icon { transform: rotate(-6deg) scale(1.08); }
         .brand-icon svg { width: 20px; height: 20px; }
@@ -440,8 +446,17 @@ $site = 'DISPATCH';
             border: 1px solid var(--border); border-radius: 12px;
             text-decoration: none; color: inherit;
             cursor: pointer;
+            transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
         }
-        .dm-suggest-card.disabled { opacity: 0.55; cursor: default; pointer-events: none; }
+        .dm-suggest-card:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.35);
+        }
+        .dm-suggest-card.disabled { cursor: default; pointer-events: none; }
+        .dm-suggest-card.disabled .dm-suggest-thumb { opacity: 0.5; }
+        .dm-suggest-card.disabled .dm-suggest-info h5,
+        .dm-suggest-card.disabled .dm-suggest-info p { color: var(--text); }
         .dm-suggest-thumb {
             width: 38px; height: 38px; border-radius: 9px;
             background: color-mix(in srgb, var(--accent) 15%, transparent);
@@ -449,8 +464,8 @@ $site = 'DISPATCH';
         }
         .dm-suggest-thumb svg { width: 17px; height: 17px; color: var(--accent); }
         .dm-suggest-info { flex: 1; min-width: 0; }
-        .dm-suggest-info h5 { font-size: 0.82rem; font-weight: 600; margin: 0 0 0.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .dm-suggest-info p { font-size: 0.7rem; color: var(--text-muted); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .dm-suggest-info h5 { font-size: 0.82rem; font-weight: 700; margin: 0 0 0.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .dm-suggest-info p { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .dm-suggest-badge {
             font-size: 0.62rem; font-weight: 600; padding: 0.15rem 0.45rem;
             border-radius: 5px; flex-shrink: 0;

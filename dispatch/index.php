@@ -15,6 +15,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/svg+xml" href="favicon.svg">
         <meta http-equiv="X-Frame-Options" content="DENY">
         <title>DISPATCH · Video Tutorial Library</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -426,10 +427,17 @@
                 transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease;
             }
             .search-wrap { position: relative; padding: 0 0.4rem 0.5rem; }
-            .search-wrap svg { position: absolute; left: 1rem; top: 50%; transform: translateY(-60%); width: 16px; height: 16px; color: var(--text-dim); }
+            .search-wrap svg {
+                position: absolute; left: 1rem; top: 50%;
+                transform: translateY(-60%);
+                width: 16px; height: 16px;
+                color: var(--text-dim);
+                transition: color 0.2s ease;
+                pointer-events: none;
+            }
             .search-wrap input {
                 width: 100%;
-                padding: 0.7rem 2rem 0.7rem 2.4rem;
+                padding: 0.72rem 2.4rem 0.72rem 2.5rem;
                 background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
@@ -437,11 +445,21 @@
                 border-radius: 12px;
                 color: var(--text);
                 font-size: 0.85rem;
+                font-family: inherit;
                 outline: none;
-                transition: all 0.18s ease;
+                transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
             }
             .search-wrap input::placeholder { color: var(--text-dim); }
-            .search-wrap input:focus { border-color: var(--border-strong); }
+            .search-wrap input:hover {
+                border-color: color-mix(in srgb, var(--border-strong) 70%, transparent);
+                background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+            }
+            .search-wrap input:focus {
+                border-color: var(--accent);
+                background: color-mix(in srgb, var(--surface-solid) 70%, transparent);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+            }
+            .search-wrap:focus-within svg { color: var(--accent); }
 
             .nav-section-title {
                 padding: 1rem 1rem 0.4rem;
@@ -509,17 +527,35 @@
             .content { flex: 1; min-width: 0; padding: 1.75rem clamp(1rem, 3vw, 2.5rem) 3rem; }
             .page-head {
                 display: flex; align-items: center; gap: 1rem;
+                position: sticky;
+                top: 68px;
+                z-index: 50;
+                padding: 0.9rem clamp(1rem, 3vw, 2.5rem);
+                margin-top: -1.75rem;
+                margin-left: calc(-1 * clamp(1rem, 3vw, 2.5rem));
+                margin-right: calc(-1 * clamp(1rem, 3vw, 2.5rem));
                 margin-bottom: 1.5rem;
+                background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+                transition: box-shadow 0.25s ease;
+            }
+            .page-head.scrolled {
+                box-shadow: 0 6px 20px -10px rgba(0, 0, 0, 0.3);
             }
             .page-head .ph-icon {
-                width: 52px; height: 52px; border-radius: 14px;
+                width: 44px; height: 44px; border-radius: 12px;
                 display: grid; place-items: center;
-                background: var(--accent-soft); color: var(--accent);
-                border: 1px solid var(--border-strong);
+                background: #10b981;
+                color: #fff;
+                flex-shrink: 0;
+                box-shadow: 0 4px 12px -6px rgba(16, 185, 129, 0.5);
             }
-            .page-head .ph-icon svg { width: 26px; height: 26px; }
-            .page-head h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
-            .page-head p { margin: 0.15rem 0 0; color: var(--text-muted); font-size: 0.9rem; }
+            .page-head .ph-icon svg { width: 22px; height: 22px; stroke: #fff; }
+            .page-head .ph-text { min-width: 0; flex: 1; }
+            .page-head h2 { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .page-head p { margin: 0.1rem 0 0; color: var(--text-muted); font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
             .section-content { animation: fadeIn 0.35s ease; }
             @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -553,6 +589,7 @@
             }
             .video-card:hover {
                 transform: translateY(-4px);
+                box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.4);
             }
             .video-frame {
                 position: relative;
@@ -721,7 +758,25 @@
                 position: sticky; top: 0; z-index: 2;
                 gap: 1rem;
             }
-            .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
+            .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.6rem; color: var(--text); }
+            .dmh-brand-mark {
+                width: 32px; height: 32px;
+                border-radius: 9px;
+                display: grid; place-items: center;
+                background: #10b981;
+                color: #fff;
+                flex-shrink: 0;
+                box-shadow: 0 4px 10px -4px rgba(16, 185, 129, 0.5);
+                animation: dmh-brand-glow 2.5s ease-in-out infinite alternate;
+            }
+            @keyframes dmh-brand-glow {
+                from { box-shadow: 0 4px 10px -4px rgba(16, 185, 129, 0.4), 0 0 8px rgba(16, 185, 129, 0.25); }
+                to   { box-shadow: 0 4px 14px -3px rgba(16, 185, 129, 0.7), 0 0 16px rgba(16, 185, 129, 0.45); }
+            }
+            .dmh-brand-mark svg { width: 18px; height: 18px; }
+            .dmh-brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+            .dmh-brand-text strong { font-size: 0.95rem; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+            .dmh-brand-text span { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
             .dmh-actions { display: flex; align-items: center; gap: 0.75rem; }
 
             /* Watch tutorial — enhanced primary action */
@@ -748,14 +803,42 @@
 
             /* Secondary "Open full docs" link */
             .dmh-secondary {
-                display: inline-flex; align-items: center; gap: 0.4rem;
-                padding: 0.5rem 1rem; border-radius: 12px; font-size: 0.78rem; font-weight: 600;
-                text-decoration: none; border: 1px solid var(--border-strong); cursor: pointer;
-                color: var(--text); background: var(--surface-2); transition: all 0.15s ease;
+                display: inline-flex; align-items: center; gap: 0.45rem;
+                padding: 0.55rem 1.1rem; border-radius: 12px;
+                font-size: 0.78rem; font-weight: 700; letter-spacing: 0.01em;
+                text-decoration: none;
+                border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+                cursor: pointer;
+                color: var(--accent);
+                background: color-mix(in srgb, var(--accent) 10%, transparent);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
                 font-family: inherit;
+                position: relative;
+                overflow: hidden;
             }
-            .dmh-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-            .dmh-secondary svg { width: 14px; height: 14px; }
+            .dmh-secondary::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 15%, transparent), transparent 60%);
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            }
+            .dmh-secondary:hover {
+                background: color-mix(in srgb, var(--accent) 18%, transparent);
+                border-color: var(--accent);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent) 40%, transparent);
+            }
+            .dmh-secondary:hover::before { opacity: 1; }
+            .dmh-secondary:active { transform: translateY(0) scale(0.97); }
+            .dmh-secondary svg {
+                width: 15px; height: 15px;
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .dmh-secondary:hover svg { transform: translateX(2px) scale(1.08); }
 
             /* Generic secondary action (kept for backwards compat) */
             .dmh-btn {
@@ -827,13 +910,23 @@
             .dm-suggest-card {
                 display: flex; align-items: center; gap: 0.7rem;
                 padding: 0.7rem 0.85rem;
-                border: 1px solid var(--border); border-radius: 12px;
+                border: 1px solid color-mix(in srgb, var(--border-strong) 70%, transparent);
+                border-radius: 12px;
+                background: color-mix(in srgb, var(--surface-2) 50%, transparent);
                 text-decoration: none; color: inherit;
                 cursor: pointer;
-                transition: border-color 0.15s ease, transform 0.15s ease;
+                transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
             }
-            .dm-suggest-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
-            .dm-suggest-card.disabled { opacity: 0.55; cursor: default; pointer-events: none; }
+            .dm-suggest-card:hover {
+                border-color: var(--border-strong);
+                background: var(--surface-2);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.35);
+            }
+            .dm-suggest-card.disabled { cursor: default; pointer-events: none; }
+            .dm-suggest-card.disabled .dm-suggest-thumb { opacity: 0.5; }
+            .dm-suggest-card.disabled .dm-suggest-info h5,
+            .dm-suggest-card.disabled .dm-suggest-info p { color: var(--text); }
             .dm-suggest-thumb {
                 width: 38px; height: 38px; border-radius: 9px;
                 background: color-mix(in srgb, var(--accent) 15%, transparent);
@@ -841,8 +934,8 @@
             }
             .dm-suggest-thumb svg { width: 17px; height: 17px; color: var(--accent); }
             .dm-suggest-info { flex: 1; min-width: 0; }
-            .dm-suggest-info h5 { font-size: 0.82rem; font-weight: 600; margin: 0 0 0.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .dm-suggest-info p { font-size: 0.7rem; color: var(--text-muted); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .dm-suggest-info h5 { font-size: 0.82rem; font-weight: 700; margin: 0 0 0.15rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .dm-suggest-info p { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .dm-suggest-badge {
                 font-size: 0.62rem; font-weight: 600; padding: 0.15rem 0.45rem;
                 border-radius: 5px; flex-shrink: 0;
@@ -1555,7 +1648,6 @@
                             <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
                             <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
                             <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
-                            <div class="color-swatch" style="background:#9A6735" data-color="#9A6735" onclick="setAccentColor('#9A6735')"></div>
                         </div>
                     </div>
                     <div class="setting-row">
@@ -1980,7 +2072,7 @@
                     <div class="ph-icon" id="ph-icon">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     </div>
-                    <div>
+                    <div class="ph-text">
                         <h2 id="page-title">Dashboard</h2>
                         <p id="page-subtitle">Overview and statistics walkthrough</p>
                     </div>
@@ -2377,14 +2469,19 @@
         <div class="doc-modal-overlay" id="doc-modal-overlay">
             <div class="doc-modal" role="dialog" aria-modal="true" aria-label="Documentation view">
                 <div class="doc-modal-header">
-                    <div class="dmh-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg> DISPATCH Docs</div>
+                    <div class="dmh-brand">
+                        <span class="dmh-brand-mark">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        </span>
+                        <span class="dmh-brand-text"><strong>DISPATCH</strong><span>Docs</span></span>
+                    </div>
                     <div class="dmh-actions">
                         <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             Watch tutorial
                         </a>
                         <a class="dmh-secondary" href="video_docs.php" id="doc-modal-open-full">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M21 3l-9 9"/><path d="M15 3h6v6"/></svg>
                             Open full docs
                         </a>
                         <button class="dmh-close" id="doc-modal-close" type="button" aria-label="Close documentation">
@@ -2571,6 +2668,17 @@
             // Initialize video features
             document.addEventListener('DOMContentLoaded', function() {
                 loadVideoUserData();
+
+                // Sticky page-head shadow on scroll
+                const pageHead = document.getElementById('page-head');
+                if (pageHead) {
+                    const onScroll = function() {
+                        if (window.scrollY > 10) pageHead.classList.add('scrolled');
+                        else pageHead.classList.remove('scrolled');
+                    };
+                    window.addEventListener('scroll', onScroll, { passive: true });
+                    onScroll();
+                }
 
                 // Add progress tracking to all videos
                 document.querySelectorAll('.video-frame video').forEach(function(video) {

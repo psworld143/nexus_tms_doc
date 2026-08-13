@@ -14,6 +14,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <title>DISPATCH · Video Tutorial Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,6 +96,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             color: #fff;
             box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
             transition: transform 0.2s ease;
+            animation: brand-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes brand-glow {
+            from { box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent); }
+            to   { box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent); }
         }
         .brand-mark svg { width: 20px; height: 20px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
@@ -433,10 +439,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .video-empty span { font-size: 0.78rem; }
 
         .video-info { padding: 1rem 1.1rem 1.1rem; flex: 1; }
+        .video-info-head {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            gap: 0.5rem; margin-bottom: 0.35rem;
+        }
         .video-info h3 {
             font-size: 0.95rem; font-weight: 600;
-            margin-bottom: 0.35rem;
-            line-height: 1.3;
+            margin: 0; line-height: 1.3;
         }
         .video-info p {
             font-size: 0.82rem;
@@ -451,6 +460,15 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .video-info .video-meta span { display: flex; align-items: center; gap: 0.3rem; }
         .video-info .video-meta svg { width: 13px; height: 13px; }
+        .skill-badge {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            padding: 0.15rem 0.5rem; border-radius: 6px;
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.02em;
+            text-transform: uppercase; flex-shrink: 0;
+        }
+        .skill-badge.beginner { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .skill-badge.intermediate { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .skill-badge.advanced { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 
         /* ===== Watch History Section ===== */
         .watch-history {
@@ -535,59 +553,74 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             display: flex; align-items: center; gap: 0.5rem;
         }
         .modal-action-btn {
-            width: 36px; height: 36px;
+            width: 38px; height: 38px;
             border: 1px solid var(--border);
             border-radius: 10px;
             background: var(--surface);
             color: var(--text-muted);
             cursor: pointer;
             display: grid; place-items: center;
+            transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
         }
-        .modal-action-btn:hover { background: var(--surface-2); color: var(--text); }
-        .modal-action-btn.active { color: #fbbf24; }
+        .modal-action-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); transform: translateY(-1px); }
+        .modal-action-btn:active { transform: translateY(0) scale(0.95); }
+        .modal-action-btn.active { color: #fbbf24; border-color: rgba(251, 191, 36, 0.4); }
         .modal-action-btn.active svg { fill: #fbbf24; }
         .modal-action-btn svg { width: 16px; height: 16px; }
 
         /* ===== Related Videos ===== */
         .related-videos {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.5rem 1.5rem;
             border-top: 1px solid var(--border);
+            background: color-mix(in srgb, var(--bg) 35%, transparent);
         }
         .related-videos h4 {
-            font-size: 0.85rem; font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text-muted);
+            font-size: 0.78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 0.85rem;
+            color: var(--text-dim);
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .related-videos h4::before {
+            content: ''; width: 14px; height: 2px; border-radius: 2px;
+            background: var(--accent); display: inline-block;
         }
         .related-list {
-            display: flex; flex-direction: column; gap: 0.5rem;
+            display: flex; flex-direction: column; gap: 0.4rem;
         }
         .related-item {
-            display: flex; align-items: center; gap: 0.75rem;
-            padding: 0.5rem;
-            border-radius: 8px;
+            display: flex; align-items: center; gap: 0.85rem;
+            padding: 0.55rem 0.7rem;
+            border-radius: 10px;
             cursor: pointer;
+            border: 1px solid transparent;
+            transition: background 0.18s ease, border-color 0.18s ease;
         }
+        .related-item:hover { background: var(--surface); border-color: var(--border); }
         .related-item-thumb {
-            width: 80px; height: 45px;
-            border-radius: 6px;
+            width: 84px; height: 48px;
+            border-radius: 7px;
             background: #000;
             overflow: hidden;
             flex-shrink: 0;
+            position: relative;
         }
         .related-item-thumb video { width: 100%; height: 100%; object-fit: cover; }
         .related-item-info { flex: 1; min-width: 0; }
         .related-item-info h5 {
-            font-size: 0.8rem; font-weight: 600;
+            font-size: 0.82rem; font-weight: 600;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            margin-bottom: 0.1rem;
         }
         .related-item-info p {
-            font-size: 0.7rem; color: var(--text-muted);
+            font-size: 0.72rem; color: var(--text-muted);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         /* ===== Modal Player ===== */
         .modal-overlay {
             position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.88);
             z-index: 2000;
             display: none;
             align-items: center;
@@ -599,29 +632,30 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .modal-overlay.open { display: flex; }
         .modal-player {
             width: 100%;
-            max-width: 960px;
-            background: color-mix(in srgb, var(--surface-solid) 72%, transparent);
+            max-width: 980px;
+            max-height: calc(100vh - 4rem);
+            display: flex; flex-direction: column;
+            background: color-mix(in srgb, var(--surface-solid) 82%, transparent);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-            border-top: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
-            border-radius: 24px;
+            border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow:
-                0 32px 70px -16px rgba(0, 0, 0, 0.65),
-                0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent);
+            box-shadow: 0 32px 70px -20px rgba(0, 0, 0, 0.7);
             animation: modalSlide 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        @keyframes modalSlide { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes modalSlide { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .modal-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1rem 1.5rem;
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 1.1rem 1.5rem;
             border-bottom: 1px solid var(--border);
+            gap: 1rem;
         }
-        .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
-        .modal-header p { font-size: 0.8rem; color: var(--text-muted); }
+        .modal-header > div:first-child { min-width: 0; flex: 1; }
+        .modal-header h3 { font-size: 1.1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .modal-header p { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .modal-close {
-            width: 36px; height: 36px;
+            width: 38px; height: 38px;
             border: 1px solid var(--border);
             border-radius: 10px;
             background: var(--surface);
@@ -629,15 +663,24 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             cursor: pointer;
             font-size: 20px;
             display: grid; place-items: center;
+            flex-shrink: 0;
+            transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
         }
         .modal-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
         .modal-video-frame {
             aspect-ratio: 16 / 9;
             background: #000;
-            border-radius: 14px;
             overflow: hidden;
+            position: relative;
         }
-        .modal-video-frame video { width: 100%; height: 100%; object-fit: contain; }
+        .modal-video-frame video { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .modal-video-frame .video-empty {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 0.75rem; color: var(--text-dim); font-size: 0.85rem;
+            background: #000;
+        }
+        .modal-video-frame .video-empty svg { width: 40px; height: 40px; opacity: 0.5; }
 
         /* ===== No Results ===== */
         .no-results {
@@ -935,6 +978,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .hero h2 { font-size: 1.5rem; }
             .video-grid { grid-template-columns: 1fr; }
             .hero-stats { gap: 1.25rem; }
+            .modal-overlay { padding: 0; }
+            .modal-player { border-radius: 0; max-height: 100vh; }
+            .modal-header { padding: 0.85rem 1rem; }
+            .modal-header h3 { font-size: 0.95rem; }
+            .modal-header p { font-size: 0.72rem; }
+            .related-videos { padding: 1rem; }
+            .related-item-thumb { width: 72px; height: 40px; }
         }
 
         /* ===== Loading Screen ===== */
@@ -1076,7 +1126,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
             </button>
             <button class="icon-btn settings-btn-top" onclick="toggleSettings()" title="Settings" aria-label="Open settings">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="8" cy="17" r="2" fill="currentColor" stroke="none"/></svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             </button>
             <a href="index.php" class="back-home-btn">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
@@ -1100,8 +1150,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     <div class="stat-label">Available Now</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num" id="stat-categories">0</div>
-                    <div class="stat-label">Categories</div>
+                    <div class="stat-num" id="stat-paths">0</div>
+                    <div class="stat-label">Learning Paths</div>
                 </div>
             </div>
         </div>
@@ -1130,39 +1180,31 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <div class="watch-history-grid" id="watch-history-grid"></div>
         </div>
 
-        <!-- Category Filters -->
+        <!-- Learning Path Filters -->
         <div class="filters" id="filters">
             <button class="filter-chip active" data-cat="all" onclick="setFilter('all', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 All <span class="filter-chip-count" id="count-all">0</span>
             </button>
-            <button class="filter-chip" data-cat="Main" onclick="setFilter('Main', this)">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Main <span class="filter-chip-count" id="count-Main">0</span>
+            <button class="filter-chip" data-cat="Getting Started" onclick="setFilter('Getting Started', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v16M4 4h11l-1.5 4L15 12H4"/></svg>
+                Getting Started <span class="filter-chip-count" id="count-Getting-Started">0</span>
             </button>
-            <button class="filter-chip" data-cat="Operations" onclick="setFilter('Operations', this)">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                Operations <span class="filter-chip-count" id="count-Operations">0</span>
-            </button>
-            <button class="filter-chip" data-cat="Fleet" onclick="setFilter('Fleet', this)">
+            <button class="filter-chip" data-cat="Dispatch & Operations" onclick="setFilter('Dispatch & Operations', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
-                Fleet <span class="filter-chip-count" id="count-Fleet">0</span>
+                Dispatch & Ops <span class="filter-chip-count" id="count-Dispatch-Operations">0</span>
             </button>
-            <button class="filter-chip" data-cat="Finance" onclick="setFilter('Finance', this)">
+            <button class="filter-chip" data-cat="Fleet Management" onclick="setFilter('Fleet Management', this)">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-3H5a2 2 0 00-2 2z"/></svg>
+                Fleet Mgmt <span class="filter-chip-count" id="count-Fleet-Management">0</span>
+            </button>
+            <button class="filter-chip" data-cat="Finance & Admin" onclick="setFilter('Finance & Admin', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Finance <span class="filter-chip-count" id="count-Finance">0</span>
+                Finance & Admin <span class="filter-chip-count" id="count-Finance-Admin">0</span>
             </button>
-            <button class="filter-chip" data-cat="Safety" onclick="setFilter('Safety', this)">
+            <button class="filter-chip" data-cat="Safety & Compliance" onclick="setFilter('Safety & Compliance', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                Safety <span class="filter-chip-count" id="count-Safety">0</span>
-            </button>
-            <button class="filter-chip" data-cat="Compliance" onclick="setFilter('Compliance', this)">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Compliance <span class="filter-chip-count" id="count-Compliance">0</span>
-            </button>
-            <button class="filter-chip" data-cat="Account" onclick="setFilter('Account', this)">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                Account <span class="filter-chip-count" id="count-Account">0</span>
+                Safety & Compliance <span class="filter-chip-count" id="count-Safety-Compliance">0</span>
             </button>
         </div>
 
@@ -1192,6 +1234,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     <button class="modal-action-btn" id="modal-pip-btn" onclick="togglePiP()" title="Picture-in-Picture">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
                     </button>
+                    <a class="modal-action-btn" id="modal-download-btn" download title="Download video" style="display:none">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
                     <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
                 </div>
             </div>
@@ -1239,7 +1284,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
                         <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
                         <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
-                        <div class="color-swatch" style="background:#9A6735" data-color="#9A6735" onclick="setAccentColor('#9A6735')"></div>
                     </div>
                 </div>
                 <div class="setting-row">
@@ -1359,67 +1403,62 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
     <script>
         // ===== Video Data =====
+        // path: Learning Path (role-based) | level: Beginner / Intermediate / Advanced
         const VIDEOS = [
-            // Main
-            { id: 'dashboard', title: 'Dashboard', desc: 'Overview and statistics walkthrough', category: 'Main', src: 'videos/dashboard.mp4', duration: '2:30' },
+            // Getting Started
+            { id: 'dashboard', title: 'Dashboard', desc: 'Overview and statistics walkthrough', category: 'Main', path: 'Getting Started', level: 'Beginner', src: 'videos/dashboard.mp4', duration: '2:30' },
+            { id: 'login-signup-tutorial', title: 'Login & Sign Up', desc: 'Account creation and secure login', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/login-signup-tutorial.mp4', duration: '—' },
+            { id: 'settings', title: 'Settings', desc: 'Configure and customize the system', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/settings.mp4', duration: '—' },
+            { id: 'notifications', title: 'Notifications', desc: 'Real-time alerts and updates', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/notifications.mp4', duration: '—' },
 
-            // Operations & Dispatch
-            { id: 'my-loads', title: 'My Loads', desc: 'Create, assign and track loads through dispatch', category: 'Operations', src: 'videos/my-loads.mp4', duration: '—' },
-            { id: 'my-trucks', title: 'My Trucks', desc: 'Add, view and manage your trucks', category: 'Operations', src: 'videos/my-trucks.mp4', duration: '—' },
-            { id: 'my-trailers', title: 'My Trailers', desc: 'Add, view and manage your trailers', category: 'Operations', src: 'videos/my-trailers.mp4', duration: '—' },
-            { id: 'driver-devices', title: 'Driver Devices', desc: 'Manage driver devices and ELD connections', category: 'Operations', src: 'videos/driver-devices.mp4', duration: '—' },
+            // Dispatch & Operations
+            { id: 'my-loads', title: 'My Loads', desc: 'Create, assign and track loads through dispatch', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-loads.mp4', duration: '—' },
+            { id: 'my-drivers', title: 'My Drivers', desc: 'View and manage your drivers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/how-to-register-new-drivers.mp4', duration: '3:45' },
+            { id: 'my-customers', title: 'My Customers', desc: 'Add, view and manage your customers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-customers.mp4', duration: '—' },
+            { id: 'my-shippers-list', title: 'My Shippers List', desc: 'Manage your list of shippers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-shippers-list.mp4', duration: '—' },
+            { id: 'my-consignee-lists', title: 'My Consignee Lists', desc: 'Manage your consignee lists and locations', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-consignee-lists.mp4', duration: '—' },
+            { id: 'my-brokers', title: 'My Brokers', desc: 'Add and manage your brokers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-brokers.mp4', duration: '—' },
+            { id: 'driver-devices', title: 'Driver Devices', desc: 'Manage driver devices and ELD connections', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/driver-devices.mp4', duration: '—' },
+            { id: 'activity', title: 'Activity', desc: 'System activity logs', category: 'Account', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/activity.mp4', duration: '—' },
 
             // Fleet Management
-            { id: 'truck-lease-pricing', title: 'Truck Lease Pricing', desc: 'Review and configure lease pricing', category: 'Fleet', src: 'videos/truck-lease-pricing.mp4', duration: '—' },
-            { id: 'truck-rentals', title: 'Truck Rentals', desc: 'Manage truck rentals and equipment', category: 'Fleet', src: 'videos/truck-rentals.mp4', duration: '—' },
-            { id: 'lease-agreements', title: 'Lease Agreements', desc: 'Create, sign and track lease agreements', category: 'Fleet', src: 'videos/lease-agreements.mp4', duration: '—' },
-            { id: 'hire-drivers', title: 'Hire Drivers', desc: 'Recruit and onboard new drivers', category: 'Fleet', src: 'videos/hire-drivers.mp4', duration: '—' },
-            { id: 'job-postings', title: 'Job Postings', desc: 'Create and manage driver job postings', category: 'Fleet', src: 'videos/job-postings.mp4', duration: '—' },
-            { id: 'external-drivers', title: 'External Drivers', desc: 'Manage external and owner-operator drivers', category: 'Fleet', src: 'videos/external-drivers.mp4', duration: '—' },
-            { id: 'shout-out-scripts', title: 'Shout Out Scripts', desc: 'Ready-made scripts for your marketing', category: 'Fleet', src: 'videos/shout-out-scripts.mp4', duration: '—' },
-            { id: 'shout-out-vlogs', title: 'Shout Out Vlogs', desc: 'Shout out vlog examples and walkthroughs', category: 'Fleet', src: 'videos/shout-out-vlogs.mp4', duration: '—' },
+            { id: 'my-trucks', title: 'My Trucks', desc: 'Add, view and manage your trucks', category: 'Operations', path: 'Fleet Management', level: 'Intermediate', src: 'videos/my-trucks.mp4', duration: '—' },
+            { id: 'my-trailers', title: 'My Trailers', desc: 'Add, view and manage your trailers', category: 'Operations', path: 'Fleet Management', level: 'Intermediate', src: 'videos/my-trailers.mp4', duration: '—' },
+            { id: 'truck-lease-pricing', title: 'Truck Lease Pricing', desc: 'Review and configure lease pricing', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/truck-lease-pricing.mp4', duration: '—' },
+            { id: 'truck-rentals', title: 'Truck Rentals', desc: 'Manage truck rentals and equipment', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/truck-rentals.mp4', duration: '—' },
+            { id: 'lease-agreements', title: 'Lease Agreements', desc: 'Create, sign and track lease agreements', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/lease-agreements.mp4', duration: '—' },
+            { id: 'hire-drivers', title: 'Hire Drivers', desc: 'Recruit and onboard new drivers', category: 'Fleet', path: 'Fleet Management', level: 'Intermediate', src: 'videos/hire-drivers.mp4', duration: '—' },
+            { id: 'job-postings', title: 'Job Postings', desc: 'Create and manage driver job postings', category: 'Fleet', path: 'Fleet Management', level: 'Intermediate', src: 'videos/job-postings.mp4', duration: '—' },
+            { id: 'external-drivers', title: 'External Drivers', desc: 'Manage external and owner-operator drivers', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/external-drivers.mp4', duration: '—' },
+            { id: 'shout-out-scripts', title: 'Shout Out Scripts', desc: 'Ready-made scripts for your marketing', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/shout-out-scripts.mp4', duration: '—' },
+            { id: 'shout-out-vlogs', title: 'Shout Out Vlogs', desc: 'Shout out vlog examples and walkthroughs', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/shout-out-vlogs.mp4', duration: '—' },
+            { id: 'maintenance', title: 'Maintenance', desc: 'Vehicle maintenance scheduling', category: 'Account', path: 'Fleet Management', level: 'Intermediate', src: 'videos/maintenance.mp4', duration: '—' },
 
-            // Finance
-            { id: 'accounting', title: 'Accounting', desc: 'Manage accounting and financial records', category: 'Finance', src: 'videos/accounting.mp4', duration: '—' },
-            { id: 'my-payroll', title: 'My Payroll', desc: 'Run and manage payroll', category: 'Finance', src: 'videos/my-payroll.mp4', duration: '—' },
-            { id: 'my-factoring-company', title: 'My Factoring Company', desc: 'Connect and manage your factoring company', category: 'Finance', src: 'videos/my-factoring-company.mp4', duration: '—' },
-            { id: 'fuel-reports', title: 'Fuel Reports', desc: 'View fuel spending reports and analytics', category: 'Finance', src: 'videos/fuel-reports.mp4', duration: '—' },
-            { id: 'my-fuel-cards', title: 'My Fuel Cards', desc: 'Manage fuel cards and spending limits', category: 'Finance', src: 'videos/my-fuel-cards.mp4', duration: '—' },
-            { id: 'loans-cash-advance', title: 'Loans/Cash Advance', desc: 'Apply for and track loans and cash advances', category: 'Finance', src: 'videos/loans-cash-advance.mp4', duration: '—' },
-            { id: 'api-integration-keys', title: 'API Integration Keys', desc: 'Generate and manage API integration keys', category: 'Finance', src: 'videos/api-integration-keys.mp4', duration: '—' },
+            // Finance & Admin
+            { id: 'accounting', title: 'Accounting', desc: 'Manage accounting and financial records', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/accounting.mp4', duration: '—' },
+            { id: 'my-payroll', title: 'My Payroll', desc: 'Run and manage payroll', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/my-payroll.mp4', duration: '—' },
+            { id: 'my-factoring-company', title: 'My Factoring Company', desc: 'Connect and manage your factoring company', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/my-factoring-company.mp4', duration: '—' },
+            { id: 'fuel-reports', title: 'Fuel Reports', desc: 'View fuel spending reports and analytics', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/fuel-reports.mp4', duration: '—' },
+            { id: 'my-fuel-cards', title: 'My Fuel Cards', desc: 'Manage fuel cards and spending limits', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/my-fuel-cards.mp4', duration: '—' },
+            { id: 'loans-cash-advance', title: 'Loans/Cash Advance', desc: 'Apply for and track loans and cash advances', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/loans-cash-advance.mp4', duration: '—' },
+            { id: 'api-integration-keys', title: 'API Integration Keys', desc: 'Generate and manage API integration keys', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/api-integration-keys.mp4', duration: '—' },
+            { id: 'documents', title: 'Documents', desc: 'Centralized document management', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/documents.mp4', duration: '—' },
+            { id: 'permit-insurance', title: 'Permit & Insurance', desc: 'Permits, licenses and insurance', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/permit-insurance.mp4', duration: '—' },
+            { id: 'reporting', title: 'Reporting', desc: 'Reports and operational insights', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/reporting.mp4', duration: '—' },
 
-            // Safety
-            { id: 'my-fleet', title: 'My Fleet', desc: 'Monitor your fleet safety and compliance', category: 'Safety', src: 'videos/my-fleet.mp4', duration: '—' },
-            { id: 'emergency-monitoring', title: 'Emergency Monitoring', desc: 'Set up and respond to emergency alerts', category: 'Safety', src: 'videos/emergency-monitoring.mp4', duration: '—' },
-            { id: 'safety-assessments', title: 'Safety Assessments', desc: 'Run and review safety assessments', category: 'Safety', src: 'videos/safety-assessments.mp4', duration: '—' },
-            { id: 'maintenance-monitoring', title: 'Maintenance Monitoring', desc: 'Monitor maintenance and vehicle health', category: 'Safety', src: 'videos/maintenance-monitoring.mp4', duration: '—' },
-            { id: 'safety-violations', title: 'Safety Violations', desc: 'Safety-related compliance issues', category: 'Safety', src: 'videos/safety-violations.mp4', duration: '—' },
-
-            // Compliance
-            { id: 'compliance-monitoring', title: 'Compliance Monitoring', desc: 'Track compliance metrics in real time', category: 'Compliance', src: 'videos/compliance-monitoring.mp4', duration: '—' },
-            { id: 'compliance-software-options', title: 'Compliance Software Options', desc: 'Explore compliance software integrations', category: 'Compliance', src: 'videos/compliance-software-options.mp4', duration: '—' },
-            { id: 'drug-alcohol-testing', title: 'Drug & Alcohol Testing', desc: 'Manage drug and alcohol testing programs', category: 'Compliance', src: 'videos/drug-alcohol-testing.mp4', duration: '—' },
-            { id: 'violations', title: 'Violations', desc: 'Track compliance violations', category: 'Compliance', src: 'videos/violations.mp4', duration: '—' },
-            { id: 'driver-violations', title: 'Driver Violations', desc: 'Driver-specific violations', category: 'Compliance', src: 'videos/driver-violations.mp4', duration: '—' },
-            { id: 'vehicle-violations', title: 'Vehicle Violations', desc: 'Vehicle-related violations', category: 'Compliance', src: 'videos/vehicle-violations.mp4', duration: '—' },
-            { id: 'hos', title: 'HOS', desc: 'Hours of Service compliance', category: 'Compliance', src: 'videos/hos.mp4', duration: '—' },
-
-            // People & Customers
-            { id: 'my-drivers', title: 'My Drivers', desc: 'View and manage your drivers', category: 'Operations', src: 'videos/how-to-register-new-drivers.mp4', duration: '3:45' },
-            { id: 'my-customers', title: 'My Customers', desc: 'Add, view and manage your customers', category: 'Operations', src: 'videos/my-customers.mp4', duration: '—' },
-            { id: 'my-shippers-list', title: 'My Shippers List', desc: 'Manage your list of shippers', category: 'Operations', src: 'videos/my-shippers-list.mp4', duration: '—' },
-            { id: 'my-consignee-lists', title: 'My Consignee Lists', desc: 'Manage your consignee lists and locations', category: 'Operations', src: 'videos/my-consignee-lists.mp4', duration: '—' },
-            { id: 'my-brokers', title: 'My Brokers', desc: 'Add and manage your brokers', category: 'Operations', src: 'videos/my-brokers.mp4', duration: '—' },
-
-            // Account
-            { id: 'notifications', title: 'Notifications', desc: 'Real-time alerts and updates', category: 'Account', src: 'videos/notifications.mp4', duration: '—' },
-            { id: 'activity', title: 'Activity', desc: 'System activity logs', category: 'Account', src: 'videos/activity.mp4', duration: '—' },
-            { id: 'maintenance', title: 'Maintenance', desc: 'Vehicle maintenance scheduling', category: 'Account', src: 'videos/maintenance.mp4', duration: '—' },
-            { id: 'documents', title: 'Documents', desc: 'Centralized document management', category: 'Account', src: 'videos/documents.mp4', duration: '—' },
-            { id: 'permit-insurance', title: 'Permit & Insurance', desc: 'Permits, licenses and insurance', category: 'Account', src: 'videos/permit-insurance.mp4', duration: '—' },
-            { id: 'reporting', title: 'Reporting', desc: 'Reports and operational insights', category: 'Account', src: 'videos/reporting.mp4', duration: '—' },
-            { id: 'settings', title: 'Settings', desc: 'Configure and customize the system', category: 'Account', src: 'videos/settings.mp4', duration: '—' },
-            { id: 'login-signup-tutorial', title: 'Login & Sign Up', desc: 'Account creation and secure login', category: 'Account', src: 'videos/login-signup-tutorial.mp4', duration: '—' },
+            // Safety & Compliance
+            { id: 'my-fleet', title: 'My Fleet', desc: 'Monitor your fleet safety and compliance', category: 'Safety', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/my-fleet.mp4', duration: '—' },
+            { id: 'emergency-monitoring', title: 'Emergency Monitoring', desc: 'Set up and respond to emergency alerts', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/emergency-monitoring.mp4', duration: '—' },
+            { id: 'safety-assessments', title: 'Safety Assessments', desc: 'Run and review safety assessments', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/safety-assessments.mp4', duration: '—' },
+            { id: 'maintenance-monitoring', title: 'Maintenance Monitoring', desc: 'Monitor maintenance and vehicle health', category: 'Safety', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/maintenance-monitoring.mp4', duration: '—' },
+            { id: 'safety-violations', title: 'Safety Violations', desc: 'Safety-related compliance issues', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/safety-violations.mp4', duration: '—' },
+            { id: 'compliance-monitoring', title: 'Compliance Monitoring', desc: 'Track compliance metrics in real time', category: 'Compliance', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/compliance-monitoring.mp4', duration: '—' },
+            { id: 'compliance-software-options', title: 'Compliance Software Options', desc: 'Explore compliance software integrations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/compliance-software-options.mp4', duration: '—' },
+            { id: 'drug-alcohol-testing', title: 'Drug & Alcohol Testing', desc: 'Manage drug and alcohol testing programs', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/drug-alcohol-testing.mp4', duration: '—' },
+            { id: 'violations', title: 'Violations', desc: 'Track compliance violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/violations.mp4', duration: '—' },
+            { id: 'driver-violations', title: 'Driver Violations', desc: 'Driver-specific violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/driver-violations.mp4', duration: '—' },
+            { id: 'vehicle-violations', title: 'Vehicle Violations', desc: 'Vehicle-related violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/vehicle-violations.mp4', duration: '—' },
+            { id: 'hos', title: 'HOS', desc: 'Hours of Service compliance', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/hos.mp4', duration: '—' },
         ];
 
         // Videos that actually exist on the server
@@ -1652,10 +1691,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             grid.innerHTML = '';
 
             const filtered = VIDEOS.filter(function(v) {
-                const matchesFilter = currentFilter === 'all' || v.category === currentFilter;
+                const matchesFilter = currentFilter === 'all' || v.path === currentFilter;
                 const matchesSearch = !searchTerm ||
                     v.title.toLowerCase().indexOf(searchTerm) !== -1 ||
                     v.desc.toLowerCase().indexOf(searchTerm) !== -1 ||
+                    v.path.toLowerCase().indexOf(searchTerm) !== -1 ||
                     v.category.toLowerCase().indexOf(searchTerm) !== -1;
                 return matchesFilter && matchesSearch;
             });
@@ -1670,6 +1710,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 const available = isAvailable(v.src);
                 const isFav = favorites.indexOf(v.id) !== -1;
                 const progress = videoProgress[v.id] ? videoProgress[v.id].progress : 0;
+                const levelClass = (v.level || 'Beginner').toLowerCase();
 
                 const card = document.createElement('div');
                 card.className = 'video-card';
@@ -1685,7 +1726,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
                 card.innerHTML =
                     '<div class="video-thumb">' +
-                        '<span class="category-badge">' + escapeHtml(v.category) + '</span>' +
+                        '<span class="category-badge">' + escapeHtml(v.path) + '</span>' +
                         thumb +
                         '<button class="favorite-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + escapeHtml(v.id) + '\', event)" title="Add to favorites">' +
                             '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>' +
@@ -1695,7 +1736,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         (progress > 0 ? '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' : '') +
                     '</div>' +
                     '<div class="video-info">' +
-                        '<h3>' + escapeHtml(v.title) + '</h3>' +
+                        '<div class="video-info-head">' +
+                            '<h3>' + escapeHtml(v.title) + '</h3>' +
+                            '<span class="skill-badge ' + levelClass + '">' + escapeHtml(v.level || 'Beginner') + '</span>' +
+                        '</div>' +
                         '<p>' + escapeHtml(v.desc) + '</p>' +
                         '<div class="video-meta">' +
                             '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>' + escapeHtml(v.category) + '</span>' +
@@ -1730,6 +1774,19 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
             // Update favorite button
             updateModalFavoriteButton();
+
+            // Update download button
+            const dlBtn = document.getElementById('modal-download-btn');
+            if (dlBtn) {
+                if (isAvailable(v.src)) {
+                    dlBtn.href = v.src;
+                    dlBtn.download = v.id + '.mp4';
+                    dlBtn.style.display = 'grid';
+                } else {
+                    dlBtn.removeAttribute('href');
+                    dlBtn.style.display = 'none';
+                }
+            }
 
             // Render related videos
             renderRelatedVideos(v);
@@ -2127,17 +2184,25 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         function updateStats() {
             document.getElementById('stat-total').textContent = VIDEOS.length;
             document.getElementById('stat-available').textContent = AVAILABLE_VIDEOS.length;
-            const cats = {};
-            VIDEOS.forEach(function(v) { cats[v.category] = true; });
-            document.getElementById('stat-categories').textContent = Object.keys(cats).length;
+            const paths = {};
+            VIDEOS.forEach(function(v) { paths[v.path] = true; });
+            document.getElementById('stat-paths').textContent = Object.keys(paths).length;
             // Update filter chip counts
             var allEl = document.getElementById('count-all');
             if (allEl) allEl.textContent = VIDEOS.length;
-            var catCounts = {};
-            VIDEOS.forEach(function(v) { catCounts[v.category] = (catCounts[v.category] || 0) + 1; });
-            Object.keys(catCounts).forEach(function(cat) {
-                var el = document.getElementById('count-' + cat);
-                if (el) el.textContent = catCounts[cat];
+            var pathCounts = {};
+            VIDEOS.forEach(function(v) { pathCounts[v.path] = (pathCounts[v.path] || 0) + 1; });
+            // Map path names to element IDs (spaces/& replaced with -)
+            var pathIdMap = {
+                'Getting Started': 'count-Getting-Started',
+                'Dispatch & Operations': 'count-Dispatch-Operations',
+                'Fleet Management': 'count-Fleet-Management',
+                'Finance & Admin': 'count-Finance-Admin',
+                'Safety & Compliance': 'count-Safety-Compliance'
+            };
+            Object.keys(pathCounts).forEach(function(path) {
+                var el = document.getElementById(pathIdMap[path] || ('count-' + path.replace(/[^a-zA-Z0-9]/g, '-')));
+                if (el) el.textContent = pathCounts[path];
             });
         }
 

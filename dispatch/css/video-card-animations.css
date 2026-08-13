@@ -31,15 +31,21 @@
 /* ===== Doc Card Hover ===== */
 .doc-card {
     transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.22s ease,
+        box-shadow 0.22s ease,
+        background 0.22s ease;
 }
 
 .doc-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     border-color: var(--border-strong);
-    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 14px 32px -14px rgba(0, 0, 0, 0.35);
+    background: color-mix(in srgb, var(--surface) 92%, var(--accent) 3%);
+}
+
+.doc-card:active {
+    transform: translateY(-2px) scale(0.99);
 }
 
 /* Top accent bar on hover */
@@ -48,41 +54,48 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--accent), transparent);
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent);
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.22s ease;
 }
 
 .doc-card:hover::before {
     opacity: 1;
 }
 
-/* ===== Doc Card Highlight (from URL hash) ===== */
-.doc-card.doc-highlight {
-    border-color: var(--border-strong);
-    box-shadow: 0 0 0 2px var(--border-strong), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
-    animation: docHighlightPulse 1.5s ease;
+/* ===== Doc Card Title Hover ===== */
+.doc-card h3 {
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-@keyframes docHighlightPulse {
-    0%, 100% {
-        box-shadow: 0 0 0 2px var(--border-strong), 0 12px 28px -12px rgba(0, 0, 0, 0.3);
-    }
-    50% {
-        box-shadow:
-            0 0 0 3px var(--border-strong),
-            0 12px 28px -12px rgba(0, 0, 0, 0.3);
-    }
+.doc-card:hover h3 {
+    color: var(--accent);
+    transform: translateX(2px);
 }
 
-/* ===== Status Badge ===== */
+/* ===== Doc Card Status Badge ===== */
 .status-badge {
     animation: badgeFadeIn 0.3s ease both;
+    transition: transform 0.2s ease;
+}
+
+.doc-card:hover .status-badge {
+    transform: scale(1.05);
 }
 
 @keyframes badgeFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ===== Doc Card Highlight (from URL hash) ===== */
+.doc-card.doc-highlight {
+    animation: docHighlightFade 1.5s ease;
+}
+
+@keyframes docHighlightFade {
+    0% { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
+    100% { background: var(--surface); }
 }
 
 /* ===== Suggested Video Card Animations ===== */
@@ -101,6 +114,7 @@
 .dm-suggest-card {
     animation: suggestCardSlideIn 0.3s ease both;
     transition:
+        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
         border-color 0.2s ease,
         background 0.2s ease,
         box-shadow 0.2s ease;
@@ -117,16 +131,22 @@
 .dm-suggest-card:hover {
     border-color: var(--border-strong);
     background: var(--surface-2);
-    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.dm-suggest-card:active {
+    transform: translateY(0) scale(0.98);
 }
 
 /* Suggested card thumb on hover */
 .dm-suggest-card:hover .dm-suggest-thumb {
     background: color-mix(in srgb, var(--accent) 25%, transparent);
+    transform: scale(1.08);
 }
 
 .dm-suggest-thumb {
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Suggested card icon on hover */
@@ -140,11 +160,12 @@
 
 /* Suggested badge on hover */
 .dm-suggest-badge {
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .dm-suggest-card:hover .dm-suggest-badge {
     opacity: 0.85;
+    transform: scale(1.05);
 }
 
 /* ===== Suggested Videos Section Header ===== */
@@ -206,7 +227,7 @@
     position: absolute;
     bottom: -4px; left: 0;
     width: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent);
     transition: width 0.3s ease;
 }
 
@@ -234,6 +255,35 @@
     animation: modalContentFadeIn 0.3s ease both;
 }
 
+/* ===== Doc Modal Header Button Transitions ===== */
+.dmh-watch,
+.dmh-close {
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.18s ease,
+                filter 0.18s ease,
+                background 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease;
+}
+
+/* ===== Doc Card Meta Row ===== */
+.doc-meta {
+    transition: opacity 0.2s ease;
+}
+
+.doc-card:hover .doc-meta {
+    opacity: 0.95;
+}
+
+/* ===== Doc Card Duration ===== */
+.duration {
+    transition: color 0.2s ease;
+}
+
+.doc-card:hover .duration {
+    color: var(--text-muted);
+}
+
 /* ===== Reduce Motion Support ===== */
 body.reduce-motion .doc-card,
 body.reduce-motion .dm-suggest-card,
@@ -251,7 +301,9 @@ body.reduce-motion .dm-suggest-card:hover {
 }
 
 body.reduce-motion .doc-card::before,
-body.reduce-motion .category-title::after {
+body.reduce-motion .category-title::after,
+body.reduce-motion .dm-suggest-thumb,
+body.reduce-motion .doc-card h3 {
     transition: none !important;
 }
 
@@ -259,5 +311,14 @@ body.reduce-motion .category-title::after {
 @media (max-width: 640px) {
     .doc-card:hover {
         transform: translateY(-2px);
+    }
+    .doc-card:hover h3 {
+        transform: translateX(1px);
+    }
+    .dm-suggest-card:hover {
+        transform: translateY(-1px);
+    }
+    .dm-suggest-card:hover .dm-suggest-thumb {
+        transform: scale(1.04);
     }
 }
