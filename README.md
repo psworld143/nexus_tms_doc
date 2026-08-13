@@ -34,6 +34,7 @@ nexus_tms_doc/
     ├── favicon.svg
     ├── css/
     │   ├── dispatch-ui.css            ← shared graphics & motion (all pages)
+    │   ├── loaders.css                ← unique loading screens (all pages)
     │   ├── tailwind-config.js
     │   ├── tutorials-animations.css
     │   └── video-card-animations.css

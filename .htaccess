@@ -32,8 +32,8 @@
     # Video files are large and rarely change — cache for 30 days.
     ExpiresByType video/mp4 "access plus 30 days"
 
-    # SVG favicon.
-    ExpiresByType image/svg+xml "access plus 7 days"
+    # SVG favicon — short cache so icon changes propagate quickly.
+    ExpiresByType image/svg+xml "access plus 1 hour"
 
     # HTML / PHP pages should always be revalidated.
     ExpiresByType text/html "access plus 0 seconds"
@@ -52,7 +52,7 @@
         Header set Cache-Control "public, max-age=2592000, immutable"
     </FilesMatch>
     <FilesMatch "\.svg$">
-        Header set Cache-Control "public, max-age=604800"
+        Header set Cache-Control "public, max-age=3600"
     </FilesMatch>
 
     # Never cache rendered PHP pages.

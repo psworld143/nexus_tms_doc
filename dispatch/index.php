@@ -15,13 +15,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/svg+xml" href="favicon.svg">
+        <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+        <link rel="shortcut icon" href="favicon.svg?v=2">
         <meta http-equiv="X-Frame-Options" content="DENY">
         <title>DISPATCH · Video Tutorial Library</title>
+        <script>
+            // Apply saved theme BEFORE body renders to prevent loading screen flash
+            (function(){try{var t=localStorage.getItem('dispatch-theme');if(t==='light'){document.documentElement.classList.remove('dark');}else if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();
+        </script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/dispatch-ui.css">
+        <link rel="stylesheet" href="css/loaders.css?v=4">
         <style>
             :root {
                 /* Dark theme (default) */
@@ -1438,58 +1444,7 @@
                 left: 0;
             }
 
-        /* ===== Loading Screen ===== */
-        .loader-screen {
-            position: fixed; inset: 0;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.25rem;
-            background: var(--bg-grad-1);
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        .loader-screen.hidden { opacity: 0; visibility: hidden; }
-        .loader-logo {
-            width: 56px; height: 56px;
-            border-radius: 14px;
-            display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            color: #fff;
-            box-shadow: 0 6px 20px -6px rgba(16, 185, 129, 0.6);
-            animation: loader-logo-pulse 1.6s ease-in-out infinite;
-        }
-        @keyframes loader-logo-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.92); opacity: 0.7; }
-        }
-        .loader-logo svg { width: 28px; height: 28px; }
-        .loader-text {
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            color: var(--text);
-            text-transform: uppercase;
-        }
-        .loader-bar {
-            width: 180px;
-            height: 3px;
-            border-radius: 999px;
-            background: var(--border);
-            overflow: hidden;
-        }
-        .loader-bar-fill {
-            height: 100%;
-            width: 40%;
-            border-radius: 999px;
-            background: var(--accent);
-            animation: loader-slide 1.2s ease-in-out infinite;
-        }
-        @keyframes loader-slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(250%); }
-        }
+        /* Loading screen styles moved to css/loaders.css */
 
         .doc-floater {
             position: fixed;
@@ -1522,9 +1477,14 @@
     <body>
 
         <!-- Loading Screen -->
-        <div class="loader-screen" id="loader-screen">
-            <div class="loader-logo">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <div class="loader-screen loader-screen--home" id="loader-screen">
+            <div class="loader-visual">
+                <div class="loader-speed"></div>
+                <div class="loader-truck">
+                    <div class="loader-wheel loader-wheel--1"></div>
+                    <div class="loader-wheel loader-wheel--2"></div>
+                    <div class="loader-wheel loader-wheel--3"></div>
+                </div>
             </div>
             <div class="loader-text">DISPATCH</div>
             <div class="loader-bar"><div class="loader-bar-fill"></div></div>
@@ -2734,43 +2694,61 @@
                 {
                     target: '.brand',
                     title: 'Welcome to DISPATCH!',
-                    desc: 'This is your video tutorial library for Dispatch LMS. Let me show you around in 8 quick steps.',
+                    desc: 'This is your video tutorial library for the DISPATCH trucking management system. It covers 47 modules across Operations, Fleet, Finance, Safety, Compliance, and more. Let me show you around in 10 quick steps.',
                     action: null
                 },
                 {
                     target: '#sidebar-search',
                     title: 'Search Tutorials',
-                    desc: 'Type here to search through all 45+ tutorial sections. The sidebar filters in real-time as you type. The search assistant also syncs with this bar.',
+                    desc: 'Type here to search through all 47 tutorial sections. The sidebar filters in real-time as you type — matching titles, categories, and sub-items instantly.',
                     action: null
                 },
                 {
                     target: '.nav-section-title.main-menu',
-                    title: 'Navigation Menu',
-                    desc: 'Browse tutorials by category — Operations, Fleet, Finance, Safety, Compliance, and more. Click any item to open that tutorial section.',
+                    title: 'Navigation Categories',
+                    desc: 'Browse tutorials by category — Operations & Dispatch, Fleet Management, Lease Management, Recruitment, Marketing, Financial, Safety & Compliance, Customer Relations, and System. Click any item to jump to that section.',
                     action: null
                 },
                 {
-                    target: '.icon-btn.tour-btn',
-                    title: 'Video Tutorial Library',
-                    desc: 'Click this button to open the standalone video tutorial gallery — a grid view of all videos with search, category filters, and a full-screen modal player.',
+                    target: '#sidebar-toggle-btn',
+                    title: 'Collapse the Sidebar',
+                    desc: 'Click this button to collapse the sidebar into a compact icon-only mode for more screen space, or expand it back to full width. Your preference is saved automatically.',
+                    action: null
+                },
+                {
+                    target: '.page-head',
+                    title: 'Section Header',
+                    desc: 'This header shows the title and description of the tutorial section you are currently viewing. It stays at the top of the content area as you navigate.',
+                    action: null
+                },
+                {
+                    target: '.icon-btn.tutorials-btn',
+                    title: 'Tutorial Gallery',
+                    desc: 'Click this button to open the standalone tutorial gallery — a full grid view of every video with search, category filters, watch history, and a full-screen modal player.',
+                    action: null
+                },
+                {
+                    target: '.icon-btn.docs-btn',
+                    title: 'Documentation',
+                    desc: 'This button opens the searchable documentation index. Next to it is the Video Docs button, which shows documentation cards that open a fullscreen reader modal with the long-form text for every module.',
                     action: null
                 },
                 {
                     target: '.icon-btn.settings-btn-top',
                     title: 'Settings Panel',
-                    desc: 'Customize your experience — change the accent color, adjust font size, toggle dark mode, set video playback speed, enable accessibility features, and more.',
+                    desc: 'Customize your experience — change the accent color, adjust font size, toggle dark mode, set video autoplay, enable accessibility features like reduce-motion and high-contrast, and sync search across panels.',
                     action: null
                 },
                 {
                     target: '.icon-btn.theme-btn',
                     title: 'Dark & Light Theme',
-                    desc: 'Toggle between dark and light mode. Your preference is saved automatically and persists across page reloads.',
+                    desc: 'Toggle between dark and light mode with one click. Your preference is saved automatically and persists across page reloads and all DISPATCH pages.',
                     action: null
                 },
                 {
-                    target: '.icon-btn.refresh-btn',
+                    target: '.icon-btn.tour-btn',
                     title: 'You\'re All Set!',
-                    desc: 'That\'s the tour! Use the refresh button to reload the page anytime. Explore the sidebar to find all tutorials, or use the search assistant for quick help. Enjoy learning DISPATCH!',
+                    desc: 'That\'s the tour! Click this button anytime to replay it. Use the sidebar to browse all 47 tutorials, the search bar for quick lookup, or the gallery button for the full video grid. Enjoy learning DISPATCH!',
                     action: null
                 }
             ];

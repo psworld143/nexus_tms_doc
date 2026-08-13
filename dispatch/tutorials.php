@@ -14,14 +14,20 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="shortcut icon" href="favicon.svg?v=2">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <title>DISPATCH · Video Tutorial Library</title>
+    <script>
+        // Apply saved theme BEFORE body renders to prevent loading screen flash
+        (function(){try{var t=localStorage.getItem('dispatch-theme');if(t==='light'){document.documentElement.classList.add('light');}else{document.documentElement.classList.remove('light');}}catch(e){}})();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tutorials-animations.css">
     <link rel="stylesheet" href="css/dispatch-ui.css">
+    <link rel="stylesheet" href="css/loaders.css?v=4">
     <style>
         :root {
             --bg: #0b0f19;
@@ -988,50 +994,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .related-item-thumb { width: 72px; height: 40px; }
         }
 
-        /* ===== Loading Screen ===== */
-        .loader-screen {
-            position: fixed; inset: 0; z-index: 9999;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            gap: 1.25rem; text-align: center;
-            background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        html.light .loader-screen {
-            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
-        }
-        .loader-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .loader-logo {
-            width: 56px; height: 56px; border-radius: 14px;
-            display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            color: #fff;
-            box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
-            animation: loader-logo-pulse 1.6s ease-in-out infinite;
-        }
-        @keyframes loader-logo-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.92); opacity: 0.7; }
-        }
-        .loader-logo svg { width: 28px; height: 28px; }
-        .loader-text {
-            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em;
-            color: var(--text); text-transform: uppercase;
-            text-align: center;
-        }
-        .loader-bar {
-            width: 180px; height: 3px; border-radius: 999px;
-            background: var(--border); overflow: hidden;
-        }
-        .loader-bar-fill {
-            height: 100%; width: 40%; border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            animation: loader-slide 1.2s ease-in-out infinite;
-        }
-        @keyframes loader-slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(250%); }
-        }
+        /* Loading screen styles moved to css/loaders.css */
 
         /* ===== ACD_TMS Curved Vector Background ===== */
         .bg-canvas {
@@ -1056,9 +1019,14 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 </head>
 <body>
     <!-- Loading Screen -->
-    <div class="loader-screen" id="loader-screen">
-        <div class="loader-logo">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+    <div class="loader-screen loader-screen--tutorials" id="loader-screen">
+        <div class="loader-visual">
+            <div class="loader-play"></div>
+            <div class="loader-orbit">
+                <div class="loader-orbit-dot loader-orbit-dot--1"></div>
+                <div class="loader-orbit-dot loader-orbit-dot--2"></div>
+                <div class="loader-orbit-dot loader-orbit-dot--3"></div>
+            </div>
         </div>
         <div class="loader-text">DISPATCH Video Tutorials</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>

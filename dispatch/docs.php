@@ -66,13 +66,19 @@ $totalAvailable = count($availableVideos);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="shortcut icon" href="favicon.svg?v=2">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <title>DISPATCH · Documentation</title>
+    <script>
+        // Apply saved theme BEFORE body renders to prevent loading screen flash
+        (function(){try{var t=localStorage.getItem('dispatch-theme');if(t==='light'){document.documentElement.classList.add('light');}else{document.documentElement.classList.remove('light');}}catch(e){}})();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/dispatch-ui.css">
+    <link rel="stylesheet" href="css/loaders.css?v=4">
     <style>
         :root {
             --bg: #0b0f19;
@@ -146,48 +152,7 @@ $totalAvailable = count($availableVideos);
         }
         .skip-link:focus { top: 1rem; }
 
-        /* Loading screen */
-        /* ===== Loading Screen ===== */
-        .loader-screen {
-            position: fixed; inset: 0; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem;
-            background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        html.light .loader-screen {
-            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
-        }
-        .loader-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .loader-logo {
-            width: 56px; height: 56px; border-radius: 14px;
-            display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            color: #fff;
-            box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
-            animation: loader-logo-pulse 1.6s ease-in-out infinite;
-        }
-        @keyframes loader-logo-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.92); opacity: 0.7; }
-        }
-        .loader-logo svg { width: 28px; height: 28px; }
-        .loader-text {
-            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em;
-            color: var(--text); text-transform: uppercase;
-        }
-        .loader-bar {
-            width: 180px; height: 3px; border-radius: 999px;
-            background: var(--border); overflow: hidden;
-        }
-        .loader-bar-fill {
-            height: 100%; width: 40%; border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            animation: loader-slide 1.2s ease-in-out infinite;
-        }
-        @keyframes loader-slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(250%); }
-        }
+        /* Loading screen styles moved to css/loaders.css */
 
         /* Reading progress */
         .progress-bar {
@@ -1051,9 +1016,13 @@ $totalAvailable = count($availableVideos);
         </svg>
     </div>
 
-    <div class="loader-screen" id="loader">
-        <div class="loader-logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+    <div class="loader-screen loader-screen--docs" id="loader">
+        <div class="loader-visual">
+            <div class="loader-line loader-line--1"></div>
+            <div class="loader-line loader-line--2"></div>
+            <div class="loader-line loader-line--3"></div>
+            <div class="loader-line loader-line--4"></div>
+            <div class="loader-cursor"></div>
         </div>
         <div class="loader-text">DISPATCH Documentation</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>

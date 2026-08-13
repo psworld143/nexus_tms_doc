@@ -1,0 +1,513 @@
+/* ============================================================
+   DISPATCH — Unique Loading Screens
+   Used by: index.php, tutorials.php, docs.php, video_docs.php
+
+   Each page gets a distinct loader variant via a modifier class
+   on .loader-screen:
+     .loader-screen--home        → index.php      (truck driving)
+     .loader-screen--tutorials   → tutorials.php  (play pulse + orbit)
+     .loader-screen--docs        → docs.php       (document typing)
+     .loader-screen--video-docs  → video_docs.php (film strip)
+
+   Shared base styles are defined once; each variant overrides
+   only the animation and visual treatment. All loaders use the
+   page's existing CSS custom properties (--accent, --accent-2,
+   --bg-grad-1, --text, --border, etc.) so they adapt to dark /
+   light themes automatically.
+   ============================================================ */
+
+/* ============================================================
+   Shared base
+   ============================================================ */
+
+/* The loading screen uses ONLY the page's existing CSS custom
+   properties (--bg, --bg-2, --accent, --accent-2) for its
+   background. These variables are already theme-aware in every
+   page:
+     - :root defines dark values
+     - html.light (tutorials/docs/video_docs) overrides to light
+     - html:not(.dark) (index.php) overrides to light
+   So the loader automatically follows the theme with NO theme
+   class selectors needed here. An early inline script in each
+   page's <head> applies the saved theme class to <html> before
+   the loading screen renders, preventing a flash. */
+.loader-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(900px 500px at 80% -10%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%),
+        radial-gradient(700px 400px at -10% 10%, color-mix(in srgb, var(--accent-2) 8%, transparent), transparent 55%),
+        linear-gradient(160deg, var(--bg-2) 0%, var(--bg) 55%, var(--bg-2) 100%);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Shared text + bar — variants can override */
+.loader-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--text);
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.9;
+}
+
+.loader-bar {
+    width: 200px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+}
+
+.loader-bar-fill {
+    height: 100%;
+    width: 40%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    animation: loader-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes loader-slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+
+/* ============================================================
+   Variant 1 — Home (index.php): Truck driving across
+   A truck silhouette drives left-to-right with motion lines
+   and a road beneath. Matches the favicon logo concept.
+   ============================================================ */
+.loader-screen--home .loader-visual {
+    position: relative;
+    width: 120px;
+    height: 60px;
+    overflow: hidden;
+}
+
+/* Road line */
+.loader-screen--home .loader-visual::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--border-strong) 0,
+        var(--border-strong) 8px,
+        transparent 8px,
+        transparent 14px
+    );
+    animation: loader-road 0.4s linear infinite;
+}
+
+@keyframes loader-road {
+    from { background-position: 0 0; }
+    to   { background-position: -14px 0; }
+}
+
+/* Truck */
+.loader-screen--home .loader-truck {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 48px;
+    height: 30px;
+    animation: loader-truck-drive 2.2s ease-in-out infinite;
+}
+
+@keyframes loader-truck-drive {
+    0%   { transform: translateX(-50px); }
+    100% { transform: translateX(122px); }
+}
+
+/* Truck body (trailer) */
+.loader-screen--home .loader-truck::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    width: 30px;
+    height: 18px;
+    border-radius: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* Truck cab */
+.loader-screen--home .loader-truck::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    width: 16px;
+    height: 14px;
+    border-radius: 3px 4px 4px 3px;
+    background: var(--accent-2);
+    opacity: 0.85;
+}
+
+/* Wheels */
+.loader-screen--home .loader-wheel {
+    position: absolute;
+    bottom: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text);
+    animation: loader-wheel-spin 0.5s linear infinite;
+}
+
+.loader-screen--home .loader-wheel--1 { left: 6px; }
+.loader-screen--home .loader-wheel--2 { left: 26px; }
+.loader-screen--home .loader-wheel--3 { right: 4px; }
+
+@keyframes loader-wheel-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Speed lines behind the truck */
+.loader-screen--home .loader-speed {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    width: 120px;
+    height: 20px;
+}
+
+.loader-screen--home .loader-speed::before,
+.loader-screen--home .loader-speed::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--accent);
+    opacity: 0;
+    animation: loader-speed-line 1.5s ease-in infinite;
+}
+
+.loader-screen--home .loader-speed::before {
+    top: 2px;
+    width: 20px;
+    animation-delay: 0s;
+}
+
+.loader-screen--home .loader-speed::after {
+    top: 10px;
+    width: 14px;
+    animation-delay: 0.3s;
+}
+
+@keyframes loader-speed-line {
+    0%   { left: 50px; opacity: 0; }
+    30%  { opacity: 0.6; }
+    100% { left: -20px; opacity: 0; }
+}
+
+/* ============================================================
+   Variant 2 — Tutorials (tutorials.php): Play pulse + orbiting dots
+   A play triangle pulses inside a circle while dots orbit around it.
+   ============================================================ */
+.loader-screen--tutorials .loader-visual {
+    position: relative;
+    width: 72px;
+    height: 72px;
+}
+
+/* Pulsing ring */
+.loader-screen--tutorials .loader-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    animation: loader-ring-pulse 1.8s ease-out infinite;
+}
+
+@keyframes loader-ring-pulse {
+    0%   { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Inner circle with play triangle */
+.loader-screen--tutorials .loader-play {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #059669);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 45%, transparent);
+    animation: loader-play-breathe 1.6s ease-in-out infinite;
+}
+
+@keyframes loader-play-breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(0.9); }
+}
+
+/* Play triangle */
+.loader-screen--tutorials .loader-play::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 12px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 3px;
+}
+
+/* Orbiting dots container */
+.loader-screen--tutorials .loader-orbit {
+    position: absolute;
+    inset: 0;
+    animation: loader-orbit-spin 2s linear infinite;
+}
+
+@keyframes loader-orbit-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Orbit dots */
+.loader-screen--tutorials .loader-orbit-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent-2) 60%, transparent);
+}
+
+.loader-screen--tutorials .loader-orbit-dot--1 { top: 0; left: 50%; transform: translateX(-50%); }
+.loader-screen--tutorials .loader-orbit-dot--2 { bottom: 0; left: 50%; transform: translateX(-50%); opacity: 0.5; }
+.loader-screen--tutorials .loader-orbit-dot--3 { top: 50%; right: 0; transform: translateY(-50%); opacity: 0.7; }
+
+/* ============================================================
+   Variant 3 — Docs (docs.php): Document with typing lines
+   A document icon with lines that appear one-by-one (typing effect)
+   and a blinking cursor.
+   ============================================================ */
+.loader-screen--docs .loader-visual {
+    position: relative;
+    width: 52px;
+    height: 64px;
+}
+
+/* Document body */
+.loader-screen--docs .loader-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--surface-solid);
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* Folded corner */
+.loader-screen--docs .loader-visual::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+/* Text lines */
+.loader-screen--docs .loader-line {
+    position: absolute;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--accent);
+    opacity: 0;
+    animation: loader-line-type 2s ease-in-out infinite;
+}
+
+.loader-screen--docs .loader-line--1 { top: 18px; left: 10px; width: 28px; animation-delay: 0s; }
+.loader-screen--docs .loader-line--2 { top: 26px; left: 10px; width: 22px; animation-delay: 0.3s; }
+.loader-screen--docs .loader-line--3 { top: 34px; left: 10px; width: 30px; animation-delay: 0.6s; }
+.loader-screen--docs .loader-line--4 { top: 42px; left: 10px; width: 18px; animation-delay: 0.9s; }
+
+@keyframes loader-line-type {
+    0%       { opacity: 0; transform: scaleX(0); transform-origin: left; }
+    20%      { opacity: 1; transform: scaleX(1); transform-origin: left; }
+    80%      { opacity: 1; transform: scaleX(1); transform-origin: left; }
+    100%     { opacity: 0; transform: scaleX(1); transform-origin: left; }
+}
+
+/* Blinking cursor */
+.loader-screen--docs .loader-cursor {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    width: 2px;
+    height: 8px;
+    background: var(--accent-2);
+    animation: loader-cursor-blink 0.7s step-end infinite;
+}
+
+@keyframes loader-cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+}
+
+/* ============================================================
+   Variant 4 — Video Docs (video_docs.php): Film strip
+   A vertical film strip with sprocket holes that scroll, and a
+   center play button that fades in/out.
+   ============================================================ */
+.loader-screen--video-docs .loader-visual {
+    position: relative;
+    width: 56px;
+    height: 64px;
+    border-radius: 6px;
+    background: var(--surface-solid);
+    border: 2px solid var(--accent);
+    overflow: hidden;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* Top + bottom sprocket rows */
+.loader-screen--video-docs .loader-visual::before,
+.loader-screen--video-docs .loader-visual::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 4px,
+            var(--bg) 4px,
+            var(--bg) 8px,
+            transparent 8px,
+            transparent 12px
+        );
+}
+
+.loader-screen--video-docs .loader-visual::before {
+    top: 0;
+    border-bottom: 2px solid var(--accent);
+}
+
+.loader-screen--video-docs .loader-visual::after {
+    bottom: 0;
+    border-top: 2px solid var(--accent);
+}
+
+/* Center play button */
+.loader-screen--video-docs .loader-film-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #059669);
+    display: grid;
+    place-items: center;
+    animation: loader-film-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes loader-film-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50%      { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; }
+}
+
+/* Play triangle */
+.loader-screen--video-docs .loader-film-play::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 9px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 2px;
+}
+
+/* Scanning line that moves vertically through the frame */
+.loader-screen--video-docs .loader-film-scan {
+    position: absolute;
+    top: 12px;
+    left: 4px;
+    right: 4px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+    animation: loader-film-scan 1.6s ease-in-out infinite;
+}
+
+@keyframes loader-film-scan {
+    0%, 100% { top: 12px; opacity: 0.3; }
+    50%      { top: 50px; opacity: 1; }
+}
+
+/* ============================================================
+   Reduce motion — disable all loader animations
+   ============================================================ */
+body.reduce-motion .loader-bar-fill,
+body.reduce-motion .loader-screen--home .loader-truck,
+body.reduce-motion .loader-screen--home .loader-wheel,
+body.reduce-motion .loader-screen--home .loader-visual::after,
+body.reduce-motion .loader-screen--home .loader-speed::before,
+body.reduce-motion .loader-screen--home .loader-speed::after,
+body.reduce-motion .loader-screen--tutorials .loader-visual::before,
+body.reduce-motion .loader-screen--tutorials .loader-play,
+body.reduce-motion .loader-screen--tutorials .loader-orbit,
+body.reduce-motion .loader-screen--docs .loader-line,
+body.reduce-motion .loader-screen--docs .loader-cursor,
+body.reduce-motion .loader-screen--video-docs .loader-film-play,
+body.reduce-motion .loader-screen--video-docs .loader-film-scan {
+    animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loader-bar-fill,
+    .loader-screen--home .loader-truck,
+    .loader-screen--home .loader-wheel,
+    .loader-screen--home .loader-visual::after,
+    .loader-screen--home .loader-speed::before,
+    .loader-screen--home .loader-speed::after,
+    .loader-screen--tutorials .loader-visual::before,
+    .loader-screen--tutorials .loader-play,
+    .loader-screen--tutorials .loader-orbit,
+    .loader-screen--docs .loader-line,
+    .loader-screen--docs .loader-cursor,
+    .loader-screen--video-docs .loader-film-play,
+    .loader-screen--video-docs .loader-film-scan {
+        animation: none !important;
+    }
+}
+
+/* ============================================================
+   Mobile — slightly smaller visuals
+   ============================================================ */
+@media (max-width: 640px) {
+    .loader-screen--home .loader-visual { width: 100px; height: 50px; }
+    .loader-screen--tutorials .loader-visual { width: 60px; height: 60px; }
+    .loader-screen--docs .loader-visual { width: 44px; height: 54px; }
+    .loader-screen--video-docs .loader-visual { width: 48px; height: 56px; }
+    .loader-bar { width: 160px; }
+}

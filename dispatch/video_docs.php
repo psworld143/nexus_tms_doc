@@ -43,13 +43,19 @@ $site = 'DISPATCH';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="shortcut icon" href="favicon.svg?v=2">
     <title><?php echo $site; ?> Video Documentation</title>
+    <script>
+        // Apply saved theme BEFORE body renders to prevent loading screen flash
+        (function(){try{var t=localStorage.getItem('dispatch-theme');if(t==='light'){document.documentElement.classList.add('light');}else{document.documentElement.classList.remove('light');}}catch(e){}})();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/video-card-animations.css">
     <link rel="stylesheet" href="css/dispatch-ui.css">
+    <link rel="stylesheet" href="css/loaders.css?v=4">
     <style>
         :root {
             --bg: #0b0f19;
@@ -178,49 +184,7 @@ $site = 'DISPATCH';
         .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
         .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
 
-        /* ===== Loading Screen ===== */
-        .loader-screen {
-            position: fixed; inset: 0; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            gap: 1.25rem; text-align: center;
-            background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        html.light .loader-screen {
-            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 55%, #f1f5f9 100%);
-        }
-        .loader-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .loader-logo {
-            width: 56px; height: 56px; border-radius: 14px;
-            display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), #059669);
-            color: #fff;
-            box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 60%, transparent);
-            animation: loader-logo-pulse 1.6s ease-in-out infinite;
-        }
-        @keyframes loader-logo-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.92); opacity: 0.7; }
-        }
-        .loader-logo svg { width: 28px; height: 28px; }
-        .loader-text {
-            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.2em;
-            color: var(--text); text-transform: uppercase;
-            text-align: center;
-        }
-        .loader-bar {
-            width: 180px; height: 3px; border-radius: 999px;
-            background: var(--border); overflow: hidden;
-        }
-        .loader-bar-fill {
-            height: 100%; width: 40%; border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            animation: loader-slide 1.2s ease-in-out infinite;
-        }
-        @keyframes loader-slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(250%); }
-        }
+        /* Loading screen styles moved to css/loaders.css */
         /* Back Button — X modal style (red) */
         .back-home-btn {
             display: grid;
@@ -803,9 +767,10 @@ $site = 'DISPATCH';
     </div>
 
     <!-- Loading Screen -->
-    <div class="loader-screen" id="loader-screen">
-        <div class="loader-logo">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+    <div class="loader-screen loader-screen--video-docs" id="loader-screen">
+        <div class="loader-visual">
+            <div class="loader-film-scan"></div>
+            <div class="loader-film-play"></div>
         </div>
         <div class="loader-text">DISPATCH Video Docs</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
