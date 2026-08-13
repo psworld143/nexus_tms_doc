@@ -1,0 +1,76 @@
+# Apache config for the DISPATCH documentation microsite.
+# Place this file at the project root: C:\xampp\htdocs\nexus_tms_doc\.htaccess
+# Requires mod_headers, mod_expires, and mod_rewrite (all enabled in a default XAMPP install).
+
+# ---------------------------------------------------------------------------
+# Protect the shared data file — it is meant to be include-only, never served.
+# ---------------------------------------------------------------------------
+<Files "doc_data.php">
+    Require all denied
+</Files>
+
+# Block dotfiles / editor cruft from being served.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# ---------------------------------------------------------------------------
+# Caching
+# ---------------------------------------------------------------------------
+
+# Long-lived caching for static assets served from dispatch/css/ and dispatch/videos/.
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # CSS — immutable-ish, cache for 7 days.
+    ExpiresByType text/css "access plus 7 days"
+
+    # JavaScript config files.
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType text/javascript "access plus 7 days"
+
+    # Video files are large and rarely change — cache for 30 days.
+    ExpiresByType video/mp4 "access plus 30 days"
+
+    # SVG favicon.
+    ExpiresByType image/svg+xml "access plus 7 days"
+
+    # HTML / PHP pages should always be revalidated.
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/xhtml+xml "access plus 0 seconds"
+</IfModule>
+
+# Add explicit Cache-Control headers as a fallback / supplement to mod_expires.
+<IfModule mod_headers.c>
+    <FilesMatch "\.css$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+    <FilesMatch "\.(js|mjs)$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+    <FilesMatch "\.mp4$">
+        Header set Cache-Control "public, max-age=2592000, immutable"
+    </FilesMatch>
+    <FilesMatch "\.svg$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+
+    # Never cache rendered PHP pages.
+    <FilesMatch "\.php$">
+        Header set Cache-Control "no-store, must-revalidate"
+    </FilesMatch>
+
+    # Security headers as a backstop. Each PHP page also sets these via header(),
+    # but defining them here covers any future static HTML and ensures they are
+    # present even if a PHP file is reached without executing its header() calls.
+    Header set X-Frame-Options "DENY"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Default document
+# ---------------------------------------------------------------------------
+<IfModule mod_dir.c>
+    DirectoryIndex index.php index.html
+</IfModule>

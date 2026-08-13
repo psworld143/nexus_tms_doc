@@ -1,0 +1,451 @@
+/* ============================================================
+   DISPATCH — Shared UI Graphics & Motion Enhancements
+   Used by: index.php, tutorials.php, docs.php, video_docs.php
+
+   This file is ADDITIVE: it layers on top of each page's inline
+   <style> block and the per-page animation files
+   (tutorials-animations.css, video-card-animations.css). It does
+   not redefine layout or theme variables — only enhances the
+   look and feel of shared chrome (topbar, sidebar, icon buttons,
+   nav links, toasts, modals) and provides reusable motion
+   utilities (scroll reveal, gradient text, glow, shimmer).
+
+   Load order: link this AFTER the page's inline <style> so these
+   enhancements win where intended. All custom properties used
+   (--accent, --accent-2, --surface, --border, --border-strong,
+   --text, --text-muted, --danger, --radius, --shadow) are
+   defined per-page in :root.
+   ============================================================ */
+
+/* ===== Motion tokens (local to this file) ===== */
+:root {
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --glow-accent: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent),
+                   0 8px 24px -8px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* ============================================================
+   Topbar — subtle entrance + glass refinement
+   ============================================================ */
+@keyframes topbarSlideDown {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.topbar {
+    animation: topbarSlideDown 0.5s var(--ease-out-quint) both;
+}
+
+/* Faint top accent line that fades in after the bar settles */
+.topbar::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        color-mix(in srgb, var(--accent) 40%, transparent) 30%,
+        color-mix(in srgb, var(--accent-2) 40%, transparent) 70%,
+        transparent);
+    opacity: 0;
+    animation: topbarAccentFade 0.8s var(--ease-smooth) 0.4s both;
+}
+
+@keyframes topbarAccentFade {
+    to { opacity: 1; }
+}
+
+/* ============================================================
+   Icon buttons — spring hover, glow ring, press feedback
+   ============================================================ */
+.icon-btn {
+    transition:
+        transform 0.22s var(--ease-spring),
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.22s ease !important;
+}
+
+.icon-btn:hover {
+    box-shadow: var(--glow-accent);
+}
+
+.icon-btn:active {
+    transform: translateY(0) scale(0.94) !important;
+}
+
+/* Icon scale on hover for a tactile feel */
+.icon-btn svg {
+    transition: transform 0.22s var(--ease-spring);
+}
+
+.icon-btn:hover svg {
+    transform: scale(1.12);
+}
+
+.icon-btn:active svg {
+    transform: scale(0.92);
+}
+
+/* Accent-tinted icon buttons get a stronger glow on hover */
+.icon-btn.refresh-btn:hover,
+.icon-btn.tutorials-btn:hover,
+.icon-btn.docs-btn:hover,
+.icon-btn.video-docs-btn:hover,
+.icon-btn.theme-btn:hover,
+.icon-btn.settings-btn-top:hover,
+.icon-btn.tour-btn:hover {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent),
+                0 10px 28px -10px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Tooltip slide-up refinement (existing ::after tooltip) */
+.icon-btn[title]:hover::after {
+    transition: opacity 0.18s ease, transform 0.22s var(--ease-spring) !important;
+}
+
+/* ============================================================
+   Sidebar nav — sliding accent indicator + icon micro-motion
+   ============================================================ */
+.nav-link {
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        transform 0.2s var(--ease-smooth),
+        padding-left 0.2s var(--ease-smooth) !important;
+}
+
+.nav-link:hover {
+    transform: translateX(2px);
+}
+
+.nav-link svg {
+    transition: transform 0.22s var(--ease-spring), color 0.18s ease;
+}
+
+.nav-link:hover svg {
+    transform: scale(1.12);
+}
+
+.nav-link.active svg {
+    transform: scale(1.08);
+}
+
+/* Active indicator: animate width/opacity instead of popping in */
+.nav-link.active::before {
+    animation: navActiveBar 0.3s var(--ease-out-quint) both;
+}
+
+@keyframes navActiveBar {
+    from { transform: scaleY(0); opacity: 0; }
+    to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* Chevron rotation gets a springier curve */
+.chevron {
+    transition: transform 0.28s var(--ease-spring) !important;
+}
+
+/* Submenu expand gets a smoother curve */
+.submenu {
+    transition: max-height 0.32s var(--ease-smooth) !important;
+}
+
+/* ============================================================
+   Generic card lift — applies to any card-like surface using
+   .card or [data-card]. Page-specific card classes
+   (.video-card, .doc-card) keep their own rules; this only
+   adds a soft entrance for elements that opt in via .card.
+   ============================================================ */
+.card {
+    transition:
+        transform 0.22s var(--ease-spring),
+        border-color 0.22s ease,
+        box-shadow 0.22s ease,
+        background 0.22s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 38px -16px rgba(0, 0, 0, 0.45);
+}
+
+/* ============================================================
+   Announcement toast — spring entrance + countdown progress bar
+   ============================================================ */
+.announce-toast {
+    transition:
+        transform 0.45s var(--ease-spring),
+        opacity 0.3s ease !important;
+}
+
+/* Thin progress bar that drains while the toast is visible.
+   Add <span class="announce-progress"></span> inside .announce-toast
+   to use it; the JS that calls showAnnouncement() already removes
+   .show after 2600ms, matching the animation duration below. */
+.announce-progress {
+    position: absolute;
+    left: 0; bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transform-origin: left;
+    transform: scaleX(0);
+    border-radius: 0 0 var(--radius) var(--radius);
+    opacity: 0;
+}
+
+.announce-toast.show .announce-progress {
+    opacity: 1;
+    animation: announceProgressDrain 2.6s linear forwards;
+}
+
+@keyframes announceProgressDrain {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}
+
+/* Toast icon subtle pulse when shown */
+.announce-toast.show .announce-icon {
+    animation: announceIconPop 0.4s var(--ease-spring) both;
+}
+
+@keyframes announceIconPop {
+    0%   { transform: scale(0.6); opacity: 0; }
+    60%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   Documentation modal — backdrop blur + content scale-in
+   ============================================================ */
+.doc-modal-overlay {
+    backdrop-filter: blur(6px) saturate(140%);
+    -webkit-backdrop-filter: blur(6px) saturate(140%);
+}
+
+.doc-modal-overlay.open .doc-modal {
+    animation: docModalScaleIn 0.32s var(--ease-out-quint) both;
+}
+
+@keyframes docModalScaleIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================================
+   Reusable utilities
+   ============================================================ */
+
+/* Gradient text — apply .grad-text to any heading/label */
+.grad-text {
+    background: linear-gradient(135deg, var(--text), var(--accent) 55%, var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Soft accent glow around an element */
+.glow {
+    box-shadow: var(--glow-accent);
+}
+
+.glow-strong {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent),
+                0 12px 36px -10px color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+/* Pulse glow — gentle attention loop (e.g. "new" badges, live dots) */
+.pulse-glow {
+    animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+    50%      { box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 0%, transparent); }
+}
+
+/* Live status dot */
+.live-dot {
+    position: relative;
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.live-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    animation: liveDotRing 1.8s ease-out infinite;
+}
+
+@keyframes liveDotRing {
+    0%   { transform: scale(0.6); opacity: 0.9; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ============================================================
+   Scroll reveal — add .reveal to any element; it fades/slides in
+   when .in is added. Pair with an IntersectionObserver in JS:
+
+       const io = new IntersectionObserver((es) => es.forEach(e =>
+         e.isIntersecting && e.target.classList.add('in')), { threshold: 0.12 });
+       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+   ============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 0.5s var(--ease-out-quint),
+        transform 0.5s var(--ease-out-quint);
+    will-change: opacity, transform;
+}
+
+.reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger helpers — apply .reveal.d-1 .. .d-6 to delay children */
+.reveal.d-1 { transition-delay: 0.06s; }
+.reveal.d-2 { transition-delay: 0.12s; }
+.reveal.d-3 { transition-delay: 0.18s; }
+.reveal.d-4 { transition-delay: 0.24s; }
+.reveal.d-5 { transition-delay: 0.30s; }
+.reveal.d-6 { transition-delay: 0.36s; }
+
+/* ============================================================
+   Skeleton shimmer — for loading placeholders.
+   Usage: <div class="skeleton"></div>
+   ============================================================ */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-2);
+    border-radius: 8px;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+        transparent,
+        color-mix(in srgb, var(--text) 8%, transparent),
+        transparent);
+    animation: skeletonShimmer 1.4s infinite;
+}
+
+@keyframes skeletonShimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* ============================================================
+   Focus ring polish — consistent visible focus for keyboard users
+   ============================================================ */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+.nav-link:focus-visible,
+.icon-btn:focus-visible,
+.tut-nav-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 10px;
+}
+
+/* ============================================================
+   Custom scrollbar refinement (pages already set base styles;
+   this adds a hover state and a smoother thumb)
+   ============================================================ */
+::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--border-strong) 85%, transparent);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--accent) 45%, var(--border-strong));
+    background-clip: padding-box;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+/* ============================================================
+   Selection color
+   ============================================================ */
+::selection {
+    background: color-mix(in srgb, var(--accent) 30%, transparent);
+    color: var(--text);
+}
+
+/* ============================================================
+   Reduce motion — honor the user's accessibility setting.
+   Each page toggles body.reduce-motion via the Settings panel;
+   this file also respects the OS-level media query.
+   ============================================================ */
+body.reduce-motion .topbar,
+body.reduce-motion .announce-toast,
+body.reduce-motion .doc-modal-overlay.open .doc-modal,
+body.reduce-motion .reveal,
+body.reduce-motion .pulse-glow,
+body.reduce-motion .live-dot::after,
+body.reduce-motion .skeleton::after,
+body.reduce-motion .announce-progress {
+    animation: none !important;
+    transition: none !important;
+}
+
+body.reduce-motion .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+body.reduce-motion .icon-btn:hover,
+body.reduce-motion .nav-link:hover,
+body.reduce-motion .card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .topbar,
+    .announce-toast,
+    .doc-modal-overlay.open .doc-modal,
+    .reveal,
+    .pulse-glow,
+    .live-dot::after,
+    .skeleton::after,
+    .announce-progress {
+        animation: none !important;
+        transition: none !important;
+    }
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ============================================================
+   Mobile — soften transforms on touch devices
+   ============================================================ */
+@media (max-width: 640px) {
+    .icon-btn:hover svg { transform: scale(1.06); }
+    .nav-link:hover { transform: translateX(1px); }
+    .card:hover { transform: translateY(-2px); }
+}
