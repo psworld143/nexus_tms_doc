@@ -28,6 +28,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="stylesheet" href="css/tutorials-animations.css">
     <link rel="stylesheet" href="css/dispatch-ui.css">
     <link rel="stylesheet" href="css/loaders.css?v=4">
+    <link rel="stylesheet" href="css/tour-guide.css?v=1">
     <style>
         :root {
             --bg: #0b0f19;
@@ -1019,16 +1020,16 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 </head>
 <body>
     <!-- Loading Screen -->
-    <div class="loader-screen loader-screen--tutorials" id="loader-screen">
+    <div class="loader-screen loader-screen--home" id="loader-screen">
         <div class="loader-visual">
-            <div class="loader-play"></div>
-            <div class="loader-orbit">
-                <div class="loader-orbit-dot loader-orbit-dot--1"></div>
-                <div class="loader-orbit-dot loader-orbit-dot--2"></div>
-                <div class="loader-orbit-dot loader-orbit-dot--3"></div>
+            <div class="loader-speed"></div>
+            <div class="loader-truck">
+                <div class="loader-wheel loader-wheel--1"></div>
+                <div class="loader-wheel loader-wheel--2"></div>
+                <div class="loader-wheel loader-wheel--3"></div>
             </div>
         </div>
-        <div class="loader-text">DISPATCH Video Tutorials</div>
+        <div class="loader-text">DISPATCH</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
     </div>
 
@@ -2196,5 +2197,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             }, 800);
         });
     </script>
+    <script src="js/tour-guide.js?v=1"></script>
 </body>
 </html>
