@@ -1016,15 +1016,16 @@ $totalAvailable = count($availableVideos);
         </svg>
     </div>
 
-    <div class="loader-screen loader-screen--docs" id="loader">
+    <div class="loader-screen loader-screen--home" id="loader">
         <div class="loader-visual">
-            <div class="loader-line loader-line--1"></div>
-            <div class="loader-line loader-line--2"></div>
-            <div class="loader-line loader-line--3"></div>
-            <div class="loader-line loader-line--4"></div>
-            <div class="loader-cursor"></div>
+            <div class="loader-speed"></div>
+            <div class="loader-truck">
+                <div class="loader-wheel loader-wheel--1"></div>
+                <div class="loader-wheel loader-wheel--2"></div>
+                <div class="loader-wheel loader-wheel--3"></div>
+            </div>
         </div>
-        <div class="loader-text">DISPATCH Documentation</div>
+        <div class="loader-text">DISPATCH</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
     </div>
 
@@ -1641,6 +1642,7 @@ $totalAvailable = count($availableVideos);
             setTimeout(function () {
                 const loader = document.getElementById('loader');
                 if (loader) loader.classList.add('hidden');
+                setTimeout(function () { if (loader) loader.style.display = 'none'; }, 600);
             }, 500);
         });
         (function initDocFloater() {

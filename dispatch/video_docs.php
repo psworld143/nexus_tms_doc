@@ -767,12 +767,16 @@ $site = 'DISPATCH';
     </div>
 
     <!-- Loading Screen -->
-    <div class="loader-screen loader-screen--video-docs" id="loader-screen">
+    <div class="loader-screen loader-screen--home" id="loader-screen">
         <div class="loader-visual">
-            <div class="loader-film-scan"></div>
-            <div class="loader-film-play"></div>
+            <div class="loader-speed"></div>
+            <div class="loader-truck">
+                <div class="loader-wheel loader-wheel--1"></div>
+                <div class="loader-wheel loader-wheel--2"></div>
+                <div class="loader-wheel loader-wheel--3"></div>
+            </div>
         </div>
-        <div class="loader-text">DISPATCH Video Docs</div>
+        <div class="loader-text">DISPATCH</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
     </div>
 

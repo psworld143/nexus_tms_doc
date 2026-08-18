@@ -3,93 +3,6 @@
    Used by: tutorials.php
    ============================================================ */
 
-/* ===== Hero Animations ===== */
-@keyframes heroFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.hero {
-    animation: heroFadeIn 0.5s ease both;
-}
-
-.hero h2 {
-    background: linear-gradient(135deg, var(--text), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Hero stats fade in */
-@keyframes statFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.stat {
-    animation: statFadeIn 0.4s ease both;
-}
-
-.stat:nth-child(1) { animation-delay: 0.12s; }
-.stat:nth-child(2) { animation-delay: 0.20s; }
-.stat:nth-child(3) { animation-delay: 0.28s; }
-
-.stat-num {
-    transition: color 0.2s ease;
-}
-
-.stat:hover .stat-num {
-    color: var(--accent);
-}
-
-/* ===== Page Hero ===== */
-.page-hero {
-    animation: heroFadeIn 0.4s ease both;
-}
-
-/* ===== Search Bar ===== */
-@keyframes searchSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.search-bar {
-    animation: searchSlideIn 0.3s ease both;
-    animation-delay: 0.1s;
-}
-
-.search-bar input {
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.search-bar input:focus {
-    border-color: var(--border-strong);
-}
-
-.search-bar:focus-within svg {
-    color: var(--accent);
-}
-
 /* ===== Sidebar Nav Items ===== */
 @keyframes navItemFadeIn {
     from {
@@ -102,18 +15,18 @@
     }
 }
 
-.tut-nav-item {
+.sb-item {
     animation: navItemFadeIn 0.3s ease both;
 }
 
-.tut-nav-item:nth-child(1) { animation-delay: 0.04s; }
-.tut-nav-item:nth-child(2) { animation-delay: 0.08s; }
-.tut-nav-item:nth-child(3) { animation-delay: 0.12s; }
-.tut-nav-item:nth-child(4) { animation-delay: 0.16s; }
-.tut-nav-item:nth-child(5) { animation-delay: 0.20s; }
-.tut-nav-item:nth-child(6) { animation-delay: 0.24s; }
-.tut-nav-item:nth-child(7) { animation-delay: 0.28s; }
-.tut-nav-item:nth-child(8) { animation-delay: 0.32s; }
+.sb-item:nth-child(1) { animation-delay: 0.04s; }
+.sb-item:nth-child(2) { animation-delay: 0.08s; }
+.sb-item:nth-child(3) { animation-delay: 0.12s; }
+.sb-item:nth-child(4) { animation-delay: 0.16s; }
+.sb-item:nth-child(5) { animation-delay: 0.20s; }
+.sb-item:nth-child(6) { animation-delay: 0.24s; }
+.sb-item:nth-child(7) { animation-delay: 0.28s; }
+.sb-item:nth-child(8) { animation-delay: 0.32s; }
 
 /* ===== Video Card Entrance ===== */
 @keyframes videoCardFadeInUp {
@@ -144,32 +57,11 @@
 
 /* ===== Video Card Hover ===== */
 .video-card {
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
 .video-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-strong);
-    box-shadow: 0 16px 36px -14px rgba(0, 0, 0, 0.4);
-}
-
-/* Top accent bar */
-.video-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    z-index: 5;
-}
-
-.video-card:hover::before {
-    opacity: 1;
+    transform: translateY(-2px);
 }
 
 /* ===== Video Thumbnail ===== */
@@ -181,37 +73,18 @@
     transform: scale(1.04);
 }
 
-/* Play overlay */
-.play-overlay {
-    transition: opacity 0.2s ease;
-}
-
-.video-card:hover .play-overlay {
-    opacity: 1;
-}
-
 /* Category badge */
 .category-badge {
-    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: opacity 0.2s ease;
 }
 
 .video-card:hover .category-badge {
     opacity: 0.95;
-    transform: translateY(-2px) scale(1.05);
 }
 
 /* Duration badge */
 .duration-badge {
     transition: opacity 0.2s ease;
-}
-
-/* ===== Video Info Hover ===== */
-.video-info h3 {
-    transition: color 0.2s ease;
-}
-
-.video-card:hover .video-info h3 {
-    color: var(--accent);
 }
 
 /* ===== Video Empty State ===== */
@@ -241,19 +114,11 @@
 }
 
 .history-item {
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .history-item:hover {
     background: var(--surface-2);
-    border: 1px solid var(--border-strong);
-}
-
-/* ===== Progress Bar ===== */
-.progress-fill {
-    transition: width 0.3s ease;
 }
 
 /* ===== Modal Animations ===== */
@@ -268,7 +133,7 @@
     }
 }
 
-.modal-header {
+.modal-main {
     animation: modalContentSlideIn 0.25s ease both;
 }
 
@@ -277,15 +142,18 @@
     animation-delay: 0.08s;
 }
 
-/* Modal close button */
-.modal-close {
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+.modal-video-info {
+    animation: modalContentSlideIn 0.3s ease both;
+    animation-delay: 0.12s;
 }
 
-.modal-close:hover {
-    background: var(--danger);
-    color: #fff;
-    border-color: var(--danger);
+/* Modal back button */
+.modal-back {
+    transition: background 0.2s ease;
+}
+
+.modal-back:hover {
+    background: var(--surface-2);
 }
 
 /* ===== Modal Action Buttons ===== */
@@ -320,17 +188,13 @@
 .related-item:nth-child(2) { animation-delay: 0.08s; }
 .related-item:nth-child(3) { animation-delay: 0.12s; }
 .related-item:nth-child(4) { animation-delay: 0.16s; }
+.related-item:nth-child(5) { animation-delay: 0.20s; }
+.related-item:nth-child(6) { animation-delay: 0.24s; }
+.related-item:nth-child(7) { animation-delay: 0.28s; }
+.related-item:nth-child(8) { animation-delay: 0.32s; }
 
 .related-item:hover {
-    background: color-mix(in srgb, var(--accent) 6%, var(--surface-2));
-}
-
-.related-item-info h5 {
-    transition: color 0.2s ease;
-}
-
-.related-item:hover .related-item-info h5 {
-    color: var(--accent);
+    background: var(--surface-2);
 }
 
 /* ===== No Results ===== */
@@ -365,47 +229,33 @@
 }
 
 /* ===== Reduce Motion Support ===== */
-body.reduce-motion .hero,
-body.reduce-motion .page-hero,
-body.reduce-motion .search-bar,
-body.reduce-motion .tut-nav-item,
+body.reduce-motion .sb-item,
 body.reduce-motion .video-card,
 body.reduce-motion .video-empty,
 body.reduce-motion .watch-history,
 body.reduce-motion .related-item,
 body.reduce-motion .no-results.show,
 body.reduce-motion .footer,
-body.reduce-motion .stat,
-body.reduce-motion .modal-header,
-body.reduce-motion .modal-video-frame {
+body.reduce-motion .modal-main,
+body.reduce-motion .modal-video-frame,
+body.reduce-motion .modal-video-info {
     animation: none !important;
 }
 
 body.reduce-motion .video-card:hover,
-body.reduce-motion .tut-nav-link:hover,
 body.reduce-motion .history-item:hover,
 body.reduce-motion .related-item:hover {
     transform: none !important;
 }
 
-body.reduce-motion .video-card::before,
-body.reduce-motion .video-card:hover .video-thumb video,
-body.reduce-motion .video-card:hover .video-info h3 {
+body.reduce-motion .video-card:hover .video-thumb video {
     transition: none !important;
     transform: none !important;
 }
 
 /* ===== Mobile Responsive ===== */
 @media (max-width: 640px) {
-    .video-card:hover {
-        transform: translateY(-2px);
-    }
-
     .video-card:hover .video-thumb video {
         transform: scale(1.02);
-    }
-
-    .hero h2 {
-        font-size: 1.5rem;
     }
 }
