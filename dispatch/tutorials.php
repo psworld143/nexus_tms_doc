@@ -265,56 +265,153 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .yt-sidebar {
             position: fixed;
             top: 56px; left: 0; bottom: 0;
-            width: 240px;
+            width: 288px;
             background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-right: 1px solid var(--border);
-            padding: 0.75rem 0 1rem;
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border-right: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            padding: 1.25rem 0.85rem 2rem;
             overflow-y: auto;
+            overflow-x: visible;
             z-index: 100;
-            transition: width 0.2s ease, transform 0.25s ease;
+            transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease, transform 0.25s ease;
+            scrollbar-width: thin;
         }
-        .yt-sidebar.collapsed { width: 72px; }
-        .yt-sidebar.collapsed .sb-label { display: none; }
-        .yt-sidebar.collapsed .sb-section-title { display: none; }
-        .yt-sidebar.collapsed .sb-divider { margin: 0.5rem 0.75rem; }
-        .yt-sidebar.collapsed .sb-item { justify-content: center; padding: 0.55rem 0; flex-direction: column; gap: 0.15rem; }
-        .yt-sidebar.collapsed .sb-item .sb-label { display: block; font-size: 0.6rem; margin-top: 0.15rem; }
-        .yt-sidebar.collapsed .sb-item svg { width: 22px; height: 22px; }
-        .sb-section-title {
-            font-size: 0.68rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.05em;
+        /* Collapse button (matches index.php .sidebar-hide-btn) */
+        .sidebar-hide-btn {
+            position: absolute;
+            top: 50%;
+            right: -18px;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: var(--surface-solid);
             color: var(--text-dim);
-            padding: 0.85rem 1.75rem 0.35rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 15;
+            box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4);
         }
+        .sidebar-hide-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--accent), transparent, var(--accent));
+            opacity: 0;
+            z-index: -1;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sidebar-hide-btn:hover {
+            color: var(--accent);
+            border-color: var(--border-strong);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+        }
+        .sidebar-hide-btn:hover::before { opacity: 0.6; }
+        .sidebar-hide-btn svg { width: 16px; height: 16px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
+
+        /* Section titles (matches index.php .nav-section-title) */
+        .sb-section-title {
+            padding: 1rem 1rem 0.4rem;
+            font-size: 0.68rem; font-weight: 800; letter-spacing: 0.09em;
+            text-transform: uppercase; color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+            transition: font-size 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease;
+        }
+        /* Nav items (matches index.php .nav-link) */
         .sb-item {
-            display: flex; align-items: center; gap: 0.75rem;
-            padding: 0.55rem 1.75rem;
-            color: var(--text);
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.62rem 0.85rem;
+            border-radius: 12px;
+            color: var(--text-muted);
             font-size: 0.88rem; font-weight: 500;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.12s ease;
+            position: relative;
+            transition: all 0.16s ease, font-size 0.28s cubic-bezier(0.4, 0, 0.2, 1), gap 0.28s ease, padding 0.28s ease;
             border: none; background: transparent;
             width: 100%; text-align: left;
             font-family: inherit;
         }
-        .sb-item:hover { background: color-mix(in srgb, var(--text) 8%, transparent); }
-        .sb-item.active { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); font-weight: 600; }
-        .sb-item.active svg { color: var(--accent); }
-        .sb-item svg { width: 22px; height: 22px; flex-shrink: 0; color: var(--text); transition: color 0.12s ease; }
+        .sb-item svg { width: 19px; height: 19px; flex-shrink: 0; color: var(--text-muted); transition: color 0.16s ease; }
+        .sb-item:hover {
+            background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: var(--text);
+        }
         .sb-item:hover svg { color: var(--text); }
-        .sb-divider { height: 1px; background: var(--border); margin: 0.5rem 1.75rem; }
+        .sb-item.active {
+            background: color-mix(in srgb, var(--accent) 15%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .sb-item.active svg { color: var(--accent); }
+        .sb-item.active::before {
+            content: ''; position: absolute; left: -0.85rem; top: 20%; bottom: 20%;
+            width: 3px; border-radius: 999px; background: var(--accent);
+        }
+        .sb-divider { height: 1px; background: var(--border); margin: 0.5rem 0.75rem; }
+
+        /* Collapsed / mini sidebar (matches index.php .sidebar.mini — 64px) */
+        .yt-sidebar.collapsed { width: 64px; padding: 1.25rem 0.5rem 2rem; }
+        .yt-sidebar.collapsed .sb-section-title {
+            font-size: 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+        .yt-sidebar.collapsed .sb-item {
+            justify-content: center;
+            padding: 0.62rem 0;
+            font-size: 0;
+            gap: 0;
+        }
+        .yt-sidebar.collapsed .sb-item svg { width: 20px; height: 20px; }
+        .yt-sidebar.collapsed .sb-item.active::before { left: 0; }
+        .yt-sidebar.collapsed .sb-divider { margin: 0.5rem 0; }
+        .yt-sidebar.collapsed .sb-item::after {
+            content: attr(data-tip);
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.35rem 0.7rem;
+            background: var(--surface-solid);
+            color: var(--text);
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+            z-index: 100;
+        }
+        .yt-sidebar.collapsed .sb-item:hover::after { opacity: 1; }
 
         .main {
             flex: 1;
-            margin-left: 240px;
+            margin-left: 288px;
             padding: 1rem 2rem 2rem;
             min-height: calc(100vh - 56px);
-            transition: margin-left 0.2s ease;
+            transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .main.sidebar-collapsed { margin-left: 72px; }
+        .main.sidebar-collapsed { margin-left: 64px; }
 
         /* ===== Filter Chips (YouTube-style horizontal scroll) ===== */
         .chip-bar {
@@ -451,12 +548,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .video-card:hover {
             border-color: color-mix(in srgb, var(--border-strong) 70%, transparent);
-            box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.65), 0 8px 18px -6px rgba(0, 0, 0, 0.45), 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
         }
         html.light .video-card:hover {
-            box-shadow: 0 10px 28px -14px rgba(15, 23, 42, 0.18);
+            box-shadow: 0 24px 48px -16px rgba(15, 23, 42, 0.3), 0 8px 18px -6px rgba(15, 23, 42, 0.2), 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
         }
-        .video-card:hover { transform: translateY(-2px); }
         .video-card:focus, .video-card:focus-visible,
         .video-card *:focus, .video-card *:focus-visible { outline: none !important; box-shadow: none !important; border-color: transparent !important; }
         .video-card:active { transform: none; }
@@ -1073,14 +1170,15 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
 
         @media (max-width: 1024px) {
-            .yt-sidebar { transform: translateX(-100%); width: 240px; }
+            .yt-sidebar { transform: translateX(-100%); width: 280px; padding: 1.25rem 0.85rem 2rem; }
             .yt-sidebar.open { transform: translateX(0); }
-            .yt-sidebar.collapsed { transform: translateX(-100%); width: 240px; }
+            .yt-sidebar.collapsed { transform: translateX(-100%); width: 280px; padding: 1.25rem 0.85rem 2rem; }
             .yt-sidebar.collapsed.open { transform: translateX(0); }
-            .yt-sidebar.collapsed .sb-label { display: block; }
-            .yt-sidebar.collapsed .sb-item { justify-content: flex-start; padding: 0.55rem 1.75rem; }
-            .yt-sidebar.collapsed .sb-section-title { display: block; }
-            .yt-sidebar.collapsed .sb-divider { margin: 0.5rem 1.75rem; }
+            .yt-sidebar.collapsed .sb-item { justify-content: flex-start; font-size: 0.88rem; gap: 0.7rem; padding: 0.62rem 0.85rem; }
+            .yt-sidebar.collapsed .sb-section-title { font-size: 0.68rem; padding: 1rem 1rem 0.4rem; justify-content: flex-start; display: block; }
+            .yt-sidebar.collapsed .sb-divider { margin: 0.5rem 0.75rem; }
+            .yt-sidebar.collapsed .sb-item::after { display: none; }
+            .sidebar-hide-btn { display: none; }
             .main { margin-left: 0 !important; }
             .main.sidebar-collapsed { margin-left: 0 !important; }
             .header-search { display: none; }
@@ -1189,6 +1287,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <!-- Loading Screen -->
     <div class="loader-screen loader-screen--home" id="loader-screen">
         <div class="loader-visual">
+        
+        
+        
+        
+        
+        
             <div class="loader-speed"></div>
             <div class="loader-truck">
                 <div class="loader-wheel loader-wheel--1"></div>
@@ -1303,42 +1407,46 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <div class="yt-layout">
         <!-- Sidebar -->
         <aside class="yt-sidebar" id="yt-sidebar">
+            <button class="sidebar-hide-btn" onclick="toggleSidebar()" title="Collapse sidebar" aria-label="Toggle sidebar" id="sidebar-toggle-btn">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/></svg>
+            </button>
+
             <div class="sb-section-title">Browse</div>
-            <button class="sb-item active" data-cat="all" onclick="setFilter('all', this)">
+            <button class="sb-item nav-link active" data-cat="all" data-tip="All Tutorials" onclick="setFilter('all', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 <span class="sb-label">All Tutorials</span>
             </button>
-            <button class="sb-item" data-cat="Getting Started" onclick="setFilter('Getting Started', this)">
+            <button class="sb-item nav-link" data-cat="Getting Started" data-tip="Getting Started" onclick="setFilter('Getting Started', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v16M4 4h11l-1.5 4L15 12H4"/></svg>
                 <span class="sb-label">Getting Started</span>
             </button>
-            <button class="sb-item" data-cat="Dispatch & Operations" onclick="setFilter('Dispatch & Operations', this)">
+            <button class="sb-item nav-link" data-cat="Dispatch & Operations" data-tip="Dispatch &amp; Ops" onclick="setFilter('Dispatch & Operations', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/></svg>
-                <span class="sb-label">Dispatch & Ops</span>
+                <span class="sb-label">Dispatch &amp; Ops</span>
             </button>
-            <button class="sb-item" data-cat="Fleet Management" onclick="setFilter('Fleet Management', this)">
+            <button class="sb-item nav-link" data-cat="Fleet Management" data-tip="Fleet Management" onclick="setFilter('Fleet Management', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-3H5a2 2 0 00-2 2z"/></svg>
                 <span class="sb-label">Fleet Management</span>
             </button>
-            <button class="sb-item" data-cat="Finance & Admin" onclick="setFilter('Finance & Admin', this)">
+            <button class="sb-item nav-link" data-cat="Finance & Admin" data-tip="Finance &amp; Admin" onclick="setFilter('Finance & Admin', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span class="sb-label">Finance & Admin</span>
+                <span class="sb-label">Finance &amp; Admin</span>
             </button>
-            <button class="sb-item" data-cat="Safety & Compliance" onclick="setFilter('Safety & Compliance', this)">
+            <button class="sb-item nav-link" data-cat="Safety & Compliance" data-tip="Safety &amp; Compliance" onclick="setFilter('Safety & Compliance', this)">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                <span class="sb-label">Safety & Compliance</span>
+                <span class="sb-label">Safety &amp; Compliance</span>
             </button>
             <div class="sb-divider"></div>
             <div class="sb-section-title">Navigate</div>
-            <a href="index.php" class="sb-item">
+            <a href="index.php" class="sb-item nav-link" data-tip="Home">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span class="sb-label">Home</span>
             </a>
-            <a href="docs.php" class="sb-item">
+            <a href="docs.php" class="sb-item nav-link" data-tip="Documentation">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 <span class="sb-label">Documentation</span>
             </a>
-            <a href="video_docs.php" class="sb-item">
+            <a href="video_docs.php" class="sb-item nav-link" data-tip="Video Docs">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 <span class="sb-label">Video Docs</span>
             </a>
