@@ -166,18 +166,23 @@ $site = 'DISPATCH';
         .brand { display: flex; align-items: center; gap: 0.75rem; }
         .brand a { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; }
         .brand-icon {
-            width: 42px; height: 42px; border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), #059669);
+            width: 42px; height: 42px; border-radius: 12px;
             display: grid; place-items: center; color: #fff;
-            box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
-            transition: transform 0.2s ease;
-            animation: brand-glow 2.5s ease-in-out infinite alternate;
+            border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
+            box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,0.18);
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.18s ease,
+                        filter 0.18s ease;
         }
-        @keyframes brand-glow {
-            from { box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent); }
-            to   { box-shadow: 0 6px 20px -6px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 20px color-mix(in srgb, var(--accent) 50%, transparent); }
+        .brand a:hover .brand-icon {
+            transform: translateY(-2px) scale(1.05);
+            filter: brightness(1.06);
+            box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent) 80%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,0.22);
         }
-        .brand a:hover .brand-icon { transform: rotate(-6deg) scale(1.08); }
+        .brand-icon:active { transform: translateY(0) scale(0.98); }
         .brand-icon svg { width: 20px; height: 20px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
         .brand-text h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
@@ -785,7 +790,7 @@ $site = 'DISPATCH';
             <div class="brand">
                 <a href="index.php">
                     <span class="brand-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                     </span>
                     <span class="brand-text"><h1>DISPATCH</h1><p>Video Docs</p></span>
                 </a>
@@ -844,7 +849,9 @@ $site = 'DISPATCH';
                     <p><?php echo htmlspecialchars($docText); ?></p>
                     <div class="doc-meta">
                         <span class="status-badge <?php echo $statusClass; ?>"><?php echo $statusText; ?></span>
+                        <?php if (!empty($v['duration'])): ?>
                         <span class="duration"><?php echo htmlspecialchars($v['duration']); ?></span>
+                        <?php endif; ?>
                     </div>
                     <div class="doc-actions">
                         <?php if ($isAvailable): ?>
@@ -1079,7 +1086,8 @@ $site = 'DISPATCH';
                 const category = card.dataset.category || '';
                 const statusClass = card.dataset.status;
                 const status = statusClass === 'available' ? 'Available' : 'Coming Soon';
-                const duration = card.querySelector('.duration').textContent;
+                const durationEl = card.querySelector('.duration');
+                const duration = durationEl ? durationEl.textContent : '';
                 const watchHref = 'tutorials.php#' + encodeURIComponent(id);
                 if (watchLink) {
                     watchLink.href = watchHref;
@@ -1091,7 +1099,7 @@ $site = 'DISPATCH';
                     '<h2>' + escapeHtml(title) + '</h2>' +
                     '<div class="dm-meta">' +
                         '<span class="status-badge ' + statusClass + '">' + status + '</span>' +
-                        '<span class="duration">' + escapeHtml(duration) + '</span>' +
+                        (duration ? '<span class="duration">' + escapeHtml(duration) + '</span>' : '') +
                     '</div>' +
                     '<p>' + escapeHtml(desc) + '</p>' +
                     '</article>' +

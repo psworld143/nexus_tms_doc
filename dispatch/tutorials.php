@@ -458,73 +458,202 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .chip.active .chip-count { background: rgba(255, 255, 255, 0.22); }
 
-        /* ===== Watch History (horizontal scroll, YouTube-style) ===== */
+        /* ===== Watch History — "Continue Watching" rail ===== */
         .watch-history {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
+            position: relative;
+        }
+        .watch-history-rail {
+            position: relative;
+            border-radius: 18px;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--surface)) 0%, var(--surface) 60%);
+            border: 1px solid var(--border);
+            padding: 1rem 1.1rem 1.25rem;
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            box-shadow: 0 12px 36px -22px rgba(0,0,0,0.5);
+        }
+        .watch-history-rail::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 18px;
+            background: radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%);
+            pointer-events: none;
         }
         .watch-history-header {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.9rem;
+            position: relative;
         }
-        .watch-history-header h3 {
-            font-size: 1rem; font-weight: 700;
-            display: flex; align-items: center; gap: 0.5rem;
+        .watch-history-title {
+            display: flex; align-items: center; gap: 0.6rem;
         }
-        .watch-history-header h3 svg { width: 20px; height: 20px; color: var(--accent); }
-        .clear-history {
-            font-size: 0.78rem; color: var(--text-muted);
-            background: none; border: none;
-            cursor: pointer; padding: 0.4rem 0.8rem;
-            border-radius: 8px;
-            font-family: inherit;
-            transition: all 0.15s ease;
+        .wh-title-icon {
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            display: grid; place-items: center;
+            color: #fff;
+            box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 70%, transparent);
+        }
+        .wh-title-icon svg { width: 18px; height: 18px; }
+        .wh-title-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .wh-title-text h3 {
+            font-size: 1rem; font-weight: 700; color: var(--text);
+            letter-spacing: -0.01em;
+        }
+        .wh-title-text span {
+            font-size: 0.7rem; color: var(--text-dim); font-weight: 500;
+        }
+        .wh-header-actions { display: flex; align-items: center; gap: 0.4rem; }
+        .wh-scroll-btn {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--border-strong);
+            background: var(--surface-2);
+            color: var(--text-muted);
+            display: grid; place-items: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
             outline: none;
         }
-        .clear-history:hover { background: var(--surface-2); color: var(--danger); }
-        .watch-history-grid {
-            display: flex; gap: 0.75rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            scrollbar-width: thin;
+        .wh-scroll-btn svg { width: 16px; height: 16px; }
+        .wh-scroll-btn:hover:not(:disabled) {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+            transform: scale(1.08);
         }
-        .watch-history-grid::-webkit-scrollbar { height: 4px; }
-        .watch-history-grid::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+        .wh-scroll-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .clear-history {
+            display: flex; align-items: center; gap: 0.35rem;
+            font-size: 0.74rem; font-weight: 600;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            border: 1px solid var(--border-strong);
+            cursor: pointer;
+            padding: 0.4rem 0.75rem;
+            border-radius: 9px;
+            font-family: inherit;
+            transition: all 0.18s ease;
+            outline: none;
+        }
+        .clear-history svg { width: 14px; height: 14px; }
+        .clear-history:hover {
+            background: color-mix(in srgb, var(--danger) 14%, transparent);
+            color: var(--danger);
+            border-color: color-mix(in srgb, var(--danger) 40%, transparent);
+        }
+        .watch-history-track {
+            display: flex; gap: 0.85rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            padding: 0.6rem 0.25rem 0.85rem;
+            scroll-snap-type: x proximity;
+        }
+        .watch-history-track::-webkit-scrollbar { display: none; }
         .history-item {
             display: flex; flex-direction: column;
-            min-width: 220px; max-width: 220px;
+            min-width: 232px; max-width: 232px;
             cursor: pointer;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: background 0.15s ease;
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+            border: 1px solid var(--border);
+            padding: 0.55rem;
+            transition: transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+            scroll-snap-align: start;
+            position: relative;
+            box-shadow: 0 2px 8px -3px rgba(0,0,0,0.35);
         }
-        .history-item:hover { background: var(--surface-2); }
-        .history-thumb {
+        .history-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px -8px rgba(0,0,0,0.45);
+            border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+        }
+        .history-thumb-wrap {
+            position: relative;
             width: 100%;
             aspect-ratio: 16 / 9;
-            border-radius: 12px;
-            background: #000;
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.45rem;
+            background: var(--surface-2);
         }
-        .history-thumb video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        .history-info { padding: 0 0.25rem; }
+        .history-thumb-wrap video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .history-thumb-placeholder {
+            width: 100%; height: 100%;
+            display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--surface-2), color-mix(in srgb, var(--accent) 8%, var(--surface-2)));
+        }
+        .history-thumb-placeholder svg { width: 26px; height: 26px; color: var(--text-dim); }
+        .history-play-overlay {
+            position: absolute; inset: 0;
+            display: grid; place-items: center;
+            background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 100%);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .history-item:hover .history-play-overlay { opacity: 1; }
+        .history-play-overlay svg {
+            width: 38px; height: 38px; color: #fff;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        }
+        .history-continue-badge {
+            position: absolute; top: 0.5rem; left: 0.5rem;
+            display: flex; align-items: center; gap: 0.3rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            background: color-mix(in srgb, var(--accent) 88%, transparent);
+            color: #fff;
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--accent) 70%, transparent);
+        }
+        .history-continue-badge svg { width: 11px; height: 11px; }
+        .history-progress {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: rgba(0,0,0,0.4);
+        }
+        .history-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 0 2px 2px 0;
+            transition: width 0.3s ease;
+        }
+        .history-info { padding: 0 0.2rem; }
         .history-info h4 {
-            font-size: 0.85rem; font-weight: 600;
+            font-size: 0.84rem; font-weight: 600;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             line-height: 1.3;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
+            color: var(--text);
         }
-        .history-info p {
-            font-size: 0.74rem; color: var(--text-muted);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        .history-meta {
+            display: flex; align-items: center; gap: 0.4rem;
+            font-size: 0.7rem; color: var(--text-muted);
         }
-        .history-time {
-            font-size: 0.7rem; color: var(--text-dim);
-            margin-top: 0.1rem;
+        .history-meta svg { width: 11px; height: 11px; color: var(--text-dim); }
+        .history-meta-dot {
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            background: var(--text-dim);
         }
+        .history-empty {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.82rem;
+        }
+        .history-empty svg { width: 36px; height: 36px; margin-bottom: 0.5rem; opacity: 0.5; }
 
         /* ===== Video Grid ===== */
         .video-grid {
@@ -878,6 +1007,135 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             border-radius: 6px;
         }
         .related-list::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+        /* Cursor-synced scroll state — accent the scrollbar thumb to signal sync */
+        .related-list.cursor-sync { cursor: default; }
+        .related-list.cursor-sync::-webkit-scrollbar-thumb {
+            background: color-mix(in srgb, var(--accent) 70%, transparent);
+        }
+
+        /* ===== Modal Player — design enhancements (layered on top) ===== */
+        .modal-player {
+            border-top: 2px solid transparent;
+            background-image: linear-gradient(color-mix(in srgb, var(--surface-solid) 92%, transparent), color-mix(in srgb, var(--surface-solid) 92%, transparent)),
+                              linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent-2) 45%, transparent), color-mix(in srgb, var(--accent) 55%, transparent));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 32px 70px -20px rgba(0, 0, 0, 0.7),
+                        0 0 60px -30px color-mix(in srgb, var(--accent) 40%, transparent);
+        }
+        .modal-player::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 16px;
+            background: radial-gradient(ellipse at 15% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 50%),
+                        radial-gradient(ellipse at 85% 100%, color-mix(in srgb, var(--accent-2) 8%, transparent), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .modal-main, .modal-sidebar { position: relative; z-index: 1; }
+
+        /* Topbar — accent separator and polished back button */
+        .modal-topbar {
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+            margin-bottom: 0.25rem;
+        }
+        .modal-back {
+            background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+            border: 1px solid var(--border);
+            transition: all 0.18s ease;
+        }
+        .modal-back:hover {
+            background: color-mix(in srgb, var(--danger) 16%, transparent);
+            color: var(--danger);
+            border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+            transform: scale(1.06);
+        }
+        .modal-topbar-title {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Action buttons — refined hover with accent glow */
+        .modal-action-btn {
+            border: 1px solid transparent;
+            transition: all 0.18s ease;
+        }
+        .modal-action-btn:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+        .modal-action-btn.active {
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.25);
+        }
+        .modal-action-btn.active svg { fill: #fbbf24; }
+
+        /* Video frame */
+        .modal-video-frame {
+            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+            box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Video title */
+        .modal-video-info h3 {
+            padding-left: 0;
+            border-left: none;
+            border-radius: 0;
+        }
+
+        /* Channel avatar */
+        .modal-channel-avatar {
+            box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--accent) 50%, transparent);
+        }
+
+        /* Meta row — refined separator */
+        .modal-video-meta-row {
+            border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+        }
+
+        /* Description box */
+        .modal-desc-box {
+            border-left: none;
+            background: color-mix(in srgb, var(--surface-2) 50%, transparent);
+            border: 1px solid color-mix(in srgb, var(--border) 35%, transparent);
+            transition: none;
+        }
+        .modal-desc-box:hover {
+            border-left-color: transparent;
+        }
+
+        /* Related sidebar — header label via pseudo-element */
+        .modal-sidebar::before {
+            content: 'Continue Watching';
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            padding: 0.3rem 0.25rem 0.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Related items — accent hover bar + smoother lift */
+        .related-item {
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: all 0.18s ease;
+        }
+        .related-item:hover {
+            background: color-mix(in srgb, var(--accent) 6%, var(--surface-2));
+            border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+            transform: translateX(3px);
+        }
+        .related-item-thumb {
+            border: 1px solid var(--border);
+        }
+        .related-item-info h5 { letter-spacing: -0.005em; }
 
         /* ===== No Results ===== */
         .no-results {
@@ -1469,16 +1727,34 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             </button>
         </div>
 
-        <!-- Watch History -->
+        <!-- Watch History — "Continue Watching" rail -->
         <div class="watch-history" id="watch-history" style="display:none;">
-            <div class="watch-history-header">
-                <h3>
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Recently Watched
-                </h3>
-                <button class="clear-history" onclick="clearWatchHistory()">Clear History</button>
+            <div class="watch-history-rail">
+                <div class="watch-history-header">
+                    <div class="watch-history-title">
+                        <span class="wh-title-icon">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </span>
+                        <span class="wh-title-text">
+                            <h3>Continue Watching</h3>
+                            <span id="wh-count-label">Pick up where you left off</span>
+                        </span>
+                    </div>
+                    <div class="wh-header-actions">
+                        <button class="wh-scroll-btn" id="wh-scroll-left" title="Scroll left" aria-label="Scroll left">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                        </button>
+                        <button class="wh-scroll-btn" id="wh-scroll-right" title="Scroll right" aria-label="Scroll right">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                        <button class="clear-history" onclick="clearWatchHistory()" title="Clear all watch history">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="watch-history-track" id="watch-history-grid"></div>
             </div>
-            <div class="watch-history-grid" id="watch-history-grid"></div>
         </div>
 
         <!-- Video Grid -->
@@ -1704,58 +1980,58 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         const VIDEOS = [
             // Getting Started
             { id: 'dashboard', title: 'Dashboard', desc: 'Overview and statistics walkthrough', category: 'Main', path: 'Getting Started', level: 'Beginner', src: 'videos/dashboard.mp4', duration: '2:30' },
-            { id: 'login-signup-tutorial', title: 'Login & Sign Up', desc: 'Account creation and secure login', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/login-signup-tutorial.mp4', duration: '—' },
-            { id: 'settings', title: 'Settings', desc: 'Configure and customize the system', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/settings.mp4', duration: '—' },
-            { id: 'notifications', title: 'Notifications', desc: 'Real-time alerts and updates', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/notifications.mp4', duration: '—' },
+            { id: 'login-signup-tutorial', title: 'Login & Sign Up', desc: 'Account creation and secure login', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/login-signup-tutorial.mp4', duration: '' },
+            { id: 'settings', title: 'Settings', desc: 'Configure and customize the system', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/settings.mp4', duration: '' },
+            { id: 'notifications', title: 'Notifications', desc: 'Real-time alerts and updates', category: 'Account', path: 'Getting Started', level: 'Beginner', src: 'videos/notifications.mp4', duration: '' },
 
             // Dispatch & Operations
-            { id: 'my-loads', title: 'My Loads', desc: 'Create, assign and track loads through dispatch', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-loads.mp4', duration: '—' },
+            { id: 'my-loads', title: 'My Loads', desc: 'Create, assign and track loads through dispatch', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-loads.mp4', duration: '' },
             { id: 'my-drivers', title: 'My Drivers', desc: 'View and manage your drivers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/how-to-register-new-drivers.mp4', duration: '3:45' },
-            { id: 'my-customers', title: 'My Customers', desc: 'Add, view and manage your customers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-customers.mp4', duration: '—' },
-            { id: 'my-shippers-list', title: 'My Shippers List', desc: 'Manage your list of shippers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-shippers-list.mp4', duration: '—' },
-            { id: 'my-consignee-lists', title: 'My Consignee Lists', desc: 'Manage your consignee lists and locations', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-consignee-lists.mp4', duration: '—' },
-            { id: 'my-brokers', title: 'My Brokers', desc: 'Add and manage your brokers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-brokers.mp4', duration: '—' },
-            { id: 'driver-devices', title: 'Driver Devices', desc: 'Manage driver devices and ELD connections', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/driver-devices.mp4', duration: '—' },
-            { id: 'activity', title: 'Activity', desc: 'System activity logs', category: 'Account', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/activity.mp4', duration: '—' },
+            { id: 'my-customers', title: 'My Customers', desc: 'Add, view and manage your customers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-customers.mp4', duration: '' },
+            { id: 'my-shippers-list', title: 'My Shippers List', desc: 'Manage your list of shippers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-shippers-list.mp4', duration: '' },
+            { id: 'my-consignee-lists', title: 'My Consignee Lists', desc: 'Manage your consignee lists and locations', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-consignee-lists.mp4', duration: '' },
+            { id: 'my-brokers', title: 'My Brokers', desc: 'Add and manage your brokers', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/my-brokers.mp4', duration: '' },
+            { id: 'driver-devices', title: 'Driver Devices', desc: 'Manage driver devices and ELD connections', category: 'Operations', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/driver-devices.mp4', duration: '' },
+            { id: 'activity', title: 'Activity', desc: 'System activity logs', category: 'Account', path: 'Dispatch & Operations', level: 'Intermediate', src: 'videos/activity.mp4', duration: '' },
 
             // Fleet Management
-            { id: 'my-trucks', title: 'My Trucks', desc: 'Add, view and manage your trucks', category: 'Operations', path: 'Fleet Management', level: 'Intermediate', src: 'videos/my-trucks.mp4', duration: '—' },
-            { id: 'my-trailers', title: 'My Trailers', desc: 'Add, view and manage your trailers', category: 'Operations', path: 'Fleet Management', level: 'Intermediate', src: 'videos/my-trailers.mp4', duration: '—' },
-            { id: 'truck-lease-pricing', title: 'Truck Lease Pricing', desc: 'Review and configure lease pricing', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/truck-lease-pricing.mp4', duration: '—' },
-            { id: 'truck-rentals', title: 'Truck Rentals', desc: 'Manage truck rentals and equipment', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/truck-rentals.mp4', duration: '—' },
-            { id: 'lease-agreements', title: 'Lease Agreements', desc: 'Create, sign and track lease agreements', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/lease-agreements.mp4', duration: '—' },
-            { id: 'hire-drivers', title: 'Hire Drivers', desc: 'Recruit and onboard new drivers', category: 'Fleet', path: 'Fleet Management', level: 'Intermediate', src: 'videos/hire-drivers.mp4', duration: '—' },
-            { id: 'job-postings', title: 'Job Postings', desc: 'Create and manage driver job postings', category: 'Fleet', path: 'Fleet Management', level: 'Intermediate', src: 'videos/job-postings.mp4', duration: '—' },
-            { id: 'external-drivers', title: 'External Drivers', desc: 'Manage external and owner-operator drivers', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/external-drivers.mp4', duration: '—' },
-            { id: 'shout-out-scripts', title: 'Shout Out Scripts', desc: 'Ready-made scripts for your marketing', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/shout-out-scripts.mp4', duration: '—' },
-            { id: 'shout-out-vlogs', title: 'Shout Out Vlogs', desc: 'Shout out vlog examples and walkthroughs', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/shout-out-vlogs.mp4', duration: '—' },
-            { id: 'maintenance', title: 'Maintenance', desc: 'Vehicle maintenance scheduling', category: 'Account', path: 'Fleet Management', level: 'Intermediate', src: 'videos/maintenance.mp4', duration: '—' },
+            { id: 'my-trucks', title: 'My Trucks', desc: 'Add, view and manage your trucks', category: 'Operations', path: 'Fleet Management', level: 'Intermediate', src: 'videos/my-trucks.mp4', duration: '' },
+            { id: 'my-trailers', title: 'My Trailers', desc: 'Add, view and manage your trailers', category: 'Operations', path: 'Fleet Management', level: 'Intermediate', src: 'videos/my-trailers.mp4', duration: '' },
+            { id: 'truck-lease-pricing', title: 'Truck Lease Pricing', desc: 'Review and configure lease pricing', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/truck-lease-pricing.mp4', duration: '' },
+            { id: 'truck-rentals', title: 'Truck Rentals', desc: 'Manage truck rentals and equipment', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/truck-rentals.mp4', duration: '' },
+            { id: 'lease-agreements', title: 'Lease Agreements', desc: 'Create, sign and track lease agreements', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/lease-agreements.mp4', duration: '' },
+            { id: 'hire-drivers', title: 'Hire Drivers', desc: 'Recruit and onboard new drivers', category: 'Fleet', path: 'Fleet Management', level: 'Intermediate', src: 'videos/hire-drivers.mp4', duration: '' },
+            { id: 'job-postings', title: 'Job Postings', desc: 'Create and manage driver job postings', category: 'Fleet', path: 'Fleet Management', level: 'Intermediate', src: 'videos/job-postings.mp4', duration: '' },
+            { id: 'external-drivers', title: 'External Drivers', desc: 'Manage external and owner-operator drivers', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/external-drivers.mp4', duration: '' },
+            { id: 'shout-out-scripts', title: 'Shout Out Scripts', desc: 'Ready-made scripts for your marketing', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/shout-out-scripts.mp4', duration: '' },
+            { id: 'shout-out-vlogs', title: 'Shout Out Vlogs', desc: 'Shout out vlog examples and walkthroughs', category: 'Fleet', path: 'Fleet Management', level: 'Advanced', src: 'videos/shout-out-vlogs.mp4', duration: '' },
+            { id: 'maintenance', title: 'Maintenance', desc: 'Vehicle maintenance scheduling', category: 'Account', path: 'Fleet Management', level: 'Intermediate', src: 'videos/maintenance.mp4', duration: '' },
 
             // Finance & Admin
-            { id: 'accounting', title: 'Accounting', desc: 'Manage accounting and financial records', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/accounting.mp4', duration: '—' },
-            { id: 'my-payroll', title: 'My Payroll', desc: 'Run and manage payroll', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/my-payroll.mp4', duration: '—' },
-            { id: 'my-factoring-company', title: 'My Factoring Company', desc: 'Connect and manage your factoring company', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/my-factoring-company.mp4', duration: '—' },
-            { id: 'fuel-reports', title: 'Fuel Reports', desc: 'View fuel spending reports and analytics', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/fuel-reports.mp4', duration: '—' },
-            { id: 'my-fuel-cards', title: 'My Fuel Cards', desc: 'Manage fuel cards and spending limits', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/my-fuel-cards.mp4', duration: '—' },
-            { id: 'loans-cash-advance', title: 'Loans/Cash Advance', desc: 'Apply for and track loans and cash advances', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/loans-cash-advance.mp4', duration: '—' },
-            { id: 'api-integration-keys', title: 'API Integration Keys', desc: 'Generate and manage API integration keys', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/api-integration-keys.mp4', duration: '—' },
-            { id: 'documents', title: 'Documents', desc: 'Centralized document management', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/documents.mp4', duration: '—' },
-            { id: 'permit-insurance', title: 'Permit & Insurance', desc: 'Permits, licenses and insurance', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/permit-insurance.mp4', duration: '—' },
-            { id: 'reporting', title: 'Reporting', desc: 'Reports and operational insights', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/reporting.mp4', duration: '—' },
+            { id: 'accounting', title: 'Accounting', desc: 'Manage accounting and financial records', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/accounting.mp4', duration: '' },
+            { id: 'my-payroll', title: 'My Payroll', desc: 'Run and manage payroll', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/my-payroll.mp4', duration: '' },
+            { id: 'my-factoring-company', title: 'My Factoring Company', desc: 'Connect and manage your factoring company', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/my-factoring-company.mp4', duration: '' },
+            { id: 'fuel-reports', title: 'Fuel Reports', desc: 'View fuel spending reports and analytics', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/fuel-reports.mp4', duration: '' },
+            { id: 'my-fuel-cards', title: 'My Fuel Cards', desc: 'Manage fuel cards and spending limits', category: 'Finance', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/my-fuel-cards.mp4', duration: '' },
+            { id: 'loans-cash-advance', title: 'Loans/Cash Advance', desc: 'Apply for and track loans and cash advances', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/loans-cash-advance.mp4', duration: '' },
+            { id: 'api-integration-keys', title: 'API Integration Keys', desc: 'Generate and manage API integration keys', category: 'Finance', path: 'Finance & Admin', level: 'Advanced', src: 'videos/api-integration-keys.mp4', duration: '' },
+            { id: 'documents', title: 'Documents', desc: 'Centralized document management', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/documents.mp4', duration: '' },
+            { id: 'permit-insurance', title: 'Permit & Insurance', desc: 'Permits, licenses and insurance', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/permit-insurance.mp4', duration: '' },
+            { id: 'reporting', title: 'Reporting', desc: 'Reports and operational insights', category: 'Account', path: 'Finance & Admin', level: 'Intermediate', src: 'videos/reporting.mp4', duration: '' },
 
             // Safety & Compliance
-            { id: 'my-fleet', title: 'My Fleet', desc: 'Monitor your fleet safety and compliance', category: 'Safety', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/my-fleet.mp4', duration: '—' },
-            { id: 'emergency-monitoring', title: 'Emergency Monitoring', desc: 'Set up and respond to emergency alerts', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/emergency-monitoring.mp4', duration: '—' },
-            { id: 'safety-assessments', title: 'Safety Assessments', desc: 'Run and review safety assessments', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/safety-assessments.mp4', duration: '—' },
-            { id: 'maintenance-monitoring', title: 'Maintenance Monitoring', desc: 'Monitor maintenance and vehicle health', category: 'Safety', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/maintenance-monitoring.mp4', duration: '—' },
-            { id: 'safety-violations', title: 'Safety Violations', desc: 'Safety-related compliance issues', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/safety-violations.mp4', duration: '—' },
-            { id: 'compliance-monitoring', title: 'Compliance Monitoring', desc: 'Track compliance metrics in real time', category: 'Compliance', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/compliance-monitoring.mp4', duration: '—' },
-            { id: 'compliance-software-options', title: 'Compliance Software Options', desc: 'Explore compliance software integrations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/compliance-software-options.mp4', duration: '—' },
-            { id: 'drug-alcohol-testing', title: 'Drug & Alcohol Testing', desc: 'Manage drug and alcohol testing programs', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/drug-alcohol-testing.mp4', duration: '—' },
-            { id: 'violations', title: 'Violations', desc: 'Track compliance violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/violations.mp4', duration: '—' },
-            { id: 'driver-violations', title: 'Driver Violations', desc: 'Driver-specific violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/driver-violations.mp4', duration: '—' },
-            { id: 'vehicle-violations', title: 'Vehicle Violations', desc: 'Vehicle-related violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/vehicle-violations.mp4', duration: '—' },
-            { id: 'hos', title: 'HOS', desc: 'Hours of Service compliance', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/hos.mp4', duration: '—' },
+            { id: 'my-fleet', title: 'My Fleet', desc: 'Monitor your fleet safety and compliance', category: 'Safety', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/my-fleet.mp4', duration: '' },
+            { id: 'emergency-monitoring', title: 'Emergency Monitoring', desc: 'Set up and respond to emergency alerts', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/emergency-monitoring.mp4', duration: '' },
+            { id: 'safety-assessments', title: 'Safety Assessments', desc: 'Run and review safety assessments', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/safety-assessments.mp4', duration: '' },
+            { id: 'maintenance-monitoring', title: 'Maintenance Monitoring', desc: 'Monitor maintenance and vehicle health', category: 'Safety', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/maintenance-monitoring.mp4', duration: '' },
+            { id: 'safety-violations', title: 'Safety Violations', desc: 'Safety-related compliance issues', category: 'Safety', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/safety-violations.mp4', duration: '' },
+            { id: 'compliance-monitoring', title: 'Compliance Monitoring', desc: 'Track compliance metrics in real time', category: 'Compliance', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/compliance-monitoring.mp4', duration: '' },
+            { id: 'compliance-software-options', title: 'Compliance Software Options', desc: 'Explore compliance software integrations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/compliance-software-options.mp4', duration: '' },
+            { id: 'drug-alcohol-testing', title: 'Drug & Alcohol Testing', desc: 'Manage drug and alcohol testing programs', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/drug-alcohol-testing.mp4', duration: '' },
+            { id: 'violations', title: 'Violations', desc: 'Track compliance violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Intermediate', src: 'videos/violations.mp4', duration: '' },
+            { id: 'driver-violations', title: 'Driver Violations', desc: 'Driver-specific violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/driver-violations.mp4', duration: '' },
+            { id: 'vehicle-violations', title: 'Vehicle Violations', desc: 'Vehicle-related violations', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/vehicle-violations.mp4', duration: '' },
+            { id: 'hos', title: 'HOS', desc: 'Hours of Service compliance', category: 'Compliance', path: 'Safety & Compliance', level: 'Advanced', src: 'videos/hos.mp4', duration: '' },
         ];
 
         // Videos that actually exist on the server
@@ -1842,6 +2118,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         function renderWatchHistory() {
             const container = document.getElementById('watch-history');
             const grid = document.getElementById('watch-history-grid');
+            const countLabel = document.getElementById('wh-count-label');
             if (!container || !grid) return;
 
             if (watchHistory.length === 0) {
@@ -1851,6 +2128,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
             container.style.display = 'block';
             grid.innerHTML = '';
+
+            if (countLabel) {
+                countLabel.textContent = watchHistory.length + (watchHistory.length === 1 ? ' video' : ' videos') + ' · Pick up where you left off';
+            }
 
             watchHistory.forEach(function(v) {
                 const item = document.createElement('div');
@@ -1862,38 +2143,70 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
                 const timeAgo = getTimeAgo(v.timestamp);
                 const available = isAvailable(v.src);
+                const prog = videoProgress[v.id];
+                const progressPct = (prog && prog.duration > 0) ? Math.min(100, Math.max(0, prog.progress)) : 0;
+                const isContinue = progressPct > 0 && progressPct < 95;
 
                 // Hover-to-play for history items
                 if (available) {
                     let hoverTimer = null;
                     item.addEventListener('mouseenter', function() {
-                        const vid = item.querySelector('.history-thumb video');
+                        const vid = item.querySelector('.history-thumb-wrap video');
                         if (!vid) return;
                         hoverTimer = setTimeout(function() {
-                            vid.currentTime = 0;
+                            vid.currentTime = (prog && prog.currentTime > 0) ? prog.currentTime : 0;
                             vid.play().catch(function() {});
                         }, 300);
                     });
                     item.addEventListener('mouseleave', function() {
                         if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
-                        const vid = item.querySelector('.history-thumb video');
+                        const vid = item.querySelector('.history-thumb-wrap video');
                         if (!vid) return;
                         vid.pause();
                         vid.currentTime = 0;
                     });
                 }
 
+                const thumbInner = available
+                    ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>'
+                    : '<div class="history-thumb-placeholder"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>';
+
                 item.innerHTML =
-                    '<div class="history-thumb">' +
-                        (available ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:var(--surface-2);display:grid;place-items:center;"><svg style="width:20px;height:20px;color:var(--text-dim)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') +
+                    '<div class="history-thumb-wrap">' +
+                        thumbInner +
+                        (isContinue
+                            ? '<span class="history-continue-badge"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 3l14 9-14 9V3z" fill="currentColor"/></svg>Continue</span>'
+                            : '') +
+                        '<div class="history-play-overlay"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 4.806A1 1 0 0116 5.69v12.62a1 1 0 01-1.248.884l-9-4.5a1 1 0 010-1.788l9-4.5z" fill="currentColor"/></svg></div>' +
+                        (progressPct > 0
+                            ? '<div class="history-progress"><div class="history-progress-fill" style="width:' + progressPct.toFixed(1) + '%"></div></div>'
+                            : '') +
                     '</div>' +
                     '<div class="history-info">' +
                         '<h4>' + escapeHtml(v.title) + '</h4>' +
-                        '<p>' + escapeHtml(v.category) + '</p>' +
-                    '</div>' +
-                    '<span class="history-time">' + escapeHtml(timeAgo) + '</span>';
+                        '<div class="history-meta">' +
+                            '<span>' + escapeHtml(v.category) + '</span>' +
+                            '<span class="history-meta-dot"></span>' +
+                            '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' +
+                            '<span>' + escapeHtml(timeAgo) + '</span>' +
+                        '</div>' +
+                    '</div>';
                 grid.appendChild(item);
             });
+
+            // Wire up scroll arrow buttons
+            const leftBtn = document.getElementById('wh-scroll-left');
+            const rightBtn = document.getElementById('wh-scroll-right');
+            if (leftBtn && rightBtn) {
+                const updateScrollBtns = function() {
+                    leftBtn.disabled = grid.scrollLeft <= 2;
+                    rightBtn.disabled = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
+                };
+                leftBtn.onclick = function() { grid.scrollBy({ left: -260, behavior: 'smooth' }); };
+                rightBtn.onclick = function() { grid.scrollBy({ left: 260, behavior: 'smooth' }); };
+                grid.onscroll = updateScrollBtns;
+                updateScrollBtns();
+            }
         }
 
         // Get time ago string
@@ -2653,6 +2966,35 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 setTimeout(function() { if (loader) loader.style.display = 'none'; }, 600);
             }, 800);
         });
+
+        // ===== Cursor-synced scroll for the "Continue Watching" sidebar =====
+        // As the cursor moves vertically over the related-list, the list scrolls
+        // proportionally (top = cursor at top, bottom = cursor at bottom).
+        (function setupCursorSyncScroll() {
+            const list = document.getElementById('related-list');
+            if (!list) return;
+            let syncing = false;
+
+            list.addEventListener('mousemove', function(e) {
+                const maxScroll = list.scrollHeight - list.clientHeight;
+                if (maxScroll <= 0) return;
+                const rect = list.getBoundingClientRect();
+                const ratio = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+                list.scrollTop = ratio * maxScroll;
+                syncing = true;
+            });
+            list.addEventListener('mouseenter', function() {
+                list.classList.add('cursor-sync');
+            });
+            list.addEventListener('mouseleave', function() {
+                list.classList.remove('cursor-sync');
+                syncing = false;
+            });
+            // Keep wheel scrolling working alongside cursor-sync
+            list.addEventListener('wheel', function(e) {
+                if (syncing) return; // let mousemove take over once cursor moves
+            }, { passive: true });
+        })();
     </script>
     <script src="js/tour-guide.js?v=1"></script>
 </body>
