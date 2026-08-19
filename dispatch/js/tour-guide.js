@@ -29,16 +29,6 @@
             { target: '.icon-btn.theme-btn', title: 'Theme Toggle', desc: 'Switch between dark and light mode. Your choice is saved and synced across all DISPATCH pages.', action: null },
             { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Use the search bar and filters to find tutorials, click any card to watch, and revisit this tour anytime via this button.", action: null }
         ],
-        // docs.php
-        docs: [
-            { target: '.doc-hero', title: 'System Documentation', desc: 'Welcome to the DISPATCH documentation hub. Here you\'ll find written reference guides for every module, organized by category in the sidebar.', action: null },
-            { target: '.search-wrap', title: 'Search Sections', desc: 'Use this search bar in the sidebar to instantly filter the navigation menu. Type any module name and the sidebar filters in real-time.', action: null },
-            { target: '.nav-section-title.main-menu', title: 'Documentation Categories', desc: 'Browse documentation by category. Each section expands to show its modules. Click any module to jump to its documentation.', action: null },
-            { target: '#sidebar-toggle-btn', title: 'Collapse Sidebar', desc: 'Toggle the sidebar between full and compact icon-only mode. Great for more reading space on smaller screens.', action: null },
-            { target: '.video-search', title: 'Video Catalog Filter', desc: 'Filter the video catalog below by name. Use the status buttons to show all, only available, or only coming-soon videos.', action: null },
-            { target: '.icon-btn.settings-btn-top', title: 'Settings', desc: 'Customize your reading experience — accent color, font size, dark mode, and accessibility options.', action: null },
-            { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Use the sidebar to browse documentation, the search to find modules quickly, and the video catalog to find tutorial videos.", action: null }
-        ],
         // video_docs.php
         'video-docs': [
             { target: '.topbar', title: 'Video Documentation', desc: 'Welcome to the DISPATCH video documentation page. Here you\'ll find in-depth written guides for every feature, presented as searchable cards.', action: null },
@@ -54,7 +44,6 @@
         var path = window.location.pathname.split('/').pop() || '';
         if (path === 'index.php' || path === '' || path === '/') return 'home';
         if (path === 'tutorials.php') return 'tutorials';
-        if (path === 'docs.php') return 'docs';
         if (path === 'video_docs.php') return 'video-docs';
         return 'home';
     }

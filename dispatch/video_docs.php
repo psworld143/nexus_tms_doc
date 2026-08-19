@@ -783,7 +783,7 @@ $site = 'DISPATCH';
     <div class="page">
         <div class="topbar">
             <div class="brand">
-                <a href="docs.php">
+                <a href="index.php">
                     <span class="brand-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
                     </span>
@@ -793,9 +793,6 @@ $site = 'DISPATCH';
             <div class="topbar-actions">
                 <a href="tutorials.php" class="theme-btn shortcut-btn" title="Video Tutorials" style="text-decoration:none;">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                </a>
-                <a href="docs.php" class="theme-btn shortcut-btn" title="Documentation" style="text-decoration:none;">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
                 </a>
                 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
                     <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
