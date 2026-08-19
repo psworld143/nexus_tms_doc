@@ -273,11 +273,11 @@
             /* ===== Layout ===== */
             .layout { display: flex; padding-top: 68px; }
             .sidebar {
-                position: sticky;
+                position: fixed;
                 top: 68px;
-                align-self: flex-start;
+                left: 0;
+                bottom: 0;
                 width: 288px;
-                height: calc(100vh - 68px);
                 overflow-y: auto;
                 overflow-x: visible;
                 padding: 1.25rem 0.85rem 2rem;
@@ -286,8 +286,10 @@
                 backdrop-filter: blur(16px) saturate(150%);
                 -webkit-backdrop-filter: blur(16px) saturate(150%);
                 z-index: 10;
-                transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease;
+                transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease, transform 0.25s ease;
+                scrollbar-width: none;
             }
+            .sidebar::-webkit-scrollbar { display: none; }
             .search-wrap { position: relative; padding: 0 0.4rem 0.5rem; }
             .search-wrap svg {
                 position: absolute; left: 1rem; top: 50%;
@@ -386,7 +388,8 @@
             .submenu .nav-link { padding-left: 2.85rem; font-size: 0.83rem; }
 
             /* ===== Content ===== */
-            .content { flex: 1; min-width: 0; padding: 1.75rem clamp(1rem, 3vw, 2.5rem) 3rem; }
+            .content { flex: 1; min-width: 0; padding: 1.75rem clamp(1rem, 3vw, 2.5rem) 3rem; margin-left: 288px; transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1); }
+            .content.sidebar-mini { margin-left: 64px; }
             .page-head {
                 display: flex; align-items: center; gap: 1rem;
                 position: sticky;
@@ -1261,12 +1264,13 @@
             @media (max-width: 900px) {
                 .menu-toggle { display: flex; }
                 .sidebar {
-                    position: fixed; top: 68px; left: 0; z-index: 50;
+                    position: fixed; top: 68px; left: 0; bottom: 0; z-index: 50;
                     transform: translateX(-100%); transition: transform 0.25s ease;
                     width: 280px;
                     background: var(--surface-solid);
                 }
                 .sidebar.open { transform: translateX(0); }
+                .content, .content.sidebar-mini { margin-left: 0 !important; }
                 .sidebar.mini { width: 280px; padding: 1.25rem 0.85rem 2rem; }
                 .sidebar.mini .search-wrap input { text-indent: 0; width: 100%; padding: 0.7rem 2rem 0.7rem 2.4rem; }
                 .sidebar.mini .search-wrap svg { left: 1rem; transform: translateY(-60%); }
@@ -2648,11 +2652,14 @@
                         if (window.innerWidth > 900) {
                             const sidebar = document.getElementById('sidebar');
                             const btn = document.getElementById('sidebar-toggle-btn');
+                            const content = document.querySelector('.content');
                             if (value) {
                                 sidebar.classList.add('mini');
+                                if (content) content.classList.add('sidebar-mini');
                                 if (btn) { btn.title = 'Expand sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>'; }
                             } else {
                                 sidebar.classList.remove('mini');
+                                if (content) content.classList.remove('sidebar-mini');
                                 if (btn) { btn.title = 'Collapse sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>'; }
                             }
                         }
@@ -2737,6 +2744,11 @@
                 document.documentElement.style.fontSize = '15px';
                 document.body.classList.remove('reduce-motion', 'high-contrast');
                 document.documentElement.classList.add('dark');
+                // Reset sidebar to full
+                const sidebarEl = document.getElementById('sidebar');
+                const contentEl = document.querySelector('.content');
+                if (sidebarEl) sidebarEl.classList.remove('mini');
+                if (contentEl) contentEl.classList.remove('sidebar-mini');
                 updateBackgroundSVG();
                 applySettingsToUI();
                 showAnnouncement('Settings reset to default', { icon: 'reset' });
@@ -2887,14 +2899,17 @@
             function toggleSidebarMini() {
                 const sidebar = document.getElementById('sidebar');
                 const btn = document.getElementById('sidebar-toggle-btn');
+                const content = document.querySelector('.content');
                 const isMini = sidebar.classList.contains('mini');
                 if (isMini) {
                     sidebar.classList.remove('mini');
+                    if (content) content.classList.remove('sidebar-mini');
                     btn.title = 'Collapse sidebar';
                     btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>';
                     try { localStorage.setItem('dispatch-sidebar-mini', 'false'); } catch (e) {}
                 } else {
                     sidebar.classList.add('mini');
+                    if (content) content.classList.add('sidebar-mini');
                     btn.title = 'Expand sidebar';
                     btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
                     // Close any open submenus
@@ -3021,7 +3036,9 @@
                     if (localStorage.getItem('dispatch-sidebar-mini') === 'true' && window.innerWidth > 900) {
                         var sidebar = document.getElementById('sidebar');
                         var btn = document.getElementById('sidebar-toggle-btn');
+                        var content = document.querySelector('.content');
                         sidebar.classList.add('mini');
+                        if (content) content.classList.add('sidebar-mini');
                         btn.title = 'Expand sidebar';
                         btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
                     }

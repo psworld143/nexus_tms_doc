@@ -47,6 +47,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             --danger: #f43f5e;
             --radius: 20px;
             --shadow: 0 24px 50px -20px rgba(0,0,0,0.45);
+            /* Smooth motion easings (tutorials.php only) */
+            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-smooth-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+            --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
         }
         html.light {
             --bg: #f8fafc;
@@ -275,8 +279,9 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             overflow-x: visible;
             z-index: 100;
             transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), padding 0.28s ease, transform 0.25s ease;
-            scrollbar-width: thin;
+            scrollbar-width: none;
         }
+        .yt-sidebar::-webkit-scrollbar { display: none; }
         /* Collapse button (matches index.php .sidebar-hide-btn) */
         .sidebar-hide-btn {
             position: absolute;
@@ -506,25 +511,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             font-size: 0.7rem; color: var(--text-dim); font-weight: 500;
         }
         .wh-header-actions { display: flex; align-items: center; gap: 0.4rem; }
-        .wh-scroll-btn {
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            border: 1px solid var(--border-strong);
-            background: var(--surface-2);
-            color: var(--text-muted);
-            display: grid; place-items: center;
-            cursor: pointer;
-            transition: all 0.18s ease;
-            outline: none;
-        }
-        .wh-scroll-btn svg { width: 16px; height: 16px; }
-        .wh-scroll-btn:hover:not(:disabled) {
-            background: var(--accent-soft);
-            color: var(--accent);
-            border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-            transform: scale(1.08);
-        }
-        .wh-scroll-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .clear-history {
             display: flex; align-items: center; gap: 0.35rem;
             font-size: 0.74rem; font-weight: 600;
@@ -1536,6 +1522,61 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             left: 0;
         }
         .main, .video-modal { position: relative; z-index: 1; }
+
+        /* ===== Smoother motion (tutorials.php only) =====
+           Layers on top of existing `transition` shorthand declarations using
+           longhand properties, so it normalizes the easing curve and adds
+           will-change hints WITHOUT resetting which properties animate.
+           --ease-smooth = decelerate curve for most UI (replaces abrupt `ease`)
+           --ease-spring = softened overshoot for interactive pops
+           Durations are nudged up slightly so short 0.15s transitions feel less snappy. */
+        .sidebar-toggle, .brand-mark, .icon-btn, .chip, .sb-item,
+        .back-home-btn, .back-home-btn svg, .sidebar-hide-btn, .sidebar-hide-btn svg,
+        .video-card, .favorite-btn, .modal-action-btn, .related-item,
+        .color-swatch, .setting-row .toggle, .settings-btn, .settings-close,
+        .clear-history, .wh-title-icon, .history-item, .history-item img,
+        .modal-channel-avatar, .modal-desc-box, .announce-toast {
+            transition-timing-function: var(--ease-smooth);
+        }
+        /* Springy interactive pops — softer than the original 1.56 overshoot */
+        .brand:hover .brand-mark, .sidebar-hide-btn:hover, .sidebar-hide-btn:hover svg,
+        .video-card:hover, .modal-action-btn:hover, .settings-btn:hover,
+        .color-swatch:hover, .favorite-btn:hover {
+            transition-timing-function: var(--ease-spring);
+        }
+        /* Sidebar + main layout shifts use a balanced in-out curve */
+        .yt-sidebar, .main, .sb-section-title, .sb-item {
+            transition-timing-function: var(--ease-smooth-in-out);
+        }
+        /* Nudge the snappy 0.15s hovers up to ~0.22s for a smoother feel */
+        .sidebar-toggle, .icon-btn, .chip, .sb-item, .modal-action-btn,
+        .settings-close, .clear-history, .related-item {
+            transition-duration: 0.22s;
+        }
+        /* will-change hints on the most animated surfaces to avoid repaint jank */
+        .video-card, .modal-player, .settings-panel, .yt-sidebar,
+        .related-item, .history-item, .announce-toast, .modal-overlay {
+            will-change: transform, opacity;
+        }
+        /* Respect reduce-motion: drop the will-change and easing overrides */
+        body.reduce-motion .video-card,
+        body.reduce-motion .modal-player,
+        body.reduce-motion .settings-panel,
+        body.reduce-motion .yt-sidebar,
+        body.reduce-motion .related-item,
+        body.reduce-motion .history-item,
+        body.reduce-motion .announce-toast,
+        body.reduce-motion .modal-overlay {
+            will-change: auto;
+        }
+        /* Smoother modal entrance */
+        @keyframes modalSlide { from { transform: scale(0.96) translateY(8px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        .video-modal { animation-timing-function: var(--ease-smooth); }
+        /* Smoother settings panel slide */
+        .settings-panel { animation-timing-function: var(--ease-smooth); }
+        @keyframes settingsSlide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        /* Smoother announcement toast entrance */
+        .announce-toast { animation-timing-function: var(--ease-smooth); }
     </style>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1741,12 +1782,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         </span>
                     </div>
                     <div class="wh-header-actions">
-                        <button class="wh-scroll-btn" id="wh-scroll-left" title="Scroll left" aria-label="Scroll left">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-                        </button>
-                        <button class="wh-scroll-btn" id="wh-scroll-right" title="Scroll right" aria-label="Scroll right">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                        </button>
                         <button class="clear-history" onclick="clearWatchHistory()" title="Clear all watch history">
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                             Clear
@@ -1880,6 +1915,20 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         <div class="s-hint">Automatically play videos when opening</div>
                     </div>
                     <div class="toggle" id="set-autoplay" onclick="toggleSetting('autoplay','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Loop Video</div>
+                        <div class="s-hint">Repeat the current video when it ends</div>
+                    </div>
+                    <div class="toggle" id="set-loop-video" onclick="toggleSetting('loop-video','toggle')"></div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <div class="s-name">Keyboard Shortcuts</div>
+                        <div class="s-hint">J / L skip 10s back / forward, K toggles play, &larr; / &rarr; skip 5s</div>
+                    </div>
+                    <div class="toggle" id="set-keyboard-shortcuts" onclick="toggleSetting('keyboard-shortcuts','toggle')"></div>
                 </div>
                 <div class="setting-row">
                     <div class="setting-label">
@@ -2194,18 +2243,23 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 grid.appendChild(item);
             });
 
-            // Wire up scroll arrow buttons
-            const leftBtn = document.getElementById('wh-scroll-left');
-            const rightBtn = document.getElementById('wh-scroll-right');
-            if (leftBtn && rightBtn) {
-                const updateScrollBtns = function() {
-                    leftBtn.disabled = grid.scrollLeft <= 2;
-                    rightBtn.disabled = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
-                };
-                leftBtn.onclick = function() { grid.scrollBy({ left: -260, behavior: 'smooth' }); };
-                rightBtn.onclick = function() { grid.scrollBy({ left: 260, behavior: 'smooth' }); };
-                grid.onscroll = updateScrollBtns;
-                updateScrollBtns();
+            // Mouse-wheel horizontal scroll: vertical wheel scrolls the rail
+            // left/right so users can navigate previously watched videos without
+            // needing the old arrow buttons. Horizontal trackpads and shift+wheel
+            // keep working natively.
+            if (!grid.dataset.wheelWired) {
+                grid.dataset.wheelWired = '1';
+                grid.addEventListener('wheel', function(e) {
+                    // Let native horizontal input (trackpad horizontal, shift+wheel) through
+                    if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
+                    const maxScroll = grid.scrollWidth - grid.clientWidth;
+                    if (maxScroll <= 0) return;
+                    const atStart = grid.scrollLeft <= 0 && e.deltaY < 0;
+                    const atEnd = grid.scrollLeft >= maxScroll && e.deltaY > 0;
+                    if (atStart || atEnd) return; // let the page scroll past the rail at the edges
+                    e.preventDefault();
+                    grid.scrollLeft += e.deltaY;
+                }, { passive: false });
             }
         }
 
@@ -2505,6 +2559,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                 video.style.display = 'block';
                 video.load();
                 video.playbackRate = parseFloat(settings['playback-speed'] || '1');
+                video.loop = !!settings['loop-video'];
 
                 // Restore progress and autoplay AFTER metadata loads (setting currentTime
                 // before the media is ready silently fails and can block playback)
@@ -2655,6 +2710,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         const SETTINGS_DEFAULTS = {
             'dark-mode': true,
             'autoplay': false,
+            'loop-video': false,
+            'keyboard-shortcuts': true,
             'sidebar-collapsed': false,
             'sync-search': true,
             'reduce-motion': false,
@@ -2684,6 +2741,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         const SETTING_LABELS = {
             'dark-mode': 'Dark mode',
             'autoplay': 'Autoplay',
+            'loop-video': 'Loop video',
+            'keyboard-shortcuts': 'Keyboard shortcuts',
             'sidebar-collapsed': 'Mini sidebar',
             'sync-search': 'Sync search',
             'reduce-motion': 'Reduce motion',
@@ -2741,6 +2800,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     break;
                 case 'autoplay':
                 case 'sync-search':
+                case 'loop-video':
+                case 'keyboard-shortcuts':
                     // Stored for use by other functions
                     break;
             }
@@ -2782,7 +2843,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         function saveSettingsImmediate() {
             const settings = loadSettings();
-            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+            ['dark-mode','autoplay','loop-video','keyboard-shortcuts','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) settings[key] = el.classList.contains('on');
             });
@@ -2822,7 +2883,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         function applySettingsToUI() {
             const s = loadSettings();
             // Toggles
-            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
+            ['dark-mode','autoplay','loop-video','keyboard-shortcuts','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
                 const el = document.getElementById('set-' + key);
                 if (el) el.classList.toggle('on', !!s[key]);
             });
@@ -2994,6 +3055,92 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             list.addEventListener('wheel', function(e) {
                 if (syncing) return; // let mousemove take over once cursor moves
             }, { passive: true });
+        })();
+
+        // ===== Keyboard shortcuts (tutorials.php only) =====
+        // Active only when the video modal is open and the setting is enabled.
+        //   J / ArrowLeft  -> skip back 10s (ArrowLeft: 5s)
+        //   L / ArrowRight -> skip forward 10s (ArrowRight: 5s)
+        //   K / Space      -> toggle play/pause
+        //   M              -> toggle mute
+        //   F              -> toggle fullscreen
+        //   Esc            -> close modal (native, but we also handle it)
+        (function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                const overlay = document.getElementById('modal-overlay');
+                if (!overlay || !overlay.classList.contains('open')) return;
+                const settings = loadSettings();
+                if (!settings['keyboard-shortcuts']) return;
+
+                const video = document.getElementById('modal-video');
+                if (!video || !video.src) return;
+
+                // Don't hijack keys while typing in inputs/search
+                const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+                if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+
+                const key = e.key.toLowerCase();
+                switch (key) {
+                    case 'j':
+                        e.preventDefault();
+                        video.currentTime = Math.max(0, video.currentTime - 10);
+                        flashShortcut('−10s');
+                        break;
+                    case 'l':
+                        e.preventDefault();
+                        video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
+                        flashShortcut('+10s');
+                        break;
+                    case 'arrowleft':
+                        e.preventDefault();
+                        video.currentTime = Math.max(0, video.currentTime - 5);
+                        flashShortcut('−5s');
+                        break;
+                    case 'arrowright':
+                        e.preventDefault();
+                        video.currentTime = Math.min(video.duration || 0, video.currentTime + 5);
+                        flashShortcut('+5s');
+                        break;
+                    case 'k':
+                    case ' ':
+                        e.preventDefault();
+                        if (video.paused) video.play().catch(function() {});
+                        else video.pause();
+                        flashShortcut(video.paused ? 'Paused' : 'Playing');
+                        break;
+                    case 'm':
+                        e.preventDefault();
+                        video.muted = !video.muted;
+                        flashShortcut(video.muted ? 'Muted' : 'Unmuted');
+                        break;
+                    case 'f':
+                        e.preventDefault();
+                        if (document.fullscreenElement) document.exitFullscreen();
+                        else if (video.requestFullscreen) video.requestFullscreen();
+                        flashShortcut('Fullscreen');
+                        break;
+                }
+            });
+
+            // Tiny transient badge that confirms the shortcut fired
+            function flashShortcut(text) {
+                let badge = document.getElementById('shortcut-flash');
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.id = 'shortcut-flash';
+                    badge.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);' +
+                        'padding:0.5rem 1rem;border-radius:10px;font-size:0.9rem;font-weight:700;' +
+                        'background:color-mix(in srgb, var(--surface-solid) 80%, transparent);' +
+                        'color:var(--text);border:1px solid var(--border-strong);' +
+                        'backdrop-filter:blur(10px);z-index:2000;pointer-events:none;' +
+                        'opacity:0;transition:opacity 0.15s ease;';
+                    document.body.appendChild(badge);
+                }
+                badge.textContent = text;
+                badge.style.opacity = '1';
+                clearTimeout(badge._t);
+                badge._t = setTimeout(function() { badge.style.opacity = '0'; }, 600);
+            }
         })();
     </script>
     <script src="js/tour-guide.js?v=1"></script>
