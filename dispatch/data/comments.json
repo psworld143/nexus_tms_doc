@@ -1,0 +1,24 @@
+[
+    {
+        "id": "e8df30f877126c576a8fe245",
+        "video_id": "general",
+        "parent_id": null,
+        "name": "wawix",
+        "message": "amazing tutorial!",
+        "avatar_color": "#f97316",
+        "likes": 1,
+        "reported": false,
+        "timestamp": 1787814469
+    },
+    {
+        "id": "b5b28b666dd676c96a8fe428",
+        "video_id": "general",
+        "parent_id": null,
+        "name": "shanelle",
+        "message": "this tutorial is so easy to understand",
+        "avatar_color": "#06b6d4",
+        "likes": 1,
+        "reported": false,
+        "timestamp": 1787814952
+    }
+]

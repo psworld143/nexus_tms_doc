@@ -29,6 +29,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="stylesheet" href="css/dispatch-ui.css">
     <link rel="stylesheet" href="css/loaders.css?v=4">
     <link rel="stylesheet" href="css/tour-guide.css?v=1">
+    <link rel="stylesheet" href="css/comments.css?v=2">
     <style>
         :root {
             --bg: #0b0f19;
@@ -180,6 +181,34 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .header-search-btn svg { width: 20px; height: 20px; }
 
         .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+
+        /* Comments notification bell badge + ring animation */
+        .comments-bell-btn { position: relative; }
+        .comments-bell-btn.has-new { animation: bell-ring 0.6s ease; }
+        @keyframes bell-ring {
+            0%, 100% { transform: rotate(0); }
+            20% { transform: rotate(-12deg); }
+            40% { transform: rotate(10deg); }
+            60% { transform: rotate(-8deg); }
+            80% { transform: rotate(6deg); }
+        }
+        .comments-bell-badge {
+            position: absolute;
+            top: -5px; right: -5px;
+            min-width: 18px; height: 18px;
+            padding: 0 5px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.65rem; font-weight: 700;
+            display: grid; place-items: center;
+            box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--accent) 60%, transparent);
+            animation: badge-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes badge-pop {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
         .icon-btn {
             display: flex; align-items: center; justify-content: center;
             width: 40px; height: 40px;
@@ -221,7 +250,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .icon-btn.docs-btn,
         .icon-btn.theme-btn,
         .icon-btn.settings-btn-top,
-        .icon-btn.tour-btn {
+        .icon-btn.tour-btn,
+        .icon-btn.comments-bell-btn {
             color: var(--accent);
             border-color: var(--border-strong);
             background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -230,7 +260,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .icon-btn.docs-btn:hover,
         .icon-btn.theme-btn:hover,
         .icon-btn.settings-btn-top:hover,
-        .icon-btn.tour-btn:hover {
+        .icon-btn.tour-btn:hover,
+        .icon-btn.comments-bell-btn:hover {
             background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
             border-color: var(--border-strong);
             box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
@@ -1683,6 +1714,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </button>
         <div class="header-actions">
+            <button class="icon-btn comments-bell-btn" id="comments-bell" onclick="scrollToComments()" title="Comments" aria-label="View comments">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>
+                <span class="comments-bell-badge" id="comments-bell-badge" style="display:none;">0</span>
+            </button>
             <a href="video_docs.php" class="icon-btn video-docs-btn" title="Video Docs">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
             </a>
@@ -1800,6 +1835,43 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             <h3>No tutorials found</h3>
             <p>Try a different search term or category filter</p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section" id="comments-section">
+            <div class="comments-header">
+                <span class="comments-header-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>
+                </span>
+                <div>
+                    <h2>Comments</h2>
+                    <div class="comments-subtitle">Share your thoughts and questions about this tutorial</div>
+                </div>
+                <span class="comments-count-badge" id="comments-count" style="display:none;">0 comments</span>
+            </div>
+
+            <!-- Comment form -->
+            <div class="comment-form" id="comment-form">
+                <div class="comment-form-row">
+                    <div class="comment-form-avatar" id="comment-form-avatar">A</div>
+                    <div class="comment-form-body">
+                        <input type="text" class="comment-form-name" id="comment-name" placeholder="Your name (optional)" maxlength="50">
+                        <textarea class="comment-form-textarea" id="comment-textarea" placeholder="Share your thoughts about this tutorial..." maxlength="1000"></textarea>
+                        <div class="comment-form-footer">
+                            <button class="comment-form-submit" id="comment-submit" type="button">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                Post Comment
+                            </button>
+                            <span class="comment-form-hint">Be respectful. Max 1000 characters.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments list -->
+            <div class="comments-list" id="comments-list">
+                <div class="comments-loading">Loading comments</div>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -2018,9 +2090,16 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         <span id="announce-text">Settings updated</span>
     </div>
 
-    <script src="js/tutorials-data.js?v=1"></script>
-    <script src="js/tutorials-settings.js?v=1"></script>
-    <script src="js/tutorials-player.js?v=1"></script>
+    <!-- Comment Toast -->
+    <div class="comment-toast" id="comment-toast">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span class="comment-toast-text">Done</span>
+    </div>
+
+    <script src="js/tutorials-data.js?v=2"></script>
+    <script src="js/tutorials-settings.js?v=2"></script>
+    <script src="js/tutorials-player.js?v=2"></script>
+    <script src="js/comments.js?v=3"></script>
     <script src="js/tour-guide.js?v=1"></script>
 </body>
 </html>
