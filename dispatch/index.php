@@ -835,6 +835,81 @@
                 transition: width 0.3s ease;
             }
 
+            /* ===== Download button — minimalist ===== */
+            .dl-btn-row {
+                display: flex; align-items: center; gap: 0.5rem;
+                margin-top: 0.6rem;
+            }
+            .dl-btn-meta {
+                font-size: 0.72rem; color: var(--text-dim); font-weight: 500;
+            }
+
+            .modal-download-btn {
+                display: inline-flex; align-items: center; gap: 0.45rem;
+                padding: 0.4rem 0.85rem;
+                border-radius: 8px;
+                font-size: 0.8rem; font-weight: 500;
+                text-decoration: none; cursor: pointer; font-family: inherit;
+                color: var(--text-muted);
+                border: 1px solid var(--border);
+                background: transparent;
+                transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+            }
+            .modal-download-btn:hover {
+                color: var(--accent);
+                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+                background: var(--accent-soft);
+            }
+            .modal-download-btn:active { transform: scale(0.97); }
+            .modal-download-btn:focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 1px;
+            }
+
+            .dl-icon-wrap {
+                position: relative; width: 16px; height: 16px;
+                display: grid; place-items: center; flex-shrink: 0;
+            }
+            .dl-arrow, .dl-check, .dl-ring {
+                position: absolute; width: 16px; height: 16px;
+                transition: opacity 0.2s ease, transform 0.25s ease;
+            }
+            .dl-arrow { opacity: 1; transform: translateY(0); }
+            .dl-check { opacity: 0; transform: scale(0.5); width: 14px; height: 14px; }
+            .dl-ring  { opacity: 0; width: 18px; height: 18px; }
+            .dl-ring-track { color: color-mix(in srgb, var(--accent) 20%, transparent); }
+            .dl-ring-fill {
+                color: var(--accent);
+                stroke-dasharray: 94.25;
+                stroke-dashoffset: 94.25;
+            }
+            .modal-download-btn.downloading {
+                pointer-events: none;
+                color: var(--text-muted);
+            }
+            .modal-download-btn.downloading .dl-arrow { opacity: 0; }
+            .modal-download-btn.downloading .dl-ring { opacity: 1; }
+            .modal-download-btn.downloading .dl-ring-fill { animation: dl-progress 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+            @keyframes dl-progress { from { stroke-dashoffset: 94.25; } to { stroke-dashoffset: 0; } }
+            .modal-download-btn.complete .dl-ring { opacity: 0; transition: opacity 0.15s ease; }
+            .modal-download-btn.complete .dl-check {
+                opacity: 1; transform: scale(1);
+                animation: dl-check-pop 0.3s ease;
+            }
+            @keyframes dl-check-pop {
+                0%   { transform: scale(0.5); }
+                100% { transform: scale(1); }
+            }
+            .modal-download-btn.complete {
+                color: var(--accent);
+                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            }
+            .dl-label { white-space: nowrap; }
+            @media (max-width: 600px) {
+                .dl-label { display: none; }
+                .dl-btn-meta { display: none; }
+            }
+
             /* ===== Documentation Enhancements ===== */
             /* Table of Contents */
             .doc-toc {
@@ -3056,7 +3131,63 @@
                         }
                     });
                 });
+                // ===== Inject download buttons below each video frame =====
+                document.querySelectorAll('.video-card').forEach(function(card) {
+                    if (card.querySelector('.dl-btn-row')) return;
+                    const frame = card.querySelector('.video-frame');
+                    if (!frame) return;
+                    const video = frame.querySelector('video source');
+                    if (!video) return;
+                    const src = video.getAttribute('src');
+                    if (!src) return;
+                    const filename = src.split('/').pop() || 'video.mp4';
+                    const ext = (filename.split('.').pop() || 'mp4').toUpperCase();
+
+                    const row = document.createElement('div');
+                    row.className = 'dl-btn-row';
+                    row.innerHTML =
+                        '<a class="modal-download-btn" href="' + src + '" download="' + filename + '" title="Download video">' +
+                            '<span class="dl-icon-wrap">' +
+                                '<svg class="dl-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1"/></svg>' +
+                                '<svg class="dl-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
+                                '<svg class="dl-ring" viewBox="0 0 36 36"><circle class="dl-ring-track" cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="2"/><circle class="dl-ring-fill" cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>' +
+                            '</span>' +
+                            '<span class="dl-label">Download</span>' +
+                        '</a>' +
+                        '<span class="dl-btn-meta">' + ext + '</span>';
+                    frame.parentNode.insertBefore(row, frame.nextSibling);
+
+                    const btn = row.querySelector('.modal-download-btn');
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (btn.classList.contains('downloading') || btn.classList.contains('complete')) return;
+                        const dlSrc = btn.href;
+                        const dlName = btn.download;
+                        const label = btn.querySelector('.dl-label');
+
+                        btn.classList.add('downloading');
+                        if (label) label.textContent = 'Downloading…';
+
+                        setTimeout(function() {
+                            btn.classList.remove('downloading');
+                            btn.classList.add('complete');
+                            if (label) label.textContent = 'Saved';
+                            const tmp = document.createElement('a');
+                            tmp.href = dlSrc;
+                            tmp.download = dlName;
+                            document.body.appendChild(tmp);
+                            tmp.click();
+                            document.body.removeChild(tmp);
+
+                            setTimeout(function() {
+                                btn.classList.remove('complete');
+                                if (label) label.textContent = 'Download';
+                            }, 1800);
+                        }, 1400);
+                    });
+                });
             });
+
         (function initDocsLinks() {
             const docIconSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
             document.querySelectorAll('.section-content').forEach(function(section) {
