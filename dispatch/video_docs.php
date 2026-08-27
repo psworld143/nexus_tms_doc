@@ -229,13 +229,103 @@ $site = 'DISPATCH';
             color: #fff;
         }
         .hero {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 2.5rem 2rem;
+            position: relative; overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 3.5rem 2rem;
             margin-bottom: 2rem; text-align: center;
             backdrop-filter: blur(16px); box-shadow: var(--shadow);
+            background:
+                radial-gradient(ellipse 600px 300px at 20% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
+                radial-gradient(ellipse 500px 250px at 85% 100%, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 70%),
+                radial-gradient(ellipse 400px 200px at 50% 50%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 60%),
+                var(--surface);
         }
-        .hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-        .hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        /* Animated grid overlay */
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px),
+                linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 80%);
+            animation: hero-grid-drift 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes hero-grid-drift {
+            0%   { background-position: 0 0, 0 0; }
+            100% { background-position: 40px 40px, 40px 40px; }
+        }
+        /* Glowing orb */
+        .hero::after {
+            content: ''; position: absolute;
+            top: -60px; right: -40px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
+            filter: blur(30px);
+            animation: hero-orb-float 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes hero-orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50%      { transform: translate(-20px, 30px) scale(1.15); opacity: 0.9; }
+        }
+        .hero > * { position: relative; z-index: 1; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.3rem 0.85rem; border-radius: 999px;
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+            margin-bottom: 1.2rem;
+            animation: hero-badge-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+        }
+        .hero-badge svg { width: 14px; height: 14px; }
+        @keyframes hero-badge-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-size: 2.4rem; font-weight: 800; margin-bottom: 0.6rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text) 0%, color-mix(in srgb, var(--accent-2) 70%, var(--text)) 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hero-title-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+        }
+        @keyframes hero-title-in {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero p {
+            color: var(--text-muted); max-width: 600px; margin: 0 auto;
+            font-size: 0.95rem; line-height: 1.6;
+            animation: hero-desc-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+        }
+        @keyframes hero-desc-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        /* Floating accent dots */
+        .hero-dots {
+            position: absolute; inset: 0; pointer-events: none; z-index: 0;
+        }
+        .hero-dot {
+            position: absolute; width: 4px; height: 4px;
+            border-radius: 50%; background: var(--accent);
+            opacity: 0; animation: hero-dot-float 6s ease-in-out infinite;
+        }
+        .hero-dot:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
+        .hero-dot:nth-child(2) { top: 70%; left: 80%; animation-delay: 1s; }
+        .hero-dot:nth-child(3) { top: 40%; left: 90%; animation-delay: 2s; }
+        .hero-dot:nth-child(4) { top: 80%; left: 10%; animation-delay: 3s; }
+        .hero-dot:nth-child(5) { top: 15%; left: 70%; animation-delay: 1.5s; }
+        @keyframes hero-dot-float {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50%      { opacity: 0.5; transform: translateY(-15px) scale(1); }
+        }
         .controls {
             display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;
         }
@@ -371,7 +461,9 @@ $site = 'DISPATCH';
 
         @media (max-width: 640px) {
             .docs-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 1.5rem; }
+            .hero { padding: 2.5rem 1.5rem; }
+            .hero h1 { font-size: 1.6rem; }
+            .hero::after { width: 120px; height: 120px; }
             .topbar { padding: 0.7rem 1rem; }
             .page { padding: 1rem; padding-top: 4.5rem; }
             .brand-text h1 { font-size: 1rem; }
@@ -409,6 +501,16 @@ $site = 'DISPATCH';
             gap: 1rem;
         }
         .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
+        .dmh-brand-icon {
+            width: 28px; height: 28px; border-radius: 8px;
+            display: grid; place-items: center; color: #fff;
+            border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
+            box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--accent) 70%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,0.18);
+            flex-shrink: 0;
+        }
+        .dmh-brand-icon svg { width: 16px; height: 16px; }
         .dmh-actions { display: flex; align-items: center; gap: 0.75rem; }
 
         /* Watch tutorial — enhanced primary action */
@@ -899,6 +1001,13 @@ $site = 'DISPATCH';
         </div>
 
         <div class="hero">
+            <div class="hero-dots">
+                <span class="hero-dot"></span>
+                <span class="hero-dot"></span>
+                <span class="hero-dot"></span>
+                <span class="hero-dot"></span>
+                <span class="hero-dot"></span>
+            </div>
             <h1>Video Documentation</h1>
             <p>Read in-depth documentation for every DISPATCH feature and module. Use the search to quickly find a feature.</p>
         </div>
@@ -1097,7 +1206,7 @@ $site = 'DISPATCH';
     <div class="doc-modal-overlay" id="doc-modal-overlay">
         <div class="doc-modal" role="dialog" aria-modal="true" aria-label="Documentation view">
             <div class="doc-modal-header">
-                <div class="dmh-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg> DISPATCH Video Docs</div>
+                <div class="dmh-brand"><span class="dmh-brand-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></span> DISPATCH Video Docs</div>
                 <div class="dmh-actions">
                     <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -1117,7 +1226,8 @@ $site = 'DISPATCH';
     </button>
 
     <script>
-        const ALL_VIDEOS = <?php echo json_encode(array_map(function($v) use ($availableVideos) {
+        // Video catalog data (generated by PHP, consumed by video-docs-modal.js)
+        window.ALL_VIDEOS = <?php echo json_encode(array_map(function($v) use ($availableVideos) {
             return [
                 'id' => $v['id'],
                 'title' => $v['title'],
@@ -1127,613 +1237,9 @@ $site = 'DISPATCH';
                 'available' => in_array($v['src'], $availableVideos)
             ];
         }, $videoCatalog)); ?>;
-
-        // Build suggested videos HTML for the doc modal
-        function buildSuggestedVideos(currentId, category) {
-            const thumbSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
-            // Find related videos: same category first, then fill with others
-            var sameCat = ALL_VIDEOS.filter(function(v) { return v.id !== currentId && v.category === category; });
-            var others = ALL_VIDEOS.filter(function(v) { return v.id !== currentId && v.category !== category; });
-            var suggestions = sameCat.concat(others).slice(0, 6);
-            if (suggestions.length === 0) {
-                return '<div class="dm-suggest"><div class="dm-suggest-empty">No suggested videos available.</div></div>';
-            }
-            var cards = suggestions.map(function(v) {
-                var badge = v.available
-                    ? '<span class="dm-suggest-badge available">Available</span>'
-                    : '<span class="dm-suggest-badge coming">Coming Soon</span>';
-                var disabled = v.available ? '' : ' disabled';
-                var href = v.available ? 'tutorials.php#' + encodeURIComponent(v.id) : '#';
-                return '<a class="dm-suggest-card' + disabled + '" href="' + href + '"' + (v.available ? ' target="_blank"' : '') + '>' +
-                    '<div class="dm-suggest-thumb">' + thumbSvg + '</div>' +
-                    '<div class="dm-suggest-info"><h5>' + v.title + '</h5><p>' + v.desc + '</p></div>' +
-                    badge + '</a>';
-            }).join('');
-            return '<div class="dm-suggest">' +
-                '<div class="dm-suggest-head">' +
-                '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' +
-                'Suggested Videos' +
-                '</div>' +
-                '<div class="dm-suggest-grid">' + cards + '</div>' +
-                '</div>';
-        }
-
-        // Documentation full-screen modal
-        (function initDocModal() {
-            const overlay = document.getElementById('doc-modal-overlay');
-            const body = document.getElementById('doc-modal-body');
-            const close = document.getElementById('doc-modal-close');
-            if (!overlay || !body) return;
-
-            function escapeHtml(str) {
-                return String(str).replace(/[&<>"']/g, function (c) {
-                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-                });
-            }
-
-            const watchLink = document.getElementById('doc-modal-watch');
-
-            function openModal(card) {
-                const id = card.id.replace('doc-', '');
-                const title = card.querySelector('h3').textContent;
-                const desc = card.querySelector('p').textContent;
-                const category = card.dataset.category || '';
-                const statusClass = card.dataset.status;
-                const status = statusClass === 'available' ? 'Available' : 'Coming Soon';
-                const durationEl = card.querySelector('.duration');
-                const duration = durationEl ? durationEl.textContent : '';
-                const watchHref = 'tutorials.php#' + encodeURIComponent(id);
-                if (watchLink) {
-                    watchLink.href = watchHref;
-                    watchLink.style.display = statusClass === 'available' ? '' : 'none';
-                }
-                body.innerHTML =
-                    '<article class="doc-modal-article">' +
-                    '<div class="dm-category">' + escapeHtml(category) + '</div>' +
-                    '<h2>' + escapeHtml(title) + '</h2>' +
-                    '<div class="dm-meta">' +
-                        '<span class="status-badge ' + statusClass + '">' + status + '</span>' +
-                        (duration ? '<span class="duration">' + escapeHtml(duration) + '</span>' : '') +
-                    '</div>' +
-                    '<p>' + escapeHtml(desc) + '</p>' +
-                    '</article>' +
-                    buildSuggestedVideos(id, category);
-                overlay.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            }
-
-            window.openDocModal = function(el) { openModal(el); };
-            window.closeDocModal = function() {
-                overlay.classList.remove('open');
-                document.body.style.overflow = '';
-            };
-
-            document.querySelectorAll('.doc-card').forEach(function(card) {
-                card.addEventListener('click', function(e) {
-                    if (e.target.closest('a') || e.target.closest('button')) return;
-                    openModal(card);
-                });
-            });
-
-            if (close) close.addEventListener('click', closeDocModal);
-            overlay.addEventListener('click', function(e) { if (e.target === overlay) closeDocModal(); });
-            document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeDocModal(); });
-        })();
-
-        // Scroll to doc card from URL hash and open its modal
-        (function initHashScroll() {
-            function scrollToDoc() {
-                const hash = window.location.hash;
-                if (!hash) return;
-                const card = document.querySelector(hash);
-                if (!card || !card.classList.contains('doc-card')) return;
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                card.classList.add('highlight-flash');
-                setTimeout(function() { card.classList.remove('highlight-flash'); }, 2500);
-            }
-            if (document.readyState === 'complete') scrollToDoc();
-            else window.addEventListener('load', scrollToDoc);
-        })();
-
-        // Theme support
-        function syncThemeFromStorage() {
-            // Check dispatch-theme first, then dispatch-settings dark-mode
-            const themeKey = localStorage.getItem('dispatch-theme');
-            let isLight = (themeKey === 'light');
-            if (!themeKey) {
-                try {
-                    const settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
-                    isLight = (settings['dark-mode'] === false);
-                } catch (e) {}
-            }
-            if (isLight) document.documentElement.classList.add('light');
-            else document.documentElement.classList.remove('light');
-            updateThemeIcons();
-            updateBackgroundSVG();
-        }
-        function updateBackgroundSVG() {
-            const isLight = document.documentElement.classList.contains('light');
-            const darkSVG = document.getElementById('bg-svg-dark');
-            const lightSVG = document.getElementById('bg-svg-light');
-            if (darkSVG) darkSVG.style.display = isLight ? 'none' : 'block';
-            if (lightSVG) lightSVG.style.display = isLight ? 'block' : 'none';
-        }
-        (function() {
-            syncThemeFromStorage();
-        })();
-        function updateThemeIcons() {
-            const isLight = document.documentElement.classList.contains('light');
-            const moonIcon = document.querySelector('.theme-btn .moon-icon');
-            const sunIcon = document.querySelector('.theme-btn .sun-icon');
-            if (moonIcon && sunIcon) {
-                moonIcon.style.display = isLight ? 'none' : 'block';
-                sunIcon.style.display = isLight ? 'block' : 'none';
-            }
-        }
-        function toggleTheme() {
-            document.documentElement.classList.toggle('light');
-            const isLight = document.documentElement.classList.contains('light');
-            try { localStorage.setItem('dispatch-theme', isLight ? 'light' : 'dark'); } catch (e) {}
-            // Also sync to dispatch-settings
-            try {
-                const settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
-                settings['dark-mode'] = !isLight;
-                localStorage.setItem('dispatch-settings', JSON.stringify(settings));
-            } catch (e) {}
-            updateThemeIcons();
-            updateBackgroundSVG();
-        }
-        // Sync theme across tabs (dispatch-theme or dispatch-settings)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'dispatch-theme' || e.key === 'dispatch-settings') {
-                syncThemeFromStorage();
-                applySettingsToUI();
-            }
-        });
-
-        // ===== Settings (synced with index.php via localStorage) =====
-        const SETTINGS_DEFAULTS = {
-            'dark-mode': true,
-            'autoplay': false,
-            'sidebar-collapsed': false,
-            'sync-search': true,
-            'reduce-motion': false,
-            'high-contrast': false,
-            'large-text': false,
-            'accent-color': '#10b981',
-            'font-size': '15',
-            'playback-speed': '1',
-            'video-quality': 'auto'
-        };
-
-        function loadSettings() {
-            let saved = {};
-            try { saved = JSON.parse(localStorage.getItem('dispatch-settings') || '{}'); } catch (e) {}
-            return Object.assign({}, SETTINGS_DEFAULTS, saved);
-        }
-
-        // Escape HTML to prevent XSS
-        function escapeHtml(str) {
-            if (typeof str !== 'string') return '';
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        let announceTimer = null;
-        function showAnnouncement(text, opts) {
-            opts = opts || {};
-            const toast = document.getElementById('announce-toast');
-            const textEl = document.getElementById('announce-text');
-            const iconEl = document.getElementById('announce-icon');
-            const swatchWrap = document.getElementById('announce-swatch-wrap');
-            if (!toast || !textEl) return;
-            textEl.textContent = text;
-            if (opts.icon === 'palette') {
-                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h8a2 2 0 002-2V5a2 2 0 00-2-2H9m4 18a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"/></svg>';
-            } else if (opts.icon === 'theme') {
-                const isDark = !document.documentElement.classList.contains('light');
-                if (isDark) {
-                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
-                } else {
-                    iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>';
-                }
-            } else if (opts.icon === 'reset') {
-                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>';
-            } else if (opts.icon === 'sidebar') {
-                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';
-            } else {
-                iconEl.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
-            }
-            if (opts.swatch) {
-                swatchWrap.innerHTML = '<span class="announce-swatch" style="background:' + escapeHtml(opts.swatch) + '"></span>';
-            } else {
-                swatchWrap.innerHTML = '';
-            }
-            toast.classList.add('show');
-            if (announceTimer) clearTimeout(announceTimer);
-            announceTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
-        }
-
-        function toggleSettings() {
-            const panel = document.getElementById('settings-panel');
-            const overlay = document.getElementById('settings-overlay');
-            const isOpen = panel.classList.contains('open');
-            panel.classList.toggle('open');
-            overlay.classList.toggle('open');
-            if (!isOpen) applySettingsToUI();
-        }
-
-        const SETTING_LABELS = {
-            'dark-mode': 'Dark mode',
-            'autoplay': 'Autoplay',
-            'sidebar-collapsed': 'Mini sidebar',
-            'sync-search': 'Sync search',
-            'reduce-motion': 'Reduce motion',
-            'high-contrast': 'High contrast',
-            'large-text': 'Larger text'
-        };
-
-        function toggleSetting(key, type) {
-            const el = document.getElementById('set-' + key);
-            if (!el) return;
-            const isOn = el.classList.toggle('on');
-            applySetting(key, isOn);
-            saveSettingsImmediate();
-            const label = SETTING_LABELS[key] || key;
-            showAnnouncement(label + ' ' + (isOn ? 'enabled' : 'disabled'));
-        }
-
-        function applySetting(key, value) {
-            const settings = loadSettings();
-            settings[key] = value;
-            try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
-            switch (key) {
-                case 'dark-mode':
-                    if (value) document.documentElement.classList.remove('light');
-                    else document.documentElement.classList.add('light');
-                    try { localStorage.setItem('dispatch-theme', value ? 'dark' : 'light'); } catch(e) {}
-                    updateThemeIcons();
-                    updateBackgroundSVG();
-                    showAnnouncement(value ? 'Dark mode enabled' : 'Light mode enabled', { icon: 'theme' });
-                    break;
-                case 'reduce-motion':
-                    if (value) document.body.classList.add('reduce-motion');
-                    else document.body.classList.remove('reduce-motion');
-                    break;
-                case 'high-contrast':
-                    if (value) document.body.classList.add('high-contrast');
-                    else document.body.classList.remove('high-contrast');
-                    break;
-                case 'large-text':
-                    if (value) document.documentElement.style.fontSize = '18px';
-                    else document.documentElement.style.fontSize = settings['font-size'] + 'px';
-                    break;
-                case 'sidebar-collapsed':
-                    if (window.innerWidth > 900) {
-                        const sidebar = document.getElementById('sidebar');
-                        const btn = document.getElementById('sidebar-toggle-btn');
-                        if (value) {
-                            sidebar.classList.add('mini');
-                            if (btn) { btn.title = 'Expand sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>'; }
-                        } else {
-                            sidebar.classList.remove('mini');
-                            if (btn) { btn.title = 'Collapse sidebar'; btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>'; }
-                        }
-                    }
-                    showAnnouncement(value ? 'Mini sidebar enabled' : 'Full sidebar enabled', { icon: 'sidebar' });
-                    break;
-                case 'autoplay':
-                case 'sync-search':
-                    // Stored for use by other functions
-                    break;
-            }
-        }
-
-        function setAccentColor(color) {
-            document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(s) {
-                s.classList.toggle('active', s.dataset.color === color);
-            });
-            document.documentElement.style.setProperty('--accent', color);
-            document.documentElement.style.setProperty('--accent-soft', color + '22');
-            applySetting('accent-color', color);
-            saveSettingsImmediate();
-            showAnnouncement('Accent color changed', { icon: 'palette', swatch: color });
-        }
-
-        function setFontSize(val) {
-            document.getElementById('font-size-value').textContent = val + 'px';
-            const settings = loadSettings();
-            if (!settings['large-text']) document.documentElement.style.fontSize = val + 'px';
-            applySetting('font-size', val);
-            saveSettingsImmediate();
-            showAnnouncement('Font size set to ' + val + 'px');
-        }
-
-        function setPlaybackSpeed(val) {
-            document.querySelectorAll('video').forEach(function(v) { v.playbackRate = parseFloat(val); });
-            applySetting('playback-speed', val);
-            saveSettingsImmediate();
-            showAnnouncement('Playback speed set to ' + val + 'x');
-        }
-
-        function setVideoQuality(val) {
-            applySetting('video-quality', val);
-            saveSettingsImmediate();
-            showAnnouncement('Video quality set to ' + val);
-        }
-
-        function saveSettingsImmediate() {
-            const settings = loadSettings();
-            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
-                const el = document.getElementById('set-' + key);
-                if (el) settings[key] = el.classList.contains('on');
-            });
-            // Read select values
-            ['playback-speed','video-quality'].forEach(function(key) {
-                const el = document.getElementById('set-' + key);
-                if (el) settings[key] = el.value;
-            });
-            // Read accent color
-            const activeSwatch = document.querySelector('#set-accent-colors .color-swatch.active');
-            if (activeSwatch) settings['accent-color'] = activeSwatch.dataset.color;
-            // Read font size
-            const fontSizeEl = document.getElementById('set-font-size');
-            if (fontSizeEl) settings['font-size'] = fontSizeEl.value;
-            try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
-        }
-
-        function saveSettings() {
-            saveSettingsImmediate();
-            const btn = event.target;
-            const orig = btn.textContent;
-            btn.textContent = 'Saved!';
-            btn.style.background = '#059669';
-            setTimeout(function() { btn.textContent = orig; btn.style.background = ''; }, 1500);
-        }
-
-        function resetSettings() {
-            try { localStorage.removeItem('dispatch-settings'); } catch (e) {}
-            document.documentElement.style.setProperty('--accent', '#10b981');
-            document.documentElement.style.setProperty('--accent-soft', 'rgba(16, 185, 129, 0.14)');
-            document.documentElement.style.fontSize = '15px';
-            document.body.classList.remove('reduce-motion', 'high-contrast');
-            document.documentElement.classList.remove('light');
-            try { localStorage.setItem('dispatch-theme', 'dark'); } catch(e) {}
-            updateThemeIcons();
-            applySettingsToUI();
-            showAnnouncement('Settings reset to default', { icon: 'reset' });
-        }
-
-        function applySettingsToUI() {
-            const s = loadSettings();
-            // Toggles
-            ['dark-mode','autoplay','sidebar-collapsed','sync-search','reduce-motion','high-contrast','large-text'].forEach(function(key) {
-                const el = document.getElementById('set-' + key);
-                if (el) el.classList.toggle('on', !!s[key]);
-            });
-            // Selects
-            ['playback-speed','video-quality'].forEach(function(key) {
-                const el = document.getElementById('set-' + key);
-                if (el) el.value = s[key];
-            });
-            // Font size
-            const fsEl = document.getElementById('set-font-size');
-            if (fsEl) { fsEl.value = s['font-size']; document.getElementById('font-size-value').textContent = s['font-size'] + 'px'; }
-            // Accent color
-            document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(sw) {
-                sw.classList.toggle('active', sw.dataset.color === s['accent-color']);
-            });
-            // Apply to DOM
-            document.documentElement.style.setProperty('--accent', s['accent-color']);
-            document.documentElement.style.setProperty('--accent-soft', s['accent-color'] + '22');
-            if (s['large-text']) document.documentElement.style.fontSize = '18px';
-            else document.documentElement.style.fontSize = s['font-size'] + 'px';
-            if (s['reduce-motion']) document.body.classList.add('reduce-motion'); else document.body.classList.remove('reduce-motion');
-            if (s['high-contrast']) document.body.classList.add('high-contrast'); else document.body.classList.remove('high-contrast');
-            if (s['dark-mode']) document.documentElement.classList.remove('light'); else document.documentElement.classList.add('light');
-            updateThemeIcons();
-            updateBackgroundSVG();
-        }
-
-        // Initialize settings on load
-        applySettingsToUI();
-
-        // Filter + Search enhancements
-        (function() {
-            const input = document.getElementById('filter');
-            const searchWrap = document.getElementById('search-wrap');
-            const clearBtn = document.getElementById('search-clear');
-            const cards = Array.from(document.querySelectorAll('.doc-card'));
-            const blocks = Array.from(document.querySelectorAll('.category-block'));
-            const countEl = document.getElementById('count');
-            const empty = document.getElementById('empty');
-
-            const statusBtns = document.querySelectorAll('#status-filter button');
-            let currentStatus = 'all';
-            let debounceTimer = null;
-
-            // Store original text for highlighting
-            cards.forEach(function(c) {
-                c._origTitle = c.querySelector('h3') ? c.querySelector('h3').textContent : '';
-                c._origDesc = c.querySelector('p') ? c.querySelector('p').textContent : '';
-            });
-
-            function highlightText(text, query) {
-                if (!query) return text;
-                const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const re = new RegExp('(' + escaped + ')', 'gi');
-                return text.replace(re, '<mark class="search-mark">$1</mark>');
-            }
-
-            function applyHighlight(query) {
-                cards.forEach(function(c) {
-                    const h3 = c.querySelector('h3');
-                    const p = c.querySelector('p');
-                    if (h3) h3.innerHTML = highlightText(c._origTitle, query);
-                    if (p) p.innerHTML = highlightText(c._origDesc, query);
-                });
-            }
-
-            function animateCount(target) {
-                countEl.classList.remove('pulse');
-                void countEl.offsetWidth;
-                countEl.textContent = target;
-                countEl.classList.add('pulse');
-            }
-
-            function applyFilter() {
-                const t = input.value.trim().toLowerCase();
-                let shown = 0;
-                cards.forEach(function(c) {
-                    const matchesTerm = !t || c.dataset.title.includes(t);
-                    const matchesStatus = currentStatus === 'all' || c.dataset.status === currentStatus;
-                    const show = matchesTerm && matchesStatus;
-                    c.style.display = show ? '' : 'none';
-                    if (show) shown++;
-                });
-                blocks.forEach(function(b) {
-                    const visible = Array.from(b.querySelectorAll('.doc-card')).some(function(c) { return c.style.display !== 'none'; });
-                    b.style.display = visible ? '' : 'none';
-                });
-                animateCount(shown + ' feature' + (shown === 1 ? '' : 's') + (t || currentStatus !== 'all' ? ' matching' : ''));
-                empty.classList.toggle('show', shown === 0);
-                applyHighlight(t);
-
-                // Toggle clear button + search border
-                if (t) { clearBtn.classList.add('show'); searchWrap.classList.add('has-text'); }
-                else { clearBtn.classList.remove('show'); searchWrap.classList.remove('has-text'); }
-            }
-
-            // Debounced input
-            input.addEventListener('input', function() {
-                if (debounceTimer) clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(applyFilter, 120);
-            });
-
-            // Clear button
-            clearBtn.addEventListener('click', function() {
-                input.value = '';
-                applyFilter();
-                input.focus();
-            });
-
-            // Keyboard shortcut: '/' to focus search
-            document.addEventListener('keydown', function(e) {
-                if (e.key === '/' && document.activeElement !== input && !e.target.closest('input,textarea,button')) {
-                    e.preventDefault();
-                    input.focus();
-                }
-                if (e.key === 'Escape' && document.activeElement === input) {
-                    input.value = '';
-                    applyFilter();
-                    input.blur();
-                }
-            });
-
-            statusBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    statusBtns.forEach(function(b) { b.classList.remove('active'); });
-                    btn.classList.add('active');
-                    currentStatus = btn.dataset.filter;
-                    applyFilter();
-                });
-            });
-            applyFilter();
-        })();
-
-        // ===== Scroll reveal with stagger =====
-        (function initScrollReveal() {
-            const cards = document.querySelectorAll('.doc-card');
-            if (!('IntersectionObserver' in window)) {
-                cards.forEach(function(c) { c.classList.add('revealed'); });
-                return;
-            }
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry, i) {
-                    if (entry.isIntersecting) {
-                        const card = entry.target;
-                        const delay = Array.from(cards).indexOf(card) % 8 * 60;
-                        setTimeout(function() { card.classList.add('revealed'); }, delay);
-                        observer.unobserve(card);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-            cards.forEach(function(c) { observer.observe(c); });
-        })();
-
-        // ===== Category collapse/expand =====
-        (function initCategoryToggle() {
-            document.querySelectorAll('.category-title').forEach(function(title) {
-                const block = title.closest('.category-block');
-                if (!block) return;
-                function toggle() {
-                    block.classList.toggle('collapsed');
-                    const expanded = !block.classList.contains('collapsed');
-                    title.setAttribute('aria-expanded', expanded);
-                }
-                title.addEventListener('click', function(e) {
-                    if (e.target.closest('a,button')) return;
-                    toggle();
-                });
-                title.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-                });
-            });
-        })();
-
-        // ===== Keyboard navigation for doc cards =====
-        (function initCardKeyboardNav() {
-            const cards = Array.from(document.querySelectorAll('.doc-card'));
-            cards.forEach(function(card, i) {
-                card.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        if (e.target.closest('a,button')) return;
-                        e.preventDefault();
-                        card.click();
-                    }
-                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        const next = cards[i + 1];
-                        if (next && next.style.display !== 'none') next.focus();
-                    }
-                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        const prev = cards[i - 1];
-                        if (prev && prev.style.display !== 'none') prev.focus();
-                    }
-                });
-            });
-        })();
-
-        // ===== Back-to-top button =====
-        (function initBackToTop() {
-            const btn = document.getElementById('back-to-top');
-            if (!btn) return;
-            let ticking = false;
-            window.addEventListener('scroll', function() {
-                if (ticking) return;
-                ticking = true;
-                requestAnimationFrame(function() {
-                    btn.classList.toggle('show', window.scrollY > 400);
-                    ticking = false;
-                });
-            });
-            btn.addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        })();
-
-        // Hide loader on load
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('loader-screen');
-            if (loader) {
-                setTimeout(function() { loader.classList.add('hidden'); }, 500);
-            }
-        });
     </script>
+    <script src="js/video-docs-settings.js?v=1"></script>
+    <script src="js/video-docs-modal.js?v=1"></script>
+    <script src="js/video-docs-ui.js?v=1"></script>
 </body>
 </html>
