@@ -29,7 +29,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="stylesheet" href="css/dispatch-ui.css">
     <link rel="stylesheet" href="css/loaders.css?v=4">
     <link rel="stylesheet" href="css/tour-guide.css?v=1">
-    <link rel="stylesheet" href="css/comments.css?v=2">
+    <link rel="stylesheet" href="css/comments.css?v=5">
     <style>
         :root {
             --bg: #0b0f19;
@@ -999,6 +999,66 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .modal-desc-box p { margin: 0; }
 
+        /* Comments inside the video modal */
+        .modal-comments {
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+        .modal-comments-header {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .modal-comments-header svg {
+            width: 20px; height: 20px;
+            color: var(--accent);
+        }
+        .modal-comments-header h4 {
+            font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 0;
+        }
+        .modal-comments-count {
+            margin-left: auto;
+            padding: 0.15rem 0.55rem; border-radius: 999px;
+            font-size: 0.68rem; font-weight: 700; color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+        .modal-comment-form-mini {
+            display: flex; flex-direction: column; gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface) 50%, transparent);
+        }
+        .modal-comment-form-mini .comment-form-name {
+            width: 100%; max-width: 240px;
+        }
+        .modal-comment-form-mini .comment-form-textarea {
+            min-height: 50px; font-size: 0.85rem;
+        }
+        .modal-comment-form-mini .comment-form-submit {
+            align-self: flex-start;
+            padding: 0.4rem 1rem; font-size: 0.8rem;
+        }
+        .modal-comments-list {
+            display: flex; flex-direction: column; gap: 0.5rem;
+            max-height: 400px; overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+        .modal-comments-list .comment-item {
+            padding: 0.7rem 0.85rem;
+            border-radius: 10px;
+        }
+        .modal-comments-list .comment-body { font-size: 0.82rem; }
+        .modal-comments-list .comment-avatar { width: 28px; height: 28px; font-size: 0.72rem; }
+        .modal-comments-list .comment-body,
+        .modal-comments-list .comment-actions { padding-left: calc(28px + 0.6rem); }
+        .modal-comments-list .comment-replies { padding-left: calc(28px + 0.6rem); }
+        .modal-comments-list .comment-reply .comment-avatar { width: 24px; height: 24px; font-size: 0.68rem; }
+        .modal-comments-list .comment-reply .comment-body,
+        .modal-comments-list .comment-reply .comment-actions { padding-left: calc(24px + 0.6rem); }
+
         /* Right column: related videos — no title, just the list */
         .modal-sidebar {
             display: flex; flex-direction: column;
@@ -1921,6 +1981,26 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     <div class="modal-desc-box">
                         <p id="modal-desc">Description</p>
                     </div>
+
+                    <!-- Comments inside the modal (per-video) -->
+                    <div class="modal-comments" id="modal-comments">
+                        <div class="modal-comments-header">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>
+                            <h4>Comments for this tutorial</h4>
+                            <span class="modal-comments-count" id="modal-comments-count" style="display:none;">0</span>
+                        </div>
+                        <div class="modal-comment-form-mini" id="modal-comment-form">
+                            <input type="text" class="comment-form-name" id="modal-comment-name" placeholder="Your name (optional)" maxlength="50">
+                            <textarea class="comment-form-textarea" id="modal-comment-textarea" placeholder="Share your thoughts about this video..." maxlength="1000" rows="2"></textarea>
+                            <button class="comment-form-submit" id="modal-comment-submit" type="button">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                Post
+                            </button>
+                        </div>
+                        <div class="modal-comments-list" id="modal-comments-list">
+                            <div class="comments-loading">Loading comments</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Right: related videos sidebar -->
@@ -2098,8 +2178,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
     <script src="js/tutorials-data.js?v=2"></script>
     <script src="js/tutorials-settings.js?v=2"></script>
-    <script src="js/tutorials-player.js?v=2"></script>
-    <script src="js/comments.js?v=3"></script>
+    <script src="js/tutorials-player.js?v=4"></script>
+    <script src="js/comments.js?v=8"></script>
     <script src="js/tour-guide.js?v=1"></script>
 </body>
 </html>

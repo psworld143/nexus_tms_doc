@@ -101,6 +101,11 @@ if ($method === 'GET') {
             return empty($c['reported']);
         }));
     }
+    // Strip edit_token from response (security — don't expose tokens)
+    $all = array_map(function($c) {
+        unset($c['edit_token']);
+        return $c;
+    }, $all);
     $threaded = buildThreaded($all);
     // Lightweight count endpoint for notification polling
     if (isset($_GET['action']) && $_GET['action'] === 'count') {
@@ -145,7 +150,9 @@ if ($method === 'POST') {
             'avatar_color' => avatarColor($name),
             'likes' => 0,
             'reported' => false,
-            'timestamp' => time()
+            'timestamp' => time(),
+            'edit_token' => bin2hex(random_bytes(16)),
+            'edited' => false
         ];
 
         $comments = loadComments();
@@ -156,6 +163,51 @@ if ($method === 'POST') {
             exit;
         }
         echo json_encode(['ok' => true, 'comment' => $comment], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($action === 'edit') {
+        $commentId = clean($input['id'] ?? '', 64);
+        $editToken = clean($input['edit_token'] ?? '', 64);
+        $newMessage = clean($input['message'] ?? '', MAX_MSG_LEN);
+
+        if ($commentId === '') {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'error' => 'Missing comment id.']);
+            exit;
+        }
+        if ($newMessage === '') {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'error' => 'Message cannot be empty.']);
+            exit;
+        }
+
+        $comments = loadComments();
+        $found = false;
+        foreach ($comments as &$c) {
+            if ($c['id'] === $commentId) {
+                // Verify edit token only if the comment has one (old comments don't)
+                $storedToken = $c['edit_token'] ?? '';
+                if ($storedToken !== '' && $storedToken !== $editToken) {
+                    http_response_code(403);
+                    echo json_encode(['ok' => false, 'error' => 'You can only edit your own comments.']);
+                    exit;
+                }
+                $c['message'] = $newMessage;
+                $c['edited'] = true;
+                $c['edited_at'] = time();
+                $found = true;
+                break;
+            }
+        }
+        unset($c);
+        if (!$found) {
+            http_response_code(404);
+            echo json_encode(['ok' => false, 'error' => 'Comment not found.']);
+            exit;
+        }
+        saveComments($comments);
+        echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);
         exit;
     }
 

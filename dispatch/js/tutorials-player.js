@@ -339,8 +339,11 @@
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
 
-        // Load comments for this video
-        if (window.DispatchComments) window.DispatchComments.load(v.id);
+        // Load comments for this video (both main list and modal)
+        if (window.DispatchComments) {
+            window.DispatchComments.load(v.id);
+            window.DispatchComments.loadModal(v.id);
+        }
     }
 
     function closeModal(e) {
@@ -390,6 +393,12 @@
     function init() {
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
+            // Don't intercept when typing in inputs/textarea
+            var tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+            if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) {
+                if (e.key === 'Escape') closeModal();
+                return;
+            }
             if (e.key === 'Escape') closeModal();
             if (e.key === ' ' && document.getElementById('modal-overlay').classList.contains('open')) {
                 e.preventDefault();
