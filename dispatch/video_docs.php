@@ -283,6 +283,92 @@ $site = 'DISPATCH';
         .empty { text-align: center; padding: 3rem 1rem; color: var(--text-dim); display: none; }
         .empty.show { display: block; }
         footer { text-align: center; padding: 2rem 0; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+
+        /* ===== UI/UX Enhancements ===== */
+        /* Scroll reveal */
+        .doc-card { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, box-shadow 0.22s ease; }
+        .doc-card.revealed { opacity: 1; transform: translateY(0); }
+        .doc-card:hover {
+            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--accent) 25%, transparent), 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent);
+            transform: translateY(-4px);
+        }
+        .doc-card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .doc-card.highlight-flash {
+            animation: card-flash 1.2s ease;
+        }
+        @keyframes card-flash {
+            0%, 100% { box-shadow: 0 0 0 0 transparent; }
+            30% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 40%, transparent), 0 0 30px color-mix(in srgb, var(--accent) 30%, transparent); }
+        }
+
+        /* Search highlight */
+        .search-mark { background: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); border-radius: 3px; padding: 0 2px; font-weight: 600; }
+        .search-clear {
+            display: none; width: 22px; height: 22px; border-radius: 50%;
+            border: none; background: var(--surface-2); color: var(--text-muted);
+            cursor: pointer; place-items: center; flex-shrink: 0;
+            transition: all 0.18s ease;
+        }
+        .search-clear.show { display: grid; }
+        .search-clear:hover { background: var(--danger); color: #fff; transform: scale(1.1); }
+        .search-clear svg { width: 12px; height: 12px; }
+        .search.has-text { border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+        /* Category collapse */
+        .category-title { cursor: pointer; user-select: none; transition: color 0.18s ease; }
+        .category-title:hover { color: var(--accent-2); }
+        .category-title .cat-chevron {
+            margin-left: auto; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 20px; height: 20px; color: var(--text-dim);
+        }
+        .category-block.collapsed .cat-chevron { transform: rotate(-90deg); }
+        .category-block.collapsed .docs-grid {
+            max-height: 0; overflow: hidden; opacity: 0; margin-top: 0;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+        .docs-grid { transition: max-height 0.3s ease, opacity 0.2s ease; }
+
+        /* Back-to-top */
+        .back-to-top {
+            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid var(--border-strong); background: var(--surface-solid);
+            color: var(--text); cursor: pointer; place-items: center;
+            box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
+            opacity: 0; transform: translateY(20px) scale(0.8); pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            display: grid;
+        }
+        .back-to-top.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .back-to-top:hover {
+            background: var(--accent); color: #fff; border-color: var(--accent);
+            transform: translateY(-2px) scale(1.08);
+            box-shadow: 0 12px 28px -8px color-mix(in srgb, var(--accent) 50%, transparent);
+        }
+        .back-to-top svg { width: 20px; height: 20px; }
+
+        /* Count badge animation */
+        .count { transition: color 0.2s ease; }
+        .count.pulse { animation: count-pulse 0.3s ease; }
+        @keyframes count-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); color: var(--accent); }
+            100% { transform: scale(1); }
+        }
+
+        /* Filter pill indicator */
+        .status-filter { position: relative; }
+        .status-filter::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            height: 2px; background: var(--accent); border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 0; opacity: 0;
+        }
+
         @media (max-width: 640px) {
             .docs-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 1.5rem; }
@@ -818,9 +904,12 @@ $site = 'DISPATCH';
         </div>
 
         <div class="controls">
-            <div class="search">
+            <div class="search" id="search-wrap">
                 <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
                 <input type="text" id="filter" placeholder="Filter features…" aria-label="Filter features">
+                <button class="search-clear" id="search-clear" type="button" aria-label="Clear search">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
             </div>
             <div class="status-filter" id="status-filter" role="group" aria-label="Filter by availability">
                 <button type="button" class="active" data-filter="all">All</button>
@@ -832,10 +921,11 @@ $site = 'DISPATCH';
 
         <?php foreach ($grouped as $category => $videos): ?>
         <div class="category-block" data-category="<?php echo htmlspecialchars($category); ?>">
-            <div class="category-title">
+            <div class="category-title" tabindex="0" role="button" aria-expanded="true">
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 4H5m0 4h14M5 7h14"/></svg>
                 <?php echo htmlspecialchars($category); ?>
                 <span class="duration">(<?php echo count($videos); ?>)</span>
+                <svg class="cat-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"/></svg>
             </div>
             <div class="docs-grid">
                 <?php foreach ($videos as $v):
@@ -844,7 +934,7 @@ $site = 'DISPATCH';
                     $statusClass = $isAvailable ? 'available' : 'coming';
                     $statusText = $isAvailable ? 'Available' : 'Coming Soon';
                 ?>
-                <div class="doc-card" id="doc-<?php echo htmlspecialchars($v['id']); ?>" data-title="<?php echo htmlspecialchars(strtolower($v['title'] . ' ' . $docText)); ?>" data-status="<?php echo $statusClass; ?>" data-category="<?php echo htmlspecialchars($category); ?>">
+                <div class="doc-card" id="doc-<?php echo htmlspecialchars($v['id']); ?>" tabindex="0" role="button" aria-label="<?php echo htmlspecialchars($v['title']); ?> documentation" data-title="<?php echo htmlspecialchars(strtolower($v['title'] . ' ' . $docText)); ?>" data-status="<?php echo $statusClass; ?>" data-category="<?php echo htmlspecialchars($category); ?>">
                     <h3><?php echo htmlspecialchars($v['title']); ?></h3>
                     <p><?php echo htmlspecialchars($docText); ?></p>
                     <div class="doc-meta">
@@ -1022,6 +1112,10 @@ $site = 'DISPATCH';
         </div>
     </div>
 
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10l7-7 7 7M12 3v18"/></svg>
+    </button>
+
     <script>
         const ALL_VIDEOS = <?php echo json_encode(array_map(function($v) use ($availableVideos) {
             return [
@@ -1134,8 +1228,8 @@ $site = 'DISPATCH';
                 const card = document.querySelector(hash);
                 if (!card || !card.classList.contains('doc-card')) return;
                 card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                card.classList.add('doc-highlight');
-                setTimeout(function() { card.classList.remove('doc-highlight'); }, 2500);
+                card.classList.add('highlight-flash');
+                setTimeout(function() { card.classList.remove('highlight-flash'); }, 2500);
             }
             if (document.readyState === 'complete') scrollToDoc();
             else window.addEventListener('load', scrollToDoc);
@@ -1448,9 +1542,11 @@ $site = 'DISPATCH';
         // Initialize settings on load
         applySettingsToUI();
 
-        // Filter
+        // Filter + Search enhancements
         (function() {
             const input = document.getElementById('filter');
+            const searchWrap = document.getElementById('search-wrap');
+            const clearBtn = document.getElementById('search-clear');
             const cards = Array.from(document.querySelectorAll('.doc-card'));
             const blocks = Array.from(document.querySelectorAll('.category-block'));
             const countEl = document.getElementById('count');
@@ -1458,6 +1554,36 @@ $site = 'DISPATCH';
 
             const statusBtns = document.querySelectorAll('#status-filter button');
             let currentStatus = 'all';
+            let debounceTimer = null;
+
+            // Store original text for highlighting
+            cards.forEach(function(c) {
+                c._origTitle = c.querySelector('h3') ? c.querySelector('h3').textContent : '';
+                c._origDesc = c.querySelector('p') ? c.querySelector('p').textContent : '';
+            });
+
+            function highlightText(text, query) {
+                if (!query) return text;
+                const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const re = new RegExp('(' + escaped + ')', 'gi');
+                return text.replace(re, '<mark class="search-mark">$1</mark>');
+            }
+
+            function applyHighlight(query) {
+                cards.forEach(function(c) {
+                    const h3 = c.querySelector('h3');
+                    const p = c.querySelector('p');
+                    if (h3) h3.innerHTML = highlightText(c._origTitle, query);
+                    if (p) p.innerHTML = highlightText(c._origDesc, query);
+                });
+            }
+
+            function animateCount(target) {
+                countEl.classList.remove('pulse');
+                void countEl.offsetWidth;
+                countEl.textContent = target;
+                countEl.classList.add('pulse');
+            }
 
             function applyFilter() {
                 const t = input.value.trim().toLowerCase();
@@ -1473,11 +1599,41 @@ $site = 'DISPATCH';
                     const visible = Array.from(b.querySelectorAll('.doc-card')).some(function(c) { return c.style.display !== 'none'; });
                     b.style.display = visible ? '' : 'none';
                 });
-                countEl.textContent = shown + ' feature' + (shown === 1 ? '' : 's') + (t || currentStatus !== 'all' ? ' matching' : '');
+                animateCount(shown + ' feature' + (shown === 1 ? '' : 's') + (t || currentStatus !== 'all' ? ' matching' : ''));
                 empty.classList.toggle('show', shown === 0);
+                applyHighlight(t);
+
+                // Toggle clear button + search border
+                if (t) { clearBtn.classList.add('show'); searchWrap.classList.add('has-text'); }
+                else { clearBtn.classList.remove('show'); searchWrap.classList.remove('has-text'); }
             }
 
-            input.addEventListener('input', applyFilter);
+            // Debounced input
+            input.addEventListener('input', function() {
+                if (debounceTimer) clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(applyFilter, 120);
+            });
+
+            // Clear button
+            clearBtn.addEventListener('click', function() {
+                input.value = '';
+                applyFilter();
+                input.focus();
+            });
+
+            // Keyboard shortcut: '/' to focus search
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '/' && document.activeElement !== input && !e.target.closest('input,textarea,button')) {
+                    e.preventDefault();
+                    input.focus();
+                }
+                if (e.key === 'Escape' && document.activeElement === input) {
+                    input.value = '';
+                    applyFilter();
+                    input.blur();
+                }
+            });
+
             statusBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     statusBtns.forEach(function(b) { b.classList.remove('active'); });
@@ -1487,6 +1643,88 @@ $site = 'DISPATCH';
                 });
             });
             applyFilter();
+        })();
+
+        // ===== Scroll reveal with stagger =====
+        (function initScrollReveal() {
+            const cards = document.querySelectorAll('.doc-card');
+            if (!('IntersectionObserver' in window)) {
+                cards.forEach(function(c) { c.classList.add('revealed'); });
+                return;
+            }
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, i) {
+                    if (entry.isIntersecting) {
+                        const card = entry.target;
+                        const delay = Array.from(cards).indexOf(card) % 8 * 60;
+                        setTimeout(function() { card.classList.add('revealed'); }, delay);
+                        observer.unobserve(card);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            cards.forEach(function(c) { observer.observe(c); });
+        })();
+
+        // ===== Category collapse/expand =====
+        (function initCategoryToggle() {
+            document.querySelectorAll('.category-title').forEach(function(title) {
+                const block = title.closest('.category-block');
+                if (!block) return;
+                function toggle() {
+                    block.classList.toggle('collapsed');
+                    const expanded = !block.classList.contains('collapsed');
+                    title.setAttribute('aria-expanded', expanded);
+                }
+                title.addEventListener('click', function(e) {
+                    if (e.target.closest('a,button')) return;
+                    toggle();
+                });
+                title.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+                });
+            });
+        })();
+
+        // ===== Keyboard navigation for doc cards =====
+        (function initCardKeyboardNav() {
+            const cards = Array.from(document.querySelectorAll('.doc-card'));
+            cards.forEach(function(card, i) {
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.target.closest('a,button')) return;
+                        e.preventDefault();
+                        card.click();
+                    }
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const next = cards[i + 1];
+                        if (next && next.style.display !== 'none') next.focus();
+                    }
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prev = cards[i - 1];
+                        if (prev && prev.style.display !== 'none') prev.focus();
+                    }
+                });
+            });
+        })();
+
+        // ===== Back-to-top button =====
+        (function initBackToTop() {
+            const btn = document.getElementById('back-to-top');
+            if (!btn) return;
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function() {
+                    btn.classList.toggle('show', window.scrollY > 400);
+                    ticking = false;
+                });
+            });
+            btn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         })();
 
         // Hide loader on load
