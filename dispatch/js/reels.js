@@ -11,7 +11,6 @@
     var sections = [];
     var indicator = null;
     var activeIndex = 0;
-    var io = null;
     var contentEl = null;
 
     // ===== Inject reel info overlays into each section =====
@@ -70,102 +69,158 @@
     }
 
     // ===== Build scroll indicator dots =====
+    var indicatorScroll = null;
+
     function buildIndicator() {
         if (indicator) return;
         indicator = document.createElement('div');
         indicator.className = 'reel-indicator';
         indicator.setAttribute('aria-hidden', 'true');
 
+        indicatorScroll = document.createElement('div');
+        indicatorScroll.className = 'reel-indicator-scroll';
+
         sections.forEach(function (s, i) {
+            var sectionId = s.id.replace(/^section-/, '');
+            var meta = (typeof SECTION_META !== 'undefined' && SECTION_META[sectionId]) ? SECTION_META[sectionId] : null;
+            var label = meta ? meta[0] : sectionId.replace(/-/g, ' ');
+
+            var item = document.createElement('div');
+            item.className = 'reel-indicator-item';
+            item.setAttribute('role', 'button');
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('aria-label', 'Jump to ' + label);
+            item.dataset.index = i;
+            if (i === 0) item.classList.add('active');
+
             var dot = document.createElement('div');
             dot.className = 'reel-indicator-dot';
-            if (i === 0) dot.classList.add('active');
-            indicator.appendChild(dot);
+
+            var name = document.createElement('span');
+            name.className = 'reel-indicator-name';
+            name.textContent = label;
+
+            item.appendChild(dot);
+            item.appendChild(name);
+
+            item.addEventListener('click', function() { jumpToReel(i); });
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToReel(i); }
+            });
+
+            indicatorScroll.appendChild(item);
         });
 
+        indicator.appendChild(indicatorScroll);
         document.body.appendChild(indicator);
     }
 
     function updateIndicator(index) {
         if (!indicator) return;
-        var dots = indicator.querySelectorAll('.reel-indicator-dot');
-        dots.forEach(function (d, i) {
-            d.classList.toggle('active', i === index);
+        var items = indicator.querySelectorAll('.reel-indicator-item');
+        items.forEach(function (item, i) {
+            item.classList.toggle('active', i === index);
+            item.classList.remove('preview');
+            if (item.classList.contains('active')) {
+                item.setAttribute('aria-current', 'true');
+            } else {
+                item.removeAttribute('aria-current');
+            }
         });
+        // Auto-scroll the indicator to keep the active item centered
+        var scrollEl = indicatorScroll || indicator;
+        var activeItem = items[index];
+        if (activeItem) {
+            var itemTop = activeItem.offsetTop;
+            var itemHeight = activeItem.offsetHeight;
+            var scrollTop = itemTop - (scrollEl.clientHeight / 2) + (itemHeight / 2);
+            scrollEl.scrollTop = scrollTop;
+        }
     }
 
-    // ===== IntersectionObserver: detect active section, auto-play/pause =====
-    function setupIntersectionObserver() {
-        if (!('IntersectionObserver' in window)) return;
-        io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (!entry.isIntersecting) {
-                    // Pause video when section leaves view
-                    var video = entry.target.querySelector('video');
-                    if (video && !video.paused) {
-                        video.pause();
-                    }
-                    entry.target.classList.remove('is-active');
-                    return;
+    function updateIndicatorPreview(index) {
+        if (!indicator) return;
+        var items = indicator.querySelectorAll('.reel-indicator-item');
+        items.forEach(function (item, i) {
+            if (i === index) {
+                if (!item.classList.contains('active')) {
+                    item.classList.add('preview');
                 }
-
-                // This section is now the active one
-                var ratio = entry.intersectionRatio;
-                if (ratio < 0.5) return;
-
-                // Remove active from all, set this one
-                sections.forEach(function (s) { s.classList.remove('is-active'); });
-                entry.target.classList.add('is-active');
-
-                // Update active index + chrome
-                var idx = sections.indexOf(entry.target);
-                if (idx >= 0) {
-                    if (idx !== activeIndex) {
-                        activeIndex = idx;
-                        updateIndicator(idx);
-                        updateSidebarActive(idx);
-                        updatePageHead(idx);
-                    }
-                    // Always auto-play the video when it becomes active (Facebook Reels behavior)
-                    var activeVideo = entry.target.querySelector('video');
-                    if (activeVideo && !activeVideo.closest('.video-empty')) {
-                        // Mute to satisfy browser autoplay policies
-                        activeVideo.muted = true;
-                        try {
-                            activeVideo.play().catch(function () {});
-                        } catch (e) {}
-                    }
-                }
-            });
-        }, {
-            root: contentEl,
-            threshold: [0.5, 0.75, 1.0]
+            } else {
+                item.classList.remove('preview');
+            }
         });
-
-        sections.forEach(function (s) { io.observe(s); });
-
-        // Wire play/pause events to auto-hide title overlay
-        wireVideoPlayPause();
+        // Auto-scroll the indicator to follow the preview item
+        var scrollEl = indicatorScroll || indicator;
+        var previewItem = items[index];
+        if (previewItem) {
+            var itemTop = previewItem.offsetTop;
+            var itemHeight = previewItem.offsetHeight;
+            var scrollTop = itemTop - (scrollEl.clientHeight / 2) + (itemHeight / 2);
+            scrollEl.scrollTop = scrollTop;
+        }
     }
 
-    // ===== Wire play/pause events to toggle title overlay visibility =====
-    function wireVideoPlayPause() {
-        sections.forEach(function (section) {
-            var video = section.querySelector('video');
-            if (!video) return;
-            if (video.dataset.reelPlayBound === '1') return;
-            video.dataset.reelPlayBound = '1';
+    // ===== Scroll-based active section detection (more accurate than IO for snap) =====
+    var scrollTimer = null;
 
-            video.addEventListener('play', function () {
-                section.classList.add('video-playing');
-            });
-            video.addEventListener('pause', function () {
-                section.classList.remove('video-playing');
-            });
-            video.addEventListener('ended', function () {
-                section.classList.remove('video-playing');
-            });
+    function setupScrollDetection() {
+        contentEl.addEventListener('scroll', function () {
+            if (scrollTimer) cancelAnimationFrame(scrollTimer);
+            scrollTimer = requestAnimationFrame(detectActiveSection);
+        }, { passive: true });
+
+        // Also detect on init
+        detectActiveSection();
+    }
+
+    function detectActiveSection() {
+        if (!contentEl) return;
+        var scrollTop = contentEl.scrollTop;
+        var sectionHeight = contentEl.clientHeight;
+        // Calculate which section is most visible (floor for preview, round for active)
+        var previewIdx = Math.floor((scrollTop + sectionHeight * 0.3) / sectionHeight);
+        previewIdx = Math.max(0, Math.min(sections.length - 1, previewIdx));
+        var idx = Math.round(scrollTop / sectionHeight);
+        idx = Math.max(0, Math.min(sections.length - 1, idx));
+
+        // Real-time preview tracking during scroll
+        if (previewIdx !== idx) {
+            updateIndicatorPreview(previewIdx);
+        } else {
+            // Clear preview when settled on a section
+            var previewItems = indicator ? indicator.querySelectorAll('.reel-indicator-item.preview') : [];
+            previewItems.forEach(function (item) { item.classList.remove('preview'); });
+        }
+
+        // Pause all videos except the active one
+        sections.forEach(function (s, i) {
+            if (i !== idx) {
+                var v = s.querySelector('video');
+                if (v && !v.paused) v.pause();
+                s.classList.remove('is-active');
+            }
         });
+
+        // Set active section
+        var active = sections[idx];
+        if (active) {
+            active.classList.add('is-active');
+
+            if (idx !== activeIndex) {
+                activeIndex = idx;
+                updateIndicator(idx);
+                updateSidebarActive(idx);
+                updatePageHead(idx);
+            }
+
+            // Auto-play the active video (muted)
+            var activeVideo = active.querySelector('video');
+            if (activeVideo && !activeVideo.closest('.video-empty') && activeVideo.paused) {
+                activeVideo.muted = true;
+                try { activeVideo.play().catch(function () {}); } catch (e) {}
+            }
+        }
     }
 
     // ===== Update sidebar active link based on scroll position =====
@@ -225,6 +280,12 @@
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    // ===== Jump to a reel by index (called by indicator dots) =====
+    function jumpToReel(index) {
+        if (!sections[index]) return;
+        sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     // ===== Activate reels mode =====
     function activateReels() {
         if (REELS_ACTIVE) return;
@@ -247,18 +308,8 @@
         // Build UI elements
         buildIndicator();
 
-        // Set up IntersectionObserver for auto-play/pause
-        setupIntersectionObserver();
-
-        // Mark first section as active and auto-play its video
-        if (sections.length > 0) {
-            sections[0].classList.add('is-active');
-            var firstVideo = sections[0].querySelector('video');
-            if (firstVideo && !firstVideo.closest('.video-empty')) {
-                firstVideo.muted = true;
-                try { firstVideo.play().catch(function () {}); } catch (e) {}
-            }
-        }
+        // Set up scroll-based detection (also handles initial active state)
+        setupScrollDetection();
 
         // Override showSection to scroll instead of toggle display
         overrideShowSection();

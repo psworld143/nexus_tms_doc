@@ -417,24 +417,6 @@
             }
         });
 
-        // Cursor-synced scroll for related-list
-        (function setupCursorSyncScroll() {
-            var list = document.getElementById('related-list');
-            if (!list) return;
-            var syncing = false;
-            list.addEventListener('mousemove', function(e) {
-                var maxScroll = list.scrollHeight - list.clientHeight;
-                if (maxScroll <= 0) return;
-                var rect = list.getBoundingClientRect();
-                var ratio = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-                list.scrollTop = ratio * maxScroll;
-                syncing = true;
-            });
-            list.addEventListener('mouseenter', function() { list.classList.add('cursor-sync'); });
-            list.addEventListener('mouseleave', function() { list.classList.remove('cursor-sync'); syncing = false; });
-            list.addEventListener('wheel', function(e) { if (syncing) return; }, { passive: true });
-        })();
-
         // Keyboard shortcuts (tutorials.php only — J/L/K/M/F)
         (function setupKeyboardShortcuts() {
             document.addEventListener('keydown', function(e) {

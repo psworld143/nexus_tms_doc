@@ -6,36 +6,39 @@
 
     // ===== Page-aware tour steps =====
     var TOUR_STEPS = {
-        // index.php — dashboard
+        // index.php — dashboard (reels mode)
         home: [
-            { target: '.brand', title: 'Welcome to DISPATCH!', desc: 'This is your video tutorial library for the DISPATCH trucking management system. It covers 47 modules across Operations, Fleet, Finance, Safety, Compliance, and more. Let me show you around.', action: null },
-            { target: '#sidebar-search', title: 'Search Tutorials', desc: 'Type here to search through all 47 tutorial sections. The sidebar filters in real-time as you type — matching titles, categories, and sub-items instantly.', action: null },
-            { target: '.nav-section-title.main-menu', title: 'Navigation Categories', desc: 'Browse tutorials by category — Operations & Dispatch, Fleet Management, Lease Management, Recruitment, Marketing, Financial, Safety & Compliance, Customer Relations, and System. Click any item to jump to that section.', action: null },
+            { target: '.brand', title: 'Welcome to DISPATCH!', desc: 'This is your video tutorial library for the DISPATCH trucking management system. It covers 46 modules across Operations, Fleet, Finance, Safety, Compliance, and more. Let me show you around.', action: null },
+            { target: '#sidebar-search', title: 'Search Tutorials', desc: 'Type here to search through all 46 tutorial sections. The sidebar filters in real-time as you type — matching titles, categories, and sub-items instantly.', action: null },
+            { target: '.nav-section-title', title: 'Navigation Categories', desc: 'Browse tutorials by category — Main Menu, Operations & Dispatch, Fleet Management, Lease Management, Recruitment, Marketing, Financial, Safety & Compliance, Customer Relations, and System. Click any item to jump to that video reel.', action: null },
             { target: '#sidebar-toggle-btn', title: 'Collapse the Sidebar', desc: 'Click this button to collapse the sidebar into a compact icon-only mode for more screen space, or expand it back to full width. Your preference is saved automatically.', action: null },
-            { target: '.page-head', title: 'Section Header', desc: 'This header shows the title and description of the tutorial section you are currently viewing. It stays at the top of the content area as you navigate.', action: null },
-            { target: '.icon-btn.tutorials-btn', title: 'Tutorial Gallery', desc: 'Click this button to open the standalone tutorial gallery — a full grid view of every video with search, category filters, watch history, and a full-screen modal player.', action: null },
-            { target: '.icon-btn.docs-btn', title: 'Documentation', desc: 'This button opens the searchable documentation index. Next to it is the Video Docs button, which shows documentation cards that open a fullscreen reader modal.', action: null },
+            { target: '.content', title: 'Reels Video Feed', desc: 'Scroll down to move through video tutorials — each one snaps into full view like Facebook Reels. Videos auto-play (muted) as you scroll. Use the native video controls to unmute, pause, or download.', action: null },
+            { target: '.reel-indicator', title: 'Video Progress Indicator', desc: 'This indicator on the right side shows which video you are currently watching. The active dot expands and shows the video name. It auto-scrolls as you move through the reels.', action: null },
+            { target: '.icon-btn.tutorials-btn', title: 'Tutorial Gallery', desc: 'Click this button to open the standalone tutorial gallery — a full grid view of every video with search, category filters, watch history, comments, and a full-screen modal player.', action: null },
+            { target: '.icon-btn.video-docs-btn', title: 'Video Documentation', desc: 'This button opens the video documentation page with in-depth written guides for every feature, presented as searchable cards with a fullscreen reader modal.', action: null },
             { target: '.icon-btn.settings-btn-top', title: 'Settings Panel', desc: 'Customize your experience — change the accent color, adjust font size, toggle dark mode, set video autoplay, enable accessibility features, and sync search across panels.', action: null },
             { target: '.icon-btn.theme-btn', title: 'Dark & Light Theme', desc: 'Toggle between dark and light mode with one click. Your preference is saved automatically and persists across page reloads and all DISPATCH pages.', action: null },
-            { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Click this button anytime to replay it. Use the sidebar to browse all 47 tutorials, the search bar for quick lookup, or the gallery button for the full video grid.", action: null }
+            { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Scroll through the reels to watch tutorials, use the sidebar to jump to a specific video, or click this button anytime to replay the tour.", action: null }
         ],
         // tutorials.php
         tutorials: [
-            { target: '.hero', title: 'Video Tutorial Library', desc: 'Welcome to the DISPATCH video tutorial gallery. Every tutorial is listed here as a card with a thumbnail, title, duration, and category badge.', action: null },
-            { target: '.search-bar', title: 'Search Tutorials', desc: 'Type here to instantly filter the video grid by title or description. Results update in real-time as you type.', action: null },
-            { target: '.filters', title: 'Category Filters', desc: 'Click any category chip to filter videos by section — Main, Operations, Fleet, Finance, Safety, Compliance, or Account. Click "All" to reset.', action: null },
-            { target: '.video-grid', title: 'Video Cards', desc: 'Click any card to open the full-screen video player modal. Cards show a play overlay, duration badge, and category tag. Available videos have a green badge.', action: null },
+            { target: '.header', title: 'Tutorial Gallery', desc: 'Welcome to the DISPATCH video tutorial gallery. Every tutorial is listed here as a card with a thumbnail, title, duration, and category badge.', action: null },
+            { target: '.header-search', title: 'Search Tutorials', desc: 'Type here to instantly filter the video grid by title or description. Results update in real-time as you type.', action: null },
+            { target: '#chip-bar', title: 'Category Filters', desc: 'Click any category chip to filter videos by section — All, Getting Started, Dispatch & Ops, Fleet Mgmt, Finance & Admin, or Safety & Compliance. Click "All" to reset.', action: null },
+            { target: '#video-grid', title: 'Video Cards', desc: 'Click any card to open the full-screen video player modal. Cards show a play overlay, duration badge, and category tag. Available videos have a green badge.', action: null },
+            { target: '.icon-btn.comments-bell-btn', title: 'Comments & Notifications', desc: 'Click the bell icon to jump to the comments section. A badge appears when new comments are posted. You can like, reply, and report comments.', action: null },
             { target: '.icon-btn.settings-btn-top', title: 'Settings', desc: 'Open settings to customize autoplay, playback speed, font size, accent color, dark mode, and accessibility options like reduce-motion and high-contrast.', action: null },
             { target: '.icon-btn.theme-btn', title: 'Theme Toggle', desc: 'Switch between dark and light mode. Your choice is saved and synced across all DISPATCH pages.', action: null },
             { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Use the search bar and filters to find tutorials, click any card to watch, and revisit this tour anytime via this button.", action: null }
         ],
         // video_docs.php
         'video-docs': [
-            { target: '.topbar', title: 'Video Documentation', desc: 'Welcome to the DISPATCH video documentation page. Here you\'ll find in-depth written guides for every feature, presented as searchable cards.', action: null },
-            { target: '.vd-search', title: 'Search Documentation', desc: 'Type here to instantly filter documentation cards by title or content. Results update in real-time as you type.', action: null },
-            { target: '.vd-filter', title: 'Category Filters', desc: 'Click any filter chip to narrow the documentation by category. Use this to quickly find guides for a specific module area.', action: null },
-            { target: '.vd-grid', title: 'Documentation Cards', desc: 'Each card represents a documentation article. Click a card to open the full-screen reader modal with the complete guide text.', action: null },
-            { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Use search and filters to find documentation, click any card to read the full guide, and replay this tour anytime.", action: null }
+            { target: '.topbar', title: 'Video Documentation', desc: "Welcome to the DISPATCH video documentation page. Here you'll find in-depth written guides for every feature, presented as searchable cards.", action: null },
+            { target: '.search', title: 'Search Documentation', desc: 'Type here to instantly filter documentation cards by title or content. Results update in real-time as you type. Click the X to clear.', action: null },
+            { target: '.status-filter', title: 'Category Filters', desc: 'Click any filter chip to narrow the documentation by category. Use this to quickly find guides for a specific module area.', action: null },
+            { target: '.docs-grid', title: 'Documentation Cards', desc: 'Each card represents a documentation article. Click a card to open the full-screen reader modal with the complete guide text.', action: null },
+            { target: '.topbar-actions', title: 'Top Actions', desc: 'Here you can switch to the Video Tutorials gallery, toggle dark/light theme, open the settings panel, or return to the dashboard home page.', action: null },
+            { target: '.icon-btn.tour-btn', title: "You're All Set!", desc: "That's the tour! Use search and filters to find documentation, click any card to read the full guide, and replay this tour anytime with this button.", action: null }
         ]
     };
 
@@ -140,6 +143,13 @@
                 tooltip.style.transform = 'translate(-50%, -50%)';
                 tooltip.className = 'tour-tooltip';
             } else {
+                // Scroll target into view if it's off-screen
+                var preRect = target.getBoundingClientRect();
+                if (preRect.top < 0 || preRect.bottom > window.innerHeight ||
+                    preRect.left < 0 || preRect.right > window.innerWidth) {
+                    try { target.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' }); } catch (e) {}
+                }
+
                 var rect = target.getBoundingClientRect();
                 var padding = 8;
                 highlight.style.display = 'block';
@@ -157,42 +167,60 @@
                 tooltip.style.visibility = 'visible';
 
                 var gap = 16;
+                var vw = window.innerWidth;
+                var vh = window.innerHeight;
                 var targetCenterX = rect.left + rect.width / 2;
                 var targetCenterY = rect.top + rect.height / 2;
                 var tooltipTop, tooltipLeft, arrowClass = '';
                 var arrowX = 24, arrowY = 24;
 
-                var canFitBelow = rect.bottom + th + gap + 20 < window.innerHeight;
-                var canFitAbove = rect.top - th - gap - 20 > 0;
-                var canFitRight = rect.right + tw + gap + 16 < window.innerWidth;
-                var canFitLeft = rect.left - tw - gap - 16 > 0;
+                // If target is very large (fills most of viewport), center tooltip on screen
+                var targetFillsViewport = (rect.height > vh * 0.7 && rect.width > vw * 0.5);
 
-                if (canFitBelow) {
-                    tooltipTop = rect.bottom + gap;
-                    tooltipLeft = Math.max(16, Math.min(targetCenterX - tw / 2, window.innerWidth - tw - 16));
-                    arrowClass = 'arrow-top';
-                    arrowX = Math.max(20, Math.min(targetCenterX - tooltipLeft, tw - 40));
-                } else if (canFitAbove) {
-                    tooltipTop = rect.top - th - gap;
-                    tooltipLeft = Math.max(16, Math.min(targetCenterX - tw / 2, window.innerWidth - tw - 16));
-                    arrowClass = 'arrow-bottom';
-                    arrowX = Math.max(20, Math.min(targetCenterX - tooltipLeft, tw - 40));
-                } else if (canFitRight) {
-                    tooltipTop = Math.max(16, Math.min(targetCenterY - th / 2, window.innerHeight - th - 16));
-                    tooltipLeft = rect.right + gap;
-                    arrowClass = 'arrow-left';
-                    arrowY = Math.max(20, Math.min(targetCenterY - tooltipTop, th - 40));
-                } else if (canFitLeft) {
-                    tooltipTop = Math.max(16, Math.min(targetCenterY - th / 2, window.innerHeight - th - 16));
-                    tooltipLeft = rect.left - tw - gap;
-                    arrowClass = 'arrow-right';
-                    arrowY = Math.max(20, Math.min(targetCenterY - tooltipTop, th - 40));
+                if (targetFillsViewport) {
+                    // Center the tooltip on screen, hide the highlight box
+                    highlight.style.display = 'none';
+                    tooltipTop = (vh - th) / 2;
+                    tooltipLeft = (vw - tw) / 2;
+                    arrowClass = '';
                 } else {
-                    tooltipTop = Math.max(16, rect.bottom + gap);
-                    tooltipLeft = Math.max(16, Math.min(targetCenterX - tw / 2, window.innerWidth - tw - 16));
-                    arrowClass = 'arrow-top';
-                    arrowX = Math.max(20, Math.min(targetCenterX - tooltipLeft, tw - 40));
+                    var canFitBelow = rect.bottom + th + gap + 20 < vh;
+                    var canFitAbove = rect.top - th - gap - 20 > 0;
+                    var canFitRight = rect.right + tw + gap + 16 < vw;
+                    var canFitLeft = rect.left - tw - gap - 16 > 0;
+
+                    if (canFitBelow) {
+                        tooltipTop = rect.bottom + gap;
+                        tooltipLeft = Math.max(16, Math.min(targetCenterX - tw / 2, vw - tw - 16));
+                        arrowClass = 'arrow-top';
+                        arrowX = Math.max(20, Math.min(targetCenterX - tooltipLeft, tw - 40));
+                    } else if (canFitAbove) {
+                        tooltipTop = rect.top - th - gap;
+                        tooltipLeft = Math.max(16, Math.min(targetCenterX - tw / 2, vw - tw - 16));
+                        arrowClass = 'arrow-bottom';
+                        arrowX = Math.max(20, Math.min(targetCenterX - tooltipLeft, tw - 40));
+                    } else if (canFitRight) {
+                        tooltipTop = Math.max(16, Math.min(targetCenterY - th / 2, vh - th - 16));
+                        tooltipLeft = rect.right + gap;
+                        arrowClass = 'arrow-left';
+                        arrowY = Math.max(20, Math.min(targetCenterY - tooltipTop, th - 40));
+                    } else if (canFitLeft) {
+                        tooltipTop = Math.max(16, Math.min(targetCenterY - th / 2, vh - th - 16));
+                        tooltipLeft = rect.left - tw - gap;
+                        arrowClass = 'arrow-right';
+                        arrowY = Math.max(20, Math.min(targetCenterY - tooltipTop, th - 40));
+                    } else {
+                        // Fallback: center on screen
+                        highlight.style.display = 'none';
+                        tooltipTop = (vh - th) / 2;
+                        tooltipLeft = (vw - tw) / 2;
+                        arrowClass = '';
+                    }
                 }
+
+                // Final clamp: ensure tooltip is always within viewport
+                tooltipTop = Math.max(16, Math.min(tooltipTop, vh - th - 16));
+                tooltipLeft = Math.max(16, Math.min(tooltipLeft, vw - tw - 16));
 
                 tooltip.style.top = tooltipTop + 'px';
                 tooltip.style.left = tooltipLeft + 'px';

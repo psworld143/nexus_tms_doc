@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="css/dispatch-ui.css">
         <link rel="stylesheet" href="css/loaders.css?v=4">
         <link rel="stylesheet" href="css/tour-guide.css?v=1">
-        <link rel="stylesheet" href="css/reels.css?v=10">
+        <link rel="stylesheet" href="css/reels.css?v=18">
         <link rel="stylesheet" href="css/views.css?v=1">
         <style>
             :root {
@@ -763,6 +763,17 @@
             .doc-modal .dm-category { color: var(--accent); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
             .doc-modal p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin: 1.5rem 0; }
             .doc-modal .dm-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+            /* Rich documentation content inside modal */
+            .doc-rich-content h3 { font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 0.5rem; color: var(--text); }
+            .doc-rich-content h3:first-child { margin-top: 0; }
+            .doc-rich-content p { font-size: 1rem; line-height: 1.75; margin-bottom: 0.85rem; color: var(--text); opacity: 0.9; }
+            .doc-rich-content ul, .doc-rich-content ol { margin: 0.5rem 0 1.25rem 1.5rem; }
+            .doc-rich-content li { font-size: 1rem; line-height: 1.75; margin-bottom: 0.5rem; color: var(--text); opacity: 0.9; }
+            .doc-rich-content strong { color: var(--text); font-weight: 700; }
+            .doc-rich-content code { background: var(--surface-2); padding: 2px 7px; border-radius: 5px; font-size: 0.88rem; font-family: 'Courier New', monospace; color: var(--accent); }
+            .doc-rich-content blockquote { border-left: 3px solid var(--accent); padding: 0.85rem 1.1rem; margin: 1.25rem 0; background: var(--surface); border-radius: 0 10px 10px 0; font-size: 0.95rem; line-height: 1.7; color: var(--text); }
+            .doc-rich-content blockquote strong { color: var(--accent); }
             .doc-modal .status-badge { padding: 0.18rem 0.55rem; border-radius: 6px; font-weight: 700; text-transform: uppercase; font-size: 0.72rem; }
             .doc-modal .status-badge.available { background: var(--accent-soft); color: var(--accent); }
             .doc-modal .status-badge.coming { background: rgba(248, 113, 113, 0.14); color: var(--danger); }
@@ -1959,7 +1970,7 @@
 
                 <div id="section-dashboard" class="section-content">
                     <div class="video-grid video-grid--full">
-                        <div class="video-card video-card--full" id="section-dashboard">
+                        <div class="video-card video-card--full" id="video-card-dashboard">
                             <div class="video-frame">
                                 <video controls playsinline><source src="videos/dashboard.mp4" type="video/mp4"></video>
                                 <button class="favorite-btn" id="video-fav-dashboard" onclick="toggleVideoFavorite('dashboard', event)" title="Add to favorites">
@@ -2358,10 +2369,6 @@
                         <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             Watch tutorial
-                        </a>
-                        <a class="dmh-secondary" href="video_docs.php" id="doc-modal-open-full">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-6"/><path d="M21 3l-9 9"/><path d="M15 3h6v6"/></svg>
-                            Open full docs
                         </a>
                         <button class="dmh-close" id="doc-modal-close" type="button" aria-label="Close documentation">
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
@@ -3233,7 +3240,6 @@
             const body = document.getElementById('doc-modal-body');
             const closeBtn = document.getElementById('doc-modal-close');
             const watchLink = document.getElementById('doc-modal-watch');
-            const fullLink = document.getElementById('doc-modal-open-full');
             if (!overlay || !body) return;
 
             const DOC_DATA = <?php
@@ -3307,7 +3313,6 @@
                     watchLink.href = watchHref;
                     watchLink.style.display = doc.available ? '' : 'none';
                 }
-                if (fullLink) fullLink.href = 'video_docs.php#doc-' + encodeURIComponent(id);
                 body.innerHTML =
                     '<article class="doc-modal-article">' +
                     '<div class="dm-category">' + escapeHtml(doc.category) + '</div>' +
@@ -3316,7 +3321,7 @@
                         '<span class="status-badge ' + statusClass + '">' + status + '</span>' +
                         '<span class="duration">' + escapeHtml(doc.duration) + '</span>' +
                     '</div>' +
-                    '<p>' + escapeHtml(doc.docText) + '</p>' +
+                    '<div class="doc-rich-content">' + doc.docText + '</div>' +
                     '</article>' +
                     buildSuggestedVideos(id, doc.category);
                 body.scrollTop = 0;
@@ -3386,8 +3391,8 @@
         <h4 id="doc-floater-title"></h4>
         <p id="doc-floater-desc"></p>
     </div>
-    <script src="js/tour-guide.js?v=1"></script>
-    <script src="js/reels.js?v=10"></script>
+    <script src="js/tour-guide.js?v=3"></script>
+    <script src="js/reels.js?v=17"></script>
     <script src="js/views.js?v=1"></script>
     <script src="js/activity-feed.js?v=2"></script>
 </body>

@@ -51,7 +51,7 @@
         function openModal(card) {
             const id = card.id.replace('doc-', '');
             const title = card.querySelector('h3').textContent;
-            const desc = card.querySelector('p').textContent;
+            const desc = card.dataset.docHtml || card.querySelector('p').textContent;
             const category = card.dataset.category || '';
             const statusClass = card.dataset.status;
             const status = statusClass === 'available' ? 'Available' : 'Coming Soon';
@@ -70,7 +70,7 @@
                     '<span class="status-badge ' + statusClass + '">' + status + '</span>' +
                     (duration ? '<span class="duration">' + escapeHtml(duration) + '</span>' : '') +
                 '</div>' +
-                '<p>' + escapeHtml(desc) + '</p>' +
+                '<div class="doc-rich-content">' + desc + '</div>' +
                 '</article>' +
                 buildSuggestedVideos(id, category);
             overlay.classList.add('open');

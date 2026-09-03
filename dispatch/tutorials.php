@@ -29,7 +29,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="stylesheet" href="css/dispatch-ui.css">
     <link rel="stylesheet" href="css/loaders.css?v=4">
     <link rel="stylesheet" href="css/tour-guide.css?v=1">
-    <link rel="stylesheet" href="css/comments.css?v=5">
+    <link rel="stylesheet" href="css/comments.css?v=10">
     <style>
         :root {
             --bg: #0b0f19;
@@ -1922,10 +1922,23 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                                 Post Comment
                             </button>
-                            <span class="comment-form-hint">Be respectful. Max 1000 characters.</span>
+                            <span class="comment-char-counter" id="comment-char-counter">0/1000</span>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Sort toggle -->
+            <div class="comment-sort-toggle" id="comment-sort-toggle">
+                <button class="sort-btn" data-sort="top">Top</button>
+                <button class="sort-btn" data-sort="newest">Newest</button>
+                <button class="sort-btn" data-sort="oldest">Oldest</button>
+            </div>
+
+            <!-- Search -->
+            <div class="comment-search-wrap">
+                <input type="text" class="comment-search" id="comment-search" placeholder="Search comments...">
+                <button class="comment-search-clear" id="comment-search-clear" title="Clear">&times;</button>
             </div>
 
             <!-- Comments list -->
@@ -1986,10 +1999,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         <div class="modal-comment-form-mini" id="modal-comment-form">
                             <input type="text" class="comment-form-name" id="modal-comment-name" placeholder="Your name (optional)" maxlength="50">
                             <textarea class="comment-form-textarea" id="modal-comment-textarea" placeholder="Share your thoughts about this video..." maxlength="1000" rows="2"></textarea>
-                            <button class="comment-form-submit" id="modal-comment-submit" type="button">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                                Post
-                            </button>
+                            <div class="comment-form-footer">
+                                <button class="comment-form-submit" id="modal-comment-submit" type="button">
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                    Post
+                                </button>
+                                <span class="comment-char-counter" id="modal-comment-char-counter">0/1000</span>
+                            </div>
                         </div>
                         <div class="modal-comments-list" id="modal-comments-list">
                             <div class="comments-loading">Loading comments</div>
@@ -2172,8 +2188,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
     <script src="js/tutorials-data.js?v=2"></script>
     <script src="js/tutorials-settings.js?v=2"></script>
-    <script src="js/tutorials-player.js?v=4"></script>
-    <script src="js/comments.js?v=9"></script>
+    <script src="js/tutorials-player.js?v=7"></script>
+    <script src="js/comments.js?v=10"></script>
     <script src="js/tour-guide.js?v=1"></script>
 </body>
 </html>

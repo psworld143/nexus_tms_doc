@@ -586,6 +586,26 @@ $site = 'DISPATCH';
         .doc-modal p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin: 1.5rem 0; }
         .doc-modal .dm-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 
+        /* Rich documentation content inside modal */
+        .doc-rich-content h3 { font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 0.5rem; color: var(--text); }
+        .doc-rich-content h3:first-child { margin-top: 0; }
+        .doc-rich-content p { font-size: 1rem; line-height: 1.75; margin-bottom: 0.85rem; color: var(--text); opacity: 0.9; }
+        .doc-rich-content ul, .doc-rich-content ol { margin: 0.5rem 0 1.25rem 1.5rem; }
+        .doc-rich-content li { font-size: 1rem; line-height: 1.75; margin-bottom: 0.5rem; color: var(--text); opacity: 0.9; }
+        .doc-rich-content strong { color: var(--text); font-weight: 700; }
+        .doc-rich-content code { background: var(--surface-2); padding: 2px 7px; border-radius: 5px; font-size: 0.88rem; font-family: 'Courier New', monospace; color: var(--accent); }
+        .doc-rich-content blockquote {
+            border-left: 3px solid var(--accent);
+            padding: 0.85rem 1.1rem;
+            margin: 1.25rem 0;
+            background: var(--surface);
+            border-radius: 0 10px 10px 0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+        .doc-rich-content blockquote strong { color: var(--accent); }
+
         /* Suggested Videos inside doc modal */
         .dm-suggest { max-width: 720px; margin: 2rem auto 0; width: 100%; }
         .dm-suggest-head {
@@ -1038,12 +1058,14 @@ $site = 'DISPATCH';
             </div>
             <div class="docs-grid">
                 <?php foreach ($videos as $v):
-                    $docText = isset($videoDocs[$v['id']]) ? $videoDocs[$v['id']] : $v['desc'];
+                    $rawDoc = isset($videoDocs[$v['id']]) ? $videoDocs[$v['id']] : $v['desc'];
+                    $docText = strip_tags($rawDoc);
+                    if (strlen($docText) > 150) { $docText = substr($docText, 0, 150) . '...'; }
                     $isAvailable = in_array($v['src'], $availableVideos);
                     $statusClass = $isAvailable ? 'available' : 'coming';
                     $statusText = $isAvailable ? 'Available' : 'Coming Soon';
                 ?>
-                <div class="doc-card" id="doc-<?php echo htmlspecialchars($v['id']); ?>" tabindex="0" role="button" aria-label="<?php echo htmlspecialchars($v['title']); ?> documentation" data-title="<?php echo htmlspecialchars(strtolower($v['title'] . ' ' . $docText)); ?>" data-status="<?php echo $statusClass; ?>" data-category="<?php echo htmlspecialchars($category); ?>">
+                <div class="doc-card" id="doc-<?php echo htmlspecialchars($v['id']); ?>" tabindex="0" role="button" aria-label="<?php echo htmlspecialchars($v['title']); ?> documentation" data-title="<?php echo htmlspecialchars(strtolower($v['title'] . ' ' . $docText)); ?>" data-status="<?php echo $statusClass; ?>" data-category="<?php echo htmlspecialchars($category); ?>" data-doc-html="<?php echo htmlspecialchars($rawDoc); ?>">
                     <h3><?php echo htmlspecialchars($v['title']); ?></h3>
                     <p><?php echo htmlspecialchars($docText); ?></p>
                     <div class="doc-meta">
@@ -1239,7 +1261,7 @@ $site = 'DISPATCH';
         }, $videoCatalog)); ?>;
     </script>
     <script src="js/video-docs-settings.js?v=1"></script>
-    <script src="js/video-docs-modal.js?v=1"></script>
+    <script src="js/video-docs-modal.js?v=2"></script>
     <script src="js/video-docs-ui.js?v=1"></script>
 </body>
 </html>
