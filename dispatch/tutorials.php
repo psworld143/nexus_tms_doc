@@ -2173,7 +2173,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/tutorials-data.js?v=2"></script>
     <script src="js/tutorials-settings.js?v=2"></script>
     <script src="js/tutorials-player.js?v=4"></script>
-    <script src="js/comments.js?v=8"></script>
+    <script src="js/comments.js?v=9"></script>
     <script src="js/tour-guide.js?v=1"></script>
 </body>
 </html>

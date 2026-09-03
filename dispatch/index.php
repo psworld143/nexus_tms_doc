@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="css/dispatch-ui.css">
         <link rel="stylesheet" href="css/loaders.css?v=4">
         <link rel="stylesheet" href="css/tour-guide.css?v=1">
+        <link rel="stylesheet" href="css/reels.css?v=10">
         <link rel="stylesheet" href="css/views.css?v=1">
         <style>
             :root {
@@ -3386,6 +3387,7 @@
         <p id="doc-floater-desc"></p>
     </div>
     <script src="js/tour-guide.js?v=1"></script>
+    <script src="js/reels.js?v=10"></script>
     <script src="js/views.js?v=1"></script>
     <script src="js/activity-feed.js?v=2"></script>
 </body>

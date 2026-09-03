@@ -1,0 +1,250 @@
+/* css/reels.css — Facebook Reels-style vertical scroll for DISPATCH
+   Activated when .content has .reels-active class.
+   Uses existing CSS variables for theme consistency.
+   Does NOT affect the sidebar, topbar, or any existing chrome. */
+
+/* ===== Reels container ===== */
+.content.reels-active {
+    padding: 0;
+    margin-top: 0;
+    height: calc(100vh - 68px);
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.content.reels-active::-webkit-scrollbar { width: 0; }
+
+/* Hide page-head in reels mode (info is overlaid on each reel) */
+.content.reels-active .page-head { display: none; }
+
+/* ===== Each section becomes a full-viewport reel ===== */
+.content.reels-active .section-content {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 68px);
+    height: calc(100vh - 68px);
+    padding: 1.5rem clamp(1rem, 3vw, 2.5rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+    animation: none !important;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* ===== Video card fills the reel ===== */
+.content.reels-active .section-content .video-card {
+    width: 100%;
+    max-width: 900px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--surface-solid) 80%, transparent);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
+    transition: none;
+}
+
+.content.reels-active .section-content .video-card:hover {
+    transform: none;
+}
+
+.content.reels-active .video-card--full {
+    max-width: 900px;
+    grid-column: auto;
+}
+
+/* Normalize the video-grid wrapper in reels mode (Dashboard has this extra wrapper) */
+.content.reels-active .section-content .video-grid {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    gap: 0;
+    margin: 0;
+}
+
+.content.reels-active .section-content .video-grid--full {
+    display: flex !important;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Video frame takes most of the space */
+.content.reels-active .video-frame {
+    flex: 1 1 auto;
+    min-height: 0;
+    border-radius: 0;
+    aspect-ratio: auto;
+    max-height: 65vh;
+}
+
+.content.reels-active .video-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #05070c;
+}
+
+/* Video meta + desc area below video */
+.content.reels-active .video-desc,
+.content.reels-active .video-meta {
+    padding: 0.6rem 1.2rem;
+    margin: 0;
+}
+
+.content.reels-active .video-desc {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content.reels-active .video-meta {
+    padding-bottom: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* Download button row + docs link */
+.content.reels-active .dl-btn-row {
+    padding: 0 1.2rem 0.6rem;
+    flex-shrink: 0;
+}
+
+.content.reels-active .docs-link {
+    margin: 0 1.2rem 0.8rem;
+    flex-shrink: 0;
+}
+
+/* Progress bar */
+.content.reels-active .progress-bar {
+    z-index: 5;
+}
+
+/* ===== Reel overlay info (title + subtitle at top of each reel) ===== */
+.reel-info {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    width: 100%;
+    max-width: 900px;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.content.reels-active .section-content.is-active .reel-info {
+    opacity: 1;
+}
+
+/* Auto-hide title overlay when video is playing */
+.content.reels-active .section-content.is-active.video-playing .reel-info {
+    opacity: 0;
+}
+
+.reel-info .reel-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    margin: 0;
+}
+
+.reel-info .reel-subtitle {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: 0.15rem 0 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* ===== Scroll indicator (right side) ===== */
+.reel-indicator {
+    position: fixed;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.reels-mode .reel-indicator {
+    opacity: 1;
+}
+
+.reel-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: all 0.25s ease;
+}
+
+.reel-indicator-dot.active {
+    height: 20px;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .content.reels-active {
+        margin-left: 0 !important;
+        height: calc(100vh - 68px);
+    }
+    .content.reels-active .section-content {
+        min-height: calc(100vh - 68px);
+        height: calc(100vh - 68px);
+        padding: 1rem;
+    }
+    .content.reels-active .section-content .video-card {
+        max-width: 100%;
+    }
+    .content.reels-active .video-frame {
+        max-height: 55vh;
+    }
+    .reel-indicator { right: 8px; }
+}
+
+@media (max-width: 560px) {
+    .content.reels-active .video-desc { font-size: 0.82rem; }
+    .reel-info .reel-title { font-size: 0.95rem; }
+    .reel-info .reel-subtitle { font-size: 0.7rem; }
+}
+
+/* ===== Reduce motion ===== */
+body.reduce-motion .content.reels-active {
+    scroll-behavior: auto;
+}
+
+body.reduce-motion .reel-info,
+body.reduce-motion .reel-indicator {
+    transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .content.reels-active { scroll-behavior: auto; }
+    .reel-info, .reel-indicator { transition: none !important; }
+}

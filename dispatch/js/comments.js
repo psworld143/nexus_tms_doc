@@ -65,6 +65,13 @@
         toast._t = setTimeout(function() { toast.classList.remove('show'); }, 2500);
     }
 
+    function clearBellBadge() {
+        var bell = document.getElementById('comments-bell');
+        var badge = document.getElementById('comments-bell-badge');
+        if (bell) bell.classList.remove('has-new');
+        if (badge) { badge.style.display = 'none'; badge.textContent = '0'; }
+    }
+
     // ===== Fetch comments =====
     function fetchComments(videoId) {
         currentVideoId = videoId;
@@ -320,6 +327,8 @@
             btn.innerHTML = origText;
             if (data.ok) {
                 showToast('Comment edited!');
+                lastSeenTimestamp = Math.floor(Date.now() / 1000);
+                clearBellBadge();
                 fetchComments(currentVideoId);
                 if (modalVideoId) fetchModalComments(modalVideoId);
             } else {
@@ -410,6 +419,8 @@
                 if (textInput) textInput.value = '';
                 try { localStorage.removeItem('dispatch-comment-name'); } catch (e) {}
                 showToast('Reply posted!');
+                lastSeenTimestamp = Math.floor(Date.now() / 1000);
+                clearBellBadge();
                 fetchComments(currentVideoId);
             } else {
                 btn.innerHTML = 'Post Reply';
@@ -473,6 +484,8 @@
                     if (avatarEl) avatarEl.textContent = 'A';
                     try { localStorage.removeItem('dispatch-comment-name'); } catch (e) {}
                     showToast('Comment posted!');
+                    lastSeenTimestamp = Math.floor(Date.now() / 1000);
+                    clearBellBadge();
                     fetchComments(currentVideoId);
                 } else {
                     showToast(data.error || 'Failed to post comment');
@@ -539,11 +552,13 @@
         var section = document.getElementById('comments-section');
         if (section) {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // Highlight the section briefly
             section.style.transition = 'box-shadow 0.3s ease';
             section.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent)';
             setTimeout(function() { section.style.boxShadow = ''; }, 1500);
         }
+        // Clear the bell badge since the user is now viewing comments
+        lastSeenTimestamp = Math.floor(Date.now() / 1000);
+        clearBellBadge();
     };
 
     // ===== Modal comments (per-video inside the player modal) =====
@@ -603,6 +618,8 @@
                     if (textInput) textInput.value = '';
                     if (nameInput) nameInput.value = '';
                     showToast('Comment posted!');
+                    lastSeenTimestamp = Math.floor(Date.now() / 1000);
+                    clearBellBadge();
                     fetchModalComments(modalVideoId);
                     // Also refresh the main comments list if it's showing the same video
                     if (currentVideoId === modalVideoId) fetchComments(currentVideoId);
