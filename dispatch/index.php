@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="css/dispatch-ui.css">
         <link rel="stylesheet" href="css/loaders.css?v=4">
         <link rel="stylesheet" href="css/tour-guide.css?v=1">
+        <link rel="stylesheet" href="css/views.css?v=1">
         <style>
             :root {
                 /* Dark theme (default) */
@@ -447,6 +448,7 @@
                 border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
                 border-radius: var(--radius);
                 padding: 1rem;
+                padding-bottom: 3.5rem;
                 box-shadow: var(--shadow);
                 display: flex;
                 flex-direction: column;
@@ -568,21 +570,26 @@
                 font-size: 0.74rem; color: #10b981; font-weight: 500;
             }
             .chip svg { width: 13px; height: 13px; }
+            .video-card { position: relative; }
             .docs-link {
-                display: inline-flex; align-items: center; justify-content: flex-start; gap: 0.4rem;
-                margin: 0.5rem 0.35rem 0.4rem;
-                padding: 0.65rem 1.25rem;
+                display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+                margin: 0;
+                padding: 0.5rem 1rem;
                 width: fit-content;
-                min-width: 150px;
+                min-width: 130px;
                 border-radius: 8px;
                 background: linear-gradient(135deg, var(--accent), #059669);
                 color: #fff;
-                font-size: 0.75rem; font-weight: 600;
+                font-size: 0.72rem; font-weight: 600;
                 text-decoration: none;
                 cursor: pointer;
                 border: none;
                 font-family: inherit;
                 transition: all 0.18s ease;
+                position: absolute;
+                right: 0.75rem;
+                bottom: 0.75rem;
+                z-index: 2;
             }
             .docs-link svg { width: 14px; height: 14px; }
             .docs-link:hover {
@@ -3379,5 +3386,7 @@
         <p id="doc-floater-desc"></p>
     </div>
     <script src="js/tour-guide.js?v=1"></script>
+    <script src="js/views.js?v=1"></script>
+    <script src="js/activity-feed.js?v=2"></script>
 </body>
 </html>
