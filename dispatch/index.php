@@ -252,6 +252,63 @@
                 .icon-btn:active { transform: none; }
             }
 
+            /* Auto-hide topbar buttons — reveal on topbar hover (toggleable) */
+            .topbar-right .icon-btn:not(.pin-btn) {
+                opacity: 0;
+                transform: translateX(8px);
+                pointer-events: none;
+                transition: opacity 0.25s ease, transform 0.25s ease, background 0.18s ease, border-color 0.18s ease;
+            }
+            .topbar:hover .topbar-right .icon-btn:not(.pin-btn),
+            .topbar-right .icon-btn:not(.pin-btn):focus-visible {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
+            }
+            /* Pinned mode: buttons always visible */
+            .topbar.pinned .topbar-right .icon-btn:not(.pin-btn) {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
+            }
+            /* Pin toggle button — always visible */
+            .topbar-right .pin-btn {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
+                width: 36px; height: 36px;
+                border-radius: 10px;
+                border: 1px dashed color-mix(in srgb, var(--border-strong) 60%, transparent);
+                background: transparent;
+                color: var(--text-dim);
+                display: grid; place-items: center;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            .topbar-right .pin-btn:hover {
+                color: var(--text);
+                border-color: var(--border-strong);
+                border-style: solid;
+                background: var(--surface);
+            }
+            .topbar-right .pin-btn svg {
+                width: 16px; height: 16px;
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .topbar.pinned .pin-btn {
+                color: var(--accent);
+                border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+                border-style: solid;
+                background: color-mix(in srgb, var(--accent) 8%, transparent);
+            }
+            .topbar.pinned .pin-btn svg {
+                transform: rotate(-45deg);
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .topbar-right .icon-btn { transition: opacity 0.15s ease; transform: none; }
+                .topbar-right .pin-btn svg { transition: none; }
+            }
+
             /* Tour Guide styles moved to css/tour-guide.css */
             .user-chip {
                 display: flex; align-items: center; gap: 0.6rem;
@@ -1500,6 +1557,9 @@
                 </a>
             </div>
             <div class="topbar-right">
+                <button class="icon-btn pin-btn" onclick="togglePinTopbar()" title="Pin buttons visible" aria-label="Toggle button visibility" id="pin-btn">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 00-2 2v6a2 2 0 002 2h4l1 4 1-4h4a2 2 0 002-2V7a2 2 0 00-2-2H5z"/></svg>
+                </button>
                 <button class="icon-btn refresh-btn" onclick="refreshPage()" title="Refresh">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                 </button>
@@ -2945,6 +3005,26 @@
                 'settings': ['setting', 'config', 'configuration', 'preference', 'customize', 'account setting'],
                 'login-signup-tutorial': ['login', 'sign up', 'signup', 'register', 'account', 'password', 'log in', 'authentication']
             };
+
+            function togglePinTopbar() {
+                var topbar = document.querySelector('.topbar');
+                if (!topbar) return;
+                topbar.classList.toggle('pinned');
+                var pinned = topbar.classList.contains('pinned');
+                try { localStorage.setItem('dispatch-topbar-pinned', pinned ? '1' : '0'); } catch (e) {}
+                var btn = document.getElementById('pin-btn');
+                if (btn) btn.title = pinned ? 'Unpin buttons (auto-hide)' : 'Pin buttons visible';
+            }
+            (function() {
+                try {
+                    if (localStorage.getItem('dispatch-topbar-pinned') === '1') {
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var topbar = document.querySelector('.topbar');
+                            if (topbar) { topbar.classList.add('pinned'); var btn = document.getElementById('pin-btn'); if (btn) btn.title = 'Unpin buttons (auto-hide)'; }
+                        });
+                    }
+                } catch (e) {}
+            })();
 
             function toggleTheme() {
                 document.documentElement.classList.toggle('dark');
