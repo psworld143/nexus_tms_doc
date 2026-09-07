@@ -107,15 +107,26 @@
             }
             .topbar-left { display: flex; align-items: center; gap: 1rem; }
             .menu-toggle {
-                display: none;
+                display: flex;
                 width: 40px; height: 40px;
-                border: 1px solid var(--border);
-                background: var(--surface);
+                border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+                background: color-mix(in srgb, var(--surface-solid) 50%, transparent);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 color: var(--text);
                 border-radius: 12px;
                 cursor: pointer;
                 align-items: center; justify-content: center;
+                transition: all 0.18s ease;
+                flex-shrink: 0;
             }
+            .menu-toggle:hover {
+                background: var(--surface-2);
+                border-color: var(--border-strong);
+                transform: translateY(-1px);
+            }
+            .menu-toggle svg { width: 22px; height: 22px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+            .menu-toggle.collapsed svg { transform: rotate(180deg); }
             .brand { display: flex; align-items: center; gap: 0.75rem; }
             .brand-mark {
                 width: 40px; height: 40px;
@@ -1413,8 +1424,7 @@
             .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
 
             @media (max-width: 900px) {
-                .menu-toggle { display: flex; }
-                .sidebar {
+                .menu-toggle { display: flex; }                .sidebar {
                     position: fixed; top: 68px; left: 0; bottom: 0; z-index: 50;
                     transform: translateX(-100%); transition: transform 0.25s ease;
                     width: 280px;
@@ -1543,7 +1553,7 @@
         <!-- Top bar -->
         <header class="topbar">
             <div class="topbar-left">
-                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                <button class="menu-toggle" id="menu-toggle-btn" onclick="toggleSidebarFromTopbar()" aria-label="Toggle sidebar" title="Collapse sidebar">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
                 <a href="index.php" class="brand">
@@ -3066,9 +3076,27 @@
                 document.getElementById('sidebar-overlay').classList.toggle('show');
             }
 
+            function toggleSidebarFromTopbar() {
+                if (window.innerWidth <= 900) {
+                    toggleSidebar();
+                } else {
+                    toggleSidebarMini();
+                    var btn = document.getElementById('menu-toggle-btn');
+                    var sidebar = document.getElementById('sidebar');
+                    if (sidebar.classList.contains('mini')) {
+                        btn.classList.add('collapsed');
+                        btn.title = 'Expand sidebar';
+                    } else {
+                        btn.classList.remove('collapsed');
+                        btn.title = 'Collapse sidebar';
+                    }
+                }
+            }
+
             function toggleSidebarMini() {
                 const sidebar = document.getElementById('sidebar');
                 const btn = document.getElementById('sidebar-toggle-btn');
+                const topbarBtn = document.getElementById('menu-toggle-btn');
                 const content = document.querySelector('.content');
                 const isMini = sidebar.classList.contains('mini');
                 if (isMini) {
@@ -3076,12 +3104,14 @@
                     if (content) content.classList.remove('sidebar-mini');
                     btn.title = 'Collapse sidebar';
                     btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 19l-7-7 7-7M19 19l-7-7 7-7"/>';
+                    if (topbarBtn) { topbarBtn.classList.remove('collapsed'); topbarBtn.title = 'Collapse sidebar'; }
                     try { localStorage.setItem('dispatch-sidebar-mini', 'false'); } catch (e) {}
                 } else {
                     sidebar.classList.add('mini');
                     if (content) content.classList.add('sidebar-mini');
                     btn.title = 'Expand sidebar';
                     btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+                    if (topbarBtn) { topbarBtn.classList.add('collapsed'); topbarBtn.title = 'Expand sidebar'; }
                     // Close any open submenus
                     document.querySelectorAll('.submenu.expanded, .nav-link.expanded').forEach(function(el) {
                         el.classList.remove('expanded');
@@ -3206,11 +3236,13 @@
                     if (localStorage.getItem('dispatch-sidebar-mini') === 'true' && window.innerWidth > 900) {
                         var sidebar = document.getElementById('sidebar');
                         var btn = document.getElementById('sidebar-toggle-btn');
+                        var topbarBtn = document.getElementById('menu-toggle-btn');
                         var content = document.querySelector('.content');
                         sidebar.classList.add('mini');
                         if (content) content.classList.add('sidebar-mini');
                         btn.title = 'Expand sidebar';
                         btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+                        if (topbarBtn) { topbarBtn.classList.add('collapsed'); topbarBtn.title = 'Expand sidebar'; }
                     }
                 } catch (e) {}
                 // Tour auto-start handled by js/tour-guide.js
