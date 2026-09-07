@@ -1,0 +1,250 @@
+/* ============================================================
+   DISPATCH — Shared CSS (settings panel + accessibility)
+   Used by: index.php, tutorials.php, video_docs.php
+
+   This file contains CSS that is duplicated across all three
+   pages. It is loaded AFTER the page's inline <style> block
+   so page-specific overrides still win where needed.
+
+   Custom properties (--accent, --surface, --border, etc.) are
+   defined per-page in :root. This file only uses them.
+   ============================================================ */
+
+/* ===== Settings Panel ===== */
+.settings-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1200;
+    display: none;
+    animation: fadeIn 0.2s ease;
+}
+.settings-overlay.open { display: block; }
+.settings-panel {
+    position: fixed;
+    top: 0; right: 0;
+    width: 420px;
+    max-width: 100vw;
+    height: 100vh;
+    background: color-mix(in srgb, var(--surface-solid) 75%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-left: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    z-index: 1201;
+    display: none;
+    flex-direction: column;
+    animation: settingsSlide 0.3s ease;
+}
+@keyframes settingsSlide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.settings-panel.open { display: flex; }
+.settings-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+}
+.settings-header svg { width: 24px; height: 24px; color: var(--accent); }
+.settings-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+.settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
+.settings-close {
+    margin-left: auto;
+    display: grid; place-items: center;
+    width: 38px; height: 38px;
+    border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, #ef4444 8%, transparent);
+    color: #ef4444;
+    cursor: pointer;
+    transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.settings-close svg {
+    width: 18px; height: 18px; flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.settings-close:hover {
+    border-color: #ef4444;
+    background: color-mix(in srgb, #ef4444 15%, transparent);
+    color: #ef4444;
+    box-shadow: 0 0 14px -4px color-mix(in srgb, #ef4444 50%, transparent);
+    transform: rotate(90deg);
+}
+.settings-close:active { transform: scale(0.92); }
+.settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+.settings-group { margin-bottom: 1.75rem; }
+.settings-group-title {
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+.setting-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.85rem 1rem;
+    margin: 0 -0.5rem;
+    gap: 1rem;
+    border-radius: 12px;
+    transition: all 0.18s ease;
+}
+.setting-row:hover { background: var(--surface-2); }
+.setting-label { flex: 1; }
+.setting-label .s-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+.setting-label .s-hint { font-size: 0.74rem; color: var(--text-muted); margin-top: 3px; }
+
+/* Toggle switch */
+.toggle {
+    position: relative;
+    width: 46px; height: 26px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.toggle::after {
+    content: '';
+    position: absolute;
+    top: 2.5px; left: 2.5px;
+    width: 19px; height: 19px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #fff, #d1d5db);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toggle.on {
+    background: linear-gradient(135deg, var(--accent), #059669);
+    border-color: transparent;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.toggle.on::after { transform: translateX(20px); background: #fff; }
+
+/* Select dropdown */
+.setting-select {
+    padding: 0.55rem 2rem 0.55rem 0.85rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.18s ease;
+    flex-shrink: 0;
+    min-width: 130px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238ea0b8'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 16px;
+}
+.setting-select:hover {
+    border-color: var(--border-strong);
+    background-color: var(--accent-soft);
+}
+.setting-select:focus {
+    border-color: var(--border-strong);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.setting-select option {
+    background: var(--surface-solid);
+    color: var(--text);
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+html.dark .setting-select option {
+    background: #111c30;
+    color: #e8eef7;
+}
+html:not(.dark) .setting-select option,
+html.light .setting-select option {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+/* Color swatches */
+.color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.color-swatch {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.color-swatch:hover { transform: scale(1.1); }
+.color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
+
+/* Range slider */
+.setting-range {
+    width: 120px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+.setting-range-value { font-size: 0.78rem; color: var(--accent); font-weight: 600; min-width: 40px; text-align: right; }
+
+/* Font size preview */
+.font-preview { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+.settings-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 0.75rem;
+}
+.settings-btn {
+    flex: 1;
+    padding: 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: inherit;
+}
+.settings-btn:hover { background: var(--surface-2); transform: translateY(-2px); }
+.settings-btn:active { transform: translateY(0); }
+.settings-btn.primary { background: linear-gradient(135deg, var(--accent), #059669); color: #fff; border-color: transparent; }
+.settings-btn.primary:hover { background: linear-gradient(135deg, #10b981, #047857); box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--accent) 50%, transparent); }
+
+@media (max-width: 560px) {
+    .settings-panel { width: 100vw; }
+}
+
+/* ===== Accessibility: Reduce Motion ===== */
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+    animation-duration: 0.01s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01s !important;
+}
+
+/* ===== Accessibility: High Contrast ===== */
+body.high-contrast {
+    --text: #ffffff;
+    --text-muted: #c0c8d4;
+    --text-dim: #94a3b8;
+    --border: rgba(255, 255, 255, 0.25);
+    --border-strong: rgba(255, 255, 255, 0.4);
+    --surface: rgba(255, 255, 255, 0.08);
+    --surface-2: rgba(255, 255, 255, 0.12);
+}
+html:not(.dark) body.high-contrast,
+html.light body.high-contrast {
+    --text: #000000;
+    --text-muted: #1a1a1a;
+    --text-dim: #333333;
+    --border: rgba(0, 0, 0, 0.3);
+    --border-strong: rgba(0, 0, 0, 0.5);
+    --surface: rgba(0, 0, 0, 0.05);
+    --surface-2: rgba(0, 0, 0, 0.08);
+}

@@ -35,7 +35,9 @@ Get-ChildItem C:\xampp\htdocs\nexus_tms_doc\dispatch -Filter *.php |
 
 - **`dispatch/doc_data.php` is the single source of truth** for `$videoCatalog` and `$videoDocs`. `index.php` and `video_docs.php` `require` it.
 
-- **Each page is monolithic**: PHP + HTML + `<style>` + `<script>` all in one file (`index.php` is ~230 KB). There are 3 pages: `index.php`, `tutorials.php`, `video_docs.php`. External CSS files: `css/dispatch-ui.css` (shared graphics & motion, loaded by all pages), `css/loaders.css` (unique per-page loading screens, loaded by all pages), `css/tutorials-animations.css` (tutorials.php only), `css/video-card-animations.css` (video_docs.php only). Each page's loading screen uses a distinct variant via a modifier class on `.loader-screen` (`.loader-screen--home`, `.loader-screen--tutorials`, `.loader-screen--video-docs`) — the base styles and all variants live in `css/loaders.css`. `dispatch-ui.css` is ADDITIVE — it layers on top of each page's inline `<style>` and the per-page animation files, enhancing shared chrome (topbar, sidebar, icon buttons, nav links, toasts, modals) and providing reusable utilities (`.reveal`, `.grad-text`, `.glow`, `.pulse-glow`, `.live-dot`, `.skeleton`). Shared CSS variables and the topbar/sidebar markup are still duplicated in every page. When editing UI, expect to touch multiple files.
+- **Each page is monolithic**: PHP + HTML + `<style>` + `<script>` all in one file (`index.php` is ~230 KB). There are 3 pages: `index.php`, `tutorials.php`, `video_docs.php`. External CSS files: `css/dispatch-ui.css` (shared graphics & motion, loaded by all pages), `css/dispatch.css` (shared settings panel + accessibility CSS, loaded by all pages), `css/loaders.css` (unique per-page loading screens, loaded by all pages), `css/tutorials-animations.css` (tutorials.php only), `css/video-card-animations.css` (video_docs.php only). Each page's loading screen uses a distinct variant via a modifier class on `.loader-screen` (`.loader-screen--home`, `.loader-screen--tutorials`, `.loader-screen--video-docs`) — the base styles and all variants live in `css/loaders.css`. `dispatch-ui.css` and `dispatch.css` are ADDITIVE — they layer on top of each page's inline `<style>`. Shared CSS variables and the topbar/sidebar markup are still duplicated in every page. When editing UI, expect to touch multiple files.
+
+- **Shared JS**: `js/dispatch.js` contains the settings panel, theme toggle, announcement toast, and accessibility logic shared across all three pages. Each page sets `window.DISPATCH_THEME_CLASS` to `'dark'` (index.php) or `'light'` (tutorials.php, video_docs.php) before loading `dispatch.js` so the theme functions know which CSS class to toggle. Page-specific JS: `js/tour-guide.js`, `js/reels.js`, `js/views.js`, `js/activity-feed.js` (index.php), `js/tutorials-data.js`, `js/tutorials-player.js`, `js/comments.js` (tutorials.php), `js/video-docs-modal.js`, `js/video-docs-ui.js` (video_docs.php).
 
 - **Responsive breakpoints** are standardized across all pages at: 1024px (tablet landscape / small desktop), 900px (tablet — sidebar collapses on index.php), 768px (tablet portrait — grids stack, modals simplify), 640px (large phone — padding reduces, hover effects soften), 560px (phone — settings full-width), 400px (small phone — icon buttons shrink). All pages have viewport meta tags and touch optimizations (`-webkit-tap-highlight-color: transparent`, `touch-action: manipulation` on interactive elements).
 
@@ -52,5 +54,20 @@ Get-ChildItem C:\xampp\htdocs\nexus_tms_doc\dispatch -Filter *.php |
 
 ## Known cleanup backlog
 
-1. Extract shared CSS (variables, topbar, sidebar) into `css/dispatch.css` and shared JS into `js/dispatch.js`; then drop `'unsafe-inline'` from `script-src` in the CSP.
-2. Add `preload="metadata"` + poster images to all `<video>` elements.
+1. Extract remaining shared CSS (variables, topbar, sidebar markup) — settings panel and accessibility CSS already moved to `css/dispatch.css`.
+2. Extract remaining inline JS from `index.php` (search assistant, sidebar, doc modal) into page-specific JS files; then drop `'unsafe-inline'` from `script-src` in the CSP.
+3. Add `preload="metadata"` + poster images to all `<video>` elements.
+4. Remove the duplicate `escapeHtml` function in `index.php` modal section (dispatch.js already provides one globally).
+
+## Framework evaluation
+
+If the project ever outgrows the zero-build PHP architecture, the following frameworks were evaluated:
+
+| Framework | Fit | Why |
+|-----------|:---:|-----|
+| **Astro** | Best | Content-heavy sites with "islands" of interactivity. Outputs static HTML. Can use Vue/Svelte for just the interactive parts. Solves code duplication with components. |
+| **Next.js** | Overkill | Full SPA for a documentation site is unnecessary complexity. |
+| **Laravel + Livewire** | Overkill | Requires Composer, server config changes, and a database-oriented mindset for a static content site. |
+| **Vue via CDN** | Decent | Progressive enhancement, no build step, but mixing with existing vanilla JS gets messy. |
+
+**Current recommendation:** Stay zero-build. Shared CSS/JS extraction is in progress — settings panel CSS is in `css/dispatch.css` and settings/theme JS is in `js/dispatch.js`. If the site grows significantly (user accounts, search backend, dynamic content), **Astro** is the best framework choice.
