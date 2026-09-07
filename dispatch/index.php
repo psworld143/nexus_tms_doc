@@ -82,6 +82,11 @@
                 background-attachment: fixed;
                 min-height: 100vh;
                 -webkit-font-smoothing: antialiased;
+                -webkit-tap-highlight-color: transparent;
+            }
+            a, button, [role="button"], .nav-link, .icon-btn, .menu-toggle {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
             }
             a { text-decoration: none; color: inherit; }
             ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -1423,6 +1428,11 @@
             }
             .sidebar-hide-btn:hover svg { transform: rotate(180deg); }
 
+            @media (max-width: 1024px) {
+                .sidebar { width: 240px; }
+                .content { margin-left: 240px; }
+                .video-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            }
             @media (max-width: 900px) {
                 .menu-toggle { display: flex; }                .sidebar {
                     position: fixed; top: 68px; left: 0; bottom: 0; z-index: 50;
@@ -3504,7 +3514,7 @@
         <p id="doc-floater-desc"></p>
     </div>
     <script src="js/tour-guide.js?v=3"></script>
-    <script src="js/reels.js?v=17"></script>
+    <script src="js/reels.js?v=18"></script>
     <script src="js/views.js?v=1"></script>
     <script src="js/activity-feed.js?v=2"></script>
 </body>

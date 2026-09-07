@@ -145,6 +145,11 @@ $site = 'DISPATCH';
             background-attachment: fixed;
             color: var(--text);
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+        a, button, [role="button"], .icon-btn, .doc-card, .dm-suggest-card {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         html.light body {
             background:
@@ -459,15 +464,32 @@ $site = 'DISPATCH';
             width: 0; opacity: 0;
         }
 
-        @media (max-width: 640px) {
-            .docs-grid { grid-template-columns: 1fr; }
+        @media (max-width: 1024px) {
+            .docs-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+            .page { padding: 1.25rem; padding-top: 4.75rem; }
+            .hero { padding: 3rem 1.75rem; }
+            .hero h1 { font-size: 2rem; }
+        }
+        @media (max-width: 768px) {
+            .docs-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; }
+            .doc-card { padding: 1.25rem; }
+            .doc-card h3 { font-size: 0.98rem; }
+            .doc-card p { font-size: 0.82rem; }
             .hero { padding: 2.5rem 1.5rem; }
-            .hero h1 { font-size: 1.6rem; }
-            .hero::after { width: 120px; height: 120px; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero p { font-size: 0.9rem; }
             .topbar { padding: 0.7rem 1rem; }
             .page { padding: 1rem; padding-top: 4.5rem; }
             .brand-text h1 { font-size: 1rem; }
             .brand-text p { font-size: 0.65rem; }
+            .category-header h2 { font-size: 1.1rem; }
+        }
+        @media (max-width: 640px) {
+            .docs-grid { grid-template-columns: 1fr; }
+            .hero { padding: 2rem 1.25rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero::after { width: 120px; height: 120px; }
+            .doc-card { padding: 1rem; }
         }
 
         /* Documentation full-screen modal */

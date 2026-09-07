@@ -83,6 +83,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             background-attachment: fixed;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
+        a, button, [role="button"], .sidebar-toggle, .icon-btn, .sb-item, .chip {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         html.light body {
             background:

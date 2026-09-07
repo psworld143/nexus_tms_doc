@@ -36,7 +36,7 @@
 
     // ===== Inject progress bar into all video frames =====
     function injectVideoFeatures() {
-        document.querySelectorAll('.section-content').forEach(function (section) {
+        document.querySelectorAll('.section-content').forEach(function (section, sectionIdx) {
             var sectionId = section.id.replace(/^section-/, '');
             var frame = section.querySelector('.video-frame');
             if (!frame) return;
@@ -53,7 +53,7 @@
                 frame.appendChild(bar);
             }
 
-            // Wire progress tracking if not already done
+            // Wire progress tracking + auto-advance if not already done
             var video = frame.querySelector('video');
             if (video && !video.dataset.reelProgressBound) {
                 video.dataset.reelProgressBound = '1';
@@ -62,6 +62,13 @@
                         var progress = (video.currentTime / video.duration) * 100;
                         var fillEl = document.getElementById('video-progress-' + sectionId);
                         if (fillEl) fillEl.style.width = progress + '%';
+                    }
+                });
+                video.addEventListener('ended', function () {
+                    if (!REELS_ACTIVE) return;
+                    var nextIdx = sectionIdx + 1;
+                    if (sections[nextIdx]) {
+                        jumpToReel(nextIdx);
                     }
                 });
             }
