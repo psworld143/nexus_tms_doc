@@ -719,17 +719,27 @@ $site = 'DISPATCH';
         .settings-header p { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
         .settings-close {
             margin-left: auto;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 34px; height: 34px;
-            border-radius: 10px;
-            cursor: pointer;
             display: grid; place-items: center;
-            font-size: 18px;
-            transition: all 0.15s ease;
+            width: 38px; height: 38px;
+            border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+            border-radius: 50%;
+            background: color-mix(in srgb, #ef4444 8%, transparent);
+            color: #ef4444;
+            cursor: pointer;
+            transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
-        .settings-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .settings-close svg {
+            width: 18px; height: 18px; flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .settings-close:hover {
+            border-color: #ef4444;
+            background: color-mix(in srgb, #ef4444 15%, transparent);
+            color: #ef4444;
+            box-shadow: 0 0 14px -4px color-mix(in srgb, #ef4444 50%, transparent);
+            transform: rotate(90deg);
+        }
+        .settings-close:active { transform: scale(0.92); }
         .settings-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
         .settings-group { margin-bottom: 1.75rem; }
         .settings-group-title {
@@ -1123,7 +1133,9 @@ $site = 'DISPATCH';
                 <h2>Settings</h2>
                 <p>Customize your experience</p>
             </div>
-            <button class="settings-close" onclick="toggleSettings()" aria-label="Close settings">&times;</button>
+            <button class="settings-close" onclick="toggleSettings()" aria-label="Close settings">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
         <div class="settings-body">
             <!-- Theme & Appearance -->
