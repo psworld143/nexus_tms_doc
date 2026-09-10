@@ -30,7 +30,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 <link rel="stylesheet" href="css/dispatch.css?v=1">
     <link rel="stylesheet" href="css/loaders.css?v=4">
     <link rel="stylesheet" href="css/tour-guide.css?v=1">
-    <link rel="stylesheet" href="css/comments.css?v=10">
+    <link rel="stylesheet" href="css/comments.css?v=13">
     <style>
         :root {
             --bg: #0b0f19;
@@ -998,6 +998,112 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .modal-video-frame .video-empty svg { width: 48px; height: 48px; opacity: 0.5; }
 
+        /* ===== Up-next auto-queue card (YouTube-style) ===== */
+        .upnext-bar {
+            position: absolute;
+            right: 0.75rem; bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.45rem 0.5rem 0.45rem 0.45rem;
+            border-radius: 12px;
+            background: color-mix(in srgb, var(--surface-solid) 90%, transparent);
+            backdrop-filter: blur(14px) saturate(140%);
+            -webkit-backdrop-filter: blur(14px) saturate(140%);
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 12px 32px -8px rgba(0,0,0,0.6);
+            color: var(--text);
+            max-width: 300px;
+            z-index: 5;
+            opacity: 0;
+            transform: translateY(10px) scale(0.97);
+            transition: opacity 0.28s var(--ease-smooth), transform 0.28s var(--ease-smooth);
+            pointer-events: none;
+        }
+        .upnext-bar.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .upnext-thumb {
+            width: 38px; height: 38px; flex-shrink: 0;
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--accent) 18%, var(--surface-2));
+            display: grid; place-items: center;
+            color: var(--accent);
+        }
+        .upnext-thumb svg { width: 16px; height: 16px; margin-left: 2px; }
+        .upnext-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.05rem; }
+        .upnext-label {
+            font-size: 0.58rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.07em;
+            color: var(--accent);
+        }
+        .upnext-title {
+            font-size: 0.8rem; font-weight: 600; color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .upnext-countdown { position: relative; width: 34px; height: 34px; flex-shrink: 0; }
+        .upnext-ring { width: 34px; height: 34px; transform: rotate(-90deg); }
+        .upnext-ring-bg { fill: none; stroke: rgba(255,255,255,0.22); stroke-width: 3; }
+        .upnext-ring-fg { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; }
+        .upnext-countdown-num {
+            position: absolute; inset: 0;
+            display: grid; place-items: center;
+            font-size: 0.72rem; font-weight: 700; color: var(--text);
+        }
+        .upnext-play-btn {
+            flex-shrink: 0;
+            padding: 0.4rem 0.7rem;
+            border-radius: 8px; border: none;
+            background: var(--accent); color: #04231a;
+            font-size: 0.72rem; font-weight: 700; font-family: inherit;
+            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            transition: filter 0.15s ease, transform 0.15s ease;
+        }
+        .upnext-play-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .upnext-play-count {
+            display: inline-grid; place-items: center;
+            min-width: 16px; height: 16px; padding: 0 4px;
+            border-radius: 8px;
+            background: rgba(4, 35, 26, 0.28);
+            color: #04231a;
+            font-size: 0.62rem; font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+        .upnext-cancel {
+            flex-shrink: 0;
+            width: 26px; height: 26px;
+            border-radius: 50%; border: none;
+            background: color-mix(in srgb, var(--text) 10%, transparent);
+            color: var(--text-muted);
+            display: grid; place-items: center; cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .upnext-cancel:hover { background: color-mix(in srgb, var(--text) 18%, transparent); color: var(--text); }
+        .upnext-cancel svg { width: 13px; height: 13px; }
+        @media (max-width: 640px) {
+            .upnext-bar { max-width: calc(100vw - 2rem); right: 0.5rem; bottom: 0.5rem; }
+            .upnext-title { font-size: 0.74rem; }
+        }
+        @media (max-width: 560px) {
+            .upnext-bar { gap: 0.4rem; padding: 0.35rem 0.4rem; }
+            .upnext-thumb { width: 32px; height: 32px; }
+            .upnext-thumb svg { width: 13px; height: 13px; }
+            .upnext-label { font-size: 0.54rem; }
+            .upnext-title { font-size: 0.7rem; }
+            .upnext-play-btn { padding: 0.3rem 0.55rem; font-size: 0.66rem; }
+            .upnext-play-count { min-width: 14px; height: 14px; font-size: 0.56rem; }
+            .upnext-countdown { width: 30px; height: 30px; }
+            .upnext-ring { width: 30px; height: 30px; }
+            .upnext-countdown-num { font-size: 0.66rem; }
+            .upnext-cancel { width: 24px; height: 24px; }
+            .upnext-cancel svg { width: 11px; height: 11px; }
+        }
+        @media (max-width: 400px) {
+            .upnext-bar { max-width: calc(100vw - 1.5rem); right: 0.4rem; bottom: 0.4rem; gap: 0.35rem; }
+            .upnext-thumb { display: none; }
+            .upnext-play-btn { padding: 0.25rem 0.45rem; font-size: 0.62rem; }
+            .upnext-title { font-size: 0.66rem; max-width: 90px; }
+        }
+        body.reduce-motion .upnext-bar { transition: opacity 0.15s ease; transform: none; }
+        body.reduce-motion .upnext-ring-fg { transition: none !important; }
+
         /* Video info — YouTube-style below player */
         .modal-video-info { padding-top: 0.25rem; }
         .modal-video-info h3 {
@@ -1568,7 +1674,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
     <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="css/tailwind-config.js" defer></script>
+    <script src="js/tailwind-config.js" defer></script>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -2088,8 +2194,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/tutorials-data.js?v=2"></script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=1"></script>
-    <script src="js/tutorials-player.js?v=10"></script>
-    <script src="js/comments.js?v=10"></script>
+    <script src="js/tutorials-player.js?v=13"></script>
+    <script src="js/comments.js?v=13"></script>
     <script src="js/tour-guide.js?v=2" defer></script>
 </body>
 </html>

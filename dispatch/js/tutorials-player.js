@@ -7,6 +7,12 @@
     var VIDEOS = window.VIDEOS;
     var state = window.tutorialState;
 
+    // ===== Up-next auto-queue =====
+    var upNextVideo = null;     // the queued video (first related video)
+    var upNextTimer = null;     // countdown interval id
+    var UPNEXT_DURATION = 3000; // countdown length when autoplay is on (ms)
+    var UPNEXT_DURATION_MANUAL = 8000; // grace period before auto-advancing when autoplay is off (ms)
+
     // ===== User data =====
     function loadUserData() {
         try {
@@ -180,7 +186,8 @@
             var extra = VIDEOS.filter(function(v) { return v.id !== currentVideo.id && v.path !== currentVideo.path && v.category === currentVideo.category; }).slice(0, 8 - related.length);
             related.push.apply(related, extra);
         }
-        if (related.length === 0) { container.style.display = 'none'; return; }
+        if (related.length === 0) { container.style.display = 'none'; upNextVideo = null; return; }
+        upNextVideo = related[0];
         container.style.display = 'flex';
         list.innerHTML = '';
         related.forEach(function(v) {
@@ -279,8 +286,94 @@
     function filterVideos() { renderVideos(); }
     function filterVideosMobile(val) { document.getElementById('search-input').value = val; renderVideos(); }
 
+    // ===== Up-next auto-queue (YouTube-style) =====
+    function hideUpNext() {
+        if (upNextTimer) { clearInterval(upNextTimer); upNextTimer = null; }
+        var bar = document.querySelector('.upnext-bar');
+        if (bar) {
+            bar.classList.remove('show');
+            var node = bar;
+            setTimeout(function() { if (node && node.parentNode) node.parentNode.removeChild(node); }, 250);
+        }
+    }
+
+    function showUpNext() {
+        hideUpNext();
+        if (!upNextVideo) return;
+        var frame = document.querySelector('.modal-video-frame');
+        if (!frame) return;
+        var settings = loadSettings();
+        var autoplay = !!settings['autoplay'];
+        var duration = autoplay ? UPNEXT_DURATION : UPNEXT_DURATION_MANUAL;
+
+        var bar = document.createElement('div');
+        bar.className = 'upnext-bar' + (autoplay ? ' upnext-bar--autoplay' : ' upnext-bar--manual');
+        bar.innerHTML =
+            '<div class="upnext-thumb">' +
+                '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>' +
+            '</div>' +
+            '<div class="upnext-info">' +
+                '<span class="upnext-label">Up next</span>' +
+                '<span class="upnext-title">' + escapeHtml(upNextVideo.title) + '</span>' +
+            '</div>' +
+            (autoplay
+                ? '<div class="upnext-countdown">' +
+                    '<span class="upnext-countdown-num">' + Math.ceil(duration / 1000) + '</span>' +
+                    '<svg viewBox="0 0 36 36" class="upnext-ring">' +
+                        '<circle cx="18" cy="18" r="16" class="upnext-ring-bg"/>' +
+                        '<circle cx="18" cy="18" r="16" class="upnext-ring-fg"/>' +
+                    '</svg>' +
+                '</div>'
+                : '<button class="upnext-play-btn" type="button">Play next <span class="upnext-play-count">' + Math.ceil(duration / 1000) + '</span></button>') +
+            '<button class="upnext-cancel" type="button" title="Cancel" aria-label="Cancel auto-play">' +
+                '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>' +
+            '</button>';
+        frame.appendChild(bar);
+        requestAnimationFrame(function() { bar.classList.add('show'); });
+
+        // Any interaction (Play next or Cancel) stops the auto-advance.
+        bar.querySelector('.upnext-cancel').addEventListener('click', function() { hideUpNext(); });
+
+        function advance() {
+            var next = upNextVideo;
+            hideUpNext();
+            if (next) openModal(next);
+        }
+
+        if (!autoplay) {
+            var playBtn = bar.querySelector('.upnext-play-btn');
+            if (playBtn) playBtn.addEventListener('click', advance);
+        } else {
+            // Animate the countdown ring (stroke-dashoffset) for the autoplay variant.
+            var ringEl = bar.querySelector('.upnext-ring-fg');
+            var r = 16, circ = 2 * Math.PI * r;
+            if (ringEl) {
+                ringEl.style.strokeDasharray = circ;
+                ringEl.style.strokeDashoffset = '0';
+                ringEl.getBoundingClientRect(); // force reflow
+                ringEl.style.transition = 'stroke-dashoffset ' + duration + 'ms linear';
+                ringEl.style.strokeDashoffset = String(circ);
+            }
+        }
+
+        // Shared countdown timer — auto-advances when it hits zero.
+        // In the autoplay variant it ticks the ring number; in the manual
+        // variant it ticks the "Play next (N)" badge. Either way, if the
+        // user doesn't click a button before it reaches 0, the next video
+        // loads automatically.
+        var numEl = bar.querySelector(autoplay ? '.upnext-countdown-num' : '.upnext-play-count');
+        var startedAt = Date.now();
+        upNextTimer = setInterval(function() {
+            var elapsed = Date.now() - startedAt;
+            var left = Math.max(0, duration - elapsed);
+            if (numEl) numEl.textContent = Math.ceil(left / 1000);
+            if (left <= 0) advance();
+        }, 100);
+    }
+
     // ===== Modal =====
     function openModal(v) {
+        hideUpNext();
         state.currentVideo = v;
         var overlay = document.getElementById('modal-overlay');
         var video = document.getElementById('modal-video');
@@ -333,7 +426,7 @@
             }
             video.onplay = function() { if (rafId) cancelAnimationFrame(rafId); rafId = requestAnimationFrame(trackProgress); };
             video.onpause = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } updateVideoProgress(v.id, video.currentTime, video.duration); };
-            video.onended = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } };
+            video.onended = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } showUpNext(); };
             video.onseeked = function() { updateVideoProgress(v.id, video.currentTime, video.duration); };
         } else {
             video.innerHTML = '';
@@ -362,6 +455,7 @@
 
     function closeModal(e) {
         if (e && e.target !== document.getElementById('modal-overlay')) return;
+        hideUpNext();
         var overlay = document.getElementById('modal-overlay');
         var video = document.getElementById('modal-video');
         video.pause();

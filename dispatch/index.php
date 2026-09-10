@@ -1291,7 +1291,7 @@
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
     <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="css/tailwind-config.js" defer></script>
+    <script src="js/tailwind-config.js" defer></script>
     </head>
     <body>
 
@@ -2225,6 +2225,7 @@
                     </div>
 
                 </div>
+        </div>
 
         <!-- Documentation full-screen modal (inline overlay, preserves page UI) -->
         <div class="doc-modal-overlay" id="doc-modal-overlay">

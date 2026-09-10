@@ -20,6 +20,9 @@
     var lastSeenTimestamp = 0;
     var pollTimer = null;
     var hasInitialized = false;
+    // When true, the main comment list shows comments across ALL videos (not just 'general').
+    // New comments posted from the main form are still tagged with currentVideoId ('general').
+    var showAllComments = true;
 
     try { likedComments = JSON.parse(localStorage.getItem('dispatch-liked-comments') || '{}'); } catch (e) { likedComments = {}; }
     try { dislikedComments = JSON.parse(localStorage.getItem('dispatch-disliked-comments') || '{}'); } catch (e) { dislikedComments = {}; }
@@ -67,6 +70,18 @@
         return name.trim().charAt(0).toUpperCase() || '?';
     }
 
+    function videoIdToTitle(id) {
+        if (!id || id === 'general') return 'General';
+        if (window.VIDEOS) {
+            var v = null;
+            for (var i = 0; i < window.VIDEOS.length; i++) {
+                if (window.VIDEOS[i].id === id) { v = window.VIDEOS[i]; break; }
+            }
+            if (v) return v.title;
+        }
+        return id;
+    }
+
     function formatMessage(msg) {
         var escaped = escapeHtml(msg);
         escaped = escaped.replace(/@(\w+)/g, '<span class="comment-mention">@$1</span>');
@@ -107,7 +122,9 @@
         if (!container) return;
         container.innerHTML = '<div class="comments-loading">Loading comments</div>';
 
-        fetch(API_URL + '?video_id=' + encodeURIComponent(videoId) + '&sort=' + encodeURIComponent(currentSort))
+        var url = API_URL + '?sort=' + encodeURIComponent(currentSort);
+        if (!showAllComments) url += '&video_id=' + encodeURIComponent(videoId);
+        fetch(url)
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 if (!data.ok) throw new Error(data.error || 'Failed to load');
@@ -188,6 +205,7 @@
                 '<div class="comment-meta">' +
                     '<div class="comment-name-row">' +
                         '<span class="comment-name">' + escapeHtml(comment.name) + '</span>' +
+                        (showAllComments && !isReply && comment.video_id ? '<button type="button" class="comment-video-badge" data-video-id="' + escapeHtml(comment.video_id) + '" title="Open ' + escapeHtml(videoIdToTitle(comment.video_id)) + '"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 4.806A1 1 0 0116 5.69v12.62a1 1 0 01-1.248.884l-9-4.5a1 1 0 010-1.788l9-4.5z" fill="currentColor"/></svg>' + escapeHtml(videoIdToTitle(comment.video_id)) + '</button>' : '') +
                         (comment.hearted ? '<span class="comment-heart-badge" title="Hearted"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></span>' : '') +
                         (comment.pinned ? '<span class="comment-pinned-badge"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 00-2 2v6a2 2 0 002 2h4l1 4 1-4h4a2 2 0 002-2V7a2 2 0 00-2-2H5z"/></svg>Pinned</span>' : '') +
                     '</div>' +
@@ -378,6 +396,43 @@
                 if (video && video.src) {
                     try { video.currentTime = seconds; video.play().catch(function() {}); } catch (e) {}
                     showToast('Jumped to ' + time);
+                }
+            });
+        });
+
+        var videoBadges = item.querySelectorAll('.comment-video-badge');
+        videoBadges.forEach(function(badge) {
+            badge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var vid = badge.dataset.videoId;
+                console.log('[comments] badge click', vid, 'VIDEOS?', !!window.VIDEOS, 'openModal?', typeof window.openModal);
+                if (!vid) return;
+                // "general" is the main-page discussion — there's no matching
+                // video, so close any open modal and scroll to the comments section.
+                if (vid === 'general') {
+                    if (typeof window.closeModal === 'function') {
+                        try { window.closeModal({ target: document.getElementById('modal-overlay') }); } catch (err) {}
+                    }
+                    var section = document.getElementById('comments-section');
+                    if (section && window.scrollToComments) {
+                        window.scrollToComments();
+                    } else if (section) {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    return;
+                }
+                if (!window.VIDEOS || !window.openModal) {
+                    showToast('Player not ready yet');
+                    return;
+                }
+                var target = null;
+                for (var i = 0; i < window.VIDEOS.length; i++) {
+                    if (window.VIDEOS[i].id === vid) { target = window.VIDEOS[i]; break; }
+                }
+                if (target) {
+                    window.openModal(target);
+                } else {
+                    showToast('Tutorial "' + vid + '" not found');
                 }
             });
         });
