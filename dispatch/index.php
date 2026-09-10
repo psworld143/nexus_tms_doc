@@ -30,8 +30,7 @@
 <link rel="stylesheet" href="css/dispatch.css?v=1">
         <link rel="stylesheet" href="css/loaders.css?v=4">
         <link rel="stylesheet" href="css/tour-guide.css?v=1">
-        <link rel="stylesheet" href="css/reels.css?v=18">
-        <link rel="stylesheet" href="css/views.css?v=1">
+        <link rel="stylesheet" href="css/reels.css?v=19">
         <style>
             :root {
                 /* Dark theme (default) */
@@ -1289,8 +1288,10 @@
 
         </style>
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="css/tailwind-config.js"></script>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="css/tailwind-config.js" defer></script>
     </head>
     <body>
 
@@ -1842,7 +1843,7 @@
                     <div class="video-grid video-grid--full">
                         <div class="video-card video-card--full" id="video-card-dashboard">
                             <div class="video-frame">
-                                <video controls playsinline><source src="videos/dashboard.mp4" type="video/mp4"></video>
+                                <video controls playsinline preload="none"><source src="videos/dashboard.mp4" type="video/mp4"></video>
                                 <button class="favorite-btn" id="video-fav-dashboard" onclick="toggleVideoFavorite('dashboard', event)" title="Add to favorites">
                                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
                                 </button>
@@ -1856,7 +1857,7 @@
                 </div>
                 <div id="section-my-loads" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-loads.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-loads.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Create, assign, and track loads through dispatch — from booking to delivery.</p>
                         <div class="video-meta"><span class="chip">Operations</span><span class="chip">Dispatch</span></div>
                     </div>
@@ -1865,7 +1866,7 @@
 
                 <div id="section-my-trucks" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-trucks.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-trucks.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Add, view, and manage the trucks in your fleet.</p>
                         <div class="video-meta"><span class="chip">Fleet</span></div>
                     </div>
@@ -1873,7 +1874,7 @@
                 </div>
                 <div id="section-my-trailers" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-trailers.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-trailers.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Add, view, and manage the trailers in your fleet.</p>
                         <div class="video-meta"><span class="chip">Fleet</span></div>
                     </div>
@@ -1881,7 +1882,7 @@
                 </div>
                 <div id="section-driver-devices" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/driver-devices.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/driver-devices.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage driver mobile devices and ELD connections.</p>
                         <div class="video-meta"><span class="chip">Fleet</span></div>
                     </div>
@@ -1890,7 +1891,7 @@
 
                 <div id="section-truck-lease-pricing" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/truck-lease-pricing.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/truck-lease-pricing.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Review and configure truck lease pricing options.</p>
                         <div class="video-meta"><span class="chip">Lease</span></div>
                     </div>
@@ -1898,7 +1899,7 @@
                 </div>
                 <div id="section-truck-rentals" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/truck-rentals.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/truck-rentals.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage truck rentals and short-term equipment agreements.</p>
                         <div class="video-meta"><span class="chip">Lease</span></div>
                     </div>
@@ -1906,7 +1907,7 @@
                 </div>
                 <div id="section-lease-agreements" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/lease-agreements.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/lease-agreements.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Create, sign, and track lease agreements.</p>
                         <div class="video-meta"><span class="chip">Lease</span></div>
                     </div>
@@ -1915,7 +1916,7 @@
 
                 <div id="section-hire-drivers" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/hire-drivers.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/hire-drivers.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Recruit and onboard new drivers into your operation.</p>
                         <div class="video-meta"><span class="chip">Recruitment</span></div>
                     </div>
@@ -1923,7 +1924,7 @@
                 </div>
                 <div id="section-job-postings" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/job-postings.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/job-postings.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Create and manage driver job postings.</p>
                         <div class="video-meta"><span class="chip">Recruitment</span></div>
                     </div>
@@ -1931,7 +1932,7 @@
                 </div>
                 <div id="section-external-drivers" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/external-drivers.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/external-drivers.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage external and owner-operator drivers.</p>
                         <div class="video-meta"><span class="chip">Recruitment</span></div>
                     </div>
@@ -1940,7 +1941,7 @@
 
                 <div id="section-shout-out-scripts" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/shout-out-scripts.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/shout-out-scripts.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Access ready-made shout out scripts for your marketing.</p>
                         <div class="video-meta"><span class="chip">Marketing</span></div>
                     </div>
@@ -1948,7 +1949,7 @@
                 </div>
                 <div id="section-shout-out-vlogs" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/shout-out-vlogs.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/shout-out-vlogs.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Watch shout out vlog examples and marketing walkthroughs.</p>
                         <div class="video-meta"><span class="chip">Marketing</span></div>
                     </div>
@@ -1957,7 +1958,7 @@
 
                 <div id="section-accounting" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/accounting.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/accounting.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage accounting, invoices, and financial records.</p>
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
@@ -1965,7 +1966,7 @@
                 </div>
                 <div id="section-my-payroll" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-payroll.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-payroll.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Run and manage driver and staff payroll.</p>
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
@@ -1973,7 +1974,7 @@
                 </div>
                 <div id="section-my-factoring-company" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-factoring-company.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-factoring-company.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Connect and manage your factoring company.</p>
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
@@ -1981,7 +1982,7 @@
                 </div>
                 <div id="section-fuel-reports" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/fuel-reports.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/fuel-reports.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">View fuel spending reports and analytics.</p>
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
@@ -1989,7 +1990,7 @@
                 </div>
                 <div id="section-my-fuel-cards" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-fuel-cards.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-fuel-cards.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage fuel cards and driver spending limits.</p>
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
@@ -1997,7 +1998,7 @@
                 </div>
                 <div id="section-loans-cash-advance" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/loans-cash-advance.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/loans-cash-advance.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Apply for and track loans and cash advances.</p>
                         <div class="video-meta"><span class="chip">Financial</span></div>
                     </div>
@@ -2006,7 +2007,7 @@
 
                 <div id="section-api-integration-keys" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/api-integration-keys.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/api-integration-keys.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Generate and manage API integration keys.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2014,7 +2015,7 @@
                 </div>
                 <div id="section-my-fleet" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-fleet.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-fleet.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Monitor your fleet's safety and compliance status.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2022,7 +2023,7 @@
                 </div>
                 <div id="section-emergency-monitoring" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/emergency-monitoring.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/emergency-monitoring.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Set up and respond to emergency monitoring alerts.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2030,7 +2031,7 @@
                 </div>
                 <div id="section-compliance-monitoring" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/compliance-monitoring.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/compliance-monitoring.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Track compliance metrics in real time.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2038,7 +2039,7 @@
                 </div>
                 <div id="section-compliance-software-options" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/compliance-software-options.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/compliance-software-options.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Explore available compliance software integrations.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2046,7 +2047,7 @@
                 </div>
                 <div id="section-drug-alcohol-testing" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/drug-alcohol-testing.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/drug-alcohol-testing.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage drug and alcohol testing programs.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2054,7 +2055,7 @@
                 </div>
                 <div id="section-safety-assessments" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/safety-assessments.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/safety-assessments.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Run and review driver and vehicle safety assessments.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2062,7 +2063,7 @@
                 </div>
                 <div id="section-maintenance-monitoring" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/maintenance-monitoring.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/maintenance-monitoring.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Monitor maintenance schedules and vehicle health.</p>
                         <div class="video-meta"><span class="chip">Safety &amp; Compliance</span></div>
                     </div>
@@ -2071,7 +2072,7 @@
                 <div id="section-my-drivers" class="section-content" style="display:none;">
                     <div class="video-grid video-grid--full">
                         <div class="video-card video-card--full">
-                            <div class="video-frame"><video controls playsinline><source src="videos/how-to-register-new-drivers.mp4" type="video/mp4"></video></div>
+                            <div class="video-frame"><video controls playsinline preload="none"><source src="videos/how-to-register-new-drivers.mp4" type="video/mp4"></video></div>
                             <p class="video-desc">Step-by-step guide on how to register new drivers in the system.</p>
                             <div class="video-meta"><span class="chip">Tutorial</span><span class="chip">Driver Management</span></div>
                         </div>
@@ -2081,7 +2082,7 @@
 
                 <div id="section-my-customers" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-customers.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-customers.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Add, view, and manage your customers.</p>
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
@@ -2089,7 +2090,7 @@
                 </div>
                 <div id="section-my-shippers-list" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-shippers-list.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-shippers-list.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage your list of shippers.</p>
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
@@ -2097,7 +2098,7 @@
                 </div>
                 <div id="section-my-consignee-lists" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-consignee-lists.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-consignee-lists.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage your consignee lists and locations.</p>
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
@@ -2105,7 +2106,7 @@
                 </div>
                 <div id="section-my-brokers" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/my-brokers.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/my-brokers.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Add and manage your brokers.</p>
                         <div class="video-meta"><span class="chip">Customer Relations</span></div>
                     </div>
@@ -2114,7 +2115,7 @@
 
                 <div id="section-violations" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/violations.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/violations.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Track and manage compliance violations across your operations.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2122,7 +2123,7 @@
                 </div>
                 <div id="section-safety-violations" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/safety violations.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/safety violations.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Monitor safety-related violations and ensure regulatory compliance.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2130,7 +2131,7 @@
                 </div>
                 <div id="section-driver-violations" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/driver-violations.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/driver-violations.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Track driver-specific violations and implement corrective actions.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2138,7 +2139,7 @@
                 </div>
                 <div id="section-vehicle-violations" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/vehicle-violations.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/vehicle-violations.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Monitor vehicle-related violations and maintenance issues.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2146,7 +2147,7 @@
                 </div>
                 <div id="section-notifications" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/notifications.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/notifications.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Stay informed with real-time alerts and system notifications.</p>
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
@@ -2154,7 +2155,7 @@
                 </div>
                 <div id="section-activity" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/activity.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/activity.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">View system activity logs and track user actions.</p>
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
@@ -2162,7 +2163,7 @@
                 </div>
                 <div id="section-maintenance" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/maintenance.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/maintenance.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Schedule and track vehicle maintenance to ensure optimal performance.</p>
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
@@ -2170,7 +2171,7 @@
                 </div>
                 <div id="section-drug-alcohol" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/drug-alcohol.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/drug-alcohol.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Manage drug and alcohol testing programs and compliance records.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2178,7 +2179,7 @@
                 </div>
                 <div id="section-documents" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/documents.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/documents.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Store and manage all compliance documents in one centralized location.</p>
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
@@ -2186,7 +2187,7 @@
                 </div>
                 <div id="section-permit-insurance" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/permit-insurance.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/permit-insurance.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Track permits, licenses, and insurance documentation for compliance.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2194,7 +2195,7 @@
                 </div>
                 <div id="section-reporting" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/reporting.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/reporting.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Generate comprehensive reports for compliance and operational insights.</p>
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
@@ -2202,7 +2203,7 @@
                 </div>
                 <div id="section-safety" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/safety.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/safety.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Monitor safety metrics and implement risk management strategies.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2210,7 +2211,7 @@
                 </div>
                 <div id="section-hos" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/hos.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/hos.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Track Hours of Service compliance and driver duty status.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>
@@ -2218,7 +2219,7 @@
                 </div>
                 <div id="section-settings" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline><source src="videos/settings.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/settings.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Configure system settings and customize your experience.</p>
                         <div class="video-meta"><span class="chip">System</span></div>
                     </div>
@@ -2990,9 +2991,7 @@
     </div>
     <script>window.DISPATCH_THEME_CLASS='dark';</script>
     <script src="js/dispatch.js?v=1"></script>
-    <script src="js/tour-guide.js?v=4"></script>
-    <script src="js/reels.js?v=18"></script>
-    <script src="js/views.js?v=1"></script>
-    <script src="js/activity-feed.js?v=2"></script>
+    <script src="js/tour-guide.js?v=4" defer></script>
+    <script src="js/reels.js?v=19"></script>
 </body>
 </html>

@@ -200,11 +200,14 @@
             previewItems.forEach(function (item) { item.classList.remove('preview'); });
         }
 
-        // Pause all videos except the active one
+        // Pause all videos except the active one, and set preload="none" to free memory
         sections.forEach(function (s, i) {
             if (i !== idx) {
                 var v = s.querySelector('video');
-                if (v && !v.paused) v.pause();
+                if (v) {
+                    if (!v.paused) v.pause();
+                    v.preload = 'none';
+                }
                 s.classList.remove('is-active');
             }
         });
@@ -221,11 +224,14 @@
                 updatePageHead(idx);
             }
 
-            // Auto-play the active video (muted)
+            // Auto-play the active video (muted) — set preload="auto" so it loads on demand
             var activeVideo = active.querySelector('video');
-            if (activeVideo && !activeVideo.closest('.video-empty') && activeVideo.paused) {
-                activeVideo.muted = true;
-                try { activeVideo.play().catch(function () {}); } catch (e) {}
+            if (activeVideo && !activeVideo.closest('.video-empty')) {
+                activeVideo.preload = 'auto';
+                if (activeVideo.paused) {
+                    activeVideo.muted = true;
+                    try { activeVideo.play().catch(function () {}); } catch (e) {}
+                }
             }
         }
     }

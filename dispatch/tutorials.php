@@ -1463,8 +1463,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .announce-toast { animation-timing-function: var(--ease-smooth); }
     </style>
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="css/tailwind-config.js"></script>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="css/tailwind-config.js" defer></script>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -1986,6 +1988,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/dispatch.js?v=1"></script>
     <script src="js/tutorials-player.js?v=7"></script>
     <script src="js/comments.js?v=10"></script>
-    <script src="js/tour-guide.js?v=2"></script>
+    <script src="js/tour-guide.js?v=2" defer></script>
 </body>
 </html>
