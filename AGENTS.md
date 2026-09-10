@@ -43,7 +43,7 @@ Get-ChildItem C:\xampp\htdocs\nexus_tms_doc\dispatch -Filter *.php |
 
 - **Security headers** are set via `header()` at the top of every page (X-Frame-Options, CSP, etc.). The CSP allows `script-src 'unsafe-inline'` because of the inline scripts. Don't loosen it further; ideally tighten it once scripts are externalized.
 
-- **Videos are large** (`how-to-register-new-drivers.mp4` is ~48 MB) and served as raw static files. All `<video>` tags use `preload="none"` (lazy loading — only loads when scrolled to). Poster images are generated on-the-fly by `poster.php?id=SECTION_ID`, which outputs an SVG with the section's icon, title, description, category, and a "Coming Soon" badge (for missing videos) or duration badge (for available videos). Posters are set via JavaScript in `reels.js` (index.php) and `tutorials-player.js` (tutorials.php modal).
+- **Videos are large** (`how-to-register-new-drivers.mp4` is ~48 MB) and served as raw static files. All `<video>` tags use `preload="none"` (lazy loading — only loads when scrolled to).
 
 ## Conventions
 
@@ -56,7 +56,7 @@ Get-ChildItem C:\xampp\htdocs\nexus_tms_doc\dispatch -Filter *.php |
 
 1. Extract remaining shared CSS (variables, topbar, sidebar markup) — settings panel and accessibility CSS already moved to `css/dispatch.css`.
 2. Extract remaining inline JS from `index.php` (search assistant, sidebar, doc modal) into page-specific JS files; then drop `'unsafe-inline'` from `script-src` in the CSP.
-3. ~~Add `preload="metadata"` + poster images to all `<video>` elements.~~ **Done** — all `<video>` tags use `preload="none"` (lazy loading); posters generated on-the-fly by `poster.php` (SVG, uses `doc_data.php` + section icons, shows "Coming Soon" for missing videos, duration for available ones).
+3. ~~Add `preload="metadata"` + poster images to all `<video>` elements.~~ **Done** — all `<video>` tags use `preload="none"` (lazy loading).
 4. Remove the duplicate `escapeHtml` function in `index.php` modal section (dispatch.js already provides one globally).
 
 ## Framework evaluation

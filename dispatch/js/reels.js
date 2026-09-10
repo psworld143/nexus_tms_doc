@@ -57,9 +57,6 @@
             var video = frame.querySelector('video');
             if (video && !video.dataset.reelProgressBound) {
                 video.dataset.reelProgressBound = '1';
-                if (!video.hasAttribute('poster')) {
-                    video.setAttribute('poster', 'poster.php?id=' + sectionId);
-                }
                 video.addEventListener('timeupdate', function () {
                     if (video.duration && video.duration > 0) {
                         var progress = (video.currentTime / video.duration) * 100;

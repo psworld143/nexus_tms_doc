@@ -246,7 +246,7 @@
                 });
             }
             var thumb = available
-                ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>'
+                ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video><div class="video-play-overlay"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>'
                 : '<div class="video-empty"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg><span>Coming Soon</span></div>';
             card.innerHTML =
                 '<div class="video-thumb"><span class="category-badge">' + escapeHtml(v.path) + '</span>' + thumb +
@@ -313,7 +313,6 @@
         if (prevEmpty) prevEmpty.remove();
         if (isAvailable(v.src)) {
             video.innerHTML = '<source src="' + escapeHtml(v.src) + '" type="video/mp4">';
-            video.setAttribute('poster', 'poster.php?id=' + encodeURIComponent(v.id));
             video.style.display = 'block';
             video.load();
             video.playbackRate = parseFloat(settings['playback-speed'] || '1');
@@ -324,12 +323,26 @@
                 }
                 if (settings['autoplay']) video.play().catch(function() {});
             };
-            video.ontimeupdate = function() { updateVideoProgress(v.id, video.currentTime, video.duration); };
+            // Smooth 60fps progress tracking via rAF instead of timeupdate (~4fps)
+            var rafId = null;
+            function trackProgress() {
+                if (video.duration && !video.paused) {
+                    updateVideoProgress(v.id, video.currentTime, video.duration);
+                }
+                rafId = requestAnimationFrame(trackProgress);
+            }
+            video.onplay = function() { if (rafId) cancelAnimationFrame(rafId); rafId = requestAnimationFrame(trackProgress); };
+            video.onpause = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } updateVideoProgress(v.id, video.currentTime, video.duration); };
+            video.onended = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } };
+            video.onseeked = function() { updateVideoProgress(v.id, video.currentTime, video.duration); };
         } else {
             video.innerHTML = '';
             video.style.display = 'none';
             video.onloadedmetadata = null;
-            video.ontimeupdate = null;
+            video.onplay = null;
+            video.onpause = null;
+            video.onended = null;
+            video.onseeked = null;
             var empty = document.createElement('div');
             empty.className = 'video-empty';
             empty.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;background:var(--surface-2);color:var(--text-dim);';
@@ -389,6 +402,50 @@
     window.closeModal = closeModal;
     window.clearWatchHistory = clearWatchHistory;
     window.renderVideos = renderVideos;
+
+    // ===== Sidebar & Mobile Search (page-specific for tutorials.php) =====
+    function toggleSidebar() {
+        var sidebar = document.getElementById('yt-sidebar');
+        var main = document.getElementById('main-content');
+        var backdrop = document.getElementById('sb-backdrop');
+        if (!sidebar) return;
+        if (window.innerWidth <= 1024) {
+            var isOpen = sidebar.classList.toggle('open');
+            if (backdrop) backdrop.classList.toggle('open', isOpen);
+        } else {
+            sidebar.classList.toggle('collapsed');
+            if (main) main.classList.toggle('sidebar-collapsed');
+            var isCollapsed = sidebar.classList.contains('collapsed');
+            try {
+                var settings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
+                settings['sidebar-collapsed'] = isCollapsed;
+                localStorage.setItem('dispatch-settings', JSON.stringify(settings));
+            } catch (e) {}
+        }
+    }
+
+    function closeSidebar() {
+        var sidebar = document.getElementById('yt-sidebar');
+        var backdrop = document.getElementById('sb-backdrop');
+        if (window.innerWidth <= 1024) {
+            if (sidebar) sidebar.classList.remove('open');
+            if (backdrop) backdrop.classList.remove('open');
+        }
+    }
+
+    function toggleMobileSearch() {
+        var overlay = document.getElementById('mobile-search-overlay');
+        if (!overlay) return;
+        var isOpen = overlay.classList.toggle('open');
+        if (isOpen) {
+            var input = document.getElementById('mobile-search-input');
+            if (input) setTimeout(function() { input.focus(); }, 100);
+        }
+    }
+
+    window.toggleSidebar = toggleSidebar;
+    window.closeSidebar = closeSidebar;
+    window.toggleMobileSearch = toggleMobileSearch;
 
     // ===== Init on DOM ready =====
     function init() {
@@ -460,6 +517,17 @@
         renderWatchHistory();
         updateStats();
         renderVideos();
+
+        // Restore sidebar collapsed state (desktop only)
+        try {
+            var savedSettings = JSON.parse(localStorage.getItem('dispatch-settings') || '{}');
+            if (savedSettings['sidebar-collapsed'] && window.innerWidth > 1024) {
+                var sb = document.getElementById('yt-sidebar');
+                var mc = document.getElementById('main-content');
+                if (sb) sb.classList.add('collapsed');
+                if (mc) mc.classList.add('sidebar-collapsed');
+            }
+        } catch (e) {}
 
         // Open from hash
         (function openFromHash() {

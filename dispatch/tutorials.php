@@ -25,7 +25,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/tutorials-animations.css">
+    <link rel="stylesheet" href="css/tutorials-animations.css?v=2">
     <link rel="stylesheet" href="css/dispatch-ui.css">
 <link rel="stylesheet" href="css/dispatch.css?v=1">
     <link rel="stylesheet" href="css/loaders.css?v=4">
@@ -723,7 +723,38 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             object-fit: cover;
             display: block;
             pointer-events: none;
+            transform: translateZ(0);
+            will-change: transform;
+            image-rendering: auto;
+            -webkit-font-smoothing: antialiased;
         }
+        .video-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            border-radius: 10px;
+        }
+        .video-card:hover .video-thumb::after { opacity: 1; }
+        .video-play-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.85);
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.92);
+            display: grid; place-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 24px -4px rgba(16, 185, 129, 0.5);
+            z-index: 2;
+        }
+        .video-play-overlay svg { width: 24px; height: 24px; color: #fff; margin-left: 2px; }
+        .video-card:hover .video-play-overlay { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .video-thumb .duration-badge {
             position: absolute; bottom: 0.5rem; right: 0.5rem;
             padding: 0.15rem 0.45rem;
@@ -847,7 +878,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             flex-shrink: 0;
             position: relative;
         }
-        .related-item-thumb video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .related-item-thumb video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: translateZ(0); will-change: transform; }
         .related-item-info { flex: 1; min-width: 0; padding-top: 0.05rem; }
         .related-item-info h5 {
             font-size: 0.82rem; font-weight: 600;
@@ -949,7 +980,16 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             border-radius: 12px;
             box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.5);
         }
-        .modal-video-frame video { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .modal-video-frame video {
+            width: 100%; height: 100%;
+            object-fit: contain;
+            display: block;
+            transform: translateZ(0);
+            will-change: transform;
+            image-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            backface-visibility: hidden;
+        }
         .modal-video-frame .video-empty {
             position: absolute; inset: 0;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1318,14 +1358,22 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .modal-sidebar { display: none; }
             .modal-video-info h3 { font-size: 1.05rem; }
             .related-item-thumb { width: 144px; }
+            .chip { padding: 0.4rem 0.85rem; font-size: 0.78rem; }
+            .header-actions { gap: 0.35rem; }
         }
-        @media (max-width: 600px) {
-            .header { padding: 0 0.5rem; gap: 0.5rem; }
-            .header-left { gap: 0.5rem; }
+        @media (max-width: 640px) {
+            .header { padding: 0 0.5rem; gap: 0.4rem; }
+            .header-left { gap: 0.4rem; }
             .brand-text p { display: none; }
+            .brand-text h1 { font-size: 0.95rem; }
+            .brand-mark { width: 28px; height: 28px; }
             .main { padding: 0.5rem 0.75rem 1rem; }
             .video-grid { grid-template-columns: 1fr; gap: 1rem; }
-            .modal-player { padding: 0.5rem; }
+            .video-card { padding: 0.5rem; }
+            .video-card:hover { transform: none; box-shadow: 0 12px 24px -12px rgba(0,0,0,0.5); }
+            .video-card:hover .video-thumb video { transform: scale(1.02); }
+            .video-card:hover .video-play-overlay { transform: translate(-50%, -50%) scale(0.9); }
+            .modal-player { padding: 0.5rem; border-radius: 12px; }
             .modal-topbar { gap: 0.5rem; }
             .modal-topbar-title { font-size: 0.82rem; }
             .modal-video-info h3 { font-size: 0.98rem; }
@@ -1333,11 +1381,65 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .related-item-thumb { width: 120px; }
             .related-item-info h5 { font-size: 0.78rem; }
             .history-item { min-width: 200px; max-width: 200px; }
+            .chip { padding: 0.35rem 0.75rem; font-size: 0.74rem; }
+            .chip-bar { gap: 0.4rem; padding: 0.4rem 0 0.75rem; }
+            .icon-btn { width: 38px; height: 38px; }
+            .icon-btn svg { width: 19px; height: 19px; }
+            .sidebar-toggle { width: 38px; height: 38px; }
+            .sidebar-toggle svg { width: 20px; height: 20px; }
+            .header-search-btn { width: 38px; height: 38px; }
+            .mobile-search-btn { width: 38px; height: 38px; }
+            .modal-action-btn { width: 34px; height: 34px; }
+            .modal-back { width: 34px; height: 34px; }
+        }
+        @media (max-width: 560px) {
+            .header { padding: 0 0.4rem; }
+            .header-actions { gap: 0.2rem; }
+            .brand-mark { width: 26px; height: 26px; }
+            .brand-text h1 { font-size: 0.88rem; }
+            .video-card { padding: 0.4rem; border-radius: 10px; }
+            .video-thumb { border-radius: 8px; }
+            .video-info { padding: 0.5rem 0.15rem 0; gap: 0.5rem; }
+            .video-avatar { width: 32px; height: 32px; font-size: 0.7rem; }
+            .video-info h3 { font-size: 0.85rem; }
+            .modal-player { padding: 0.4rem; gap: 0.6rem; }
+            .modal-video-frame { border-radius: 8px; }
+            .modal-video-info { padding-top: 0.15rem; }
+            .modal-video-info h3 { font-size: 0.92rem; }
+            .modal-desc-box p { font-size: 0.82rem; }
+            .modal-channel-name { font-size: 0.78rem; }
+            .modal-channel-sub { font-size: 0.7rem; }
+            .modal-comments-header h4 { font-size: 0.85rem; }
+            .icon-btn { width: 36px; height: 36px; }
+            .icon-btn svg { width: 18px; height: 18px; }
+            .sidebar-toggle { width: 36px; height: 36px; }
+            .mobile-search-btn { width: 36px; height: 36px; }
+            .yt-sidebar { width: 260px; }
         }
         @media (max-width: 400px) {
-            .header-actions { gap: 0.2rem; }
-            .icon-btn { width: 36px; height: 36px; }
-            .icon-btn svg { width: 20px; height: 20px; }
+            .header-actions { gap: 0.15rem; }
+            .icon-btn { width: 34px; height: 34px; }
+            .icon-btn svg { width: 17px; height: 17px; }
+            .sidebar-toggle { width: 34px; height: 34px; }
+            .sidebar-toggle svg { width: 19px; height: 19px; }
+            .mobile-search-btn { width: 34px; height: 34px; }
+            .mobile-search-btn svg { width: 20px; height: 20px; }
+            .brand-mark { width: 24px; height: 24px; }
+            .brand-text h1 { font-size: 0.82rem; }
+            .video-card { padding: 0.3rem; }
+            .video-info { gap: 0.4rem; padding: 0.4rem 0.1rem 0; }
+            .video-avatar { width: 28px; height: 28px; font-size: 0.65rem; }
+            .video-info h3 { font-size: 0.8rem; }
+            .video-meta { font-size: 0.68rem; gap: 0.35rem; }
+            .skill-badge { font-size: 0.55rem; padding: 0.08rem 0.35rem; }
+            .chip { padding: 0.3rem 0.65rem; font-size: 0.7rem; }
+            .modal-player { padding: 0.3rem; }
+            .modal-topbar { gap: 0.35rem; }
+            .modal-back { width: 32px; height: 32px; }
+            .modal-action-btn { width: 32px; height: 32px; }
+            .modal-video-info h3 { font-size: 0.85rem; }
+            .modal-channel-avatar { width: 28px; height: 28px; font-size: 0.65rem; }
+            .yt-sidebar { width: 240px; }
         }
 
         /* Mobile Search Toggle */
@@ -1986,7 +2088,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/tutorials-data.js?v=2"></script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=1"></script>
-    <script src="js/tutorials-player.js?v=8"></script>
+    <script src="js/tutorials-player.js?v=10"></script>
     <script src="js/comments.js?v=10"></script>
     <script src="js/tour-guide.js?v=2" defer></script>
 </body>
