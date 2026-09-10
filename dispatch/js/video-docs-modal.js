@@ -33,6 +33,75 @@
             '</div>';
     }
 
+    // ===== "Was this helpful?" feedback footer =====
+    var FEEDBACK_KEY = 'dispatch-doc-feedback';
+
+    function getFeedbackMap() {
+        try { return JSON.parse(localStorage.getItem(FEEDBACK_KEY) || '{}'); }
+        catch (e) { return {}; }
+    }
+
+    function setFeedback(id, value) {
+        var map = getFeedbackMap();
+        map[id] = value;
+        try { localStorage.setItem(FEEDBACK_KEY, JSON.stringify(map)); } catch (e) {}
+    }
+
+    function buildFeedbackFooter(id) {
+        var existing = getFeedbackMap()[id];
+        var state = '';
+        if (existing === 'up') state = ' data-state="up"';
+        else if (existing === 'down') state = ' data-state="down"';
+        return '<div class="dm-feedback"' + state + '>' +
+            '<div class="dm-feedback-prompt">' +
+                '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>' +
+                '<span>Was this article helpful?</span>' +
+            '</div>' +
+            '<div class="dm-feedback-actions">' +
+                '<button class="dm-feedback-btn dm-feedback-up" type="button" data-vote="up" aria-label="Yes, helpful">' +
+                    '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>' +
+                    '<span>Yes</span>' +
+                '</button>' +
+                '<button class="dm-feedback-btn dm-feedback-down" type="button" data-vote="down" aria-label="No, not helpful">' +
+                    '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zM17 2h3a2 2 0 012 2v7a2 2 0 01-2 2h-3"/></svg>' +
+                    '<span>No</span>' +
+                '</button>' +
+            '</div>' +
+            '<div class="dm-feedback-thanks">Thanks for your feedback</div>' +
+        '</div>';
+    }
+
+    function wireFeedback(container, id) {
+        var footer = container.querySelector('.dm-feedback');
+        if (!footer) return;
+        var upBtn = footer.querySelector('.dm-feedback-up');
+        var downBtn = footer.querySelector('.dm-feedback-down');
+        var thanks = footer.querySelector('.dm-feedback-thanks');
+
+        function vote(value, btn) {
+            setFeedback(id, value);
+            footer.setAttribute('data-state', value);
+            if (upBtn) upBtn.classList.toggle('selected', value === 'up');
+            if (downBtn) downBtn.classList.toggle('selected', value === 'down');
+            if (thanks) {
+                thanks.textContent = value === 'up'
+                    ? 'Thanks for your feedback'
+                    : 'Thanks — tell us how to improve';
+                thanks.classList.add('show');
+            }
+            if (upBtn) upBtn.disabled = true;
+            if (downBtn) downBtn.disabled = true;
+        }
+
+        if (upBtn) upBtn.addEventListener('click', function() { vote('up', upBtn); });
+        if (downBtn) downBtn.addEventListener('click', function() { vote('down', downBtn); });
+
+        // Restore prior vote state on reopen.
+        var existing = getFeedbackMap()[id];
+        if (existing === 'up' && upBtn) { upBtn.classList.add('selected'); upBtn.disabled = true; if (thanks) thanks.classList.add('show'); }
+        if (existing === 'down' && downBtn) { downBtn.classList.add('selected'); downBtn.disabled = true; if (thanks) thanks.classList.add('show'); }
+    }
+
     // ===== Doc modal =====
     function initDocModal() {
         const overlay = document.getElementById('doc-modal-overlay');
@@ -72,7 +141,9 @@
                 '</div>' +
                 '<div class="doc-rich-content">' + desc + '</div>' +
                 '</article>' +
-                buildSuggestedVideos(id, category);
+                buildSuggestedVideos(id, category) +
+                buildFeedbackFooter(id);
+            wireFeedback(body, id);
             overlay.classList.add('open');
             document.body.style.overflow = 'hidden';
         }

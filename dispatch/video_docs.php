@@ -674,6 +674,73 @@ $site = 'DISPATCH';
         .dm-suggest-badge.available { background: rgba(16,185,129,0.15); color: #10b981; }
         .dm-suggest-badge.coming { background: rgba(245,158,11,0.15); color: #f59e0b; }
         .dm-suggest-empty { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1.5rem; }
+
+        /* ===== "Was this helpful?" feedback footer ===== */
+        .dm-feedback {
+            max-width: 720px; margin: 2.5rem auto 0; width: 100%;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--surface) 60%, transparent);
+            display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+        .dm-feedback[data-state="up"] {
+            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+            background: color-mix(in srgb, var(--accent) 6%, transparent);
+        }
+        .dm-feedback[data-state="down"] {
+            border-color: color-mix(in srgb, #f59e0b 35%, transparent);
+            background: color-mix(in srgb, #f59e0b 5%, transparent);
+        }
+        .dm-feedback-prompt {
+            display: flex; align-items: center; gap: 0.55rem;
+            font-size: 0.92rem; font-weight: 600; color: var(--text);
+        }
+        .dm-feedback-prompt svg { width: 20px; height: 20px; color: var(--accent); flex-shrink: 0; }
+        .dm-feedback-actions { display: flex; gap: 0.5rem; margin-left: auto; }
+        .dm-feedback-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            background: var(--surface-2);
+            color: var(--text-muted);
+            font-family: inherit; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+        .dm-feedback-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .dm-feedback-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: var(--border-strong);
+            color: var(--text);
+        }
+        .dm-feedback-btn:active:not(:disabled) { transform: translateY(0) scale(0.97); }
+        .dm-feedback-btn:disabled { opacity: 0.55; cursor: default; }
+        .dm-feedback-up.selected {
+            background: var(--accent); color: #fff; border-color: var(--accent);
+        }
+        .dm-feedback-up.selected svg { color: #fff; }
+        .dm-feedback-down.selected {
+            background: #f59e0b; color: #fff; border-color: #f59e0b;
+        }
+        .dm-feedback-down.selected svg { color: #fff; }
+        .dm-feedback-thanks {
+            width: 100%; margin-top: 0.5rem;
+            font-size: 0.85rem; font-weight: 600; color: var(--accent);
+            opacity: 0; max-height: 0; overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease, margin-top 0.3s ease;
+        }
+        .dm-feedback-thanks.show {
+            opacity: 1; max-height: 40px; margin-top: 0.75rem;
+        }
+        .dm-feedback[data-state="down"] .dm-feedback-thanks { color: #f59e0b; }
+        @media (max-width: 640px) {
+            .dm-feedback { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.25rem; }
+            .dm-feedback-actions { margin-left: 0; width: 100%; }
+            .dm-feedback-btn { flex: 1; justify-content: center; }
+        }
         @media (max-width: 640px) {
             .doc-modal h2 { font-size: 1.6rem; }
             .doc-modal-body { padding: 2rem 1.25rem; }
@@ -1076,7 +1143,7 @@ $site = 'DISPATCH';
     </script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=1"></script>
-    <script src="js/video-docs-modal.js?v=2"></script>
+    <script src="js/video-docs-modal.js?v=3"></script>
     <script src="js/video-docs-ui.js?v=1"></script>
 </body>
 </html>
