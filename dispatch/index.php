@@ -2992,6 +2992,6 @@
     <script>window.DISPATCH_THEME_CLASS='dark';</script>
     <script src="js/dispatch.js?v=1"></script>
     <script src="js/tour-guide.js?v=4" defer></script>
-    <script src="js/reels.js?v=19"></script>
+    <script src="js/reels.js?v=20"></script>
 </body>
 </html>

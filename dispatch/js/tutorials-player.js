@@ -313,6 +313,7 @@
         if (prevEmpty) prevEmpty.remove();
         if (isAvailable(v.src)) {
             video.innerHTML = '<source src="' + escapeHtml(v.src) + '" type="video/mp4">';
+            video.setAttribute('poster', 'poster.php?id=' + encodeURIComponent(v.id));
             video.style.display = 'block';
             video.load();
             video.playbackRate = parseFloat(settings['playback-speed'] || '1');
