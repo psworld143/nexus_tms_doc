@@ -274,9 +274,10 @@
         try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
     }
 
-    function saveSettings() {
+    function saveSettings(e) {
         saveSettingsImmediate();
-        var btn = event.target;
+        var btn = e && e.target ? e.target : (window.event && window.event.target);
+        if (!btn) return;
         var orig = btn.textContent;
         btn.textContent = 'Saved!';
         btn.style.background = '#059669';

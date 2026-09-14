@@ -405,7 +405,6 @@
             badge.addEventListener('click', function(e) {
                 e.stopPropagation();
                 var vid = badge.dataset.videoId;
-                console.log('[comments] badge click', vid, 'VIDEOS?', !!window.VIDEOS, 'openModal?', typeof window.openModal);
                 if (!vid) return;
                 // "general" is the main-page discussion — there's no matching
                 // video, so close any open modal and scroll to the comments section.
@@ -890,7 +889,6 @@
 
     setTimeout(function() {
         if (currentVideoId === null) {
-            console.log('[comments] Self-initializing with video_id=general');
             window.DispatchComments.init('general');
         }
     }, 2000);

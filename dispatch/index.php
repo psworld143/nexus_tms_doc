@@ -1531,7 +1531,7 @@
             </div>
             <div class="settings-footer">
                 <button class="settings-btn" onclick="resetSettings()">Reset to Default</button>
-                <button class="settings-btn primary" onclick="saveSettings()">Save Changes</button>
+                <button class="settings-btn primary" onclick="saveSettings(event)">Save Changes</button>
             </div>
         </div>
 
@@ -2991,7 +2991,7 @@
         <p id="doc-floater-desc"></p>
     </div>
     <script>window.DISPATCH_THEME_CLASS='dark';</script>
-    <script src="js/dispatch.js?v=1"></script>
+    <script src="js/dispatch.js?v=2"></script>
     <script src="js/tour-guide.js?v=4" defer></script>
     <script src="js/reels.js?v=20"></script>
 </body>
