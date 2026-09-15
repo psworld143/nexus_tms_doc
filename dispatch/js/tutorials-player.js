@@ -1,5 +1,56 @@
 // tutorials-player.js — Video rendering, modal, watch history, favorites, progress, related videos, filters, keyboard shortcuts, cursor sync
 // Used by tutorials.php. Depends on tutorials-data.js (VIDEOS, AVAILABLE_VIDEOS, state, isAvailable, escapeHtml) and tutorials-settings.js (loadSettings, showAnnouncement).
+//
+// === REVIEW ADVICE — candidate improvements ===
+// Items marked [FIXED] have been applied. Remaining items are still open.
+//
+// 1. [FIXED] PERF/BATTERY: updateVideoProgress() -> saveUserData() was called on
+//    every animation frame (60x/sec), writing 3 localStorage keys each time.
+//    Now throttled to every 5s; pause/seek/ended/close/beforeunload force-flush.
+//
+// 2. [FIXED] BUG: two separate keydown listeners both handled Space and Arrow
+//    keys when the modal was open (Space double-toggled play/pause; Arrows both
+//    switched videos AND sought). Merged into one consolidated switch.
+//
+// 3. A11Y (high): history-item / related-item / video-card are <div> with onclick.
+//    They aren't focusable, have no role, and don't respond to Enter/Space. Use
+//    <button> or add tabindex="0" + role="button" + a keydown handler. Also the
+//    favorite button has style="display:none" so it's dead — either wire it up or
+//    remove it (and the `closest('.favorite-btn')` guard).
+//
+// 4. [FIXED] LEAK: the rAF loop from a previous video was never cancelled when a
+//    new openModal ran without closeModal. rafId is now module-level (progressRafId)
+//    and cancelled at the start of openModal and in closeModal.
+//
+// 5. DUPLICATION (medium): the mouseenter/mouseleave hover-preview block is copied
+//    three times (renderWatchHistory, renderRelatedVideos, renderVideos). Extract a
+//    helper: attachHoverPreview(el, videoSelector, startAt). Cuts ~60 lines.
+//
+// 6. XSS-ADJACENT (medium): inline `onclick="toggleFavorite('...')"` builds the
+//    handler from a string. escapeHtml escapes <>&"' but a v.id containing a single
+//    quote or backslash would still break the JS string literal. Prefer
+//    addEventListener with a closure (also helps drop 'unsafe-inline' from CSP per
+//    AGENTS.md backlog item #2).
+//
+// 7. REDUNDANT STORAGE (low): videoProgress stores currentTime, duration, AND
+//    progress (percent). progress is derivable from the other two. Storing only
+//    currentTime + duration halves the write size and avoids drift.
+//
+// 8. ERROR SURFACING (low): saveUserData() swallows all exceptions. If the user is
+//    over the localStorage quota (large watch history / many progress entries),
+//    progress silently stops saving. At least console.warn on QuotaExceededError
+//    so it's debuggable; optionally evict oldest progress entries when over quota.
+//
+// 9. NAMING/API (low): nine functions are pinned to window for inline handlers.
+//    A single namespace (window.TutorialsPlayer = {...}) keeps globals tidy and
+//    makes the public surface explicit. Pair with item #6 to drop inline handlers.
+//
+// 10. MINOR: loadSettings() is called inside openModal and inside the keydown
+//     handler (every keypress). Cache it on the state object and invalidate on
+//     settings-panel save. getTimeAgo() never updates live — re-rendering history
+//     on a 60s interval would keep "Just now"/"5m ago" fresh.
+//
+// === End review advice ===
 
 (function() {
     'use strict';
@@ -12,6 +63,13 @@
     var upNextTimer = null;     // countdown interval id
     var UPNEXT_DURATION = 3000; // countdown length when autoplay is on (ms)
     var UPNEXT_DURATION_MANUAL = 8000; // grace period before auto-advancing when autoplay is off (ms)
+
+    // ===== Progress rAF (module-level so openModal can cancel a stale loop) =====
+    var progressRafId = null;
+
+    // ===== localStorage write throttling =====
+    var SAVE_THROTTLE_MS = 5000;
+    var lastSaveAt = 0;
 
     // ===== User data =====
     function loadUserData() {
@@ -33,7 +91,9 @@
         }
     }
 
-    function saveUserData() {
+    function saveUserData(force) {
+        if (!force && Date.now() - lastSaveAt < SAVE_THROTTLE_MS) return;
+        lastSaveAt = Date.now();
         try {
             localStorage.setItem('dispatch-watch-history', JSON.stringify(state.watchHistory));
             localStorage.setItem('dispatch-favorites', JSON.stringify(state.favorites));
@@ -49,13 +109,13 @@
             src: video.src, category: video.category, timestamp: Date.now()
         });
         if (state.watchHistory.length > 8) state.watchHistory.pop();
-        saveUserData();
+        saveUserData(true);
         renderWatchHistory();
     }
 
     function clearWatchHistory() {
         state.watchHistory = [];
-        saveUserData();
+        saveUserData(true);
         renderWatchHistory();
     }
 
@@ -147,7 +207,7 @@
         var index = state.favorites.indexOf(videoId);
         if (index === -1) { state.favorites.push(videoId); showAnnouncement('Added to favorites'); }
         else { state.favorites.splice(index, 1); showAnnouncement('Removed from favorites'); }
-        saveUserData();
+        saveUserData(true);
         renderVideos();
         updateModalFavoriteButton();
     }
@@ -416,18 +476,21 @@
                 }
                 if (settings['autoplay']) video.play().catch(function() {});
             };
-            // Smooth 60fps progress tracking via rAF instead of timeupdate (~4fps)
-            var rafId = null;
+            // Smooth 60fps progress tracking via rAF instead of timeupdate (~4fps).
+            // Uses module-level progressRafId so openModal/closeModal can cancel a
+            // stale loop from a previous video. saveUserData is throttled to ~5s;
+            // pause/seek/ended force-flush the final state.
+            if (progressRafId) { cancelAnimationFrame(progressRafId); progressRafId = null; }
             function trackProgress() {
                 if (video.duration && !video.paused) {
                     updateVideoProgress(v.id, video.currentTime, video.duration);
                 }
-                rafId = requestAnimationFrame(trackProgress);
+                progressRafId = requestAnimationFrame(trackProgress);
             }
-            video.onplay = function() { if (rafId) cancelAnimationFrame(rafId); rafId = requestAnimationFrame(trackProgress); };
-            video.onpause = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } updateVideoProgress(v.id, video.currentTime, video.duration); };
-            video.onended = function() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } showUpNext(); };
-            video.onseeked = function() { updateVideoProgress(v.id, video.currentTime, video.duration); };
+            video.onplay = function() { if (progressRafId) cancelAnimationFrame(progressRafId); progressRafId = requestAnimationFrame(trackProgress); };
+            video.onpause = function() { if (progressRafId) { cancelAnimationFrame(progressRafId); progressRafId = null; } updateVideoProgress(v.id, video.currentTime, video.duration); saveUserData(true); };
+            video.onended = function() { if (progressRafId) { cancelAnimationFrame(progressRafId); progressRafId = null; } updateVideoProgress(v.id, video.currentTime, video.duration); saveUserData(true); showUpNext(); };
+            video.onseeked = function() { updateVideoProgress(v.id, video.currentTime, video.duration); saveUserData(true); };
         } else {
             video.innerHTML = '';
             video.style.display = 'none';
@@ -456,6 +519,8 @@
     function closeModal(e) {
         if (e && e.target !== document.getElementById('modal-overlay')) return;
         hideUpNext();
+        if (progressRafId) { cancelAnimationFrame(progressRafId); progressRafId = null; }
+        saveUserData(true);
         var overlay = document.getElementById('modal-overlay');
         var video = document.getElementById('modal-video');
         video.pause();
@@ -541,45 +606,41 @@
     window.closeSidebar = closeSidebar;
     window.toggleMobileSearch = toggleMobileSearch;
 
+    function flashShortcut(text) {
+        var badge = document.getElementById('shortcut-flash');
+        if (!badge) {
+            badge = document.createElement('div');
+            badge.id = 'shortcut-flash';
+            badge.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);padding:0.5rem 1rem;border-radius:10px;font-size:0.9rem;font-weight:700;background:color-mix(in srgb, var(--surface-solid) 80%, transparent);color:var(--text);border:1px solid var(--border-strong);backdrop-filter:blur(10px);z-index:2000;pointer-events:none;opacity:0;transition:opacity 0.15s ease;';
+            document.body.appendChild(badge);
+        }
+        badge.textContent = text;
+        badge.style.opacity = '1';
+        clearTimeout(badge._t);
+        badge._t = setTimeout(function() { badge.style.opacity = '0'; }, 600);
+    }
+
     // ===== Init on DOM ready =====
     function init() {
-        // Keyboard shortcuts
+        // Keyboard shortcuts (consolidated — previously two conflicting listeners)
+        // - Escape: close modal (always)
+        // - keyboard-shortcuts ON:  j/l=±10s, arrows=±5s, k/space=play-pause, m=mute, f=fullscreen
+        // - keyboard-shortcuts OFF: space=play-pause, arrows=navigate prev/next video
         document.addEventListener('keydown', function(e) {
-            // Don't intercept when typing in inputs/textarea
             var tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
-            if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) {
-                if (e.key === 'Escape') closeModal();
-                return;
-            }
-            if (e.key === 'Escape') closeModal();
-            if (e.key === ' ' && document.getElementById('modal-overlay').classList.contains('open')) {
-                e.preventDefault();
-                var video = document.getElementById('modal-video');
-                if (video && video.style.display !== 'none') { if (video.paused) video.play(); else video.pause(); }
-            }
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                if (document.getElementById('modal-overlay').classList.contains('open') && state.currentVideo) {
-                    var currentIndex = VIDEOS.findIndex(function(v) { return v.id === state.currentVideo.id; });
-                    var newIndex;
-                    if (e.key === 'ArrowLeft') newIndex = currentIndex > 0 ? currentIndex - 1 : VIDEOS.length - 1;
-                    else newIndex = currentIndex < VIDEOS.length - 1 ? currentIndex + 1 : 0;
-                    closeModal({ target: document.getElementById('modal-overlay') });
-                    setTimeout(function() { openModal(VIDEOS[newIndex]); }, 100);
-                }
-            }
-        });
+            var inField = tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable;
 
-        // Keyboard shortcuts (tutorials.php only — J/L/K/M/F)
-        (function setupKeyboardShortcuts() {
-            document.addEventListener('keydown', function(e) {
-                var overlay = document.getElementById('modal-overlay');
-                if (!overlay || !overlay.classList.contains('open')) return;
-                var settings = loadSettings();
-                if (!settings['keyboard-shortcuts']) return;
-                var video = document.getElementById('modal-video');
-                if (!video || !video.src) return;
-                var tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
-                if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+            if (e.key === 'Escape') { closeModal(); return; }
+            if (inField) return;
+
+            var overlay = document.getElementById('modal-overlay');
+            if (!overlay || !overlay.classList.contains('open')) return;
+
+            var video = document.getElementById('modal-video');
+            var settings = loadSettings();
+            var shortcutsOn = !!settings['keyboard-shortcuts'];
+
+            if (shortcutsOn && video && video.src) {
                 var key = e.key.toLowerCase();
                 switch (key) {
                     case 'j': e.preventDefault(); video.currentTime = Math.max(0, video.currentTime - 10); flashShortcut('−10s'); break;
@@ -590,21 +651,21 @@
                     case 'm': e.preventDefault(); video.muted = !video.muted; flashShortcut(video.muted ? 'Muted' : 'Unmuted'); break;
                     case 'f': e.preventDefault(); if (document.fullscreenElement) document.exitFullscreen(); else if (video.requestFullscreen) video.requestFullscreen(); flashShortcut('Fullscreen'); break;
                 }
-            });
-            function flashShortcut(text) {
-                var badge = document.getElementById('shortcut-flash');
-                if (!badge) {
-                    badge = document.createElement('div');
-                    badge.id = 'shortcut-flash';
-                    badge.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);padding:0.5rem 1rem;border-radius:10px;font-size:0.9rem;font-weight:700;background:color-mix(in srgb, var(--surface-solid) 80%, transparent);color:var(--text);border:1px solid var(--border-strong);backdrop-filter:blur(10px);z-index:2000;pointer-events:none;opacity:0;transition:opacity 0.15s ease;';
-                    document.body.appendChild(badge);
+            } else {
+                if (e.key === ' ' && video && video.style.display !== 'none') {
+                    e.preventDefault();
+                    if (video.paused) video.play().catch(function() {}); else video.pause();
                 }
-                badge.textContent = text;
-                badge.style.opacity = '1';
-                clearTimeout(badge._t);
-                badge._t = setTimeout(function() { badge.style.opacity = '0'; }, 600);
+                if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && state.currentVideo) {
+                    var currentIndex = VIDEOS.findIndex(function(v) { return v.id === state.currentVideo.id; });
+                    var newIndex;
+                    if (e.key === 'ArrowLeft') newIndex = currentIndex > 0 ? currentIndex - 1 : VIDEOS.length - 1;
+                    else newIndex = currentIndex < VIDEOS.length - 1 ? currentIndex + 1 : 0;
+                    closeModal({ target: overlay });
+                    setTimeout(function() { openModal(VIDEOS[newIndex]); }, 100);
+                }
             }
-        })();
+        });
 
         // Load user data and render
         loadUserData();
@@ -638,6 +699,9 @@
         // Initialize comments for the general tutorials page
         if (window.DispatchComments) window.DispatchComments.init('general');
         else setTimeout(function() { if (window.DispatchComments) window.DispatchComments.init('general'); }, 100);
+
+        // Force-flush any pending progress save when leaving the page
+        window.addEventListener('beforeunload', function() { saveUserData(true); });
 
         // Hide loader
         window.addEventListener('load', function() {
