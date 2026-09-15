@@ -675,142 +675,6 @@ $site = 'DISPATCH';
         .dm-suggest-badge.coming { background: rgba(245,158,11,0.15); color: #f59e0b; }
         .dm-suggest-empty { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1.5rem; }
 
-        /* ===== "Was this helpful?" feedback footer ===== */
-        .dm-feedback {
-            max-width: 720px; margin: 2.5rem auto 0; width: 100%;
-            padding: 1.25rem 1.5rem;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            background: color-mix(in srgb, var(--surface) 60%, transparent);
-            display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-            transition: border-color 0.3s ease, background 0.3s ease;
-        }
-        .dm-feedback[data-state="up"] {
-            border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-            background: color-mix(in srgb, var(--accent) 6%, transparent);
-        }
-        .dm-feedback[data-state="down"] {
-            border-color: color-mix(in srgb, #f59e0b 35%, transparent);
-            background: color-mix(in srgb, #f59e0b 5%, transparent);
-        }
-        .dm-feedback-prompt {
-            display: flex; align-items: flex-start; gap: 0.6rem;
-            color: var(--text);
-        }
-        .dm-feedback-prompt svg { width: 22px; height: 22px; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
-        .dm-feedback-prompt-text { display: flex; flex-direction: column; gap: 0.15rem; }
-        .dm-feedback-prompt-title { font-size: 0.95rem; font-weight: 700; }
-        .dm-feedback-prompt-sub { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
-        .dm-feedback-actions { display: flex; gap: 0.6rem; margin-left: auto; }
-        .dm-feedback-btn {
-            display: inline-flex; align-items: center; gap: 0.6rem;
-            padding: 0.65rem 1.1rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-strong);
-            background: var(--surface-2);
-            color: var(--text-muted);
-            font-family: inherit; cursor: pointer;
-            transition: transform 0.15s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
-        }
-        .dm-feedback-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
-        .dm-feedback-btn-text { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; }
-        .dm-feedback-btn-label { font-size: 0.88rem; font-weight: 700; line-height: 1; }
-        .dm-feedback-btn-desc { font-size: 0.72rem; font-weight: 400; color: var(--text-dim); line-height: 1.3; }
-        .dm-feedback-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            border-color: var(--border-strong);
-            color: var(--text);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        }
-        .dm-feedback-btn:hover:not(:disabled) .dm-feedback-btn-desc { color: var(--text-muted); }
-        .dm-feedback-btn:active:not(:disabled) { transform: translateY(0) scale(0.97); }
-        .dm-feedback-btn:disabled { opacity: 0.5; cursor: default; }
-        .dm-feedback-btn:disabled.selected { opacity: 1; }
-        .dm-feedback-up.selected {
-            background: var(--accent); color: #fff; border-color: var(--accent);
-            box-shadow: 0 2px 10px color-mix(in srgb, var(--accent) 40%, transparent);
-        }
-        .dm-feedback-up.selected svg { color: #fff; }
-        .dm-feedback-up.selected .dm-feedback-btn-desc { color: rgba(255,255,255,0.8); }
-        .dm-feedback-down.selected {
-            background: #f59e0b; color: #fff; border-color: #f59e0b;
-            box-shadow: 0 2px 10px color-mix(in srgb, #f59e0b 40%, transparent);
-        }
-        .dm-feedback-down.selected svg { color: #fff; }
-        .dm-feedback-down.selected .dm-feedback-btn-desc { color: rgba(255,255,255,0.8); }
-        .dm-feedback-thanks {
-            width: 100%; margin-top: 0.5rem;
-            font-size: 0.85rem; font-weight: 600; color: var(--accent);
-            opacity: 0; max-height: 0; overflow: hidden;
-            transition: opacity 0.3s ease, max-height 0.3s ease, margin-top 0.3s ease;
-        }
-        .dm-feedback-thanks.show {
-            opacity: 1; max-height: 40px; margin-top: 0.75rem;
-        }
-        .dm-feedback[data-state="down"] .dm-feedback-thanks { color: #f59e0b; }
-
-        /* ===== Chat-style feedback input ===== */
-        .dm-feedback-chat {
-            width: 100%; max-height: 0; overflow: hidden; opacity: 0;
-            transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.3s ease;
-        }
-        .dm-feedback-chat.show {
-            max-height: 320px; opacity: 1; margin-top: 0.5rem;
-        }
-        .dm-feedback-chat-header {
-            display: flex; align-items: center; gap: 0.5rem;
-            font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
-            margin-bottom: 0.6rem;
-        }
-        .dm-feedback-chat-header svg { width: 18px; height: 18px; color: #f59e0b; flex-shrink: 0; }
-        .dm-feedback-chat-input {
-            width: 100%; min-height: 90px; max-height: 200px;
-            padding: 0.75rem 0.9rem;
-            border: 1px solid var(--border-strong);
-            border-radius: 10px;
-            background: var(--surface-2);
-            color: var(--text);
-            font-family: inherit; font-size: 0.88rem; line-height: 1.5;
-            resize: vertical;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .dm-feedback-chat-input:focus {
-            outline: none;
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 3px color-mix(in srgb, #f59e0b 15%, transparent);
-        }
-        .dm-feedback-chat-input::placeholder { color: var(--text-dim); }
-        .dm-feedback-chat-footer {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-top: 0.6rem; gap: 0.5rem;
-        }
-        .dm-feedback-chat-count {
-            font-size: 0.75rem; font-weight: 500; color: var(--text-dim);
-            font-variant-numeric: tabular-nums;
-        }
-        .dm-feedback-chat-count.warning { color: #ef4444; }
-        .dm-feedback-chat-send {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.55rem 1.3rem;
-            border: none; border-radius: 10px;
-            background: #f59e0b; color: #fff;
-            font-family: inherit; font-size: 0.82rem; font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.18s ease, opacity 0.18s ease;
-        }
-        .dm-feedback-chat-send:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px color-mix(in srgb, #f59e0b 40%, transparent);
-        }
-        .dm-feedback-chat-send:active:not(:disabled) { transform: translateY(0) scale(0.97); }
-        .dm-feedback-chat-send:disabled { opacity: 0.5; cursor: default; }
-
-        @media (max-width: 640px) {
-            .dm-feedback { flex-direction: column; align-items: stretch; gap: 0.75rem; padding: 1rem 1.25rem; }
-            .dm-feedback-actions { margin-left: 0; width: 100%; }
-            .dm-feedback-btn { flex: 1; justify-content: flex-start; }
-            .dm-feedback-btn-desc { display: none; }
-        }
         @media (max-width: 640px) {
             .doc-modal h2 { font-size: 1.6rem; }
             .doc-modal-body { padding: 2rem 1.25rem; }
@@ -863,96 +727,6 @@ $site = 'DISPATCH';
             border: 2px solid var(--surface-solid);
             box-shadow: 0 0 0 1px var(--border);
             flex-shrink: 0;
-        }
-
-        /* ===== Feedback success popup ===== */
-        .fb-success-popup {
-            position: fixed; inset: 0; z-index: 3000;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(4px);
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
-            padding: 1.5rem;
-        }
-        .fb-success-popup.show { opacity: 1; visibility: visible; }
-        .fb-success-card {
-            position: relative;
-            max-width: 380px; width: 100%;
-            background: var(--surface-solid, #1e2533);
-            border: 1px solid var(--border-strong, rgba(255,255,255,0.15));
-            border-radius: 18px;
-            padding: 2rem 1.75rem 1.75rem;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            transform: translateY(20px) scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .fb-success-popup.show .fb-success-card { transform: translateY(0) scale(1); }
-        .fb-success-close {
-            position: absolute; top: 0.75rem; right: 0.75rem;
-            width: 32px; height: 32px;
-            display: flex; align-items: center; justify-content: center;
-            border: none; border-radius: 8px;
-            background: transparent; color: var(--text-muted, #9ba8b8);
-            cursor: pointer;
-            transition: background 0.18s ease, color 0.18s ease;
-        }
-        .fb-success-close svg { width: 18px; height: 18px; }
-        .fb-success-close:hover { background: var(--surface-2, #1a2030); color: var(--text, #e8ecf4); }
-        .fb-success-icon {
-            width: 64px; height: 64px;
-            margin: 0 auto 1rem;
-            border-radius: 50%;
-            background: color-mix(in srgb, var(--accent, #10b981) 15%, transparent);
-            display: flex; align-items: center; justify-content: center;
-            animation: fbPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        @keyframes fbPop {
-            0% { transform: scale(0); }
-            100% { transform: scale(1); }
-        }
-        .fb-success-icon svg { width: 32px; height: 32px; color: var(--accent, #10b981); }
-        .fb-success-card h3 {
-            font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem;
-            color: var(--text, #e8ecf4);
-        }
-        .fb-success-card p {
-            font-size: 0.88rem; line-height: 1.5;
-            color: var(--text-muted, #9ba8b8);
-            margin-bottom: 1.5rem;
-        }
-        .fb-success-actions {
-            display: flex; flex-direction: column; gap: 0.6rem;
-        }
-        .fb-success-view-btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            padding: 0.7rem 1.2rem;
-            border-radius: 10px;
-            background: var(--accent, #10b981); color: #fff;
-            font-family: inherit; font-size: 0.85rem; font-weight: 700;
-            text-decoration: none;
-            transition: transform 0.15s ease, box-shadow 0.18s ease;
-        }
-        .fb-success-view-btn svg { width: 18px; height: 18px; }
-        .fb-success-view-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px color-mix(in srgb, var(--accent, #10b981) 40%, transparent);
-        }
-        .fb-success-dismiss {
-            padding: 0.65rem 1.2rem;
-            border: 1px solid var(--border-strong, rgba(255,255,255,0.15));
-            border-radius: 10px;
-            background: transparent; color: var(--text-muted, #9ba8b8);
-            font-family: inherit; font-size: 0.82rem; font-weight: 600;
-            cursor: pointer;
-            transition: border-color 0.18s ease, color 0.18s ease;
-        }
-        .fb-success-dismiss:hover { color: var(--text, #e8ecf4); border-color: var(--accent, #10b981); }
-        @media (max-width: 400px) {
-            .fb-success-card { padding: 1.5rem 1.25rem; }
-            .fb-success-icon { width: 52px; height: 52px; }
-            .fb-success-icon svg { width: 26px; height: 26px; }
         }
 
         /* ACD_TMS curved vector background overlay */
@@ -1045,9 +819,6 @@ $site = 'DISPATCH';
             <div class="topbar-actions">
                 <a href="tutorials.php" class="theme-btn shortcut-btn" title="Video Tutorials" style="text-decoration:none;">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                </a>
-                <a href="feedback.php" class="theme-btn feedback-topbar-btn" title="View Feedback Dashboard" style="text-decoration:none;" aria-label="View feedback dashboard">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
                 </a>
                 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
                     <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
@@ -1267,27 +1038,6 @@ $site = 'DISPATCH';
         </span>
         <span id="announce-swatch-wrap"></span>
         <span id="announce-text">Settings updated</span>
-    </div>
-
-    <!-- Feedback Success Popup -->
-    <div class="fb-success-popup" id="fb-success-popup" role="alert" aria-live="polite">
-        <div class="fb-success-card">
-            <button class="fb-success-close" id="fb-success-close" type="button" aria-label="Close">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <div class="fb-success-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-            </div>
-            <h3 id="fb-success-title">Feedback Sent!</h3>
-            <p id="fb-success-message">Thank you for helping us improve.</p>
-            <div class="fb-success-actions">
-                <a href="feedback.php" class="fb-success-view-btn" id="fb-success-view">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
-                    View Feedback Dashboard
-                </a>
-                <button class="fb-success-dismiss" id="fb-success-dismiss" type="button">Continue Reading</button>
-            </div>
-        </div>
     </div>
 
     <div class="doc-modal-overlay" id="doc-modal-overlay">
