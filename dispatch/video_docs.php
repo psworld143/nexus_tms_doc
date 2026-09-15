@@ -1079,7 +1079,7 @@ $site = 'DISPATCH';
     </script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
-    <script src="js/video-docs-modal.js?v=7"></script>
+    <script src="js/video-docs-modal.js?v=8"></script>
     <script src="js/video-docs-ui.js?v=2"></script>
 </body>
 </html>

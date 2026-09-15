@@ -49,11 +49,6 @@
     function getSavedName() { try { return localStorage.getItem('dispatch-comment-name') || ''; } catch (e) { return ''; } }
     function saveName(name) { try { localStorage.setItem('dispatch-comment-name', name); } catch (e) {} }
 
-    function escapeHtml(str) {
-        if (typeof str !== 'string') return '';
-        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-    }
-
     function timeAgo(timestamp) {
         var seconds = Math.floor((Date.now() / 1000 - timestamp));
         if (seconds < 60) return 'Just now';

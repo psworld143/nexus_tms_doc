@@ -72,12 +72,3 @@ window.tutorialState = {
 
 function isAvailable(src) { return window.AVAILABLE_VIDEOS.indexOf(src) !== -1; }
 
-function escapeHtml(str) {
-    if (typeof str !== 'string') return '';
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}

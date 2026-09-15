@@ -4,11 +4,6 @@
 (function() {
     'use strict';
 
-    function escapeHtml(str) {
-        if (typeof str !== 'string') return '';
-        return str.replace(/&/g, '\x26amp;').replace(/</g, '\x26lt;').replace(/>/g, '\x26gt;').replace(/"/g, '\x26quot;').replace(/'/g, '&#039;');
-    }
-
     // ===== Suggested videos =====
     function buildSuggestedVideos(currentId, category) {
         const thumbSvg = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
@@ -44,12 +39,6 @@
         const body = document.getElementById('doc-modal-body');
         const close = document.getElementById('doc-modal-close');
         if (!overlay || !body) return;
-
-        function escapeHtml(str) {
-            return String(str).replace(/[&<>"']/g, function (c) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-            });
-        }
 
         const watchLink = document.getElementById('doc-modal-watch');
 
