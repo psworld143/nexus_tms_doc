@@ -376,6 +376,8 @@ $site = 'DISPATCH';
             text-decoration: none; transition: all 0.15s ease; border: 1px solid transparent;
         }
         .doc-actions a.watch { background: var(--accent); color: #fff; }
+        .doc-actions a.watch:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 60%, transparent); }
+        .doc-actions a.watch:active { transform: translateY(0) scale(0.96); }
         .empty { text-align: center; padding: 3rem 1rem; color: var(--text-dim); display: none; }
         .empty.show { display: block; }
         footer { text-align: center; padding: 2rem 0; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
@@ -1078,6 +1080,6 @@ $site = 'DISPATCH';
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
     <script src="js/video-docs-modal.js?v=7"></script>
-    <script src="js/video-docs-ui.js?v=1"></script>
+    <script src="js/video-docs-ui.js?v=2"></script>
 </body>
 </html>

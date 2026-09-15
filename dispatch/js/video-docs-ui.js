@@ -188,6 +188,24 @@
             });
         })();
 
+        // ===== Show loader when clicking "Watch tutorial" =====
+        // Displays the same truck-animation loader (loader-screen--home) that
+        // index.php uses, so the transition to tutorials.php feels smooth
+        // instead of a blank flash while the next page loads.
+        document.querySelectorAll('.doc-actions a.watch').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var loader = document.getElementById('loader-screen');
+                if (loader) {
+                    loader.classList.remove('hidden');
+                    loader.style.display = '';
+                }
+                setTimeout(function() {
+                    window.location.href = link.href;
+                }, 400);
+            });
+        });
+
         // ===== Hide loader on load =====
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader-screen');

@@ -2194,7 +2194,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/tutorials-data.js?v=2"></script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
-    <script src="js/tutorials-player.js?v=13"></script>
+    <script src="js/tutorials-player.js?v=14"></script>
     <script src="js/comments.js?v=14"></script>
     <script src="js/tour-guide.js?v=2" defer></script>
 </body>

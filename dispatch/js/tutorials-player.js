@@ -623,13 +623,16 @@
             }
         } catch (e) {}
 
-        // Open from hash
+        // Open from hash — when arriving via a deep link (e.g. "Watch tutorial"
+        // in video_docs.php), let the loading screen play briefly then open the
+        // player. The previous 900ms delay caused noticeable lag; 300ms gives
+        // the loader a chance to show without feeling sluggish.
         (function openFromHash() {
             var hash = window.location.hash.replace('#', '');
-            if (hash) {
-                var video = VIDEOS.find(function(v) { return v.id === hash; });
-                if (video) setTimeout(function() { openModal(video); }, 900);
-            }
+            if (!hash) return;
+            var video = VIDEOS.find(function(v) { return v.id === hash; });
+            if (!video) return;
+            setTimeout(function() { openModal(video); }, 300);
         })();
 
         // Initialize comments for the general tutorials page
