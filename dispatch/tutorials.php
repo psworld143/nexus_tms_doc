@@ -124,17 +124,17 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .brand { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; text-decoration: none; }
         .brand:hover .brand-mark { transform: rotate(-6deg) scale(1.08); }
         .brand-mark {
-            width: 32px; height: 32px;
+            width: 40px; height: 40px;
             border-radius: 10px;
             display: grid; place-items: center;
             background: linear-gradient(135deg, var(--accent), #059669);
             color: #fff;
             transition: transform 0.2s ease;
         }
-        .brand-mark svg { width: 18px; height: 18px; }
+        .brand-mark svg { width: 22px; height: 22px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
         .brand-text h1 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text); }
-        .brand-text p { font-size: 0.65rem; color: var(--text-dim); font-weight: 500; }
+        .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
 
         /* Center search — YouTube style */
         .header-search {
@@ -227,7 +227,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); transform: translateY(-2px); }
         .icon-btn:active { transform: translateY(0) scale(0.96); }
-        .icon-btn svg { width: 18px; height: 18px; }
+        .icon-btn svg { width: 20px; height: 20px; }
         .icon-btn[title] { position: relative; }
         .icon-btn[title]::after {
             content: attr(title);
@@ -275,12 +275,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             color: #fff;
         }
         .icon-btn.docs-btn, .icon-btn.video-docs-btn { text-decoration: none; }
-        .icon-btn.docs-btn svg, .icon-btn.video-docs-btn svg { width: 20px; height: 20px; }
         /* Back Button — X modal style (red) */
         .back-home-btn {
             display: grid;
             place-items: center;
-            width: 38px; height: 38px;
+            width: 40px; height: 40px;
             border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
             border-radius: 50%;
             background: color-mix(in srgb, #ef4444 8%, transparent);
@@ -290,7 +289,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, transform 0.25s ease;
         }
         .back-home-btn svg {
-            width: 18px; height: 18px; flex-shrink: 0;
+            width: 20px; height: 20px; flex-shrink: 0;
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .back-home-btn:hover {
@@ -1472,7 +1471,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .header-left { gap: 0.4rem; }
             .brand-text p { display: none; }
             .brand-text h1 { font-size: 0.95rem; }
-            .brand-mark { width: 28px; height: 28px; }
+            .brand-mark { width: 36px; height: 36px; }
+            .brand-mark svg { width: 22px; height: 22px; }
             .main { padding: 0.5rem 0.75rem 1rem; }
             .video-grid { grid-template-columns: 1fr; gap: 1rem; }
             .video-card { padding: 0.5rem; }
@@ -1495,13 +1495,16 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .sidebar-toggle svg { width: 20px; height: 20px; }
             .header-search-btn { width: 38px; height: 38px; }
             .mobile-search-btn { width: 38px; height: 38px; }
+            .back-home-btn { width: 38px; height: 38px; }
+            .back-home-btn svg { width: 19px; height: 19px; }
             .modal-action-btn { width: 34px; height: 34px; }
             .modal-back { width: 34px; height: 34px; }
         }
         @media (max-width: 560px) {
             .header { padding: 0 0.4rem; }
             .header-actions { gap: 0.2rem; }
-            .brand-mark { width: 26px; height: 26px; }
+            .brand-mark { width: 34px; height: 34px; }
+            .brand-mark svg { width: 20px; height: 20px; }
             .brand-text h1 { font-size: 0.88rem; }
             .video-card { padding: 0.4rem; border-radius: 10px; }
             .video-thumb { border-radius: 8px; }
@@ -1530,7 +1533,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .sidebar-toggle svg { width: 19px; height: 19px; }
             .mobile-search-btn { width: 34px; height: 34px; }
             .mobile-search-btn svg { width: 20px; height: 20px; }
-            .brand-mark { width: 24px; height: 24px; }
+            .brand-mark { width: 30px; height: 30px; }
+            .brand-mark svg { width: 18px; height: 18px; }
             .brand-text h1 { font-size: 0.82rem; }
             .video-card { padding: 0.3rem; }
             .video-info { gap: 0.4rem; padding: 0.4rem 0.1rem 0; }

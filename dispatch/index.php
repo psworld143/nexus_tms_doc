@@ -185,7 +185,7 @@
                 outline-offset: 2px;
             }
             .icon-btn:active { transform: translateY(0) scale(0.96); }
-            .icon-btn svg { width: 18px; height: 18px; }
+            .icon-btn svg { width: 20px; height: 20px; }
             .icon-btn[title] { position: relative; }
             .icon-btn[title]::after {
                 content: attr(title);

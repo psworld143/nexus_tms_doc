@@ -109,7 +109,7 @@ $site = 'DISPATCH';
             transform: translateY(-2px) scale(1.05);
             color: #fff;
         }
-        .theme-btn svg { width: 18px; height: 18px; }
+        .theme-btn svg { width: 20px; height: 20px; }
         /* Custom tooltips for header icons */
         .theme-btn[title] { position: relative; }
         .theme-btn[title]::after {
@@ -172,7 +172,7 @@ $site = 'DISPATCH';
         .brand { display: flex; align-items: center; gap: 0.75rem; }
         .brand a { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; }
         .brand-icon {
-            width: 42px; height: 42px; border-radius: 12px;
+            width: 40px; height: 40px; border-radius: 12px;
             display: grid; place-items: center; color: #fff;
             border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
             background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
@@ -189,9 +189,9 @@ $site = 'DISPATCH';
                         inset 0 1px 0 rgba(255,255,255,0.22);
         }
         .brand-icon:active { transform: translateY(0) scale(0.98); }
-        .brand-icon svg { width: 20px; height: 20px; }
+        .brand-icon svg { width: 22px; height: 22px; }
         .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-        .brand-text h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
+        .brand-text h1 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
         .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
         .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
 
@@ -200,7 +200,7 @@ $site = 'DISPATCH';
         .back-home-btn {
             display: grid;
             place-items: center;
-            width: 38px; height: 38px;
+            width: 40px; height: 40px;
             border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
             border-radius: 50%;
             background: color-mix(in srgb, #ef4444 8%, transparent);
@@ -210,7 +210,7 @@ $site = 'DISPATCH';
             transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
         .back-home-btn svg {
-            width: 18px; height: 18px; flex-shrink: 0;
+            width: 20px; height: 20px; flex-shrink: 0;
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .back-home-btn:hover {
@@ -527,7 +527,7 @@ $site = 'DISPATCH';
         }
         .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
         .dmh-brand-icon {
-            width: 28px; height: 28px; border-radius: 8px;
+            width: 32px; height: 32px; border-radius: 9px;
             display: grid; place-items: center; color: #fff;
             border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
             background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
@@ -535,7 +535,7 @@ $site = 'DISPATCH';
                         inset 0 1px 0 rgba(255,255,255,0.18);
             flex-shrink: 0;
         }
-        .dmh-brand-icon svg { width: 16px; height: 16px; }
+        .dmh-brand-icon svg { width: 18px; height: 18px; }
         .dmh-actions { display: flex; align-items: center; gap: 0.75rem; }
 
         /* Watch tutorial — enhanced primary action */
