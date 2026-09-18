@@ -121,14 +121,17 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .sidebar-toggle:hover { background: var(--surface-2); }
         .sidebar-toggle svg { width: 22px; height: 22px; }
-        .brand { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; text-decoration: none; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; text-decoration: none; }
         .brand:hover .brand-mark { transform: rotate(-6deg) scale(1.08); }
         .brand-mark {
             width: 40px; height: 40px;
-            border-radius: 10px;
+            border-radius: 12px;
             display: grid; place-items: center;
-            background: linear-gradient(135deg, var(--accent), #059669);
+            background: linear-gradient(135deg, #1ead6f 0%, #00D8AB 55%, #00BFE0 100%);
             color: #fff;
+            box-shadow: 0 1px 2px -2px rgba(0,0,0,0.16),
+                        0 3px 6px 0 rgba(0,0,0,0.12),
+                        0 5px 12px 4px rgba(0,0,0,0.09);
             transition: transform 0.2s ease;
         }
         .brand-mark svg { width: 22px; height: 22px; }
@@ -1760,7 +1763,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             </button>
             <a href="index.php" class="brand">
                 <span class="brand-mark">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg>
                 </span>
                 <span class="brand-text">
                     <h1>DISPATCH</h1>

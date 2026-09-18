@@ -174,10 +174,10 @@ $site = 'DISPATCH';
         .brand-icon {
             width: 40px; height: 40px; border-radius: 12px;
             display: grid; place-items: center; color: #fff;
-            border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
-            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
-            box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent),
-                        inset 0 1px 0 rgba(255,255,255,0.18);
+            background: linear-gradient(135deg, #1ead6f 0%, #00D8AB 55%, #00BFE0 100%);
+            box-shadow: 0 1px 2px -2px rgba(0,0,0,0.16),
+                        0 3px 6px 0 rgba(0,0,0,0.12),
+                        0 5px 12px 4px rgba(0,0,0,0.09);
             transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
                         box-shadow 0.18s ease,
                         filter 0.18s ease;
@@ -185,12 +185,13 @@ $site = 'DISPATCH';
         .brand a:hover .brand-icon {
             transform: translateY(-2px) scale(1.05);
             filter: brightness(1.06);
-            box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent) 80%, transparent),
-                        inset 0 1px 0 rgba(255,255,255,0.22);
+            box-shadow: 0 2px 4px -2px rgba(0,0,0,0.16),
+                        0 5px 12px 0 rgba(0,0,0,0.12),
+                        0 8px 20px 4px rgba(0,191,224,0.15);
         }
         .brand-icon:active { transform: translateY(0) scale(0.98); }
         .brand-icon svg { width: 22px; height: 22px; }
-        .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
         .brand-text h1 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
         .brand-text p { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
         .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
@@ -484,7 +485,7 @@ $site = 'DISPATCH';
             .topbar { padding: 0.7rem 1rem; }
             .page { padding: 1rem; padding-top: 4.5rem; }
             .brand-text h1 { font-size: 1rem; }
-            .brand-text p { font-size: 0.65rem; }
+            .brand-text p { font-size: 0.72rem; }
             .category-header h2 { font-size: 1.1rem; }
         }
         @media (max-width: 640px) {
@@ -527,12 +528,12 @@ $site = 'DISPATCH';
         }
         .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
         .dmh-brand-icon {
-            width: 32px; height: 32px; border-radius: 9px;
+            width: 32px; height: 32px; border-radius: 10px;
             display: grid; place-items: center; color: #fff;
-            border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
-            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
-            box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--accent) 70%, transparent),
-                        inset 0 1px 0 rgba(255,255,255,0.18);
+            background: linear-gradient(135deg, #1ead6f 0%, #00D8AB 55%, #00BFE0 100%);
+            box-shadow: 0 1px 2px -1px rgba(0,0,0,0.1),
+                        0 2px 4px 0 rgba(0,0,0,0.08),
+                        0 3px 8px 2px rgba(0,0,0,0.06);
             flex-shrink: 0;
         }
         .dmh-brand-icon svg { width: 18px; height: 18px; }
@@ -813,7 +814,7 @@ $site = 'DISPATCH';
             <div class="brand">
                 <a href="index.php">
                     <span class="brand-icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg>
                     </span>
                     <span class="brand-text"><h1>DISPATCH</h1><p>Video Docs</p></span>
                 </a>
@@ -1045,7 +1046,7 @@ $site = 'DISPATCH';
     <div class="doc-modal-overlay" id="doc-modal-overlay">
         <div class="doc-modal" role="dialog" aria-modal="true" aria-label="Documentation view">
             <div class="doc-modal-header">
-                <div class="dmh-brand"><span class="dmh-brand-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></span> DISPATCH Video Docs</div>
+                <div class="dmh-brand"><span class="dmh-brand-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg></span> DISPATCH Video Docs</div>
                 <div class="dmh-actions">
                     <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

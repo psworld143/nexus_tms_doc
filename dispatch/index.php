@@ -137,16 +137,19 @@
                 width: 40px; height: 40px;
                 border-radius: 12px;
                 display: grid; place-items: center;
-                background: linear-gradient(135deg, var(--accent), #059669);
+                background: linear-gradient(135deg, #1ead6f 0%, #00D8AB 55%, #00BFE0 100%);
                 color: #fff;
-                box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+                box-shadow: 0 1px 2px -2px rgba(0,0,0,0.16),
+                            0 3px 6px 0 rgba(0,0,0,0.12),
+                            0 5px 12px 4px rgba(0,0,0,0.09);
                 animation: brand-glow 2.5s ease-in-out infinite alternate;
             }
             @keyframes brand-glow {
-                from { box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 30%, transparent); }
-                to   { box-shadow: 0 8px 24px -6px color-mix(in srgb, var(--accent) 85%, transparent), 0 0 22px color-mix(in srgb, var(--accent) 50%, transparent); }
+                from { box-shadow: 0 1px 2px -2px rgba(0,0,0,0.12), 0 3px 6px 0 rgba(0,0,0,0.08), 0 5px 12px 4px rgba(0,0,0,0.06); }
+                to   { box-shadow: 0 1px 2px -2px rgba(0,0,0,0.16), 0 4px 8px 0 rgba(16,185,129,0.18), 0 8px 20px 4px rgba(0,191,224,0.2); }
             }
             .brand-mark svg { width: 22px; height: 22px; }
+            .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
             .brand-text h1 { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; }
             .brand-text p { margin: 0; font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
 
@@ -709,17 +712,19 @@
             .dmh-brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.6rem; color: var(--text); }
             .dmh-brand-mark {
                 width: 32px; height: 32px;
-                border-radius: 9px;
+                border-radius: 10px;
                 display: grid; place-items: center;
-                background: #10b981;
+                background: linear-gradient(135deg, #1ead6f 0%, #00D8AB 55%, #00BFE0 100%);
                 color: #fff;
                 flex-shrink: 0;
-                box-shadow: 0 4px 10px -4px rgba(16, 185, 129, 0.5);
+                box-shadow: 0 1px 2px -1px rgba(0,0,0,0.1),
+                            0 2px 4px 0 rgba(0,0,0,0.08),
+                            0 3px 8px 2px rgba(0,0,0,0.06);
                 animation: dmh-brand-glow 2.5s ease-in-out infinite alternate;
             }
             @keyframes dmh-brand-glow {
-                from { box-shadow: 0 4px 10px -4px rgba(16, 185, 129, 0.4), 0 0 8px rgba(16, 185, 129, 0.25); }
-                to   { box-shadow: 0 4px 14px -3px rgba(16, 185, 129, 0.7), 0 0 16px rgba(16, 185, 129, 0.45); }
+                from { box-shadow: 0 1px 2px -1px rgba(0,0,0,0.08), 0 2px 4px 0 rgba(0,0,0,0.06), 0 3px 8px 2px rgba(0,0,0,0.04); }
+                to   { box-shadow: 0 1px 2px -1px rgba(0,0,0,0.1), 0 3px 6px 0 rgba(16,185,129,0.15), 0 5px 14px 2px rgba(0,191,224,0.18); }
             }
             .dmh-brand-mark svg { width: 18px; height: 18px; }
             .dmh-brand-text { display: flex; flex-direction: column; line-height: 1.1; }
@@ -1357,7 +1362,7 @@
                 </button>
                 <a href="index.php" class="brand">
                     <span class="brand-mark">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg>
                     </span>
                     <span class="brand-text">
                         <h1>DISPATCH</h1>
@@ -2233,7 +2238,7 @@
                 <div class="doc-modal-header">
                     <div class="dmh-brand">
                         <span class="dmh-brand-mark">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg>
                         </span>
                         <span class="dmh-brand-text"><strong>DISPATCH</strong><span>Docs</span></span>
                     </div>
