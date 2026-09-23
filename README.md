@@ -15,7 +15,6 @@ Four pages share the same dark/light UI design language:
 |------|---------|
 | `dispatch/index.php` | Landing page — video tutorial library (cards + inline fullscreen doc modal). |
 | `dispatch/tutorials.php` | Step-by-step tutorial walkthroughs. |
-| `dispatch/docs.php` | Documentation index with search across sections and videos. |
 | `dispatch/video_docs.php` | Documentation cards that open the long-form doc modal. |
 
 ## Folder layout
@@ -28,14 +27,12 @@ nexus_tms_doc/
 └── dispatch/
     ├── index.php          ← landing / video tutorial library
     ├── tutorials.php      ← tutorial walkthroughs
-    ├── docs.php           ← documentation index + search
     ├── video_docs.php     ← documentation cards + modal
     ├── doc_data.php       ← SHARED data: $videoCatalog + $videoDocs (include-only)
     ├── favicon.svg
     ├── css/
     │   ├── dispatch-ui.css            ← shared graphics & motion (all pages)
     │   ├── loaders.css                ← unique loading screens (all pages)
-    │   ├── tailwind-config.js
     │   ├── tutorials-animations.css
     │   └── video-card-animations.css
     └── videos/
@@ -62,14 +59,14 @@ There is no database, no Composer dependencies, and no frontend bundler — just
 - `$videoCatalog` — metadata for every feature/module (id, title, description, category, duration, video `src`).
 - `$videoDocs` — long-form documentation text keyed by module id, shown in the inline fullscreen doc modal.
 
-It is meant to be **included**, never opened directly. `index.php` and `video_docs.php` already `require` it; `docs.php` currently re-declares the catalog inline (a known cleanup item — see `AGENTS.md`).
+It is meant to be **included**, never opened directly. `index.php` and `video_docs.php` already `require` it.
 
 ## Adding a new video
 
 1. Drop the `.mp4` into `dispatch/videos/` (use the kebab-case id from the catalog as the filename, e.g. `my-loads.mp4`).
 2. Add an entry to `$videoCatalog` in `dispatch/doc_data.php`.
 3. Add a matching entry to `$videoDocs` in the same file.
-4. If a page hardcodes `$availableVideos` (currently `docs.php`), update it too — or, better, derive it from the filesystem (see `AGENTS.md`).
+4. `index.php` and `video_docs.php` derive availability from the `videos/` directory automatically, but `js/tutorials-data.js` has a hardcoded `window.AVAILABLE_VIDEOS` list — add the new `videos/<id>.mp4` path there too.
 
 ## License
 

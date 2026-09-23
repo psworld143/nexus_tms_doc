@@ -1732,11 +1732,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         /* Smoother announcement toast entrance */
         .announce-toast { animation-timing-function: var(--ease-smooth); }
     </style>
-    <!-- Tailwind CSS -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="js/tailwind-config.js" defer></script>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -1818,7 +1813,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             </button>
             <a href="index.php" class="brand">
                 <span class="brand-mark">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5a1 1 0 0 1 1-1h5.5a8 8 0 0 1 0 16H8a1 1 0 0 1-1-1V5Zm3.4 4.4v5.2l4.4-2.6-4.4-2.6Z" fill="#ffffff" fill-rule="evenodd"/></svg>
                 </span>
                 <span class="brand-text">
                     <h1>DISPATCH</h1>

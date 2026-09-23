@@ -748,11 +748,6 @@ $site = 'DISPATCH';
             left: 0;
         }
     </style>
-    <!-- Tailwind CSS -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="js/tailwind-config.js" defer></script>
 </head>
 <body>
     <!-- ACD_TMS Curved Vector Background -->
@@ -814,7 +809,7 @@ $site = 'DISPATCH';
             <div class="brand">
                 <a href="index.php">
                     <span class="brand-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5a1 1 0 0 1 1-1h5.5a8 8 0 0 1 0 16H8a1 1 0 0 1-1-1V5Zm3.4 4.4v5.2l4.4-2.6-4.4-2.6Z" fill="#ffffff" fill-rule="evenodd"/></svg>
                     </span>
                     <span class="brand-text"><h1>DISPATCH</h1><p>Video Docs</p></span>
                 </a>
@@ -1046,7 +1041,7 @@ $site = 'DISPATCH';
     <div class="doc-modal-overlay" id="doc-modal-overlay">
         <div class="doc-modal" role="dialog" aria-modal="true" aria-label="Documentation view">
             <div class="doc-modal-header">
-                <div class="dmh-brand"><span class="dmh-brand-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="aBody" x1="12" y1="6" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ecfdf5" stop-opacity="0.95"/></linearGradient></defs><path d="M8.5 5.5L7.3 7.2H4.2c-1.2 0-2.2 1-2.2 2.2v8.4c0 1.2 1 2.2 2.2 2.2h15.6c1.2 0 2.2-1 2.2-2.2V9.4c0-1.2-1-2.2-2.2-2.2h-3.1L15.5 5.5H8.5z" fill="url(#aBody)"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="#ffffff" stroke-width="1.4"/><circle cx="12" cy="12.5" r="1.1" fill="#ffffff"/><circle cx="17.8" cy="9.2" r="0.8" fill="#fef3c7" stroke="#f59e0b" stroke-width="0.3"/></svg></span> DISPATCH Video Docs</div>
+                <div class="dmh-brand"><span class="dmh-brand-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5a1 1 0 0 1 1-1h5.5a8 8 0 0 1 0 16H8a1 1 0 0 1-1-1V5Zm3.4 4.4v5.2l4.4-2.6-4.4-2.6Z" fill="#ffffff" fill-rule="evenodd"/></svg></span> DISPATCH Video Docs</div>
                 <div class="dmh-actions">
                     <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
