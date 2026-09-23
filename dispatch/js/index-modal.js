@@ -512,11 +512,11 @@
                     row.innerHTML =
                         '<a class="modal-download-btn" href="' + src + '" download="' + filename + '" title="Download video">' +
                             '<span class="dl-icon-wrap">' +
-                                '<svg class="dl-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1"/></svg>' +
+                                '<svg class="dl-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v11m0 0l-4-4m4 4l4-4"/></svg>' +
                                 '<svg class="dl-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
                                 '<svg class="dl-ring" viewBox="0 0 36 36"><circle class="dl-ring-track" cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="2"/><circle class="dl-ring-fill" cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>' +
                             '</span>' +
-                            '<span class="dl-label">Download</span>' +
+                            '<span class="dl-label">Download File</span>' +
                         '</a>' +
                         '<span class="dl-btn-meta">' + ext + '</span>';
                     frame.parentNode.insertBefore(row, frame.nextSibling);
@@ -545,7 +545,7 @@
 
                             setTimeout(function() {
                                 btn.classList.remove('complete');
-                                if (label) label.textContent = 'Download';
+                                if (label) label.textContent = 'Download File';
                             }, 1800);
                         }, 1400);
                     });

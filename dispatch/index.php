@@ -945,24 +945,29 @@
 
             .modal-download-btn {
                 display: inline-flex; align-items: center; gap: 0.45rem;
-                padding: 0.4rem 0.85rem;
-                border-radius: 8px;
-                font-size: 0.8rem; font-weight: 500;
+                height: 34px;
+                padding: 0 1rem;
+                box-sizing: border-box;
+                border-radius: 999px;
+                font-size: 0.8rem; font-weight: 600;
+                line-height: 1;
                 text-decoration: none; cursor: pointer; font-family: inherit;
-                color: var(--text-muted);
-                border: 1px solid var(--border);
-                background: transparent;
-                transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+                color: #111;
+                border: 1px solid rgba(0, 0, 0, 0.08);
+                background: #f4f5f7;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
             }
             .modal-download-btn:hover {
-                color: var(--accent);
-                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-                background: var(--accent-soft);
+                background: #ffffff;
+                border-color: rgba(0, 0, 0, 0.15);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
             }
-            .modal-download-btn:active { transform: scale(0.97); }
+            .modal-download-btn:active { transform: scale(0.96) translateY(0); }
             .modal-download-btn:focus-visible {
                 outline: 2px solid var(--accent);
-                outline-offset: 1px;
+                outline-offset: 2px;
             }
 
             .dl-icon-wrap {
@@ -976,15 +981,15 @@
             .dl-arrow { opacity: 1; transform: translateY(0); }
             .dl-check { opacity: 0; transform: scale(0.5); width: 14px; height: 14px; }
             .dl-ring  { opacity: 0; width: 18px; height: 18px; }
-            .dl-ring-track { color: color-mix(in srgb, var(--accent) 20%, transparent); }
+            .dl-ring-track { color: rgba(0, 0, 0, 0.12); }
             .dl-ring-fill {
-                color: var(--accent);
+                color: #111;
                 stroke-dasharray: 94.25;
                 stroke-dashoffset: 94.25;
             }
             .modal-download-btn.downloading {
                 pointer-events: none;
-                color: var(--text-muted);
+                filter: saturate(0.85) brightness(0.95);
             }
             .modal-download-btn.downloading .dl-arrow { opacity: 0; }
             .modal-download-btn.downloading .dl-ring { opacity: 1; }
@@ -1000,11 +1005,13 @@
                 100% { transform: scale(1); }
             }
             .modal-download-btn.complete {
-                color: var(--accent);
-                border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+                background: rgba(16, 185, 129, 0.12);
+                border-color: color-mix(in srgb, var(--accent) 45%, transparent);
             }
-            .dl-label { white-space: nowrap; }
+            .modal-download-btn.complete .dl-check { color: var(--accent); }
+            .dl-label { white-space: nowrap; line-height: 1; }
             @media (max-width: 600px) {
+                .modal-download-btn { width: 34px; padding: 0; justify-content: center; }
                 .dl-label { display: none; }
                 .dl-btn-meta { display: none; }
             }
@@ -2289,7 +2296,7 @@
     </div>
     <script>window.DISPATCH_THEME_CLASS='dark';</script>
     <script src="js/dispatch.js?v=2"></script>
-    <script src="js/index-modal.js?v=1"></script>
+    <script src="js/index-modal.js?v=2"></script>
     <script src="js/tour-guide.js?v=4" defer></script>
     <script src="js/reels.js?v=21"></script>
 </body>

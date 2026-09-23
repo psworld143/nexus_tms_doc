@@ -957,6 +957,78 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .modal-action-btn.active svg { fill: #fbbf24; }
         .modal-action-btn svg { width: 18px; height: 18px; }
 
+        /* ===== Download button — sleek light pill ===== */
+        .modal-download-btn {
+            display: inline-flex; align-items: center; gap: 0.45rem;
+            height: 34px;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            border-radius: 999px;
+            font-size: 0.8rem; font-weight: 600;
+            line-height: 1;
+            text-decoration: none; cursor: pointer; font-family: inherit;
+            color: #111;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: #f4f5f7;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .modal-download-btn:hover {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
+        }
+        .modal-download-btn:active { transform: scale(0.96) translateY(0); }
+        .modal-download-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .dl-icon-wrap {
+            position: relative; width: 16px; height: 16px;
+            display: grid; place-items: center; flex-shrink: 0;
+        }
+        .dl-arrow, .dl-check, .dl-ring {
+            position: absolute; width: 16px; height: 16px;
+            transition: opacity 0.2s ease, transform 0.25s ease;
+        }
+        .dl-arrow { opacity: 1; transform: translateY(0); }
+        .dl-check { opacity: 0; transform: scale(0.5); width: 14px; height: 14px; }
+        .dl-ring  { opacity: 0; width: 18px; height: 18px; }
+        .dl-ring-track { color: rgba(0, 0, 0, 0.12); }
+        .dl-ring-fill {
+            color: #111;
+            stroke-dasharray: 94.25;
+            stroke-dashoffset: 94.25;
+        }
+        .modal-download-btn.downloading {
+            pointer-events: none;
+            filter: saturate(0.85) brightness(0.95);
+        }
+        .modal-download-btn.downloading .dl-arrow { opacity: 0; }
+        .modal-download-btn.downloading .dl-ring { opacity: 1; }
+        .modal-download-btn.downloading .dl-ring-fill { animation: dl-progress 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes dl-progress { from { stroke-dashoffset: 94.25; } to { stroke-dashoffset: 0; } }
+        .modal-download-btn.complete .dl-ring { opacity: 0; transition: opacity 0.15s ease; }
+        .modal-download-btn.complete .dl-check {
+            opacity: 1; transform: scale(1);
+            animation: dl-check-pop 0.3s ease;
+        }
+        @keyframes dl-check-pop {
+            0%   { transform: scale(0.5); }
+            100% { transform: scale(1); }
+        }
+        .modal-download-btn.complete {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+        }
+        .modal-download-btn.complete .dl-check { color: var(--accent); }
+        .dl-label { white-space: nowrap; line-height: 1; }
+        @media (max-width: 600px) {
+            .modal-download-btn { width: 34px; padding: 0; justify-content: center; }
+            .modal-download-btn .dl-label { display: none; }
+        }
+
         /* Video frame — full bleed, no border radius */
         .modal-video-frame {
             aspect-ratio: 16 / 9;
@@ -1958,8 +2030,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     </button>
                     <span class="modal-topbar-title" id="modal-topbar-title">Video Tutorial</span>
                     <div class="modal-actions">
-                        <a class="modal-action-btn" id="modal-download-btn" download title="Download video" style="display:none">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <a class="modal-download-btn" id="modal-download-btn" download title="Download video" style="display:none">
+                            <span class="dl-icon-wrap">
+                                <svg class="dl-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v11m0 0l-4-4m4 4l4-4"/></svg>
+                                <svg class="dl-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+                                <svg class="dl-ring" viewBox="0 0 36 36"><circle class="dl-ring-track" cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="2"/><circle class="dl-ring-fill" cx="18" cy="18" r="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+                            </span>
+                            <span class="dl-label">Download File</span>
                         </a>
                     </div>
                 </div>
@@ -2184,7 +2261,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/tutorials-data.js?v=3"></script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
-    <script src="js/tutorials-player.js?v=15"></script>
+    <script src="js/tutorials-player.js?v=16"></script>
     <script src="js/comments.js?v=15"></script>
     <script src="js/tour-guide.js?v=2" defer></script>
 </body>

@@ -456,7 +456,7 @@
         updateModalFavoriteButton();
         var dlBtn = document.getElementById('modal-download-btn');
         if (dlBtn) {
-            if (isAvailable(v.src)) { dlBtn.href = v.src; dlBtn.download = v.id + '.mp4'; dlBtn.style.display = 'grid'; }
+            if (isAvailable(v.src)) { dlBtn.href = v.src; dlBtn.download = v.id + '.mp4'; dlBtn.style.display = 'inline-flex'; }
             else { dlBtn.removeAttribute('href'); dlBtn.style.display = 'none'; }
         }
         renderRelatedVideos(v);
@@ -666,6 +666,37 @@
                 }
             }
         });
+
+        var dlBtnEl = document.getElementById('modal-download-btn');
+        if (dlBtnEl) {
+            dlBtnEl.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (dlBtnEl.classList.contains('downloading') || dlBtnEl.classList.contains('complete')) return;
+                var dlSrc = dlBtnEl.href;
+                var dlName = dlBtnEl.download;
+                var label = dlBtnEl.querySelector('.dl-label');
+
+                dlBtnEl.classList.add('downloading');
+                if (label) label.textContent = 'Downloading…';
+
+                setTimeout(function() {
+                    dlBtnEl.classList.remove('downloading');
+                    dlBtnEl.classList.add('complete');
+                    if (label) label.textContent = 'Saved';
+                    var tmp = document.createElement('a');
+                    tmp.href = dlSrc;
+                    tmp.download = dlName;
+                    document.body.appendChild(tmp);
+                    tmp.click();
+                    document.body.removeChild(tmp);
+
+                    setTimeout(function() {
+                        dlBtnEl.classList.remove('complete');
+                        if (label) label.textContent = 'Download File';
+                    }, 1800);
+                }, 1400);
+            });
+        }
 
         // Load user data and render
         loadUserData();
