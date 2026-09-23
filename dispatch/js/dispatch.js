@@ -85,7 +85,6 @@
         'reduce-motion': false,
         'high-contrast': false,
         'large-text': false,
-        'accent-color': '#10b981',
         'font-size': '15',
         'playback-speed': '1',
         'video-quality': 'auto'
@@ -223,17 +222,6 @@
         }
     }
 
-    function setAccentColor(color) {
-        document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(s) {
-            s.classList.toggle('active', s.dataset.color === color);
-        });
-        document.documentElement.style.setProperty('--accent', color);
-        document.documentElement.style.setProperty('--accent-soft', color + '22');
-        applySetting('accent-color', color);
-        saveSettingsImmediate();
-        showAnnouncement('Accent color changed', { icon: 'palette', swatch: color });
-    }
-
     function setFontSize(val) {
         var el = document.getElementById('font-size-value');
         if (el) el.textContent = val + 'px';
@@ -267,8 +255,6 @@
             var el = document.getElementById('set-' + key);
             if (el) settings[key] = el.value;
         });
-        var activeSwatch = document.querySelector('#set-accent-colors .color-swatch.active');
-        if (activeSwatch) settings['accent-color'] = activeSwatch.dataset.color;
         var fontSizeEl = document.getElementById('set-font-size');
         if (fontSizeEl) settings['font-size'] = fontSizeEl.value;
         try { localStorage.setItem('dispatch-settings', JSON.stringify(settings)); } catch (e) {}
@@ -286,8 +272,6 @@
 
     function resetSettings() {
         try { localStorage.removeItem('dispatch-settings'); } catch (e) {}
-        document.documentElement.style.setProperty('--accent', '#10b981');
-        document.documentElement.style.setProperty('--accent-soft', 'rgba(16, 185, 129, 0.14)');
         document.documentElement.style.fontSize = '15px';
         document.body.classList.remove('reduce-motion', 'high-contrast');
         setLight(false);
@@ -310,11 +294,6 @@
         });
         var fsEl = document.getElementById('set-font-size');
         if (fsEl) { fsEl.value = s['font-size']; var fv = document.getElementById('font-size-value'); if (fv) fv.textContent = s['font-size'] + 'px'; }
-        document.querySelectorAll('#set-accent-colors .color-swatch').forEach(function(sw) {
-            sw.classList.toggle('active', sw.dataset.color === s['accent-color']);
-        });
-        document.documentElement.style.setProperty('--accent', s['accent-color']);
-        document.documentElement.style.setProperty('--accent-soft', s['accent-color'] + '22');
         if (s['large-text']) document.documentElement.style.fontSize = '18px';
         else document.documentElement.style.fontSize = s['font-size'] + 'px';
         if (s['reduce-motion']) document.body.classList.add('reduce-motion'); else document.body.classList.remove('reduce-motion');
@@ -335,7 +314,6 @@
     window.toggleTheme = toggleTheme;
     window.toggleSettings = toggleSettings;
     window.toggleSetting = toggleSetting;
-    window.setAccentColor = setAccentColor;
     window.setFontSize = setFontSize;
     window.setPlaybackSpeed = setPlaybackSpeed;
     window.setVideoQuality = setVideoQuality;

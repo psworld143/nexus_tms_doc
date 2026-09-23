@@ -1426,20 +1426,7 @@
                         </div>
                         <div class="toggle" id="set-dark-mode" onclick="toggleSetting('dark-mode','toggle')"></div>
                     </div>
-                    <div class="setting-row">
-                        <div class="setting-label">
-                            <div class="s-name">Accent Color</div>
-                            <div class="s-hint">Choose your preferred accent color</div>
-                        </div>
-                        <div class="color-swatches" id="set-accent-colors">
-                            <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
-                            <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="setAccentColor('#3b82f6')"></div>
-                            <div class="color-swatch" style="background:#8b5cf6" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6')"></div>
-                            <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
-                            <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
-                            <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
-                        </div>
-                    </div>
+
                     <div class="setting-row">
                         <div class="setting-label">
                             <div class="s-name">Font Size</div>

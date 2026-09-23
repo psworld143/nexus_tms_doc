@@ -168,18 +168,6 @@ html.light .setting-select option {
     color: #0f172a;
 }
 
-/* Color swatches */
-.color-swatches { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.color-swatch {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    cursor: pointer;
-    transition: transform 0.15s ease, border-color 0.15s ease;
-}
-.color-swatch:hover { transform: scale(1.1); }
-.color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
-
 /* Range slider */
 .setting-range {
     width: 120px;

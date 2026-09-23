@@ -1687,7 +1687,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .sidebar-toggle, .brand-mark, .icon-btn, .chip, .sb-item,
         .back-home-btn, .back-home-btn svg, .sidebar-hide-btn, .sidebar-hide-btn svg,
         .video-card, .favorite-btn, .modal-action-btn, .related-item,
-        .color-swatch, .setting-row .toggle, .settings-btn, .settings-close,
+        .setting-row .toggle, .settings-btn, .settings-close,
         .clear-history, .wh-title-icon, .history-item, .history-item img,
         .modal-channel-avatar, .modal-desc-box, .announce-toast {
             transition-timing-function: var(--ease-smooth);
@@ -1695,7 +1695,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         /* Springy interactive pops — softer than the original 1.56 overshoot */
         .brand:hover .brand-mark, .sidebar-hide-btn:hover, .sidebar-hide-btn:hover svg,
         .video-card:hover, .modal-action-btn:hover, .settings-btn:hover,
-        .color-swatch:hover, .favorite-btn:hover {
+        .favorite-btn:hover {
             transition-timing-function: var(--ease-spring);
         }
         /* Sidebar + main layout shifts use a balanced in-out curve */
@@ -2109,20 +2109,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                     </div>
                     <div class="toggle" id="set-dark-mode" onclick="toggleSetting('dark-mode','toggle')"></div>
                 </div>
-                <div class="setting-row">
-                    <div class="setting-label">
-                        <div class="s-name">Accent Color</div>
-                        <div class="s-hint">Choose your preferred accent color</div>
-                    </div>
-                    <div class="color-swatches" id="set-accent-colors">
-                        <div class="color-swatch active" style="background:#10b981" data-color="#10b981" onclick="setAccentColor('#10b981')"></div>
-                        <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="setAccentColor('#3b82f6')"></div>
-                        <div class="color-swatch" style="background:#8b5cf6" data-color="#8b5cf6" onclick="setAccentColor('#8b5cf6')"></div>
-                        <div class="color-swatch" style="background:#ec4899" data-color="#ec4899" onclick="setAccentColor('#ec4899')"></div>
-                        <div class="color-swatch" style="background:#f59e0b" data-color="#f59e0b" onclick="setAccentColor('#f59e0b')"></div>
-                        <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="setAccentColor('#ef4444')"></div>
-                    </div>
-                </div>
+
                 <div class="setting-row">
                     <div class="setting-label">
                         <div class="s-name">Font Size</div>

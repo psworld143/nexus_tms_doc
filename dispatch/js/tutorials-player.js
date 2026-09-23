@@ -1,5 +1,5 @@
 // tutorials-player.js — Video rendering, modal, watch history, favorites, progress, related videos, filters, keyboard shortcuts, cursor sync
-// Used by tutorials.php. Depends on tutorials-data.js (VIDEOS, AVAILABLE_VIDEOS, state, isAvailable) and tutorials-settings.js (loadSettings, showAnnouncement). Uses window.escapeHtml from dispatch.js.
+// Used by tutorials.php. Depends on tutorials-data.js (VIDEOS, AVAILABLE_VIDEOS, state, isAvailable) and dispatch.js (loadSettings, showAnnouncement, window.escapeHtml).
 //
 // === REVIEW ADVICE — candidate improvements ===
 // Items marked [FIXED] have been applied. Remaining items are still open.

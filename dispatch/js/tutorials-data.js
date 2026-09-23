@@ -1,5 +1,5 @@
 // tutorials-data.js — Video catalog data, state variables, and helper functions
-// Used by tutorials.php. Must load before tutorials-player.js and tutorials-settings.js.
+// Used by tutorials.php. Must load before tutorials-player.js.
 
 window.VIDEOS = [
     // Getting Started
