@@ -661,6 +661,21 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
             });
+
+            if (watchLink) {
+                watchLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var href = watchLink.getAttribute('href');
+                    if (!href || href === '#') return;
+                    closeModal();
+                    var loader = document.getElementById('loader-screen');
+                    if (loader) {
+                        loader.classList.remove('hidden');
+                        loader.style.display = '';
+                    }
+                    setTimeout(function() { window.location.href = href; }, 400);
+                });
+            }
         })();
         (function initDocFloater() {
             const floater = document.getElementById('doc-floater');

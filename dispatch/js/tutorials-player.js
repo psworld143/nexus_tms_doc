@@ -508,12 +508,6 @@
         }
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
-
-        // Load comments for this video (both main list and modal)
-        if (window.DispatchComments) {
-            window.DispatchComments.load(v.id);
-            window.DispatchComments.loadModal(v.id);
-        }
     }
 
     function closeModal(e) {
@@ -727,9 +721,6 @@
             setTimeout(function() { openModal(video); }, 300);
         })();
 
-        // Initialize comments for the general tutorials page
-        if (window.DispatchComments) window.DispatchComments.init('general');
-        else setTimeout(function() { if (window.DispatchComments) window.DispatchComments.init('general'); }, 100);
 
         // Force-flush any pending progress save when leaving the page
         window.addEventListener('beforeunload', function() { saveUserData(true); });

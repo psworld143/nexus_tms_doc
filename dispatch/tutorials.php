@@ -30,7 +30,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 <link rel="stylesheet" href="css/dispatch.css?v=1">
     <link rel="stylesheet" href="css/loaders.css?v=4">
     <link rel="stylesheet" href="css/tour-guide.css?v=1">
-    <link rel="stylesheet" href="css/comments.css?v=13">
+
     <style>
         :root {
             --bg: #0b0f19;
@@ -191,33 +191,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 
-        /* Comments notification bell badge + ring animation */
-        .comments-bell-btn { position: relative; }
-        .comments-bell-btn.has-new { animation: bell-ring 0.6s ease; }
-        @keyframes bell-ring {
-            0%, 100% { transform: rotate(0); }
-            20% { transform: rotate(-12deg); }
-            40% { transform: rotate(10deg); }
-            60% { transform: rotate(-8deg); }
-            80% { transform: rotate(6deg); }
-        }
-        .comments-bell-badge {
-            position: absolute;
-            top: -5px; right: -5px;
-            min-width: 18px; height: 18px;
-            padding: 0 5px;
-            border-radius: 999px;
-            background: var(--accent);
-            color: #fff;
-            font-size: 0.65rem; font-weight: 700;
-            display: grid; place-items: center;
-            box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--accent) 60%, transparent);
-            animation: badge-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        @keyframes badge-pop {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
         .icon-btn {
             display: flex; align-items: center; justify-content: center;
             width: 40px; height: 40px;
@@ -259,8 +232,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .icon-btn.docs-btn,
         .icon-btn.theme-btn,
         .icon-btn.settings-btn-top,
-        .icon-btn.tour-btn,
-        .icon-btn.comments-bell-btn {
+        .icon-btn.tour-btn {
             color: var(--accent);
             border-color: var(--border-strong);
             background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -269,8 +241,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .icon-btn.docs-btn:hover,
         .icon-btn.theme-btn:hover,
         .icon-btn.settings-btn-top:hover,
-        .icon-btn.tour-btn:hover,
-        .icon-btn.comments-bell-btn:hover {
+        .icon-btn.tour-btn:hover {
             background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
             border-color: var(--border-strong);
             box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
@@ -1209,65 +1180,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .modal-desc-box p { margin: 0; }
 
-        /* Comments inside the video modal */
-        .modal-comments {
-            margin-top: 0.5rem;
-            border-top: 1px solid var(--border);
-            padding-top: 1rem;
-        }
-        .modal-comments-header {
-            display: flex; align-items: center; gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .modal-comments-header svg {
-            width: 20px; height: 20px;
-            color: var(--accent);
-        }
-        .modal-comments-header h4 {
-            font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 0;
-        }
-        .modal-comments-count {
-            margin-left: auto;
-            padding: 0.15rem 0.55rem; border-radius: 999px;
-            font-size: 0.68rem; font-weight: 700; color: var(--accent);
-            background: color-mix(in srgb, var(--accent) 12%, transparent);
-            border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-        }
-        .modal-comment-form-mini {
-            display: flex; flex-direction: column; gap: 0.5rem;
-            margin-bottom: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: color-mix(in srgb, var(--surface) 50%, transparent);
-        }
-        .modal-comment-form-mini .comment-form-name {
-            width: 100%; max-width: 240px;
-        }
-        .modal-comment-form-mini .comment-form-textarea {
-            min-height: 50px; font-size: 0.85rem;
-        }
-        .modal-comment-form-mini .comment-form-submit {
-            align-self: flex-start;
-            padding: 0.4rem 1rem; font-size: 0.8rem;
-        }
-        .modal-comments-list {
-            display: flex; flex-direction: column; gap: 0.5rem;
-            max-height: 400px; overflow-y: auto;
-            padding-right: 0.25rem;
-        }
-        .modal-comments-list .comment-item {
-            padding: 0.7rem 0.85rem;
-            border-radius: 10px;
-        }
-        .modal-comments-list .comment-body { font-size: 0.82rem; }
-        .modal-comments-list .comment-avatar { width: 28px; height: 28px; font-size: 0.72rem; }
-        .modal-comments-list .comment-body,
-        .modal-comments-list .comment-actions { padding-left: calc(28px + 0.6rem); }
-        .modal-comments-list .comment-replies { padding-left: calc(28px + 0.6rem); }
-        .modal-comments-list .comment-reply .comment-avatar { width: 24px; height: 24px; font-size: 0.68rem; }
-        .modal-comments-list .comment-reply .comment-body,
-        .modal-comments-list .comment-reply .comment-actions { padding-left: calc(24px + 0.6rem); }
+
 
         /* Right column: related videos — no title, just the list */
         .modal-sidebar {
@@ -1576,7 +1489,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             .modal-desc-box p { font-size: 0.82rem; }
             .modal-channel-name { font-size: 0.78rem; }
             .modal-channel-sub { font-size: 0.7rem; }
-            .modal-comments-header h4 { font-size: 0.85rem; }
             .icon-btn { width: 36px; height: 36px; }
             .icon-btn svg { width: 18px; height: 18px; }
             .sidebar-toggle { width: 36px; height: 36px; }
@@ -1834,10 +1746,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </button>
         <div class="header-actions">
-            <button class="icon-btn comments-bell-btn" id="comments-bell" onclick="scrollToComments()" title="Comments" aria-label="View comments">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>
-                <span class="comments-bell-badge" id="comments-bell-badge" style="display:none;">0</span>
-            </button>
             <a href="video_docs.php" class="icon-btn video-docs-btn" title="Video Docs">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M10 11l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
             </a>
@@ -1957,56 +1865,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <p>Try a different search term or category filter</p>
         </div>
 
-        <!-- Comments Section -->
-        <div class="comments-section" id="comments-section">
-            <div class="comments-header">
-                <span class="comments-header-icon">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>
-                </span>
-                <div>
-                    <h2>Comments</h2>
-                    <div class="comments-subtitle">Share your thoughts and questions about this tutorial</div>
-                </div>
-                <span class="comments-count-badge" id="comments-count" style="display:none;">0 comments</span>
-            </div>
-
-            <!-- Comment form -->
-            <div class="comment-form" id="comment-form">
-                <div class="comment-form-row">
-                    <div class="comment-form-avatar" id="comment-form-avatar">A</div>
-                    <div class="comment-form-body">
-                        <input type="text" class="comment-form-name" id="comment-name" placeholder="Your name (optional)" maxlength="50">
-                        <textarea class="comment-form-textarea" id="comment-textarea" placeholder="Share your thoughts about this tutorial..." maxlength="1000"></textarea>
-                        <div class="comment-form-footer">
-                            <button class="comment-form-submit" id="comment-submit" type="button">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                                Post Comment
-                            </button>
-                            <span class="comment-char-counter" id="comment-char-counter">0/1000</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sort toggle -->
-            <div class="comment-sort-toggle" id="comment-sort-toggle">
-                <button class="sort-btn" data-sort="top">Top</button>
-                <button class="sort-btn" data-sort="newest">Newest</button>
-                <button class="sort-btn" data-sort="oldest">Oldest</button>
-            </div>
-
-            <!-- Search -->
-            <div class="comment-search-wrap">
-                <input type="text" class="comment-search" id="comment-search" placeholder="Search comments...">
-                <button class="comment-search-clear" id="comment-search-clear" title="Clear">&times;</button>
-            </div>
-
-            <!-- Comments list -->
-            <div class="comments-list" id="comments-list">
-                <div class="comments-loading">Loading comments</div>
-            </div>
-        </div>
-
         <!-- Footer -->
         <footer class="footer">
             DISPATCH Video Tutorial Library &middot; All tutorials in one place
@@ -2054,28 +1912,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
                         <p id="modal-desc">Description</p>
                     </div>
 
-                    <!-- Comments inside the modal (per-video) -->
-                    <div class="modal-comments" id="modal-comments">
-                        <div class="modal-comments-header">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8M8 8h8m-8 8h4M3 5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H7l-4 4V5z"/></svg>
-                            <h4>Comments for this tutorial</h4>
-                            <span class="modal-comments-count" id="modal-comments-count" style="display:none;">0</span>
-                        </div>
-                        <div class="modal-comment-form-mini" id="modal-comment-form">
-                            <input type="text" class="comment-form-name" id="modal-comment-name" placeholder="Your name (optional)" maxlength="50">
-                            <textarea class="comment-form-textarea" id="modal-comment-textarea" placeholder="Share your thoughts about this video..." maxlength="1000" rows="2"></textarea>
-                            <div class="comment-form-footer">
-                                <button class="comment-form-submit" id="modal-comment-submit" type="button">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                                    Post
-                                </button>
-                                <span class="comment-char-counter" id="modal-comment-char-counter">0/1000</span>
-                            </div>
-                        </div>
-                        <div class="modal-comments-list" id="modal-comments-list">
-                            <div class="comments-loading">Loading comments</div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <!-- Right: related videos sidebar -->
@@ -2234,17 +2070,11 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         <span id="announce-text">Settings updated</span>
     </div>
 
-    <!-- Comment Toast -->
-    <div class="comment-toast" id="comment-toast">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-        <span class="comment-toast-text">Done</span>
-    </div>
-
     <script src="js/tutorials-data.js?v=3"></script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
     <script src="js/tutorials-player.js?v=16"></script>
-    <script src="js/comments.js?v=15"></script>
+
     <script src="js/tour-guide.js?v=2" defer></script>
 </body>
 </html>
