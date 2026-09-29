@@ -793,6 +793,53 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .skill-badge.intermediate { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
         .skill-badge.advanced { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 
+        /* Availability status — glowing pills: green = playable, amber = coming soon */
+        .meta-status {
+            padding: 0.12rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.66rem; font-weight: 700;
+            letter-spacing: 0.03em; text-transform: uppercase;
+            border: 1px solid transparent;
+        }
+        .meta-status.is-available {
+            color: #0d9463;
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.35);
+            box-shadow: 0 0 10px -2px rgba(16, 185, 129, 0.5),
+                        inset 0 0 6px rgba(16, 185, 129, 0.08);
+        }
+        .meta-status.is-soon {
+            color: #d97706;
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.35);
+            box-shadow: 0 0 10px -2px rgba(245, 158, 11, 0.5),
+                        inset 0 0 6px rgba(245, 158, 11, 0.08);
+        }
+        html.dark .meta-status.is-available { color: #34d399; }
+        html.dark .meta-status.is-soon { color: #fbbf24; }
+
+        /* "Soon" corner badge — soft amber glow */
+        .video-thumb .soon-badge {
+            position: absolute; bottom: 0.5rem; right: 0.5rem;
+            padding: 0.15rem 0.5rem;
+            background: rgba(245, 158, 11, 0.92);
+            color: #fff;
+            font-size: 0.68rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.04em;
+            border-radius: 6px;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.55),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        /* Available duration badge — subtle green glow to match */
+        .video-thumb .duration-badge {
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.35),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* Unavailable cards — muted thumbnail (empty state keeps neutral surface) */
+        .video-card.card-soon .video-thumb { filter: saturate(0.5); opacity: 0.85; }
+
         /* ===== Modal Enhancements ===== */
         .modal-actions {
             display: flex; align-items: center; gap: 0.5rem;
@@ -819,27 +866,71 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             background: transparent;
         }
         .related-item {
-            display: flex; align-items: flex-start; gap: 0.5rem;
-            padding: 0.3rem;
-            border-radius: 8px;
+            display: flex; align-items: flex-start; gap: 0.65rem;
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface) 55%, transparent);
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: all 0.18s ease;
         }
-        .related-item:hover { background: color-mix(in srgb, var(--text) 6%, transparent); }
+        .related-item:hover {
+            background: color-mix(in srgb, var(--accent) 7%, var(--surface-2));
+            border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+            transform: translateX(4px);
+            box-shadow: 0 8px 18px -10px rgba(0, 0, 0, 0.45);
+        }
         .related-item-thumb {
-            width: 160px;
+            width: 150px;
             aspect-ratio: 16 / 9;
-            border-radius: 8px;
-            background: #000;
+            border-radius: 9px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
             overflow: hidden;
             flex-shrink: 0;
             position: relative;
         }
-        .related-item-thumb video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: translateZ(0); will-change: transform; }
+        .related-item-thumb video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .related-item-thumb .rel-empty {
+            width: 100%; height: 100%;
+            display: grid; place-items: center;
+            background: var(--surface-2);
+            color: var(--text-dim);
+        }
+        .related-item-thumb .rel-empty svg { width: 20px; height: 20px; opacity: 0.5; }
+        .related-item-thumb .rel-play {
+            position: absolute; inset: 0;
+            display: grid; place-items: center;
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .related-item-thumb .rel-play svg {
+            width: 30px; height: 30px;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+            transition: transform 0.2s cubic-bezier(0.34, 1.4, 0.5, 1);
+        }
+        .related-item:hover .rel-play { opacity: 1; }
+        .related-item:hover .rel-play svg { transform: scale(1.12); }
+        .related-item-thumb .duration-badge,
+        .related-item-thumb .soon-badge {
+            position: absolute; bottom: 4px; right: 4px;
+            padding: 0.1rem 0.35rem;
+            font-size: 0.6rem; font-weight: 700;
+            border-radius: 5px; letter-spacing: 0.03em;
+        }
+        .related-item-thumb .duration-badge { background: rgba(0, 0, 0, 0.8); color: #fff; }
+        .related-item-thumb .soon-badge {
+            background: rgba(245, 158, 11, 0.92); color: #fff;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
         .related-item-info { flex: 1; min-width: 0; padding-top: 0.05rem; }
         .related-item-info h5 {
             font-size: 0.82rem; font-weight: 600;
             color: var(--text);
+            letter-spacing: -0.005em;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -850,7 +941,14 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         .related-item-info p {
             font-size: 0.72rem; color: var(--text-dim);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            margin-bottom: 0.35rem;
         }
+        .related-item .meta-status {
+            font-size: 0.56rem;
+            padding: 0.08rem 0.45rem;
+        }
+        .related-item.card-soon .rel-play { display: none; }
+        .related-item.card-soon .related-item-thumb { filter: saturate(0.5); opacity: 0.85; }
 
         /* ===== Modal Player (YouTube watch layout) ===== */
         .modal-overlay {
@@ -1003,7 +1101,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         /* Video frame — full bleed, no border radius */
         .modal-video-frame {
             aspect-ratio: 16 / 9;
-            background: #000;
+            background: var(--surface);
             overflow: hidden;
             position: relative;
             border-radius: 12px;
@@ -1011,7 +1109,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
         }
         .modal-video-frame video {
             width: 100%; height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             display: block;
             transform: translateZ(0);
             will-change: transform;
@@ -1023,7 +1121,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             position: absolute; inset: 0;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             gap: 0.75rem; color: var(--text-dim); font-size: 0.85rem;
-            background: #000;
+            background: var(--surface);
         }
         .modal-video-frame .video-empty svg { width: 48px; height: 48px; opacity: 0.5; }
 
@@ -1275,7 +1373,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
         /* Video frame */
         .modal-video-frame {
-            border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
             box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.5);
         }
 
@@ -1320,22 +1417,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             border-bottom: 1px solid var(--border);
             margin-bottom: 0.5rem;
         }
-
-        /* Related items — accent hover bar + smoother lift */
-        .related-item {
-            border-radius: 10px;
-            border: 1px solid transparent;
-            transition: all 0.18s ease;
-        }
-        .related-item:hover {
-            background: color-mix(in srgb, var(--accent) 6%, var(--surface-2));
-            border-color: color-mix(in srgb, var(--accent) 18%, transparent);
-            transform: translateX(3px);
-        }
-        .related-item-thumb {
-            border: 1px solid var(--border);
-        }
-        .related-item-info h5 { letter-spacing: -0.005em; }
 
         /* ===== No Results ===== */
         .no-results {
@@ -2073,7 +2154,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
     <script src="js/tutorials-data.js?v=3"></script>
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
-    <script src="js/tutorials-player.js?v=16"></script>
+    <script src="js/tutorials-player.js?v=17"></script>
 
     <script src="js/tour-guide.js?v=2" defer></script>
 </body>

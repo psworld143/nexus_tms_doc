@@ -252,9 +252,9 @@
         list.innerHTML = '';
         related.forEach(function(v) {
             var item = document.createElement('div');
-            item.className = 'related-item';
-            item.onclick = function() { openModal(v); };
             var available = isAvailable(v.src);
+            item.className = 'related-item' + (available ? '' : ' card-soon');
+            item.onclick = function() { openModal(v); };
             if (available) {
                 var hoverTimer = null;
                 item.addEventListener('mouseenter', function() {
@@ -269,9 +269,18 @@
                     vid.pause(); vid.currentTime = 0;
                 });
             }
+            var thumbInner = available
+                ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>'
+                : '<div class="rel-empty"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>';
             item.innerHTML =
-                '<div class="related-item-thumb">' + (available ? '<video muted preload="metadata"><source src="' + escapeHtml(v.src) + '" type="video/mp4"></video>' : '<div style="width:100%;height:100%;background:#000;display:grid;place-items:center;"><svg style="width:20px;height:20px;color:rgba(255,255,255,0.45);opacity:0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>') + '</div>' +
-                '<div class="related-item-info"><h5>' + escapeHtml(v.title) + '</h5><p>' + escapeHtml(v.category) + ' · ' + escapeHtml(v.level || 'Beginner') + '</p></div>';
+                '<div class="related-item-thumb">' + thumbInner +
+                    '<span class="rel-play"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5v-7z" fill="currentColor" stroke="none"/></svg></span>' +
+                    (available ? '<span class="duration-badge">' + escapeHtml(v.duration) + '</span>' : '<span class="soon-badge">Soon</span>') +
+                '</div>' +
+                '<div class="related-item-info"><h5>' + escapeHtml(v.title) + '</h5>' +
+                    '<p>' + escapeHtml(v.category) + ' &middot; ' + escapeHtml(v.level || 'Beginner') + '</p>' +
+                    '<span class="meta-status ' + (available ? 'is-available' : 'is-soon') + '">' + (available ? 'Available' : 'Soon') + '</span>' +
+                '</div>';
             list.appendChild(item);
         });
     }
@@ -295,7 +304,7 @@
             var levelClass = (v.level || 'Beginner').toLowerCase();
             var avatarLetter = v.title.charAt(0).toUpperCase();
             var card = document.createElement('div');
-            card.className = 'video-card';
+            card.className = 'video-card' + (available ? '' : ' card-soon');
             card.style.animationDelay = Math.min(idx * 0.04, 0.4) + 's';
             card.onclick = function(e) { if (!e.target.closest('.favorite-btn')) openModal(v); };
             if (available) {
@@ -319,13 +328,13 @@
                 '<div class="video-thumb"><span class="category-badge">' + escapeHtml(v.path) + '</span>' + thumb +
                     '<button class="favorite-btn' + (isFav ? ' active' : '') + '" onclick="toggleFavorite(\'' + escapeHtml(v.id) + '\', event)" title="Add to favorites" style="display:none;">' +
                     '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></button>' +
-                    (available ? '<span class="duration-badge">' + escapeHtml(v.duration) + '</span>' : '') +
+                    (available ? '<span class="duration-badge">' + escapeHtml(v.duration) + '</span>' : '<span class="soon-badge">Soon</span>') +
                 '</div>' +
                 '<div class="video-info"><div class="video-avatar">' + escapeHtml(avatarLetter) + '</div>' +
                     '<div class="video-info-body"><h3>' + escapeHtml(v.title) + '</h3>' +
                         '<div class="video-channel"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>' + escapeHtml(v.category) + '</div>' +
                         '<div class="video-meta"><span class="skill-badge ' + levelClass + '">' + escapeHtml(v.level || 'Beginner') + '</span>' +
-                            (available ? '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Available</span>' : '<span><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Soon</span>') +
+                            (available ? '<span class="meta-status is-available"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Available</span>' : '<span class="meta-status is-soon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Soon</span>') +
                         '</div>' +
                     '</div>' +
                 '</div>';
