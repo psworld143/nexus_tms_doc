@@ -192,9 +192,11 @@
         // Displays the same truck-animation loader (loader-screen--home) that
         // index.php uses, so the transition to tutorials.php feels smooth
         // instead of a blank flash while the next page loads.
-        document.querySelectorAll('.doc-actions a.watch').forEach(function(link) {
+        document.querySelectorAll('.doc-actions a.watch, #doc-modal-watch').forEach(function(link) {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
+                if (!link.getAttribute('href') || link.getAttribute('href') === '#') return;
+                if (window.closeDocModal) window.closeDocModal();
                 var loader = document.getElementById('loader-screen');
                 if (loader) {
                     loader.classList.remove('hidden');

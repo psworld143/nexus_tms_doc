@@ -2118,7 +2118,7 @@
                 </div>
                 <div id="section-safety-violations" class="section-content" style="display:none;">
                     <div class="video-card">
-                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/safety violations.mp4" type="video/mp4"></video></div>
+                        <div class="video-frame"><video controls playsinline preload="none"><source src="videos/safety-violations.mp4" type="video/mp4"></video></div>
                         <p class="video-desc">Monitor safety-related violations and ensure regulatory compliance.</p>
                         <div class="video-meta"><span class="chip">Compliance</span></div>
                     </div>

@@ -376,8 +376,19 @@ $site = 'DISPATCH';
             padding: 0.45rem 0.9rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
             text-decoration: none; transition: all 0.15s ease; border: 1px solid transparent;
         }
-        .doc-actions a.watch { background: var(--accent); color: #fff; }
+        .doc-actions a.watch { position: relative; overflow: hidden; background: var(--accent); color: #fff; }
+        .doc-actions a.watch::before {
+            content: '';
+            position: absolute; top: 0; left: -80%;
+            width: 45%; height: 100%;
+            background: linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-22deg);
+            transition: left 0.5s ease;
+            pointer-events: none;
+        }
+        .doc-actions a.watch:hover::before { left: 130%; }
         .doc-actions a.watch:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 60%, transparent); }
+        body.reduce-motion .doc-actions a.watch::before { display: none; }
         .doc-actions a.watch:active { transform: translateY(0) scale(0.96); }
         .empty { text-align: center; padding: 3rem 1rem; color: var(--text-dim); display: none; }
         .empty.show { display: block; }
@@ -539,27 +550,57 @@ $site = 'DISPATCH';
         .dmh-brand-icon svg { width: 18px; height: 18px; }
         .dmh-actions { display: flex; align-items: center; gap: 0.75rem; }
 
-        /* Watch tutorial — enhanced primary action */
-        .dmh-watch {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.55rem 1.15rem;
-            border-radius: 12px;
-            font-size: 0.82rem; font-weight: 700; letter-spacing: 0.01em;
+        /* Watch tutorial — primary CTA pinned to the modal footer */
+        .doc-modal-footer {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.95rem 1.5rem;
+            border-top: 1px solid var(--border);
+            background: color-mix(in srgb, var(--surface-solid) 70%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .dmf-watch {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+            min-width: 220px;
+            padding: 0.75rem 2.2rem;
+            border-radius: 999px;
+            font-size: 0.9rem; font-weight: 700; letter-spacing: 0.02em;
             text-decoration: none; cursor: pointer;
             font-family: inherit;
             color: #fff;
-            border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
-            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #0ea371));
-            box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent),
-                        inset 0 1px 0 rgba(255,255,255,0.18);
-            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+            border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+            background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 65%, #00BFE0));
+            box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--accent) 65%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: transform 0.18s cubic-bezier(0.34, 1.4, 0.5, 1),
                         box-shadow 0.18s ease,
                         filter 0.18s ease;
         }
-        .dmh-watch:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.06); box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--accent) 80%, transparent), inset 0 1px 0 rgba(255,255,255,0.22); }
-        .dmh-watch:active { transform: translateY(0) scale(0.98); }
-        .dmh-watch svg { width: 15px; height: 15px; flex-shrink: 0; }
-        .dmh-watch[hidden] { display: none; }
+        /* Shine sweep — light streak slides across on hover */
+        .dmf-watch::before {
+            content: '';
+            position: absolute; top: 0; left: -80%;
+            width: 45%; height: 100%;
+            background: linear-gradient(115deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-22deg);
+            transition: left 0.55s ease;
+            pointer-events: none;
+        }
+        .dmf-watch:hover::before { left: 130%; }
+        .dmf-watch:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.07);
+            box-shadow: 0 12px 28px -10px color-mix(in srgb, var(--accent) 75%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,0.24);
+        }
+        .dmf-watch:active { transform: translateY(0) scale(0.97); }
+        .dmf-watch svg { width: 17px; height: 17px; flex-shrink: 0; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .dmf-watch:hover svg { transform: scale(1.2); }
+        body.reduce-motion .dmf-watch::before { display: none; }
+        body.reduce-motion .dmf-watch:hover svg { transform: none; }
+        .dmf-watch[hidden] { display: none; }
 
         /* Generic secondary action (kept for backwards compat) */
         .dmh-btn {
@@ -597,7 +638,7 @@ $site = 'DISPATCH';
         }
         .dmh-close:active { transform: scale(0.92); }
         @media (max-width: 640px) {
-            .dmh-watch { padding: 0.5rem 0.9rem; font-size: 0.78rem; }
+            .dmf-watch { width: 100%; max-width: 320px; min-width: 0; padding: 0.7rem 1rem; font-size: 0.85rem; }
             .dmh-close { width: 34px; height: 34px; }
         }
         .doc-modal-body {
@@ -1043,16 +1084,18 @@ $site = 'DISPATCH';
             <div class="doc-modal-header">
                 <div class="dmh-brand"><span class="dmh-brand-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5a1 1 0 0 1 1-1h5.5a8 8 0 0 1 0 16H8a1 1 0 0 1-1-1V5Zm3.4 4.4v5.2l4.4-2.6-4.4-2.6Z" fill="#ffffff" fill-rule="evenodd"/></svg></span> DISPATCH Video Docs</div>
                 <div class="dmh-actions">
-                    <a class="dmh-watch" href="#" id="doc-modal-watch" target="_blank" rel="noopener">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        Watch tutorial
-                    </a>
                     <button class="dmh-close" id="doc-modal-close" type="button" aria-label="Close documentation">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
             </div>
             <div class="doc-modal-body" id="doc-modal-body"></div>
+            <div class="doc-modal-footer">
+                <a class="dmf-watch" href="#" id="doc-modal-watch">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Watch tutorial
+                </a>
+            </div>
         </div>
     </div>
 
@@ -1076,6 +1119,6 @@ $site = 'DISPATCH';
     <script>window.DISPATCH_THEME_CLASS='light';</script>
     <script src="js/dispatch.js?v=2"></script>
     <script src="js/video-docs-modal.js?v=8"></script>
-    <script src="js/video-docs-ui.js?v=2"></script>
+    <script src="js/video-docs-ui.js?v=3"></script>
 </body>
 </html>
